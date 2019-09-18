@@ -4,6 +4,8 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 
+
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 }
@@ -20,6 +22,11 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
+
+	
+
+	
+
 	return ret;
 }
 
@@ -27,13 +34,16 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
+
 	return true;
 }
 
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+
 	
+
 	return UPDATE_CONTINUE;
 }
 

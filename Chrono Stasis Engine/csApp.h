@@ -1,6 +1,5 @@
 #pragma once
 
-#include "p2List.h"
 #include "csGlobals.h"
 #include "Timer.h"
 #include "csModule.h"
@@ -11,7 +10,8 @@
 #include "csRenderer3D.h"
 #include "csCamera3D.h"
 #include "csPhysics3D.h"
-//#include "csPlayer.h"
+
+#include <list>
 
 class Application
 {
@@ -23,13 +23,12 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModulePhysics3D* physics;
-	//ModulePlayer* player;
 
 private:
 
 	Timer	ms_timer;
 	float	dt;
-	p2List<Module*> list_modules;
+	std::list<Module*> list_modules;
 
 public:
 

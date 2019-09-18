@@ -1,8 +1,10 @@
 #pragma once
 #include "csModule.h"
-#include "p2DynArray.h"
 #include "csGlobals.h"
 #include "Primitive.h"
+
+#include "imgui.h"
+
 
 #define MAX_SNAKE 2
 
@@ -24,4 +26,7 @@ public:
 public:
 	Cube s;
 	PhysBody3D* sensor;
+
+	bool show_demo_window = true;
+	
 };
