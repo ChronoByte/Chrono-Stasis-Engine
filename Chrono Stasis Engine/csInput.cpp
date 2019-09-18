@@ -1,6 +1,6 @@
-#include "Globals.h"
-#include "Application.h"
-#include "ModuleInput.h"
+#include "csGlobals.h"
+#include "csApp.h"
+#include "csInput.h"
 
 #define MAX_KEYS 300
 

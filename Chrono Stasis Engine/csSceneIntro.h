@@ -1,7 +1,7 @@
 #pragma once
-#include "Module.h"
+#include "csModule.h"
 #include "p2DynArray.h"
-#include "Globals.h"
+#include "csGlobals.h"
 #include "Primitive.h"
 
 #define MAX_SNAKE 2

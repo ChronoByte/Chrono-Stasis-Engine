@@ -1,6 +1,6 @@
 #pragma once
-#include "Module.h"
-#include "Globals.h"
+#include "csModule.h"
+#include "csGlobals.h"
 #include "p2List.h"
 #include "Primitive.h"
 

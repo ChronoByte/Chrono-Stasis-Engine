@@ -1,6 +1,6 @@
 #pragma once
-#include "Module.h"
-#include "Globals.h"
+#include "csModule.h"
+#include "csGlobals.h"
 #include "p2Point.h"
 
 struct PhysVehicle3D;

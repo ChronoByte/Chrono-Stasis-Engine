@@ -1,6 +1,6 @@
 #pragma once
-#include "Module.h"
-#include "Globals.h"
+#include "csModule.h"
+#include "csGlobals.h"
 #include "glmath.h"
 
 class ModuleCamera3D : public Module

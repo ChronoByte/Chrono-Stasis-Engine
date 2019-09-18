@@ -1,6 +1,6 @@
-#include "Globals.h"
-#include "Application.h"
-#include "ModuleRenderer3D.h"
+#include "csGlobals.h"
+#include "csApp.h"
+#include "csRenderer3D.h"
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>

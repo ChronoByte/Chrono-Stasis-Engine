@@ -1,17 +1,17 @@
 #pragma once
 
 #include "p2List.h"
-#include "Globals.h"
+#include "csGlobals.h"
 #include "Timer.h"
-#include "Module.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleAudio.h"
-#include "ModuleSceneIntro.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
-#include "ModulePhysics3D.h"
-#include "ModulePlayer.h"
+#include "csModule.h"
+#include "csWindow.h"
+#include "csInput.h"
+#include "csAudio.h"
+#include "csSceneIntro.h"
+#include "csRenderer3D.h"
+#include "csCamera3D.h"
+#include "csPhysics3D.h"
+#include "csPlayer.h"
 
 class Application
 {

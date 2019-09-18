@@ -1,6 +1,6 @@
-#include "Globals.h"
-#include "Application.h"
-#include "ModuleSceneIntro.h"
+#include "csGlobals.h"
+#include "csApp.h"
+#include "csSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
 
