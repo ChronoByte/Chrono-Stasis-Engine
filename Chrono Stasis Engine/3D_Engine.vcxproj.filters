@@ -75,9 +75,6 @@
     <ClInclude Include="csSceneIntro.h">
       <Filter>Sources\Modules\Game</Filter>
     </ClInclude>
-    <ClInclude Include="csPlayer.h">
-      <Filter>Sources\Modules\Game</Filter>
-    </ClInclude>
     <ClInclude Include="csGlobals.h">
       <Filter>Sources</Filter>
     </ClInclude>
@@ -127,9 +124,6 @@
     </ClCompile>
     <ClCompile Include="csAudio.cpp">
       <Filter>Sources\Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="csPlayer.cpp">
-      <Filter>Sources\Modules\Game</Filter>
     </ClCompile>
     <ClCompile Include="csSceneIntro.cpp">
       <Filter>Sources\Modules\Game</Filter>

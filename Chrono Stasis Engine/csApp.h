@@ -11,7 +11,7 @@
 #include "csRenderer3D.h"
 #include "csCamera3D.h"
 #include "csPhysics3D.h"
-#include "csPlayer.h"
+//#include "csPlayer.h"
 
 class Application
 {
@@ -23,7 +23,7 @@ public:
 	ModuleRenderer3D* renderer3D;
 	ModuleCamera3D* camera;
 	ModulePhysics3D* physics;
-	ModulePlayer* player;
+	//ModulePlayer* player;
 
 private:
 

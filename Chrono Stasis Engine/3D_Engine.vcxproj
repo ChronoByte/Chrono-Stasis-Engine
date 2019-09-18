@@ -81,7 +81,6 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="csCamera3D.h" />
     <ClInclude Include="csPhysics3D.h" />
-    <ClInclude Include="csPlayer.h" />
     <ClInclude Include="csRenderer3D.h" />
     <ClInclude Include="p2List.h" />
     <ClInclude Include="csModule.h" />
@@ -107,7 +106,6 @@
     <ClCompile Include="csCamera3D.cpp" />
     <ClCompile Include="csInput.cpp" />
     <ClCompile Include="csPhysics3D.cpp" />
-    <ClCompile Include="csPlayer.cpp" />
     <ClCompile Include="csRenderer3D.cpp" />
     <ClCompile Include="csSceneIntro.cpp" />
     <ClCompile Include="csWindow.cpp" />
