@@ -47,7 +47,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Close", "Ctrl+W")) { /*ret = UPDATE_STOP; */  }
+			if (ImGui::MenuItem("Close", "Ctrl+W")) { App->to_close_app = true; }
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Windows"))

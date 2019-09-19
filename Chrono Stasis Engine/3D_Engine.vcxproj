@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClInclude Include="csApp.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="csModuleUI.h" />
     <ClInclude Include="glmath.h" />
     <ClInclude Include="csGlobals.h" />
     <ClInclude Include="imconfig.h" />
@@ -103,6 +104,7 @@
   <ItemGroup>
     <ClCompile Include="csApp.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="csModuleUI.cpp" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="imgui.cpp" />
     <ClCompile Include="imgui_demo.cpp" />

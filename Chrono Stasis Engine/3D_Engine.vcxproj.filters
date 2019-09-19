@@ -99,6 +99,9 @@
     <ClInclude Include="csModule.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="csModuleUI.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -165,6 +168,9 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="csAudio.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="csModuleUI.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>

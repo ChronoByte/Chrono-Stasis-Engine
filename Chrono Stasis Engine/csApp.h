@@ -10,20 +10,22 @@
 #include "csRenderer3D.h"
 #include "csCamera3D.h"
 #include "csPhysics3D.h"
+#include "csModuleUI.h"
+
 
 #include <list>
 
 class Application
 {
 public:
-	ModuleWindow* window;
-	ModuleInput* input;
-	ModuleAudio* audio;
-	ModuleSceneIntro* scene_intro;
-	ModuleRenderer3D* renderer3D;
-	ModuleCamera3D* camera;
-	ModulePhysics3D* physics;
-
+	ModuleWindow*		window;
+	ModuleInput*		input;
+	ModuleAudio*		audio;
+	ModuleSceneIntro*	scene_intro;
+	ModuleRenderer3D*	renderer3D;
+	ModuleCamera3D*		camera;
+	ModulePhysics3D*	physics;
+	ModuleUI*			ui; 
 private:
 
 	Timer	ms_timer;
@@ -39,9 +41,14 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+public:
+	
+	bool to_close_app = false;
+
 private:
 
 	void AddModule(Module* mod);
 	void PrepareUpdate();
 	void FinishUpdate();
+
 };

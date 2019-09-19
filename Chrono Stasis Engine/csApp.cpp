@@ -9,6 +9,7 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 	physics = new ModulePhysics3D(this);
+	ui = new ModuleUI(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -20,7 +21,7 @@ Application::Application()
 	AddModule(input);
 	AddModule(audio);
 	AddModule(physics);
-	
+	AddModule(ui); 
 	// Scenes
 	AddModule(scene_intro);
 
@@ -108,6 +109,9 @@ update_status Application::Update()
 		ret = (*item)->PostUpdate(dt);
 		item++;
 	}
+
+	if (to_close_app)
+		ret = UPDATE_STOP;
 
 	FinishUpdate();
 	return ret;
