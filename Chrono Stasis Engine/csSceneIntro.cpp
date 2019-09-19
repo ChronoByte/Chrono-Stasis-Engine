@@ -41,10 +41,27 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	update_status ret = UPDATE_CONTINUE; 
 
-	
+	if (ImGui::BeginMainMenuBar())
+	{
+		if (ImGui::BeginMenu("File"))
+		{
+			if (ImGui::MenuItem("Close", "Ctrl+W")) { /*ret = UPDATE_STOP; */  }
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Windows"))
+		{
+			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window)) {}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMainMenuBar();
+	}
 
-	return UPDATE_CONTINUE;
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
+
+	return ret;
 }
 
 void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)

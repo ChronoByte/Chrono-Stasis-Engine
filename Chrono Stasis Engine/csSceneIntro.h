@@ -27,6 +27,5 @@ public:
 	Cube s;
 	PhysBody3D* sensor;
 
-	bool show_demo_window = true;
-	
+	bool show_demo_window = false;
 };
