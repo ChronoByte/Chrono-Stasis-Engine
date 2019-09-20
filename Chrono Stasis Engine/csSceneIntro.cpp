@@ -27,6 +27,7 @@ bool ModuleSceneIntro::Start()
 
 	rand1 = 0;
 	rand2 = 0;
+	rand3 = 0;
 
 	return ret;
 }
@@ -57,7 +58,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		if (ImGui::BeginMenu("Windows"))
 		{
 			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window)) {}
-			if (ImGui::MenuItem("Test Random Panel", "", &random_panel)) {}
+			if (ImGui::MenuItem("Test pcg", "", &random_panel)) {}
 
 			ImGui::EndMenu();
 		}
@@ -80,13 +81,26 @@ update_status ModuleSceneIntro::Update(float dt)
 		ImGui::Text(std::to_string(rand1).c_str());
 
 		ImGui::Separator();
-		ImGui::Text("Randoms rounded [min / max)");
+		ImGui::Text("Randoms rounded [0,6)");
 
 		if (ImGui::Button("Generate 2"))
 			rand2 = pcg32_boundedrand_r(&rng_bounded, 6);
 
 		ImGui::SameLine();
 		ImGui::Text("%i", rand2);
+
+		ImGui::Separator();
+
+		ImGui::Text("Randoms rounded to anyone [min/max]");
+		
+		ImGui::InputInt("Max", &max);
+		ImGui::InputInt("Min", &min);
+
+		if (ImGui::Button("Generate 3") && max >= min)
+			rand3 = pcg32_boundedrand_r(&rng_bounded2, (max - min)+1);
+
+		ImGui::SameLine();
+		ImGui::Text("%i", rand3 + min);
 
 		ImGui::End();
 	}
