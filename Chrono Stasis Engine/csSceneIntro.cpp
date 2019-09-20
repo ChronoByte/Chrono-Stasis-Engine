@@ -80,13 +80,13 @@ update_status ModuleSceneIntro::Update(float dt)
 		ImGui::Text(std::to_string(rand1).c_str());
 
 		ImGui::Separator();
-		ImGui::Text("Randoms rounded min / max");
+		ImGui::Text("Randoms rounded [min / max)");
 
 		if (ImGui::Button("Generate 2"))
 			rand2 = pcg32_boundedrand_r(&rng_bounded, 6);
 
 		ImGui::SameLine();
-		ImGui::Text("%d", rand2);
+		ImGui::Text("%i", rand2);
 
 		ImGui::End();
 	}
