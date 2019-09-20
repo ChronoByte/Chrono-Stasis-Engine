@@ -22,8 +22,8 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-
-	
+	//Seeds random number generator
+	pcg32_srandom_r(&rng, 42u, 54u);
 
 	
 
@@ -42,6 +42,9 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE; 
+
+
+	d = ldexp(pcg32_random_r(&rng), -32); //generating a flaoting points between [0,1) rounded nearest multiple of 1/2^32
 
 	if (ImGui::BeginMainMenuBar())
 	{

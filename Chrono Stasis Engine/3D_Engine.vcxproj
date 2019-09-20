@@ -97,6 +97,7 @@
     <ClInclude Include="csSceneIntro.h" />
     <ClInclude Include="csWindow.h" />
     <ClInclude Include="p2Point.h" />
+    <ClInclude Include="pcg\pcg C\include\pcg_variants.h" />
     <ClInclude Include="PhysBody3D.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Timer.h" />

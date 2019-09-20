@@ -4,7 +4,7 @@
 #include "Primitive.h"
 
 #include "imgui.h"
-
+#include "pcg/pcg C/include/pcg_variants.h"
 
 #define MAX_SNAKE 2
 
@@ -26,6 +26,11 @@ public:
 public:
 	Cube s;
 	PhysBody3D* sensor;
+
+	double d;
+
+	//Struct with state + inc
+	pcg32_random_t rng;
 
 	bool show_demo_window = false;
 };

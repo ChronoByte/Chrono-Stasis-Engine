@@ -22,6 +22,9 @@
     <Filter Include="Sources\ImGui">
       <UniqueIdentifier>{213bd255-32df-4f8e-bbc4-0dd56129e17f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\PCG">
+      <UniqueIdentifier>{ce713ce5-bd64-41b1-915b-b562e23e480f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="p2Point.h">
@@ -101,6 +104,9 @@
     </ClInclude>
     <ClInclude Include="csModuleUI.h">
       <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\pcg C\include\pcg_variants.h">
+      <Filter>Sources\PCG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
