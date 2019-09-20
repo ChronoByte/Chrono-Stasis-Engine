@@ -69,7 +69,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
 	if (random_panel) {
-		ImGui::Begin("Random Generator", 0, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Begin("Random Generator", &random_panel, ImGuiWindowFlags_AlwaysAutoResize);
 		ImGui::Separator();
 		ImGui::Text("Randoms rounded [0,1)");
 		ImGui::Separator();
