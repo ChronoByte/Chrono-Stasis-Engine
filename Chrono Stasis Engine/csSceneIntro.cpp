@@ -2,7 +2,7 @@
 #include "csApp.h"
 #include "csSceneIntro.h"
 #include "Primitive.h"
-#include "PhysBody3D.h"
+//#include "PhysBody3D.h"
 #include <string>
 
 
@@ -107,8 +107,8 @@ update_status ModuleSceneIntro::Update(float dt)
 	return ret;
 }
 
-void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
-{
-	LOG("Hit!");
-}
+//void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+//{
+//	LOG("Hit!");
+//}
 
