@@ -3,7 +3,7 @@
 #include "csSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
-
+#include <string>
 
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -23,9 +23,10 @@ bool ModuleSceneIntro::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	//Seeds random number generator
-	pcg32_srandom_r(&rng, 42u, 54u);
+	//pcg32_srandom_r(&rng, 42u, 54u);
 
-	
+	rand1 = 0;
+	rand2 = 0;
 
 	return ret;
 }
@@ -44,7 +45,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	update_status ret = UPDATE_CONTINUE; 
 
 
-	d = ldexp(pcg32_random_r(&rng), -32); //generating a flaoting points between [0,1) rounded nearest multiple of 1/2^32
+	//d = ldexp(pcg32_random_r(&rng), -32); //generating a flaoting points between [0,1) rounded nearest multiple of 1/2^32
 
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -56,6 +57,8 @@ update_status ModuleSceneIntro::Update(float dt)
 		if (ImGui::BeginMenu("Windows"))
 		{
 			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window)) {}
+			if (ImGui::MenuItem("Test Random Panel", "", &random_panel)) {}
+
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
@@ -64,6 +67,29 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
+	if (random_panel) {
+		ImGui::Begin("Random Generator", 0, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Separator();
+		ImGui::Text("Randoms rounded [0,1)");
+		ImGui::Separator();
+		
+		if (ImGui::Button("Generate 1"))
+			rand1 = ldexp(pcg32_random_r(&rng), -32);
+		
+		ImGui::SameLine();
+		ImGui::Text(std::to_string(rand1).c_str());
+
+		ImGui::Separator();
+		ImGui::Text("Randoms rounded min / max");
+
+		if (ImGui::Button("Generate 2"))
+			rand2 = pcg32_boundedrand_r(&rng_bounded, 6);
+
+		ImGui::SameLine();
+		ImGui::Text("%d", rand2);
+
+		ImGui::End();
+	}
 	return ret;
 }
 

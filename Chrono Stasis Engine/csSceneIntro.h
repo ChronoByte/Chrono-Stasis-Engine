@@ -27,10 +27,12 @@ public:
 	Cube s;
 	PhysBody3D* sensor;
 
-	double d;
-
+	double rand1;
+	uint32_t rand2;
 	//Struct with state + inc
-	pcg32_random_t rng;
+	pcg32_random_t rng; //typedef struct 64-b
+	pcg_state_setseq_64 rng_bounded; // struct 64-b
 
 	bool show_demo_window = false;
+	bool random_panel = false;
 };
