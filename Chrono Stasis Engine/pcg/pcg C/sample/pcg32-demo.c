@@ -66,6 +66,7 @@ int main(int argc, char** argv)
     // *never* have random sequences that coincide, at all) - the code below
     // shows three possible ways to do so.
 
+	
     if (nondeterministic_seed) {
         // Seed with external entropy
 

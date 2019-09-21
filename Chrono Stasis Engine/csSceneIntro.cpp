@@ -24,7 +24,7 @@ bool ModuleSceneIntro::Start()
 
 	//Seeds random number generator
 	pcg32_srandom_r(&rng, time(NULL), (intptr_t)&rng);
-
+	
 	rand1 = 0;
 	rand2 = 0;
 	rand3 = 0;
@@ -108,6 +108,22 @@ update_status ModuleSceneIntro::Update(float dt)
 
 		ImGui::SameLine();
 		ImGui::Text("%i", rand3 + min);
+
+		ImGui::Separator();
+
+		ImGui::Text(" Make some 32-bit numbers ");
+		
+		if (ImGui::Button("Generate 4")) {
+			for (int i = 0; i < 6; ++i)
+				nums[i] = pcg32_random_r(&rng);
+		}
+
+		for (int i = 0; i < 6; ++i) {
+			ImGui::Text("32bit: ");
+			ImGui::SameLine();
+			ImGui::Text("0x%08x", nums[i]);
+		}
+
 
 		ImGui::End();
 	}

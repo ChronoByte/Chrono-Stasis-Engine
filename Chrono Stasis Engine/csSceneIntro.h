@@ -30,6 +30,9 @@ public:
 	double rand1;
 	uint32_t rand2;
 	uint32_t rand3;
+
+	uint32_t nums[6];
+
 	int min = 0;
 	int	max = 0;
 
