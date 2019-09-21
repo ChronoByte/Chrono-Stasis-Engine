@@ -1,10 +1,21 @@
 #include "csGlobals.h"
 #include "csApp.h"
 #include "csSceneIntro.h"
-#include "Primitive.h"
+//#include "Primitive.h"
 //#include "PhysBody3D.h"
 #include <string>
 #include "time.h"
+
+#include "MathGeoLib/include/MathGeoLib.h"
+#include "MathGeoLib/include/MathBuildConfig.h"
+#include "MathGeoLib/include/MathGeoLibFwd.h"
+
+#include "MathGeoLib/include/Geometry/Sphere.h"
+
+// TODO: Differentiate between debug mode and release mode
+#pragma comment (lib, "MathGeoLib/libx86/Debug_Lib/MathGeoLib.lib")
+
+
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -52,6 +63,13 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	update_status ret = UPDATE_CONTINUE; 
 
+	Sphere s({ 0, 0, 0 }, 5);
+	Sphere s2({ 0, 5,0 }, 5);
+
+	if (s.Intersects(s2))
+	{
+		LOG("There was an intersection");
+	}
 
 	//d = ldexp(pcg32_random_r(&rng), -32); //generating a flaoting points between [0,1) rounded nearest multiple of 1/2^32
 

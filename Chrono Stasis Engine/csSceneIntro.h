@@ -1,7 +1,7 @@
 #pragma once
 #include "csModule.h"
 #include "csGlobals.h"
-#include "Primitive.h"
+//#include "Primitive.h"
 
 #include "imgui.h"
 #include "pcg/pcg C/include/pcg_variants.h"
@@ -25,7 +25,7 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
-	Cube s;
+
 	PhysBody3D* sensor;
 
 	double rand1;
