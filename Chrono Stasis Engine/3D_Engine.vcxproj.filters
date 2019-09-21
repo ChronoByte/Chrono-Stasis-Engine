@@ -96,6 +96,12 @@
     <ClInclude Include="pcg\pcg C\include\pcg_variants.h">
       <Filter>Sources\PCG</Filter>
     </ClInclude>
+    <ClInclude Include="pcg\pcg C\extras\entropy.h">
+      <Filter>Sources\PCG</Filter>
+    </ClInclude>
+    <ClInclude Include="pcg\pcg C\extras\pcg_spinlock.h">
+      <Filter>Sources\PCG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp">
@@ -157,6 +163,9 @@
     </ClCompile>
     <ClCompile Include="csModuleUI.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="pcg\pcg C\extras\entropy.c">
+      <Filter>Sources\PCG</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

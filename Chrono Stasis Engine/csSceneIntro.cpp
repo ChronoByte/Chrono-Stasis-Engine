@@ -23,8 +23,12 @@ bool ModuleSceneIntro::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	//Seeds random number generator
-	pcg32_srandom_r(&rng, time(NULL), (intptr_t)&rng);
+	//pcg32_srandom_r(&rng, time(NULL), (intptr_t)&rng);
 	
+	//Seed with external entropy
+	entropy_getbytes((void*)seeds, sizeof(seeds));
+	pcg32_srandom_r(&rng, seeds[0], seeds[1]);
+
 	rand1 = 0;
 	rand2 = 0;
 	rand3 = 0;
