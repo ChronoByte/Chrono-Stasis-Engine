@@ -4,7 +4,7 @@
 #include "Primitive.h"
 //#include "PhysBody3D.h"
 #include <string>
-
+#include "time.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -23,7 +23,7 @@ bool ModuleSceneIntro::Start()
 	App->camera->LookAt(vec3(0, 0, 0));
 
 	//Seeds random number generator
-	//pcg32_srandom_r(&rng, 42u, 54u);
+	pcg32_srandom_r(&rng, time(NULL), (intptr_t)&rng);
 
 	rand1 = 0;
 	rand2 = 0;
