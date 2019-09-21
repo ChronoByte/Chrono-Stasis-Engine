@@ -5,6 +5,7 @@
 
 #include "imgui.h"
 #include "pcg/pcg C/include/pcg_variants.h"
+#include "pcg/pcg C/extras/entropy.h"
 
 #define MAX_SNAKE 2
 
@@ -32,9 +33,12 @@ public:
 	uint32_t rand3;
 
 	uint32_t nums[6];
+	uint64_t seeds[2];
 
 	int min = 0;
 	int	max = 0;
+
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_None;
 
 
 	//Struct with state + inc
