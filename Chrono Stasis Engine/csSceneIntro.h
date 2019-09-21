@@ -38,6 +38,8 @@ public:
 	int min = 0;
 	int	max = 0;
 
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_None;
+
 
 	//Struct with state + inc
 	pcg32_random_t rng; //typedef struct 64-b

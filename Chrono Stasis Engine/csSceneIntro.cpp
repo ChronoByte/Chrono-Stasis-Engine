@@ -29,6 +29,9 @@ bool ModuleSceneIntro::Start()
 	entropy_getbytes((void*)seeds, sizeof(seeds));
 	pcg32_srandom_r(&rng, seeds[0], seeds[1]);
 
+	//Adding flags using bit-wise OR
+	window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
+
 	rand1 = 0;
 	rand2 = 0;
 	rand3 = 0;
@@ -80,7 +83,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
 	if (random_panel) {
-		ImGui::Begin("Random Generator", &random_panel, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Begin("Random Generator", &random_panel, window_flags);
 		ImGui::Separator();
 		ImGui::Text("Randoms rounded [0,1)");
 		ImGui::Separator();
