@@ -62,6 +62,13 @@ update_status ModuleSceneIntro::Update(float dt)
 
 			ImGui::EndMenu();
 		}
+
+		if (ImGui::BeginMenu("Style"))
+		{
+			if (ImGui::MenuItem("Orange")) { App->ui->StyleLoader(App->ui->color.ORANGE);  }
+			if (ImGui::MenuItem("Black")) { App->ui->StyleLoader(App->ui->color.BLACK); }
+			ImGui::EndMenu();
+		}
 		ImGui::EndMainMenuBar();
 	}
 
