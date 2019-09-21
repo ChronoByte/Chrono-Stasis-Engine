@@ -83,6 +83,8 @@ update_status ModuleSceneIntro::Update(float dt)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
 	if (random_panel) {
+		ImGui::SetNextWindowSize({ 300,500 });
+
 		ImGui::Begin("Random Generator", &random_panel, window_flags);
 		ImGui::Separator();
 		ImGui::Text("Randoms rounded [0,1)");
@@ -101,7 +103,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			rand2 = pcg32_boundedrand_r(&rng_bounded, 6);
 
 		ImGui::SameLine();
-		ImGui::Text("%i", rand2);
+		ImGui::Text("%i", (int)rand2);
 
 		ImGui::Separator();
 
@@ -114,7 +116,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			rand3 = pcg32_boundedrand_r(&rng_bounded2, (max - min)+1);
 
 		ImGui::SameLine();
-		ImGui::Text("%i", rand3 + min);
+		ImGui::Text("%i", (int)(rand3 + min));
 
 		ImGui::Separator();
 
@@ -128,7 +130,7 @@ update_status ModuleSceneIntro::Update(float dt)
 		for (int i = 0; i < 6; ++i) {
 			ImGui::Text("32bit: ");
 			ImGui::SameLine();
-			ImGui::Text("0x%08x", nums[i]);
+			ImGui::Text("0x%08x", (int)nums[i]);
 		}
 
 
