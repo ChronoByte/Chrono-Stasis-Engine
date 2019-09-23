@@ -18,8 +18,7 @@
 
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
-}
+{}
 
 ModuleSceneIntro::~ModuleSceneIntro()
 {}
@@ -55,6 +54,10 @@ bool ModuleSceneIntro::Start()
 
 	capsule_1 = Capsule(float3(3.f, 0.f, 0.f), float3(3.f, 2.f, 0.f), 1.f);
 	capsule_2 = Capsule(float3(0.f, 0.f, 0.f), float3(0.f, 2.f, 0.f), 1.f);
+
+	triangle_1 = Triangle(float3(0.0f, 0.0f, 0.0f), float3(1.0f, 0.0f, 0.0f), float3(0.5f, 1.0f, 0.0f));
+	triangle_2 = Triangle(float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.0f, 1.0f), float3(0.0f, 1.0f, 0.5f));
+
 	
 	/*Plane plane2(vector, 1.5f);*/
 	return ret;
@@ -223,6 +226,32 @@ update_status ModuleSceneIntro::Update(float dt)
 			else
 				ImGui::Text("Don't intersect!");
 
+		}
+		if (ImGui::CollapsingHeader("Triangles"))
+		{
+
+			ImGui::Text("Triangle 1 All vertex:");
+			ImGui::SameLine();
+			ImGui::SliderFloat3("T X 1", (float*)&triangle_1.a, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat3("T Y 1", (float*)&triangle_1.b, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat3("T Z 1", (float*)&triangle_1.c, -5.0f, 5.0f);
+
+			ImGui::Text("Triangle 2 All vertex:");
+			ImGui::SameLine();
+			ImGui::SliderFloat3("T X 2", (float*)&triangle_2.a, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat3("T Y 2", (float*)&triangle_2.b, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat3("T Z 2", (float*)&triangle_2.c, -5.0f, 5.0f);
+
+			
+
+			if (triangle_1.Intersects(triangle_2))
+				ImGui::Text("Intersect!");
+			else
+				ImGui::Text("Don't intersect!");
 		}
 		ImGui::End();
 	}

@@ -62,4 +62,7 @@ public:
 	Capsule capsule_1;
 	Capsule capsule_2;
 	
+	Triangle triangle_1;
+	Triangle triangle_2;
+
 };
