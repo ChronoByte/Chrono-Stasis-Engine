@@ -54,6 +54,9 @@ public:
 		@see pos, r, axis. */
 	OBB() {}
 	
+
+	OBB(const float3 &pos, const float3 &r, const float3 &axis0, const float3 &axis1, const float3 &axis2);
+
 	/// Constructs an OBB from an AABB.
 	/** Since the OBB is an AABB with arbirary rotations allowed, this conversion is exact, i.e. it does not loosen
 		the set of points represented by the AABB. Therefore this constructor is implicit, meaning that you

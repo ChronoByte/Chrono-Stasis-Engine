@@ -49,6 +49,15 @@
 
 MATH_BEGIN_NAMESPACE
 
+OBB::OBB(const float3 &pos, const float3 &r, const float3 &axis0, const float3 &axis1, const float3 &axis2)
+	:pos(pos), r(r)
+{
+	axis[0] = axis0;
+	axis[1] = axis1;
+	axis[2] = axis2;
+}
+
+
 OBB::OBB(const AABB &aabb)
 {
 	SetFrom(aabb);
