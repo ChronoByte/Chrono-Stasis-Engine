@@ -47,6 +47,10 @@ bool ModuleSceneIntro::Start()
 	rand2 = 0;
 	rand3 = 0;
 
+	float3 vector(0.0f, 0.0f, 1.0f);
+	Plane* plane = new Plane(vector, 1.5f);
+	
+	/*Plane plane2(vector, 1.5f);*/
 	return ret;
 }
 
@@ -154,6 +158,23 @@ update_status ModuleSceneIntro::Update(float dt)
 
 		ImGui::End();
 	}
+
+	glLineWidth(1.0f);
+
+	glBegin(GL_LINES);
+
+	float d = 200.0f;
+
+	for (float i = -d; i <= d; i += 1.0f)
+	{
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+
+	glEnd();
+
 	return ret;
 }
 

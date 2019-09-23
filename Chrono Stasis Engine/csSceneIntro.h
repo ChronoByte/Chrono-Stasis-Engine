@@ -7,6 +7,10 @@
 #include "pcg/pcg C/include/pcg_variants.h"
 #include "pcg/pcg C/extras/entropy.h"
 
+//#include "SDL\include\SDL.h"
+//#include "SDL\include\SDL_opengl.h"
+#include "glew-2.1.0/include/GL/glew.h"
+
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
