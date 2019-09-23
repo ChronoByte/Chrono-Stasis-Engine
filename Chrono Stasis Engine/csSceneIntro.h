@@ -11,6 +11,10 @@
 //#include "SDL\include\SDL_opengl.h"
 #include "glew-2.1.0/include/GL/glew.h"
 
+#include "MathGeoLib/include/MathGeoLib.h"
+#include "MathGeoLib/include/MathBuildConfig.h"
+#include "MathGeoLib/include/MathGeoLibFwd.h"
+
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
@@ -43,7 +47,7 @@ public:
 	int	max = 0;
 
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_None;
-
+	bool math_test = false;
 
 	//Struct with state + inc
 	pcg32_random_t rng; //typedef struct 64-b
@@ -51,4 +55,8 @@ public:
 	pcg_state_setseq_64 rng_bounded2;
 	bool show_demo_window = false;
 	bool random_panel = false;
+
+	Sphere sphere_1;
+	Sphere sphere_2;
+
 };

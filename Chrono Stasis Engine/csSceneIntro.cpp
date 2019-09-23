@@ -6,11 +6,11 @@
 #include <string>
 #include "time.h"
 
-#include "MathGeoLib/include/MathGeoLib.h"
-#include "MathGeoLib/include/MathBuildConfig.h"
-#include "MathGeoLib/include/MathGeoLibFwd.h"
+//#include "MathGeoLib/include/MathGeoLib.h"
+//#include "MathGeoLib/include/MathBuildConfig.h"
+//#include "MathGeoLib/include/MathGeoLibFwd.h"
 
-#include "MathGeoLib/include/Geometry/Sphere.h"
+//#include "MathGeoLib/include/Geometry/Sphere.h"
 
 // TODO: Differentiate between debug mode and release mode
 #pragma comment (lib, "MathGeoLib/libx86/Debug_Lib/MathGeoLib.lib")
@@ -50,6 +50,9 @@ bool ModuleSceneIntro::Start()
 	float3 vector(0.0f, 0.0f, 1.0f);
 	Plane* plane = new Plane(vector, 1.5f);
 	
+	sphere_1 = Sphere({0.0f,0.0f,0.0f}, 1.0f);
+	sphere_2 = Sphere({ 0.0f,0.0f,0.0f }, 1.0f);
+
 	/*Plane plane2(vector, 1.5f);*/
 	return ret;
 }
@@ -96,6 +99,11 @@ update_status ModuleSceneIntro::Update(float dt)
 		{
 			if (ImGui::MenuItem("Orange")) { App->ui->StyleLoader(App->ui->color.ORANGE);  }
 			if (ImGui::MenuItem("Black")) { App->ui->StyleLoader(App->ui->color.BLACK); }
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("GeoMath"))
+		{
+			if (ImGui::MenuItem("Collision Tester","", &math_test)) {}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
@@ -156,6 +164,42 @@ update_status ModuleSceneIntro::Update(float dt)
 		}
 
 
+		ImGui::End();
+	}
+
+	if (math_test)
+	{
+		ImGui::Begin("MathGeoLib Collision Tester", &math_test, ImGuiWindowFlags_AlwaysAutoResize);
+		ImGui::Separator();
+
+		if (ImGui::CollapsingHeader("Spheres"))
+		{
+			ImGui::Text("Sphere 1:");
+			ImGui::SameLine();
+			ImGui::SliderFloat("X 1: ", &sphere_1.pos.x, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y 1: ", &sphere_1.pos.y, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Z 1", &sphere_1.pos.z, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Radius 1: ", &sphere_1.r, -5.0f, 5.0f);
+
+			ImGui::Text("Sphere 2:");
+			ImGui::SameLine();
+			ImGui::SliderFloat("X 2: ", &sphere_2.pos.x, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y 2: ", &sphere_2.pos.y, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Z 3: ", &sphere_2.pos.z, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Radius 2: ", &sphere_2.r, -5.0f, 5.0f);
+
+			if (sphere_1.Contains(sphere_2))
+				ImGui::Text("Overlaping!");
+			else
+				ImGui::Text("Not Overlaping!");
+
+		}
 		ImGui::End();
 	}
 
