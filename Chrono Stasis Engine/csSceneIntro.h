@@ -65,4 +65,7 @@ public:
 	Triangle triangle_1;
 	Triangle triangle_2;
 
+	Plane plane_1;
+	Plane plane_2;
+
 };

@@ -46,8 +46,6 @@ bool ModuleSceneIntro::Start()
 	rand2 = 0;
 	rand3 = 0;
 
-	float3 vector(0.0f, 0.0f, 1.0f);
-	Plane* plane = new Plane(vector, 1.5f);
 	
 	sphere_1 = Sphere({0.0f,0.0f,0.0f}, 1.0f);
 	sphere_2 = Sphere({ 0.0f,0.0f,0.0f }, 1.0f);
@@ -58,8 +56,10 @@ bool ModuleSceneIntro::Start()
 	triangle_1 = Triangle(float3(0.0f, 0.0f, 0.0f), float3(1.0f, 0.0f, 0.0f), float3(0.5f, 1.0f, 0.0f));
 	triangle_2 = Triangle(float3(0.0f, 0.0f, 0.0f), float3(0.0f, 0.0f, 1.0f), float3(0.0f, 1.0f, 0.5f));
 
+	plane_1 = Plane(float3(0.f, 0.f, 1.f), 0.0f);
+	plane_2 = Plane(float3(0.f, 0.f, 1.f), 2.0f);
+
 	
-	/*Plane plane2(vector, 1.5f);*/
 	return ret;
 }
 
@@ -96,8 +96,6 @@ update_status ModuleSceneIntro::Update(float dt)
 		if (ImGui::BeginMenu("Windows"))
 		{
 			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window)) {}
-			if (ImGui::MenuItem("Test pcg", "", &random_panel)) {}
-
 			ImGui::EndMenu();
 		}
 
@@ -110,6 +108,11 @@ update_status ModuleSceneIntro::Update(float dt)
 		if (ImGui::BeginMenu("GeoMath"))
 		{
 			if (ImGui::MenuItem("Collision Tester","", &math_test)) {}
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Random (PCG)"))
+		{
+			if (ImGui::MenuItem("Test pcg", "", &random_panel)) {}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
@@ -249,6 +252,34 @@ update_status ModuleSceneIntro::Update(float dt)
 			
 
 			if (triangle_1.Intersects(triangle_2))
+				ImGui::Text("Intersect!");
+			else
+				ImGui::Text("Don't intersect!");
+		}
+		if (ImGui::CollapsingHeader("Planes"))
+		{
+
+			ImGui::Text("Plane 1:");
+			ImGui::SameLine();
+			ImGui::SliderFloat("X 1", &plane_1.normal.x, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y 1", &plane_1.normal.y, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Z 1", &plane_1.normal.z, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Offset from Origin 1", &plane_1.d, 0.0f, 5.0f);
+
+			ImGui::Text("Plane 2:");
+			ImGui::SameLine();
+			ImGui::SliderFloat("X 2", &plane_2.normal.x, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y 2", &plane_2.normal.y, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Z 2", &plane_2.normal.z, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Offset from Origin 2", &plane_2.d, 0.0f, 5.0f);
+
+			if (plane_1.Intersects(plane_2))
 				ImGui::Text("Intersect!");
 			else
 				ImGui::Text("Don't intersect!");
