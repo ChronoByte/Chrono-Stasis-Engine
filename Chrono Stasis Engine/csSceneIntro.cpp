@@ -61,6 +61,8 @@ bool ModuleSceneIntro::Start()
 
 	ray_1 = Ray(float3(5.0f, 0.0f, 0.0f), float3(1.0f, 1.0f, 1.0f));
 	
+	obb_1 = OBB(float3(0.0f, 0.0f, 0.0f), float3(1.0f, 1.0f, 1.0f), float3(1.0f, 0.0f, 0.0f), float3(0.0f, 1.0f, 0.0f), float3(0.0f, 0.0f, 1.0f));
+	obb_2 = OBB(float3(2.5f, 0.0f, 0.0f), float3(1.0f, 1.0f, 1.0f), float3(1.0f, 0.0f, 0.0f), float3(0.0f, 1.0f, 0.0f), float3(0.0f, 0.0f, 1.0f));
 	return ret;
 }
 
@@ -333,6 +335,31 @@ update_status ModuleSceneIntro::Update(float dt)
 				ImGui::Text("Not Sphere Intersection");
 		}
 
+		if (ImGui::CollapsingHeader("OBB"))
+		{
+
+			ImGui::Text("OBB 1:");
+			ImGui::SameLine();
+			ImGui::SliderFloat("X 1", &obb_1.pos.x, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y 1", &obb_1.pos.y, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Z 1", &obb_1.pos.z, -5.0f, 5.0f);
+
+
+			ImGui::Text("OBB 2:");
+			ImGui::SameLine();
+			ImGui::SliderFloat("X 2", &obb_2.pos.x, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y 2", &obb_2.pos.y, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Z 2", &obb_2.pos.z, -5.0f, 5.0f);
+
+			if (obb_1.Intersects(obb_2))
+				ImGui::Text("Intersect!");
+			else
+				ImGui::Text("Don't intersect!");
+		}		
 		ImGui::End();
 	}
 

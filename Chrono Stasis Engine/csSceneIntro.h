@@ -73,5 +73,6 @@ public:
 
 	Ray ray_1;
 	
-
+	OBB obb_1;
+	OBB obb_2;
 };
