@@ -59,6 +59,8 @@ bool ModuleSceneIntro::Start()
 	plane_1 = Plane(float3(0.f, 0.f, 1.f), 0.0f);
 	plane_2 = Plane(float3(0.f, 0.f, 1.f), 2.0f);
 
+	ray_1 = Ray(float3(5.0f, 0.0f, 0.0f), float3(1.0f, 1.0f, 1.0f));
+	
 	return ret;
 }
 
@@ -314,6 +316,23 @@ update_status ModuleSceneIntro::Update(float dt)
 			else
 				ImGui::Text("Don't intersect!");
 		}
+
+		if (ImGui::CollapsingHeader("Rays"))
+		{
+			ImGui::Text("Ray 1:");
+			ImGui::SameLine();
+			ImGui::SliderFloat("X dir", &ray_1.dir.x, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y dir", &ray_1.dir.y, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Z dir", &ray_1.dir.z, -5.0f, 5.0f);
+
+			if (ray_1.Intersects(sphere_1))
+				ImGui::Text("Sphere Intersection");
+			else
+				ImGui::Text("Not Sphere Intersection");
+		}
+
 		ImGui::End();
 	}
 

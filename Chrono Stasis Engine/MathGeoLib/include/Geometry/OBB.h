@@ -53,7 +53,7 @@ public:
 		default constructor. Remember to assign to them before use.
 		@see pos, r, axis. */
 	OBB() {}
-
+	
 	/// Constructs an OBB from an AABB.
 	/** Since the OBB is an AABB with arbirary rotations allowed, this conversion is exact, i.e. it does not loosen
 		the set of points represented by the AABB. Therefore this constructor is implicit, meaning that you

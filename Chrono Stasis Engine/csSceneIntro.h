@@ -71,4 +71,7 @@ public:
 	AABB aabb_1;
 	AABB aabb_2;
 
+	Ray ray_1;
+	
+
 };
