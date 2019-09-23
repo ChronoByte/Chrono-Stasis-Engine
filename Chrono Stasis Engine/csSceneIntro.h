@@ -68,4 +68,7 @@ public:
 	Plane plane_1;
 	Plane plane_2;
 
+	AABB aabb_1;
+	AABB aabb_2;
+
 };

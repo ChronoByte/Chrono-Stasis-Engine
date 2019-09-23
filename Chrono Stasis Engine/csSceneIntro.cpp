@@ -59,7 +59,6 @@ bool ModuleSceneIntro::Start()
 	plane_1 = Plane(float3(0.f, 0.f, 1.f), 0.0f);
 	plane_2 = Plane(float3(0.f, 0.f, 1.f), 2.0f);
 
-	
 	return ret;
 }
 
@@ -209,6 +208,37 @@ update_status ModuleSceneIntro::Update(float dt)
 				ImGui::Text("Not Overlaping!");
 
 		}
+		if (ImGui::CollapsingHeader("AABB"))
+		{
+			ImGui::Text("Sphere 1:");
+			ImGui::SameLine();
+			ImGui::SliderFloat("X 1: ", &sphere_1.pos.x, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y 1: ", &sphere_1.pos.y, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Z 1", &sphere_1.pos.z, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Radius 1: ", &sphere_1.r, -5.0f, 5.0f);
+
+			ImGui::Text("Sphere 2:");
+			ImGui::SameLine();
+			ImGui::SliderFloat("X 2: ", &sphere_2.pos.x, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Y 2: ", &sphere_2.pos.y, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Z 3: ", &sphere_2.pos.z, -5.0f, 5.0f);
+			ImGui::SameLine();
+			ImGui::SliderFloat("Radius 2: ", &sphere_2.r, -5.0f, 5.0f);
+
+			aabb_1 = sphere_1.MinimalEnclosingAABB();
+			aabb_2 = sphere_2.MinimalEnclosingAABB();
+
+			if (aabb_1.Intersects(aabb_2))
+				ImGui::Text("Intersect!");
+			else
+				ImGui::Text("Don't intersect!");
+		}
+
 
 		if (ImGui::CollapsingHeader("Capsules"))
 		{
