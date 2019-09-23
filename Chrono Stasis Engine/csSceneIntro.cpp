@@ -53,6 +53,9 @@ bool ModuleSceneIntro::Start()
 	sphere_1 = Sphere({0.0f,0.0f,0.0f}, 1.0f);
 	sphere_2 = Sphere({ 0.0f,0.0f,0.0f }, 1.0f);
 
+	capsule_1 = Capsule(float3(3.f, 0.f, 0.f), float3(3.f, 2.f, 0.f), 1.f);
+	capsule_2 = Capsule(float3(0.f, 0.f, 0.f), float3(0.f, 2.f, 0.f), 1.f);
+	
 	/*Plane plane2(vector, 1.5f);*/
 	return ret;
 }
@@ -198,6 +201,27 @@ update_status ModuleSceneIntro::Update(float dt)
 				ImGui::Text("Overlaping!");
 			else
 				ImGui::Text("Not Overlaping!");
+
+		}
+
+		if (ImGui::CollapsingHeader("Capsules"))
+		{
+
+			ImGui::Text("Capsule 1:");
+			ImGui::SameLine();
+
+			ImGui::SliderFloat("C_Radius 1:", &capsule_1.r, 0.0f, 5.0f);
+			
+			ImGui::Text("Capsule 2:");
+			ImGui::SameLine();
+			
+			ImGui::SliderFloat("C_Radius 2: ", &capsule_2.r, 0.0f, 5.0f);
+			
+
+			if (capsule_1.Intersects(capsule_2))
+				ImGui::Text("Intersect!");
+			else
+				ImGui::Text("Don't intersect!");
 
 		}
 		ImGui::End();

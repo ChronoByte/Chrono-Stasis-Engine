@@ -59,4 +59,7 @@ public:
 	Sphere sphere_1;
 	Sphere sphere_2;
 
+	Capsule capsule_1;
+	Capsule capsule_2;
+	
 };
