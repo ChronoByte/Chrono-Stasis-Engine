@@ -56,7 +56,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies;$(SolutionDir)\src\Core;$(SolutionDir)\src\Modules;$(SolutionDir)\src\Helpers;$(SolutionDir)\src\Tools;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies;$(SolutionDir)\Engine\src\Core;$(SolutionDir)\Engine\src\Modules;$(SolutionDir)\Engine\src\Helpers;$(SolutionDir)\Engine\src\Tools;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -76,7 +76,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies;$(SolutionDir)\src\Core;$(SolutionDir)\src\Modules;$(SolutionDir)\src\Helpers;$(SolutionDir)\src\Tools;$(SolutionDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Dependencies;$(SolutionDir)\Engine\src\Core;$(SolutionDir)\Engine\src\Modules;$(SolutionDir)\Engine\src\Helpers;$(SolutionDir)\Engine\src\Tools;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -89,11 +89,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Core\csApp.h" />
-    <ClInclude Include="src\Helpers\Color.h" />
-    <ClInclude Include="src\Modules\csModuleUI.h" />
+    <ClInclude Include="Engine\src\Core\csApp.h" />
+    <ClInclude Include="Engine\src\Helpers\Color.h" />
+    <ClInclude Include="Engine\src\Modules\csModuleUI.h" />
     <ClInclude Include="Dependencies\glm\glmath.h" />
-    <ClInclude Include="src\Core\csGlobals.h" />
+    <ClInclude Include="Engine\src\Core\csGlobals.h" />
     <ClInclude Include="Dependencies\imgui\imconfig.h" />
     <ClInclude Include="Dependencies\imgui\imgui.h" />
     <ClInclude Include="Dependencies\imgui\imgui_impl_opengl2.h" />
@@ -102,13 +102,13 @@
     <ClInclude Include="Dependencies\imgui\imstb_rectpack.h" />
     <ClInclude Include="Dependencies\imgui\imstb_textedit.h" />
     <ClInclude Include="Dependencies\imgui\imstb_truetype.h" />
-    <ClInclude Include="src\Helpers\Light.h" />
-    <ClInclude Include="src\Modules\csCamera3D.h" />
-    <ClInclude Include="src\Modules\csRenderer3D.h" />
-    <ClInclude Include="src\Modules\csModule.h" />
-    <ClInclude Include="src\Modules\csInput.h" />
-    <ClInclude Include="src\Modules\csSceneIntro.h" />
-    <ClInclude Include="src\Modules\csWindow.h" />
+    <ClInclude Include="Engine\src\Helpers\Light.h" />
+    <ClInclude Include="Engine\src\Modules\csCamera3D.h" />
+    <ClInclude Include="Engine\src\Modules\csRenderer3D.h" />
+    <ClInclude Include="Engine\src\Modules\csModule.h" />
+    <ClInclude Include="Engine\src\Modules\csInput.h" />
+    <ClInclude Include="Engine\src\Modules\csSceneIntro.h" />
+    <ClInclude Include="Engine\src\Modules\csWindow.h" />
     <ClInclude Include="Dependencies\MathGeoLib\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="Dependencies\MathGeoLib\include\Geometry\AABB.h" />
     <ClInclude Include="Dependencies\MathGeoLib\include\Geometry\AABB2D.h" />
@@ -169,13 +169,13 @@
     <ClInclude Include="Dependencies\pcg\pcg C\extras\entropy.h" />
     <ClInclude Include="Dependencies\pcg\pcg C\extras\pcg_spinlock.h" />
     <ClInclude Include="Dependencies\pcg\pcg C\include\pcg_variants.h" />
-    <ClInclude Include="src\Helpers\Primitive.h" />
-    <ClInclude Include="src\Tools\Timer.h" />
+    <ClInclude Include="Engine\src\Helpers\Primitive.h" />
+    <ClInclude Include="Engine\src\Tools\Timer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Core\csApp.cpp" />
-    <ClCompile Include="src\Helpers\Color.cpp" />
-    <ClCompile Include="src\Modules\csModuleUI.cpp" />
+    <ClCompile Include="Engine\src\Core\csApp.cpp" />
+    <ClCompile Include="Engine\src\Helpers\Color.cpp" />
+    <ClCompile Include="Engine\src\Modules\csModuleUI.cpp" />
     <ClCompile Include="Dependencies\glm\glmath.cpp" />
     <ClCompile Include="Dependencies\imgui\imgui.cpp" />
     <ClCompile Include="Dependencies\imgui\imgui_demo.cpp" />
@@ -183,14 +183,14 @@
     <ClCompile Include="Dependencies\imgui\imgui_impl_opengl2.cpp" />
     <ClCompile Include="Dependencies\imgui\imgui_impl_sdl.cpp" />
     <ClCompile Include="Dependencies\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="src\Helpers\Light.cpp" />
-    <ClCompile Include="src\Tools\log.cpp" />
-    <ClCompile Include="src\Core\csMain.cpp" />
-    <ClCompile Include="src\Modules\csCamera3D.cpp" />
-    <ClCompile Include="src\Modules\csInput.cpp" />
-    <ClCompile Include="src\Modules\csRenderer3D.cpp" />
-    <ClCompile Include="src\Modules\csSceneIntro.cpp" />
-    <ClCompile Include="src\Modules\csWindow.cpp" />
+    <ClCompile Include="Engine\src\Helpers\Light.cpp" />
+    <ClCompile Include="Engine\src\Tools\log.cpp" />
+    <ClCompile Include="Engine\src\Core\csMain.cpp" />
+    <ClCompile Include="Engine\src\Modules\csCamera3D.cpp" />
+    <ClCompile Include="Engine\src\Modules\csInput.cpp" />
+    <ClCompile Include="Engine\src\Modules\csRenderer3D.cpp" />
+    <ClCompile Include="Engine\src\Modules\csSceneIntro.cpp" />
+    <ClCompile Include="Engine\src\Modules\csWindow.cpp" />
     <ClCompile Include="Dependencies\MathGeoLib\include\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="Dependencies\MathGeoLib\include\Geometry\AABB.cpp" />
     <ClCompile Include="Dependencies\MathGeoLib\include\Geometry\Capsule.cpp" />
@@ -224,8 +224,8 @@
     <ClCompile Include="Dependencies\MathGeoLib\include\Math\TransformOps.cpp" />
     <ClCompile Include="Dependencies\MathGeoLib\include\Time\Clock.cpp" />
     <ClCompile Include="Dependencies\pcg\pcg C\extras\entropy.c" />
-    <ClCompile Include="src\Helpers\Primitive.cpp" />
-    <ClCompile Include="src\Tools\Timer.cpp" />
+    <ClCompile Include="Engine\src\Helpers\Primitive.cpp" />
+    <ClCompile Include="Engine\src\Tools\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\MathGeoLib\include\Geometry\KDTree.inl" />
