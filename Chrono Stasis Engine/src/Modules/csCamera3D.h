@@ -1,7 +1,7 @@
 #pragma once
 #include "csModule.h"
 #include "csGlobals.h"
-#include "glmath.h"
+#include "glm/glmath.h"
 
 class ModuleCamera3D : public Module
 {

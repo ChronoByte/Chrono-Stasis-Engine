@@ -1,6 +1,6 @@
 
 #pragma once
-#include "glmath.h"
+#include "glm/glmath.h"
 #include "Color.h"
 
 enum PrimitiveTypes

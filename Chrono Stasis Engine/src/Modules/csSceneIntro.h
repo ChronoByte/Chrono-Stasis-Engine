@@ -3,13 +3,13 @@
 #include "csGlobals.h"
 //#include "Primitive.h"
 
-#include "imgui.h"
+#include "imgui/imgui.h"
 #include "pcg/pcg C/include/pcg_variants.h"
 #include "pcg/pcg C/extras/entropy.h"
 
 //#include "SDL\include\SDL.h"
 //#include "SDL\include\SDL_opengl.h"
-#include "glew-2.1.0/include/GL/glew.h"
+#include "glew/include/GL/glew.h"
 
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "MathGeoLib/include/MathBuildConfig.h"

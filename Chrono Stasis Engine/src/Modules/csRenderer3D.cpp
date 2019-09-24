@@ -1,21 +1,21 @@
 #include "csGlobals.h"
 #include "csApp.h"
 #include "csRenderer3D.h"
-#include "glew-2.1.0/include/GL/glew.h"
+#include "glew/include/GL/glew.h"
 
 #include "SDL\include\SDL_opengl.h"
 //#include <gl/GL.h>
 //#include <gl/GLU.h>
 
-#include "imgui.h"
-#include "imgui_impl_sdl.h"
-#include "imgui_impl_opengl2.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl.h"
+#include "imgui/imgui_impl_opengl2.h"
 
 
 //#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 
-#pragma comment (lib, "glew-2.1.0/lib/Win32/glew32.lib")
+//#pragma comment (lib, "glew-2.1.0/lib/Win32/glew32s.lib")
 
 
 ModuleRenderer3D::ModuleRenderer3D(Application* app, bool start_enabled) : Module(app, start_enabled)

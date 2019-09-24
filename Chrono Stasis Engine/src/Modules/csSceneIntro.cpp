@@ -13,7 +13,7 @@
 //#include "MathGeoLib/include/Geometry/Sphere.h"
 
 // TODO: Differentiate between debug mode and release mode
-#pragma comment (lib, "MathGeoLib/libx86/Debug_Lib/MathGeoLib.lib")
+//#pragma comment (lib, "DependenciesMathGeoLib/libx86/Debug_Lib/MathGeoLib.lib")
 
 
 

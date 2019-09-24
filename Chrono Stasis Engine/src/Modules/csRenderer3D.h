@@ -1,7 +1,7 @@
 #pragma once
 #include "csModule.h"
 #include "csGlobals.h"
-#include "glmath.h"
+#include "glm/glmath.h"
 #include "Light.h"
 
 #define MAX_LIGHTS 8
