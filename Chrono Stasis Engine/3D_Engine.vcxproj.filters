@@ -288,6 +288,7 @@
     <ClInclude Include="Engine\Dependencies\pcg\pcg C\include\pcg_variants.h">
       <Filter>Sources\PCG</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\src\Structure\ConfigWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -449,6 +450,7 @@
     <ClCompile Include="Engine\Dependencies\pcg\pcg C\extras\entropy.c">
       <Filter>Sources\PCG</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\src\Structure\ConfigWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
