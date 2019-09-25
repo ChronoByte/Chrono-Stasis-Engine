@@ -19,6 +19,7 @@
 
 struct PhysBody3D;
 struct PhysMotor3D;
+class ConfigWindow;
 
 class ModuleSceneIntro : public Module
 {
@@ -34,6 +35,7 @@ public:
 
 public:
 
+	ConfigWindow* config = nullptr;
 	PhysBody3D* sensor;
 
 	double rand1;

@@ -15,10 +15,12 @@
 // TODO: Differentiate between debug mode and release mode
 //#pragma comment (lib, "DependenciesMathGeoLib/libx86/Debug_Lib/MathGeoLib.lib")
 
-
+#include "src/Structure/ConfigWindow.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
-{}
+{
+	config = new ConfigWindow();
+}
 
 ModuleSceneIntro::~ModuleSceneIntro()
 {}
@@ -31,6 +33,8 @@ bool ModuleSceneIntro::Start()
 
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
+	
+
 
 	//Seeds random number generator
 	//pcg32_srandom_r(&rng, time(NULL), (intptr_t)&rng);
@@ -63,6 +67,8 @@ bool ModuleSceneIntro::Start()
 	
 	obb_1 = OBB(float3(0.0f, 0.0f, 0.0f), float3(1.0f, 1.0f, 1.0f), float3(1.0f, 0.0f, 0.0f), float3(0.0f, 1.0f, 0.0f), float3(0.0f, 0.0f, 1.0f));
 	obb_2 = OBB(float3(2.5f, 0.0f, 0.0f), float3(1.0f, 1.0f, 1.0f), float3(1.0f, 0.0f, 0.0f), float3(0.0f, 1.0f, 0.0f), float3(0.0f, 0.0f, 1.0f));
+
+
 	return ret;
 }
 
@@ -77,6 +83,8 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+
+
 	update_status ret = UPDATE_CONTINUE; 
 
 	Sphere s({ 0, 0, 0 }, 5);
@@ -86,6 +94,12 @@ update_status ModuleSceneIntro::Update(float dt)
 	{
 		LOG("There was an intersection");
 	}
+
+
+
+
+
+
 
 	//d = ldexp(pcg32_random_r(&rng), -32); //generating a flaoting points between [0,1) rounded nearest multiple of 1/2^32
 
@@ -118,8 +132,17 @@ update_status ModuleSceneIntro::Update(float dt)
 			if (ImGui::MenuItem("Test pcg", "", &random_panel)) {}
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Configuration"))
+		{
+			config->Active();
+			
+			ImGui::EndMenu();
+		}
 		ImGui::EndMainMenuBar();
 	}
+
+	if (config->GetActive())
+		config->Draw();
 
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);

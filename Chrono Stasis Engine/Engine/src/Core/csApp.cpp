@@ -2,6 +2,8 @@
 
 Application::Application()
 {
+	//engine_title = TITLE; // TODO: Load with JSON
+
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
 	scene_intro = new ModuleSceneIntro(this);
@@ -41,6 +43,7 @@ bool Application::Init()
 {
 	bool ret = true;
 
+	engine_title = TITLE;
 	// Call Init() in all modules
 	std::list<Module*>::const_iterator item = list_modules.begin();
 
@@ -131,4 +134,9 @@ bool Application::CleanUp()
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
+}
+
+const char* Application::GetTitle() const
+{
+	return engine_title.data();
 }

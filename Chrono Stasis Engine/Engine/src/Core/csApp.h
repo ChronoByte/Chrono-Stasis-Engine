@@ -38,8 +38,10 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	const char* GetTitle() const;
 public:
 	
+	std::string engine_title; //Remminder for me: std::string var
 	bool to_close_app = false;
 
 private:
