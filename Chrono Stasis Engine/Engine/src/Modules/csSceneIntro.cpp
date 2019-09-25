@@ -1,19 +1,9 @@
 #include "csGlobals.h"
 #include "csApp.h"
 #include "csSceneIntro.h"
-//#include "Primitive.h"
-//#include "PhysBody3D.h"
 #include <string>
 #include "time.h"
 
-//#include "MathGeoLib/include/MathGeoLib.h"
-//#include "MathGeoLib/include/MathBuildConfig.h"
-//#include "MathGeoLib/include/MathGeoLibFwd.h"
-
-//#include "MathGeoLib/include/Geometry/Sphere.h"
-
-// TODO: Differentiate between debug mode and release mode
-//#pragma comment (lib, "DependenciesMathGeoLib/libx86/Debug_Lib/MathGeoLib.lib")
 
 #include "src/Structure/ConfigWindow.h"
 

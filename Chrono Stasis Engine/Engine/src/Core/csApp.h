@@ -18,12 +18,12 @@
 class Application
 {
 public:
-	ModuleWindow*		window;
-	ModuleInput*		input;
-	ModuleSceneIntro*	scene_intro;
-	ModuleRenderer3D*	renderer3D;
-	ModuleCamera3D*		camera;
-	ModuleUI*			gui; 
+	ModuleWindow*		window = nullptr;
+	ModuleInput*		input = nullptr;
+	ModuleSceneIntro*	scene_intro = nullptr;
+	ModuleRenderer3D*	renderer3D = nullptr;
+	ModuleCamera3D*		camera = nullptr;
+	ModuleUI*			gui = nullptr;
 	
 private:
 

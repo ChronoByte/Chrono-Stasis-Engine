@@ -1,14 +1,11 @@
 #pragma once
 #include "csModule.h"
 #include "csGlobals.h"
-//#include "Primitive.h"
 
 #include "imgui/imgui.h"
 #include "pcg/pcg C/include/pcg_variants.h"
 #include "pcg/pcg C/extras/entropy.h"
 
-//#include "SDL\include\SDL.h"
-//#include "SDL\include\SDL_opengl.h"
 #include "glew/include/GL/glew.h"
 
 #include "MathGeoLib/include/MathGeoLib.h"
@@ -36,7 +33,7 @@ public:
 public:
 
 	ConfigWindow* config = nullptr;
-	PhysBody3D* sensor;
+	PhysBody3D* sensor = nullptr;
 
 	double rand1;
 	uint32_t rand2;

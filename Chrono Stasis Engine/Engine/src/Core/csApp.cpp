@@ -4,12 +4,12 @@ Application::Application()
 {
 	engine_title = TITLE; // TODO: Load with JSON
 
-	window = new ModuleWindow(this);
-	input = new ModuleInput(this);
+	window		= new ModuleWindow(this);
+	input		= new ModuleInput(this);
 	scene_intro = new ModuleSceneIntro(this);
-	renderer3D = new ModuleRenderer3D(this);
-	camera = new ModuleCamera3D(this);
-	gui = new ModuleUI(this);
+	renderer3D	= new ModuleRenderer3D(this);
+	camera		= new ModuleCamera3D(this);
+	gui			= new ModuleUI(this);
 	
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -19,10 +19,11 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
-	AddModule(gui); 
 	// Scenes
 	AddModule(scene_intro);
 
+	// Renderer GUI 
+	AddModule(gui); 
 	// Renderer last!
 	AddModule(renderer3D);
 }
