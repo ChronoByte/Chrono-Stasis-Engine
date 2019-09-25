@@ -11,7 +11,7 @@ class ConfigWindow
 
 public:
 
-	ConfigWindow();
+	ConfigWindow(Application* app);
 	~ConfigWindow();
 
 	bool Start();
@@ -26,5 +26,5 @@ private:
 
 	bool activeConfig = false;
 	char engine_name[120];
-	Application* App; //temporal
+	Application* App = nullptr; //temporal
 };

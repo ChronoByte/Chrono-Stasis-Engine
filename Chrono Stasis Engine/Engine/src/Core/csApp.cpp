@@ -2,7 +2,7 @@
 
 Application::Application()
 {
-	//engine_title = TITLE; // TODO: Load with JSON
+	engine_title = TITLE; // TODO: Load with JSON
 
 	window = new ModuleWindow(this);
 	input = new ModuleInput(this);
@@ -10,7 +10,7 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
 	ui = new ModuleUI(this);
-
+	
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order

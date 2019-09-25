@@ -12,6 +12,7 @@
 #include "csModuleUI.h"
 
 
+
 #include <list>
 
 class Application
@@ -23,6 +24,7 @@ public:
 	ModuleRenderer3D*	renderer3D;
 	ModuleCamera3D*		camera;
 	ModuleUI*			ui; 
+	
 private:
 
 	Timer	ms_timer;

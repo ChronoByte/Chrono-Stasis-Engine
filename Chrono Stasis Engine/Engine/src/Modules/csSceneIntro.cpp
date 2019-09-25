@@ -19,7 +19,7 @@
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	config = new ConfigWindow();
+	config = new ConfigWindow(app);
 }
 
 ModuleSceneIntro::~ModuleSceneIntro()

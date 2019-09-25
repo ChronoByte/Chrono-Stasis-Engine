@@ -2,7 +2,10 @@
 #include "csApp.h"
 #include "csWindow.h"
 
-ConfigWindow::ConfigWindow() {}
+ConfigWindow::ConfigWindow(Application* app) 
+	: App(app)
+{	
+}
 
 
 ConfigWindow::~ConfigWindow() {}
@@ -44,11 +47,11 @@ void ConfigWindow::Configuration()
 	if (ImGui::CollapsingHeader("Application"))
 	{
 
-		std::string name(TITLE);
-		strcpy_s(engine_name, 120, name.c_str());
+		
+		strcpy_s(engine_name, 120, App->GetTitle());
 	
 		if (ImGui::InputText("Engine Name", engine_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-			name = engine_name;
+			App->window->SetTitle(engine_name);
 	}
 	ImGui::End();
 }
