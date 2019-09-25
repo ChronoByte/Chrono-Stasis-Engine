@@ -40,19 +40,15 @@ bool ConfigWindow::CleanUp()
 void ConfigWindow::Configuration()
 {
 	ImGui::Begin("Configuration", &activeConfig);
-	//std::string name = TITLE;
+
 	if (ImGui::CollapsingHeader("Application"))
 	{
 
-		static char str0[128] = "Hello, world!";
-		
-		ImGui::InputText("input text", str0, IM_ARRAYSIZE(str0));
-
-		/*std::string name(TITLE);
+		std::string name(TITLE);
 		strcpy_s(engine_name, 120, name.c_str());
-		ImGui::InputText("Engine Name", engine_name,120);*/
-		//if (ImGui::InputText("Engine Name", engine_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-			//name = engine_name;
+	
+		if (ImGui::InputText("Engine Name", engine_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+			name = engine_name;
 	}
 	ImGui::End();
 }
