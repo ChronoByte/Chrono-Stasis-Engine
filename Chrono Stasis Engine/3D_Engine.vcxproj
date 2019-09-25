@@ -89,6 +89,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="Engine\src\Core\csApp.h" />
     <ClInclude Include="Engine\src\Helpers\Color.h" />
     <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
@@ -96,7 +97,6 @@
     <ClInclude Include="Engine\src\Core\csGlobals.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imconfig.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui.h" />
-    <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_opengl2.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_sdl.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui_internal.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imstb_rectpack.h" />
@@ -175,6 +175,7 @@
     <ClInclude Include="Engine\src\Tools\Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Engine\src\Core\csApp.cpp" />
     <ClCompile Include="Engine\src\Helpers\Color.cpp" />
     <ClCompile Include="Engine\src\Modules\csRendererGUI.cpp" />
@@ -182,7 +183,6 @@
     <ClCompile Include="Engine\Dependencies\imgui\imgui.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_demo.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_draw.cpp" />
-    <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_opengl2.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_sdl.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\src\Helpers\Light.cpp" />

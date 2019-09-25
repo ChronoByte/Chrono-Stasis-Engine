@@ -7,9 +7,9 @@
 //#include <gl/GL.h>
 //#include <gl/GLU.h>
 
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_sdl.h"
-#include "imgui/imgui_impl_opengl2.h"
+//#include "imgui/imgui.h"
+//#include "imgui/imgui_impl_sdl.h"
+//#include "imgui/imgui_impl_opengl3.h"
 
 
 //#pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */

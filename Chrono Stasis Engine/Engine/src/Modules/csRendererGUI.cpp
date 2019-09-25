@@ -4,7 +4,7 @@
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
-#include "imgui/imgui_impl_opengl2.h"
+#include "imgui/imgui_impl_opengl3.h"
 
 ModuleUI::ModuleUI(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -27,7 +27,7 @@ bool ModuleUI::Init()
 		ImGuiIO& io = ImGui::GetIO();
 		// io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 		ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
-		ImGui_ImplOpenGL2_Init();
+		ImGui_ImplOpenGL3_Init();
 
 		// Setup style
 		ImGui::StyleColorsDark();
@@ -45,7 +45,7 @@ bool ModuleUI::Init()
 // Called every draw update
 update_status ModuleUI::PreUpdate(float dt)
 {
-	ImGui_ImplOpenGL2_NewFrame();
+	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
@@ -55,7 +55,7 @@ update_status ModuleUI::PreUpdate(float dt)
 update_status ModuleUI::PostUpdate(float dt)
 {
 	ImGui::Render();
-	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 	return UPDATE_CONTINUE;
 }
@@ -63,7 +63,7 @@ update_status ModuleUI::PostUpdate(float dt)
 // Called before quitting
 bool ModuleUI::CleanUp()
 {
-	ImGui_ImplOpenGL2_Shutdown();
+	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
