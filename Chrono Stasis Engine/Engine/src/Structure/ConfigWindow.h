@@ -2,11 +2,11 @@
 
 #include "csGlobals.h"
 #include "imgui/imgui.h"
-#include "csModule.h"
+#include "Window.h"
 
 class Application;
 
-class ConfigWindow 
+class ConfigWindow : public Window
 {
 
 public:
@@ -26,5 +26,5 @@ private:
 
 	bool activeConfig = false;
 	char engine_name[120];
-	Application* App = nullptr; //temporal
+	
 };

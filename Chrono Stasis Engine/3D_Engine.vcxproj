@@ -91,7 +91,7 @@
   <ItemGroup>
     <ClInclude Include="Engine\src\Core\csApp.h" />
     <ClInclude Include="Engine\src\Helpers\Color.h" />
-    <ClInclude Include="Engine\src\Modules\csModuleUI.h" />
+    <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
     <ClInclude Include="Engine\Dependencies\glm\glmath.h" />
     <ClInclude Include="Engine\src\Core\csGlobals.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imconfig.h" />
@@ -171,12 +171,13 @@
     <ClInclude Include="Engine\Dependencies\pcg\pcg C\include\pcg_variants.h" />
     <ClInclude Include="Engine\src\Helpers\Primitive.h" />
     <ClInclude Include="Engine\src\Structure\ConfigWindow.h" />
+    <ClInclude Include="Engine\src\Structure\Window.h" />
     <ClInclude Include="Engine\src\Tools\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp" />
     <ClCompile Include="Engine\src\Helpers\Color.cpp" />
-    <ClCompile Include="Engine\src\Modules\csModuleUI.cpp" />
+    <ClCompile Include="Engine\src\Modules\csRendererGUI.cpp" />
     <ClCompile Include="Engine\Dependencies\glm\glmath.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_demo.cpp" />

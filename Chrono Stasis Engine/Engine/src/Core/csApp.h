@@ -9,7 +9,7 @@
 #include "csSceneIntro.h"
 #include "csRenderer3D.h"
 #include "csCamera3D.h"
-#include "csModuleUI.h"
+#include "csRendererGUI.h"
 
 
 
@@ -23,7 +23,7 @@ public:
 	ModuleSceneIntro*	scene_intro;
 	ModuleRenderer3D*	renderer3D;
 	ModuleCamera3D*		camera;
-	ModuleUI*			ui; 
+	ModuleUI*			gui; 
 	
 private:
 

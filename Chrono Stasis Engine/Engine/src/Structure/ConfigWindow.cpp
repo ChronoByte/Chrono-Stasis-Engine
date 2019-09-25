@@ -2,8 +2,7 @@
 #include "csApp.h"
 #include "csWindow.h"
 
-ConfigWindow::ConfigWindow(Application* app) 
-	: App(app)
+ConfigWindow::ConfigWindow(Application* app) : Window(app)
 {	
 }
 

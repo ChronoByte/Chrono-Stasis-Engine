@@ -9,7 +9,7 @@ Application::Application()
 	scene_intro = new ModuleSceneIntro(this);
 	renderer3D = new ModuleRenderer3D(this);
 	camera = new ModuleCamera3D(this);
-	ui = new ModuleUI(this);
+	gui = new ModuleUI(this);
 	
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -19,7 +19,7 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
-	AddModule(ui); 
+	AddModule(gui); 
 	// Scenes
 	AddModule(scene_intro);
 
@@ -43,7 +43,7 @@ bool Application::Init()
 {
 	bool ret = true;
 
-	engine_title = TITLE;
+	
 	// Call Init() in all modules
 	std::list<Module*>::const_iterator item = list_modules.begin();
 

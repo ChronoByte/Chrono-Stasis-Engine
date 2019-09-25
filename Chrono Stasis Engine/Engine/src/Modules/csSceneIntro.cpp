@@ -118,8 +118,8 @@ update_status ModuleSceneIntro::Update(float dt)
 
 		if (ImGui::BeginMenu("Style"))
 		{
-			if (ImGui::MenuItem("Orange")) { App->ui->StyleLoader(App->ui->color.ORANGE);  }
-			if (ImGui::MenuItem("Black")) { App->ui->StyleLoader(App->ui->color.BLACK); }
+			if (ImGui::MenuItem("Orange")) { App->gui->StyleLoader(App->gui->color.ORANGE);  }
+			if (ImGui::MenuItem("Black")) { App->gui->StyleLoader(App->gui->color.BLACK); }
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("GeoMath"))
