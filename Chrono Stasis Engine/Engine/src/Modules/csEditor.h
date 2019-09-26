@@ -34,6 +34,7 @@ public:
 
 	ConfigWindow* config = nullptr;
 	GeometryWindow* geometryWin = nullptr; 
+
 	PhysBody3D* sensor = nullptr;
 
 	double rand1;

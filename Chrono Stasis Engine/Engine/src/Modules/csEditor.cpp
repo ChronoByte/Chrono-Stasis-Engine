@@ -15,7 +15,8 @@ ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, s
 }
 
 ModuleEditor::~ModuleEditor()
-{}
+{
+}
 
 // Load assets
 bool ModuleEditor::Start()
@@ -49,6 +50,13 @@ bool ModuleEditor::Start()
 bool ModuleEditor::CleanUp()
 {
 	LOG("Unloading Intro scene");
+
+	delete config; 
+	config = nullptr; 
+
+	delete geometryWin;
+	geometryWin = nullptr; 
+
 
 	return true;
 }
