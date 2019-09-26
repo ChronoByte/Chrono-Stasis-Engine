@@ -10,7 +10,7 @@ public:
 
 	Window(Application* parent) : App(parent) {}
 
-	~Window() { delete App;  }
+	~Window() { App = nullptr; }
 
 
 	virtual bool Init()
@@ -37,6 +37,8 @@ public:
 	{
 		return UPDATE_CONTINUE;
 	}
+
+	virtual void Draw() {}
 
 	virtual bool CleanUp()
 	{

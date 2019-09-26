@@ -16,6 +16,7 @@
 
 struct PhysBody3D;
 class ConfigWindow;
+class GeometryWindow; 
 
 class ModuleEditor : public Module
 {
@@ -32,6 +33,8 @@ public:
 public:
 
 	ConfigWindow* config = nullptr;
+	GeometryWindow* geometryWin = nullptr; 
+
 	PhysBody3D* sensor = nullptr;
 
 	double rand1;
@@ -53,24 +56,4 @@ public:
 	pcg_state_setseq_64 rng_bounded2;
 	bool show_demo_window = false;
 	bool random_panel = false;
-
-	Sphere sphere_1;
-	Sphere sphere_2;
-
-	Capsule capsule_1;
-	Capsule capsule_2;
-	
-	Triangle triangle_1;
-	Triangle triangle_2;
-
-	Plane plane_1;
-	Plane plane_2;
-
-	AABB aabb_1;
-	AABB aabb_2;
-
-	Ray ray_1;
-	
-	OBB obb_1;
-	OBB obb_2;
 };
