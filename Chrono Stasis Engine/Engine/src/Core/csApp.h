@@ -46,6 +46,7 @@ public:
 	void SetTitle(const char*);
 	void SetOrganization(const char*);
 
+	void SendToLink(const char* link) const;	
 public:
 	
 	std::string engine_title; //Remminder for me: std::string var

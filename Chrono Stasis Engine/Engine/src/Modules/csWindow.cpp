@@ -92,3 +92,162 @@ void ModuleWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
 }
+
+void ModuleWindow::SetBrightness(float brightness)
+{
+	SDL_SetWindowBrightness(window, brightness);
+}
+
+float ModuleWindow::GetBrightness() const
+{
+	return SDL_GetWindowBrightness(window);
+}
+
+
+void ModuleWindow::SetSize(uint size)
+{
+	this->size = size;
+}
+
+uint ModuleWindow::GetSize() const
+{
+	return size;
+}
+
+void ModuleWindow::SetWindowSize(int w, int h)
+{
+	if (w > 0 && h > 0)
+	{
+		width = w;
+		height = h;
+		SDL_SetWindowSize(window, width, height);
+
+		if (!fullscreen)
+			App->renderer3D->OnResize(width, height);
+	}
+}
+
+void ModuleWindow::GetWindowSize(int & width, int & height)
+{
+	SDL_GetWindowSize(window, &width, &height);
+}
+
+
+void ModuleWindow::SetWidth(uint width)
+{
+	SDL_SetWindowSize(window, width, height);
+	this->width = width;
+
+	if (!fullscreen)
+		App->renderer3D->OnResize(width, height);
+}
+
+uint ModuleWindow::GetWidth() const
+{
+	return width;
+}
+
+void ModuleWindow::SetHeigth(uint height)
+{
+	SDL_SetWindowSize(window, width, height);
+	this->height = height;
+
+	if (!fullscreen)
+		App->renderer3D->OnResize(width, height);
+}
+
+uint ModuleWindow::GetHeight() const
+{
+	return height;
+}
+
+
+uint ModuleWindow::GetRefreshRate() const
+{
+	uint refresh = 0;
+
+	SDL_DisplayMode dm;
+	if (SDL_GetDesktopDisplayMode(0, &dm) == 0) refresh = dm.refresh_rate;
+	else LOG("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+
+	return refresh;
+}
+
+void ModuleWindow::GetDesktopDisplay(uint& width, uint& height) const
+{
+	uint refresh = 0;
+
+	SDL_DisplayMode dm;
+	if (SDL_GetDesktopDisplayMode(0, &dm) == 0) width = dm.w, height = dm.h;
+	else LOG("SDL_GetDesktopDisplayMode failed: %s", SDL_GetError());
+}
+
+
+void ModuleWindow::SetFullscreen(bool full)
+{
+	this->fullscreen = full;
+
+	if (full) SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
+	else SDL_SetWindowFullscreen(window, 0);
+}
+
+bool ModuleWindow::GetFullscreenWindow() const
+{
+	return fullscreen;
+}
+
+void ModuleWindow::SetResizable(bool resize)
+{
+	this->resizable = resize;
+
+	if (resize) SDL_SetWindowResizable(window, SDL_TRUE);
+	else SDL_SetWindowResizable(window, SDL_FALSE);
+}
+
+bool ModuleWindow::GetResizableWindow() const
+{
+	return resizable;
+}
+
+void ModuleWindow::SetBorderless(bool border)
+{
+	if (!(fullscreen && fullscreen_desktop))
+	{
+		this->borderless = borderless;
+
+		if (borderless) SDL_SetWindowBordered(window, SDL_FALSE);
+		else SDL_SetWindowBordered(window, SDL_TRUE);
+	}
+}
+
+bool ModuleWindow::GetBorderlessWindow() const
+{
+	return borderless;
+}
+
+void ModuleWindow::SetFullScreenDesktop(bool desktop)
+{
+		this->fullscreen_desktop = desktop;
+
+		if (fullscreen_desktop) SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+		else SDL_SetWindowFullscreen(window, 0);
+				
+}
+
+bool ModuleWindow::GetFullDesktopWindow() const
+{
+	return fullscreen_desktop;
+}
+
+void ModuleWindow::SetMaximized(bool max)
+{
+	maximized = max;
+
+	if (max) SDL_MaximizeWindow(window);
+	else SDL_RestoreWindow(window);
+}
+
+bool ModuleWindow::GetMaximized() const
+{
+	return maximized;
+}

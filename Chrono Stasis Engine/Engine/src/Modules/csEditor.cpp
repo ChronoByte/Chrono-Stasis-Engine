@@ -5,13 +5,16 @@
 #include "time.h"
 
 
+// Including windows
 #include "src/Structure/ConfigWindow.h"
 #include "src/Structure/GeometryWindow.h"
+#include "src/Structure/AboutWindow.h"
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	config = new ConfigWindow(app);
 	geometryWin = new GeometryWindow(app);
+	about = new AboutWindow(app);	
 }
 
 ModuleEditor::~ModuleEditor()
@@ -57,6 +60,8 @@ bool ModuleEditor::CleanUp()
 	delete geometryWin;
 	geometryWin = nullptr; 
 
+	delete about;
+	about = nullptr; 
 
 	return true;
 }
@@ -122,6 +127,23 @@ update_status ModuleEditor::Update(float dt)
 			
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Help"))
+		{
+			if (ImGui::MenuItem("Documentation"))
+				App->SendToLink("https://github.com/ChronoByte/Chrono-Stasis-Engine/wiki");
+
+			if (ImGui::MenuItem("Download Latest Version"))
+				App->SendToLink("https://github.com/ChronoByte/Chrono-Stasis-Engine/releases");
+
+			if (ImGui::MenuItem("Report a bug"))
+				App->SendToLink("https://github.com/ChronoByte/Chrono-Stasis-Engine/issues");
+
+			if (ImGui::MenuItem("About"))
+				about->SwitchActive();
+
+			ImGui::EndMenu(); 
+		}
+
 		ImGui::EndMainMenuBar();
 	}
 
@@ -130,6 +152,9 @@ update_status ModuleEditor::Update(float dt)
 
 	if (geometryWin->GetActive())
 		geometryWin->Draw();
+
+	if (about->GetActive())
+		about->Draw(); 
 
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);

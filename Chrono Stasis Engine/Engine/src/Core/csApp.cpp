@@ -171,3 +171,12 @@ const char* Application::GetOrganization() const
 	return this->organization_name.data();
 }
 
+// ---------------------------------------
+
+
+void Application::SendToLink(const char * link) const
+{
+	ShellExecuteA(NULL, "open", link, NULL, NULL, SW_SHOWNORMAL);
+}
+
+
