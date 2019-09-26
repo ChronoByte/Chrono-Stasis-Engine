@@ -51,5 +51,5 @@ void ConfigWindow::Configuration()
 			App->window->SetTitle(engine_name);
 	}
 	ImGui::End();
-{
+
 }
