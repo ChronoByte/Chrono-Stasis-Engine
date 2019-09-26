@@ -288,6 +288,7 @@
     <ClInclude Include="Engine\src\Modules\csEditor.h">
       <Filter>Sources\Modules\Game</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -448,6 +449,7 @@
     <ClCompile Include="Engine\src\Modules\csEditor.cpp">
       <Filter>Sources\Modules\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

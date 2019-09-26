@@ -38,6 +38,8 @@ public:
 		return UPDATE_CONTINUE;
 	}
 
+	virtual void Draw() {}
+
 	virtual bool CleanUp()
 	{
 		return true;
