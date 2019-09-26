@@ -53,7 +53,7 @@ void ConfigWindow::Configuration()
 		strcpy_s(org_name, 120, App->GetOrganization());
 
 		if (ImGui::InputText("Organization Name", org_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-			App->SetTitle(org_name);
+			App->SetOrganization(org_name);
 	}
 	ImGui::End();
 
