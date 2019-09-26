@@ -124,7 +124,7 @@ update_status ModuleEditor::Update(float dt)
 		}
 		if (ImGui::BeginMenu("Configuration"))
 		{
-			config->Active();
+			config->Activate();
 			
 			ImGui::EndMenu();
 		}

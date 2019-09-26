@@ -20,11 +20,9 @@ public:
 
 	void Draw();
 	void Configuration();
-	void Active();
-	bool GetActive();
+
 private:
 
-	bool activeConfig = false;
 	char engine_name[120];
 	
 };

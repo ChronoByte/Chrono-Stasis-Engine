@@ -43,6 +43,32 @@ public:
 		return true;
 	}
 
+public:
+
+	void Activate()
+	{
+		active = true; 
+	}
+
+	void Deactivate()
+	{
+		active = false; 
+	}
+
+	bool GetActive()
+	{
+		return active;
+	}
+
+	void SwitchActive()
+	{
+		active = !active; 
+	}
+
+protected:
+
+	bool active = false; 
+
 protected:
 	Application* App = nullptr;
 };

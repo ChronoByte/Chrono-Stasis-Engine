@@ -41,27 +41,15 @@ bool ConfigWindow::CleanUp()
 
 void ConfigWindow::Configuration()
 {
-	ImGui::Begin("Configuration", &activeConfig);
+	ImGui::Begin("Configuration", &active);
 
 	if (ImGui::CollapsingHeader("Application"))
-	{
-
-		
+	{		
 		strcpy_s(engine_name, 120, App->GetTitle());
 	
 		if (ImGui::InputText("Engine Name", engine_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->window->SetTitle(engine_name);
 	}
 	ImGui::End();
-}
-
-void ConfigWindow::Active() 
 {
-	activeConfig = true;
-	
-}
-
-bool ConfigWindow::GetActive()
-{
-	return activeConfig;
 }
