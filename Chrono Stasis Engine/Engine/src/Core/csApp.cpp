@@ -2,7 +2,10 @@
 
 Application::Application()
 {
-	engine_title = TITLE; // TODO: Load with JSON
+	// TODO: Load with JSON
+	engine_title = TITLE; 
+	organization_name = ORGANIZATION;
+
 
 	window		= new ModuleWindow(this);
 	input		= new ModuleInput(this);
@@ -132,12 +135,39 @@ bool Application::CleanUp()
 	return ret;
 }
 
+// ---------------------------------------
+
 void Application::AddModule(Module* mod)
 {
 	list_modules.push_back(mod);
 }
 
+// ---------------------------------------
+
+void Application::SetTitle(const char* name)
+{
+	this->engine_title = name;
+	window->SetTitle(engine_title.c_str());
+}
+
+// ---------------------------------------
+
 const char* Application::GetTitle() const
 {
 	return engine_title.data();
 }
+
+// ---------------------------------------
+
+void Application::SetOrganization(const char* name)
+{
+	this->organization_name = name;
+}
+
+// ---------------------------------------
+
+const char* Application::GetOrganization() const
+{
+	return this->organization_name.data();
+}
+

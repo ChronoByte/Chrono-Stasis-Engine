@@ -41,9 +41,15 @@ public:
 	bool CleanUp();
 
 	const char* GetTitle() const;
+	const char* GetOrganization() const;
+
+	void SetTitle(const char*);
+	void SetOrganization(const char*);
+
 public:
 	
 	std::string engine_title; //Remminder for me: std::string var
+	std::string organization_name;
 	bool to_close_app = false;
 
 private:

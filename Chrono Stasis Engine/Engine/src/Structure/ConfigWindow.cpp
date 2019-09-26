@@ -48,7 +48,12 @@ void ConfigWindow::Configuration()
 		strcpy_s(engine_name, 120, App->GetTitle());
 	
 		if (ImGui::InputText("Engine Name", engine_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
-			App->window->SetTitle(engine_name);
+			App->SetTitle(engine_name);
+
+		strcpy_s(org_name, 120, App->GetOrganization());
+
+		if (ImGui::InputText("Organization Name", org_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
+			App->SetTitle(org_name);
 	}
 	ImGui::End();
 
