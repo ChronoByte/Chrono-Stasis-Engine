@@ -1,22 +1,22 @@
 #include "csGlobals.h"
 #include "csApp.h"
-#include "csSceneIntro.h"
+#include "csEditor.h"
 #include <string>
 #include "time.h"
 
 
 #include "src/Structure/ConfigWindow.h"
 
-ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	config = new ConfigWindow(app);
 }
 
-ModuleSceneIntro::~ModuleSceneIntro()
+ModuleEditor::~ModuleEditor()
 {}
 
 // Load assets
-bool ModuleSceneIntro::Start()
+bool ModuleEditor::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
@@ -63,7 +63,7 @@ bool ModuleSceneIntro::Start()
 }
 
 // Load assets
-bool ModuleSceneIntro::CleanUp()
+bool ModuleEditor::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
@@ -71,7 +71,7 @@ bool ModuleSceneIntro::CleanUp()
 }
 
 // Update
-update_status ModuleSceneIntro::Update(float dt)
+update_status ModuleEditor::Update(float dt)
 {
 
 
@@ -395,7 +395,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	return ret;
 }
 
-//void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+//void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 //{
 //	LOG("Hit!");
 //}

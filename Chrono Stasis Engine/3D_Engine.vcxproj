@@ -107,7 +107,7 @@
     <ClInclude Include="Engine\src\Modules\csRenderer3D.h" />
     <ClInclude Include="Engine\src\Modules\csModule.h" />
     <ClInclude Include="Engine\src\Modules\csInput.h" />
-    <ClInclude Include="Engine\src\Modules\csSceneIntro.h" />
+    <ClInclude Include="Engine\src\Modules\csEditor.h" />
     <ClInclude Include="Engine\src\Modules\csWindow.h" />
     <ClInclude Include="Engine\Dependencies\MathGeoLib\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="Engine\Dependencies\MathGeoLib\include\Geometry\AABB.h" />
@@ -192,7 +192,7 @@
     <ClCompile Include="Engine\src\Modules\csCamera3D.cpp" />
     <ClCompile Include="Engine\src\Modules\csInput.cpp" />
     <ClCompile Include="Engine\src\Modules\csRenderer3D.cpp" />
-    <ClCompile Include="Engine\src\Modules\csSceneIntro.cpp" />
+    <ClCompile Include="Engine\src\Modules\csEditor.cpp" />
     <ClCompile Include="Engine\src\Modules\csWindow.cpp" />
     <ClCompile Include="Engine\Dependencies\MathGeoLib\include\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="Engine\Dependencies\MathGeoLib\include\Geometry\AABB.cpp" />

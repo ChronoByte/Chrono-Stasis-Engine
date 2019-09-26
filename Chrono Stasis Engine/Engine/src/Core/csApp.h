@@ -6,7 +6,7 @@
 #include "csWindow.h"
 #include "csInput.h"
 
-#include "csSceneIntro.h"
+#include "csEditor.h"
 #include "csRenderer3D.h"
 #include "csCamera3D.h"
 #include "csRendererGUI.h"
@@ -20,7 +20,7 @@ class Application
 public:
 	ModuleWindow*		window = nullptr;
 	ModuleInput*		input = nullptr;
-	ModuleSceneIntro*	scene_intro = nullptr;
+	ModuleEditor*		editor = nullptr;
 	ModuleRenderer3D*	renderer3D = nullptr;
 	ModuleCamera3D*		camera = nullptr;
 	ModuleUI*			gui = nullptr;

@@ -69,9 +69,6 @@
     <ClInclude Include="Engine\src\Modules\csRenderer3D.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\src\Modules\csSceneIntro.h">
-      <Filter>Sources\Modules\Game</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\src\Modules\csWindow.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
@@ -85,9 +82,6 @@
       <Filter>Sources\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Dependencies\imgui\imgui.h">
-      <Filter>Sources\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_opengl2.h">
       <Filter>Sources\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_sdl.h">
@@ -291,6 +285,9 @@
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Engine\src\Modules\csEditor.h">
+      <Filter>Sources\Modules\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -317,9 +314,6 @@
     <ClCompile Include="Engine\src\Modules\csRenderer3D.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\src\Modules\csSceneIntro.cpp">
-      <Filter>Sources\Modules\Game</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\src\Modules\csWindow.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
@@ -339,9 +333,6 @@
       <Filter>Sources\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Dependencies\imgui\imgui_draw.cpp">
-      <Filter>Sources\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_opengl2.cpp">
       <Filter>Sources\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_sdl.cpp">
@@ -454,6 +445,9 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Engine\src\Modules\csEditor.cpp">
+      <Filter>Sources\Modules\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

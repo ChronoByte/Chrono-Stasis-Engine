@@ -15,20 +15,19 @@
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
-struct PhysMotor3D;
 class ConfigWindow;
 
-class ModuleSceneIntro : public Module
+class ModuleEditor : public Module
 {
 public:
-	ModuleSceneIntro(Application* app, bool start_enabled = true);
-	~ModuleSceneIntro();
+	ModuleEditor(Application* app, bool start_enabled = true);
+	~ModuleEditor();
 
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
+	//void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
 
