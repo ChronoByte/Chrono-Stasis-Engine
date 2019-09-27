@@ -5,12 +5,8 @@ Application::Application()
 	// TODO: Load with JSON
 	engine_title = TITLE;
 	organization_name = ORGANIZATION;
-
-	frames = 0;
-	last_frame_ms = -1;
-	last_fps = -1;
-	capped_ms = 1000 / 60;
-	fps_counter = 0;
+	framerate_cap = 30;
+	frame_ms_cap = 1000 / framerate_cap;
 
 	window		= new ModuleWindow(this);
 	input		= new ModuleInput(this);
@@ -71,16 +67,20 @@ bool Application::Init()
 		ret = (*item)->Start();
 		item++;
 	}
-
-	ms_timer.Start();
+	
+	startup_time.Start();
+	
 	return ret;
 }
 
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
-	dt = (float)ms_timer.Read() / 1000.0f;
-	ms_timer.Start();
+	frame_count++;
+	last_sec_frame_count++;
+	frame_time.Start(); 
+
+	dt = (1 / (float)framerate_cap); // Differential Time
 }
 
 // ---------------------------------------------
@@ -88,23 +88,25 @@ void Application::FinishUpdate()
 {
 	// Framerate calculations --
 
-	++frames;
-	++fps_counter;
-
-	if (fps_timer.Read() >= 1000)
+	
+	if (last_sec_frame_time.Read() > 1000) // When every sec is reached, frame counter is reset
 	{
-		last_fps = fps_counter;
-		fps_counter = 0;
-		fps_timer.Start();
+		last_sec_frame_time.Start();
+		prev_last_sec_frame_count = last_sec_frame_count;
+		last_sec_frame_count = 0;
 	}
 
-	last_frame_ms = ms_timer.Read();
+	float avg_fps = float(frame_count) / startup_time.ReadSec(); // Current Framerate expresed in FPS (Frames x Sec)
+	float seconds_since_startup = startup_time.ReadSec(); // Seconds since game is up (Init Module)
+	uint32 last_frame_ms = frame_time.Read(); // Amount of ms from last frame
+	uint32 frames_on_last_sec = prev_last_sec_frame_count; // Amount of frames from last second
 
-	// cap fps
-	if (capped_ms > 0 && (last_frame_ms < capped_ms))
-		SDL_Delay(capped_ms - last_frame_ms);
 
-
+	// Framerate CAP --
+	if (frame_ms_cap > 0 && (last_frame_ms < frame_ms_cap)) {
+		time_to_wait = frame_ms_cap - last_frame_ms;
+		SDL_Delay(time_to_wait); // Time to wait until monitor scan the panel due to its refresh rate
+	}
 
 }
 
@@ -199,18 +201,15 @@ const char* Application::GetOrganization() const
 
 uint Application::GetFPS() const
 {
-	if (capped_ms > 0)
-		return (uint)((1.0f / (float)capped_ms) * 1000.0f);
-	else
-		return 0;
+	return (uint)(framerate_cap);
 }
+	
 
-void Application::SetFPS(uint max_fps)
+void Application::SetFPS(uint fps)
 {
-	if (max_fps > 0)
-		capped_ms = 1000 / max_fps;
-	else
-		capped_ms = 0;
+	if (fps > 0)
+		framerate_cap = fps;
+	
 }
 
 // ---------------------------------------

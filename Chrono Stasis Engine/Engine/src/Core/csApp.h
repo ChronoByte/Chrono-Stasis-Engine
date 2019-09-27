@@ -27,18 +27,24 @@ public:
 
 private:
 
-	Timer	ms_timer;
-	float	dt;
 	std::list<Module*> list_modules;
+	
+	
+	float				dt;
 
-	Timer	fps_timer;
-	Uint32	frames;
+	Timer				startup_time;
+	Timer				frame_time;
 
-	int		last_frame_ms;
-	int		last_fps;
-	int		capped_ms;
-	int		fps_counter;
+	uint64				frame_count = 0;
+	Timer				last_sec_frame_time;
+	uint32				last_sec_frame_count = 0;
+	uint32				prev_last_sec_frame_count = 0;
 
+	uint32				framerate_cap = 0;
+	uint32				frame_ms_cap = 0;
+
+	uint32				time_to_wait = 0;
+	
 
 public:
 
