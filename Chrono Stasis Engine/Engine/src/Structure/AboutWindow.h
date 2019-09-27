@@ -16,7 +16,6 @@ public:
 
 	void Draw() override;
 
-	void About();
 	void Introduction(); 
 	void MadeBy(); 
 	void SoftwareUsed();
