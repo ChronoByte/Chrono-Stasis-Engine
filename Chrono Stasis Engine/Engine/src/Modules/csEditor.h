@@ -17,6 +17,7 @@
 struct PhysBody3D;
 class ConfigWindow;
 class GeometryWindow; 
+class AboutWindow;
 
 class ModuleEditor : public Module
 {
@@ -32,10 +33,10 @@ public:
 
 public:
 
-	ConfigWindow* config = nullptr;
+	ConfigWindow*	config = nullptr;
 	GeometryWindow* geometryWin = nullptr; 
-
-	PhysBody3D* sensor = nullptr;
+	AboutWindow*	about = nullptr;
+	PhysBody3D*		sensor = nullptr;
 
 	double rand1;
 	uint32_t rand2;

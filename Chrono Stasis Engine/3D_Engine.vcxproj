@@ -170,6 +170,7 @@
     <ClInclude Include="Engine\Dependencies\pcg\pcg C\extras\pcg_spinlock.h" />
     <ClInclude Include="Engine\Dependencies\pcg\pcg C\include\pcg_variants.h" />
     <ClInclude Include="Engine\src\Helpers\Primitive.h" />
+    <ClInclude Include="Engine\src\Structure\AboutWindow.h" />
     <ClInclude Include="Engine\src\Structure\ConfigWindow.h" />
     <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
     <ClInclude Include="Engine\src\Structure\Window.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_sdl.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\src\Helpers\Light.cpp" />
+    <ClCompile Include="Engine\src\Structure\AboutWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ConfigWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\log.cpp" />

@@ -3,7 +3,7 @@
 Application::Application()
 {
 	// TODO: Load with JSON
-	engine_title = TITLE; 
+	engine_title = TITLE;
 	organization_name = ORGANIZATION;
 
 	frames = 0;
@@ -18,7 +18,7 @@ Application::Application()
 	renderer3D	= new ModuleRenderer3D(this);
 	camera		= new ModuleCamera3D(this);
 	gui			= new ModuleUI(this);
-	
+
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -30,8 +30,8 @@ Application::Application()
 	// Scenes
 	AddModule(editor);
 
-	// Renderer GUI 
-	AddModule(gui); 
+	// Renderer GUI
+	AddModule(gui);
 	// Renderer last!
 	AddModule(renderer3D);
 }
@@ -52,7 +52,7 @@ bool Application::Init()
 {
 	bool ret = true;
 
-	
+
 	// Call Init() in all modules
 	std::list<Module*>::const_iterator item = list_modules.begin();
 
@@ -71,7 +71,7 @@ bool Application::Init()
 		ret = (*item)->Start();
 		item++;
 	}
-	
+
 	ms_timer.Start();
 	return ret;
 }
@@ -104,8 +104,8 @@ void Application::FinishUpdate()
 	if (capped_ms > 0 && (last_frame_ms < capped_ms))
 		SDL_Delay(capped_ms - last_frame_ms);
 
-	
-	
+
+
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -113,9 +113,9 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
-	
+
 	std::list<Module*>::const_iterator item = list_modules.begin();
-	
+
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
 		ret = (*item)->PreUpdate(dt);
@@ -196,6 +196,7 @@ const char* Application::GetOrganization() const
 	return this->organization_name.data();
 }
 
+
 uint Application::GetFPS() const
 {
 	if (capped_ms > 0)
@@ -210,4 +211,12 @@ void Application::SetFPS(uint max_fps)
 		capped_ms = 1000 / max_fps;
 	else
 		capped_ms = 0;
+}
+
+// ---------------------------------------
+
+
+void Application::SendToLink(const char * link) const
+{
+	ShellExecuteA(NULL, "open", link, NULL, NULL, SW_SHOWNORMAL);
 }
