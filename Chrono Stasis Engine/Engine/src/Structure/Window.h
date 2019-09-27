@@ -57,7 +57,7 @@ public:
 		active = false; 
 	}
 
-	bool GetActive()
+	bool GetActive() const
 	{
 		return active;
 	}
@@ -65,6 +65,16 @@ public:
 	void SwitchActive()
 	{
 		active = !active; 
+	}
+
+	void SetActive(bool set)
+	{
+		active = set; 
+	}
+
+	bool* GetBool()
+	{
+		return &active;
 	}
 
 protected:
