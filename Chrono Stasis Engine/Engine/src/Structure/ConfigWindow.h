@@ -29,4 +29,5 @@ private:
 	char version_name[120];
 
 	std::vector<float> flowFrames;
+	std::vector<float> flowMS;
 };

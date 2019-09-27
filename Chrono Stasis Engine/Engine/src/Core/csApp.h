@@ -50,8 +50,9 @@ private:
 	uint32				time_to_wait = 0;
 	
 
-	std::vector<float> frames;
-	std::vector<float> memory;
+	std::vector<float> chart_frames;
+	std::vector<float> chart_ms;
+	std::vector<float> chart_memory;
 
 public:
 
@@ -74,8 +75,10 @@ public:
 
 	uint GetFPS() const;
 	void SetFPS(uint max_fps);
-	std::vector<float> Application::GetFrames();
+	std::vector<float> GetFrames();
+	std::vector<float> GetMS();
 	
+
 
 	void SendToLink(const char* link) const;
 

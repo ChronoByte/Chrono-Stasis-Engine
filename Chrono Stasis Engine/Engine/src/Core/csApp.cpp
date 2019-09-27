@@ -89,16 +89,15 @@ void Application::FinishUpdate()
 {
 	// Framerate calculations --
 
-	
 	if (last_sec_frame_time.Read() > 1000) // When every sec is reached, frame counter is reset
 	{
 		last_sec_frame_time.Start();
 		prev_last_sec_frame_count = last_sec_frame_count;
 		last_sec_frame_count = 0;
 
-		frames.push_back(prev_last_sec_frame_count);
-		if (frames.size() > MAX_FRAMES_LOGGED)
-			frames.erase(frames.begin());
+		chart_frames.push_back(prev_last_sec_frame_count); //Saving frame to plot as a chartflow 
+		if (chart_frames.size() > MAX_FRAMES_LOGGED)
+			chart_frames.erase(chart_frames.begin());
 	}
 
 	float avg_fps = float(frame_count) / startup_time.ReadSec(); // Current Framerate expresed in FPS (Frames x Sec)
@@ -106,6 +105,9 @@ void Application::FinishUpdate()
 	uint32 last_frame_ms = frame_time.Read(); // Amount of ms from last frame
 	uint32 frames_on_last_sec = prev_last_sec_frame_count; // Amount of frames from last second
 
+	chart_ms.push_back((float)last_frame_ms); // Saving ms to plot as a chartflow
+	if (chart_ms.size() > MAX_FRAMES_LOGGED)
+		chart_ms.erase(chart_ms.begin());
 
 	// Framerate CAP --
 	if (frame_ms_cap > 0 && (last_frame_ms < frame_ms_cap)) {
@@ -236,8 +238,15 @@ void Application::SetFPS(uint fps)
 
 std::vector<float> Application::GetFrames()
 {
-	return frames;
+	return chart_frames;
 }
+
+std::vector<float> Application::GetMS()
+{
+	return chart_ms;
+}
+
+
 // ---------------------------------------
 
 

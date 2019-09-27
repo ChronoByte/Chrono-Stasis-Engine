@@ -61,7 +61,7 @@ void ConfigWindow::Configuration()
 			App->SetVersion(version_name);
 			
 		int max_fps = App->GetFPS();
-		if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
+		if (ImGui::InputInt("Max FPS", &max_fps))
 			App->SetFPS(max_fps);
 
 		ImGui::Text("Framerate:");
@@ -77,6 +77,16 @@ void ConfigWindow::Configuration()
 			ImGui::PlotHistogram("Framerate ChartFlow", &flowFrames[0], flowFrames.size(), 0, title, 70.0f, 0.0f, ImVec2(0, 100));
 		}
 
+		flowMS = App->GetMS();
+
+		if (!flowMS.empty())
+		{
+			char title[25];
+			sprintf_s(title, 25, "%0.1f", flowMS[flowMS.size() - 1]);
+			ImGui::PlotHistogram("ms ChartFlow", &flowMS[0], flowMS.size(), 0, title, 70.0f, 0.0f, ImVec2(0, 100));
+		}
+
+	
 	}
 	ImGui::End();
 
