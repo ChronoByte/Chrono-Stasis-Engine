@@ -290,6 +290,7 @@
     </ClInclude>
     <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
     <ClInclude Include="Engine\src\Structure\AboutWindow.h" />
+    <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -452,6 +453,7 @@
     </ClCompile>
     <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\AboutWindow.cpp" />
+    <ClCompile Include="Engine\src\Tools\PerfTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

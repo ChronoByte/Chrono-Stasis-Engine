@@ -174,6 +174,7 @@
     <ClInclude Include="Engine\src\Structure\ConfigWindow.h" />
     <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
     <ClInclude Include="Engine\src\Structure\Window.h" />
+    <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
     <ClInclude Include="Engine\src\Tools\Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -232,6 +233,7 @@
     <ClCompile Include="Engine\Dependencies\MathGeoLib\include\Time\Clock.cpp" />
     <ClCompile Include="Engine\Dependencies\pcg\pcg C\extras\entropy.c" />
     <ClCompile Include="Engine\src\Helpers\Primitive.cpp" />
+    <ClCompile Include="Engine\src\Tools\PerfTimer.cpp" />
     <ClCompile Include="Engine\src\Tools\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
