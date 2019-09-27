@@ -59,10 +59,11 @@ public:
 public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
+	const char* GetVersion() const;
 
 	void SetTitle(const char*);
 	void SetOrganization(const char*);
-
+	void SetVersion(const char*);
 
 	uint GetFPS() const;
 	void SetFPS(uint max_fps);
@@ -74,6 +75,8 @@ public:
 
 	std::string engine_title; //Remminder for me: std::string var
 	std::string organization_name;
+	std::string version;
+
 	bool to_close_app = false;
 	bool cap_frames = false;
 

@@ -5,6 +5,7 @@ Application::Application()
 	// TODO: Load with JSON
 	engine_title = TITLE;
 	organization_name = ORGANIZATION;
+	version = "v0.0.1";
 	framerate_cap = 30;
 	frame_ms_cap = 1000 / framerate_cap;
 
@@ -198,6 +199,20 @@ const char* Application::GetOrganization() const
 	return this->organization_name.data();
 }
 
+// ---------------------------------------
+
+void Application::SetVersion(const char* name)
+{
+	this->version = name;
+}
+
+// ---------------------------------------
+
+const char* Application::GetVersion() const
+{
+	return this->version.data();
+}
+
 
 uint Application::GetFPS() const
 {
@@ -208,7 +223,10 @@ uint Application::GetFPS() const
 void Application::SetFPS(uint fps)
 {
 	if (fps > 0)
+	{
 		framerate_cap = fps;
+		frame_ms_cap = 1000 / fps;
+	}
 	
 }
 

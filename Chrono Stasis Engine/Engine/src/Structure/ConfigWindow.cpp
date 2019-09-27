@@ -55,7 +55,11 @@ void ConfigWindow::Configuration()
 		if (ImGui::InputText("Organization Name", org_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->SetOrganization(org_name);
 
-		
+		strcpy_s(version_name, 120, App->GetVersion());
+
+		if (ImGui::InputText("Version", version_name, 254))
+			App->SetVersion(version_name);
+			
 		int max_fps = App->GetFPS();
 		if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
 			App->SetFPS(max_fps);

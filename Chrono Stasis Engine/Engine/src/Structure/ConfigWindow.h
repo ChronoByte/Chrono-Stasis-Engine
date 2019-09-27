@@ -25,5 +25,5 @@ private:
 
 	char engine_name[120];
 	char org_name[120];
-	
+	char version_name[120];
 };
