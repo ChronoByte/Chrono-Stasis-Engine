@@ -95,6 +95,10 @@ void Application::FinishUpdate()
 		last_sec_frame_time.Start();
 		prev_last_sec_frame_count = last_sec_frame_count;
 		last_sec_frame_count = 0;
+
+		frames.push_back(prev_last_sec_frame_count);
+		if (frames.size() > MAX_FRAMES_LOGGED)
+			frames.erase(frames.begin());
 	}
 
 	float avg_fps = float(frame_count) / startup_time.ReadSec(); // Current Framerate expresed in FPS (Frames x Sec)
@@ -230,6 +234,10 @@ void Application::SetFPS(uint fps)
 	
 }
 
+std::vector<float> Application::GetFrames()
+{
+	return frames;
+}
 // ---------------------------------------
 
 

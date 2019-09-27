@@ -68,6 +68,15 @@ void ConfigWindow::Configuration()
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", App->GetFPS());
 
+		flowFrames = App->GetFrames();
+
+		if (!flowFrames.empty())
+		{
+			char title[25];
+			sprintf_s(title, 25, "%.1f", flowFrames[flowFrames.size() - 1]);
+			ImGui::PlotHistogram("Framerate ChartFlow", &flowFrames[0], flowFrames.size(), 0, title, 70.0f, 0.0f, ImVec2(0, 100));
+		}
+
 	}
 	ImGui::End();
 

@@ -14,6 +14,10 @@
 
 
 #include <list>
+#include <vector>
+
+#define MAX_FRAMES_LOGGED 100
+#define MAX_MEMORY_LOGGED 100
 
 class Application
 {
@@ -46,6 +50,9 @@ private:
 	uint32				time_to_wait = 0;
 	
 
+	std::vector<float> frames;
+	std::vector<float> memory;
+
 public:
 
 	Application();
@@ -67,7 +74,8 @@ public:
 
 	uint GetFPS() const;
 	void SetFPS(uint max_fps);
-
+	std::vector<float> Application::GetFrames();
+	
 
 	void SendToLink(const char* link) const;
 

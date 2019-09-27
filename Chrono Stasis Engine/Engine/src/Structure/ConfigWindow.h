@@ -3,6 +3,7 @@
 #include "csGlobals.h"
 #include "imgui/imgui.h"
 #include "Window.h"
+#include <vector>
 
 class Application;
 
@@ -26,4 +27,6 @@ private:
 	char engine_name[120];
 	char org_name[120];
 	char version_name[120];
+
+	std::vector<float> flowFrames;
 };
