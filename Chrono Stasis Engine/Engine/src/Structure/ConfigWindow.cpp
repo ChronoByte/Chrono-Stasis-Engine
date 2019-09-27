@@ -54,6 +54,16 @@ void ConfigWindow::Configuration()
 
 		if (ImGui::InputText("Organization Name", org_name, 120, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 			App->SetOrganization(org_name);
+
+		
+		int max_fps = App->GetFPS();
+		if (ImGui::SliderInt("Max FPS", &max_fps, 0, 120))
+			App->SetFPS(max_fps);
+
+		ImGui::Text("Framerate:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", App->GetFPS());
+
 	}
 	ImGui::End();
 

@@ -31,6 +31,15 @@ private:
 	float	dt;
 	std::list<Module*> list_modules;
 
+	Timer	fps_timer;
+	Uint32	frames;
+	
+	int		last_frame_ms;
+	int		last_fps;
+	int		capped_ms;
+	int		fps_counter;
+
+	
 public:
 
 	Application();
@@ -40,17 +49,24 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+
+public:
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 
 	void SetTitle(const char*);
 	void SetOrganization(const char*);
 
+	uint GetFPS() const;
+	void SetFPS(uint max_fps);
+
 public:
 	
 	std::string engine_title; //Remminder for me: std::string var
 	std::string organization_name;
 	bool to_close_app = false;
+	bool cap_frames = false;
+	
 
 private:
 

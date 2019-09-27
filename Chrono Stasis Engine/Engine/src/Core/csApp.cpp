@@ -6,6 +6,11 @@ Application::Application()
 	engine_title = TITLE; 
 	organization_name = ORGANIZATION;
 
+	frames = 0;
+	last_frame_ms = -1;
+	last_fps = -1;
+	capped_ms = 1000 / 60;
+	fps_counter = 0;
 
 	window		= new ModuleWindow(this);
 	input		= new ModuleInput(this);
@@ -81,6 +86,26 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	// Framerate calculations --
+
+	++frames;
+	++fps_counter;
+
+	if (fps_timer.Read() >= 1000)
+	{
+		last_fps = fps_counter;
+		fps_counter = 0;
+		fps_timer.Start();
+	}
+
+	last_frame_ms = ms_timer.Read();
+
+	// cap fps
+	if (capped_ms > 0 && (last_frame_ms < capped_ms))
+		SDL_Delay(capped_ms - last_frame_ms);
+
+	
+	
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -171,3 +196,18 @@ const char* Application::GetOrganization() const
 	return this->organization_name.data();
 }
 
+uint Application::GetFPS() const
+{
+	if (capped_ms > 0)
+		return (uint)((1.0f / (float)capped_ms) * 1000.0f);
+	else
+		return 0;
+}
+
+void Application::SetFPS(uint max_fps)
+{
+	if (max_fps > 0)
+		capped_ms = 1000 / max_fps;
+	else
+		capped_ms = 0;
+}
