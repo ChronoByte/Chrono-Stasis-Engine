@@ -71,6 +71,12 @@ bool ModuleEditor::CleanUp()
 	return true;
 }
 
+void ModuleEditor::Log(char * log) const
+{
+	if (console != nullptr)
+		console->PushLog(log);
+}
+
 // Update
 update_status ModuleEditor::Update(float dt)
 {
@@ -85,12 +91,6 @@ update_status ModuleEditor::Update(float dt)
 	{
 		LOG("There was an intersection");
 	}
-
-
-
-
-
-
 
 	//d = ldexp(pcg32_random_r(&rng), -32); //generating a flaoting points between [0,1) rounded nearest multiple of 1/2^32
 

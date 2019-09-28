@@ -43,6 +43,13 @@ Application::~Application()
 		delete (*item);
 		item++;
 	}
+
+	window		= nullptr;
+	input		= nullptr;
+	editor		= nullptr;
+	renderer3D	= nullptr;
+	camera		= nullptr;
+	gui			= nullptr;
 }
 
 bool Application::Init()
