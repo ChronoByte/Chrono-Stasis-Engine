@@ -30,7 +30,7 @@ bool ModuleEditor::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 	
-
+	config->Start();
 
 	//Seeds random number generator
 	//pcg32_srandom_r(&rng, time(NULL), (intptr_t)&rng);

@@ -104,9 +104,17 @@ float ModuleWindow::GetBrightness() const
 }
 
 
-void ModuleWindow::SetSize(uint size)
+void ModuleWindow::SetSize(uint size, int& new_w, int& new_h)
 {
+	new_w = screen_w * size;
+	new_h = screen_h * size;
+		
 	this->size = size;
+	
+	SDL_SetWindowSize(window, new_w, new_h);
+
+	if (!fullscreen)
+		App->renderer3D->OnResize(new_w, new_h);
 }
 
 uint ModuleWindow::GetSize() const

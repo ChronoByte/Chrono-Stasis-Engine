@@ -33,7 +33,7 @@ public: // CONFIGURATION METHODS
 	void SetWindowSize(int width, int height);
 	void GetWindowSize(int &width, int &height);
 
-	void SetSize(uint size);
+	void SetSize(uint size, int& new_w, int& new_h);
 	uint GetSize() const;
 	void GetDesktopDisplay(uint& width, uint& height) const;
 
@@ -62,7 +62,11 @@ public:
 	//------TODO: JSON LOADER-------//
 	int width = SCREEN_WIDTH * SCREEN_SIZE;
 	int height = SCREEN_HEIGHT * SCREEN_SIZE;
+
 	uint size = SCREEN_SIZE;
+
+	int screen_w = SCREEN_WIDTH;
+	int screen_h = SCREEN_HEIGHT;
 
 	bool fullscreen = false;
 	bool resizable = false;

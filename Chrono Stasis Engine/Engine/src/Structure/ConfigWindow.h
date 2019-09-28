@@ -20,7 +20,9 @@ public:
 	bool CleanUp();
 
 	void Draw() override;
-	void Configuration();
+	void AppConfiguration();
+	void WindowConfiguration();
+	void HardwareConfiguration();
 
 private:
 
@@ -30,4 +32,19 @@ private:
 
 	std::vector<float> flowFrames;
 	std::vector<float> flowMS;
+
+	int  window_width = 0;
+	int  window_height = 0;
+	int window_size = 1;
+	uint refresh_rate = 0;
+
+	bool fullscreen = false;
+	bool resizable = false;
+	bool borderless = false;
+	bool fulldekstop = false;
+	bool maximized = false;
+
+	float brightness = 0.0f;
+
+	bool deletion = false;
 };
