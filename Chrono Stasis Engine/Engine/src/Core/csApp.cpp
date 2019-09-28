@@ -55,7 +55,9 @@ bool Application::Init()
 
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		ret = (*item)->Init();
+		if((*item)->IsEnabled())
+			ret = (*item)->Init();
+
 		item++;
 	}
 
@@ -65,7 +67,9 @@ bool Application::Init()
 
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		ret = (*item)->Start();
+		if ((*item)->IsEnabled())
+			ret = (*item)->Start();
+
 		item++;
 	}
 	
@@ -128,7 +132,9 @@ update_status Application::Update()
 
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		ret = (*item)->PreUpdate(dt);
+		if ((*item)->IsEnabled())
+			ret = (*item)->PreUpdate(dt);
+		
 		item++;
 	}
 
@@ -136,7 +142,9 @@ update_status Application::Update()
 
 	while(item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		ret = (*item)->Update(dt);
+		if ((*item)->IsEnabled())
+			ret = (*item)->Update(dt);
+	
 		item++;
 	}
 
@@ -144,7 +152,9 @@ update_status Application::Update()
 
 	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
-		ret = (*item)->PostUpdate(dt);
+		if ((*item)->IsEnabled())
+			ret = (*item)->PostUpdate(dt);
+		
 		item++;
 	}
 
