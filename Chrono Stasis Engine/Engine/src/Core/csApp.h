@@ -75,6 +75,9 @@ public:
 
 	uint GetFPS() const;
 	void SetFPS(uint max_fps);
+	uint32 GetCappedMS();
+	float GetDT();
+
 	std::vector<float> GetFrames();
 	std::vector<float> GetMS();
 	

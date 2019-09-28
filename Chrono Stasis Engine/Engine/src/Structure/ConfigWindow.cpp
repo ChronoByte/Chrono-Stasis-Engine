@@ -82,7 +82,15 @@ void ConfigWindow::AppConfiguration()
 
 			ImGui::Text("Framerate:");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i", App->GetFPS());
+			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i FPS", App->GetFPS());
+
+			ImGui::Text("Capped ms:");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i ms", App->GetCappedMS());
+		
+			ImGui::Text("Differential Time:");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.3f s", App->GetDT());
 
 			flowFrames = App->GetFrames();
 

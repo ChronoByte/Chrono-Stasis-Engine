@@ -246,6 +246,16 @@ std::vector<float> Application::GetMS()
 	return chart_ms;
 }
 
+uint32 Application::GetCappedMS()
+{
+	return frame_ms_cap;
+}
+
+float Application::GetDT()
+{
+	return dt;
+}
+
 
 // ---------------------------------------
 
