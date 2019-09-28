@@ -2,7 +2,7 @@
 #include "csApp.h"
 #include "csWindow.h"
 
-GeometryWindow::GeometryWindow(Application* app) : Window(app)
+GeometryWindow::GeometryWindow(bool startOpened) : Window(startOpened)
 {	
 	sphere_1 = Sphere({ 0.0f,0.0f,0.0f }, 1.0f);
 	sphere_2 = Sphere({ 0.0f,0.0f,0.0f }, 1.0f);

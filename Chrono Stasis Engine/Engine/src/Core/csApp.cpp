@@ -9,12 +9,12 @@ Application::Application()
 	framerate_cap = 30;
 	frame_ms_cap = 1000 / framerate_cap;
 
-	window		= new ModuleWindow(this);
-	input		= new ModuleInput(this);
-	editor		= new ModuleEditor(this);
-	renderer3D	= new ModuleRenderer3D(this);
-	camera		= new ModuleCamera3D(this);
-	gui			= new ModuleUI(this);
+	window		= new ModuleWindow();
+	input		= new ModuleInput();
+	editor		= new ModuleEditor();
+	renderer3D	= new ModuleRenderer3D();
+	camera		= new ModuleCamera3D();
+	gui			= new ModuleUI();
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order

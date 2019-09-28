@@ -3,7 +3,7 @@
 
 #include <string>
 
-ConsoleWindow::ConsoleWindow(Application* app) : Window(app)
+ConsoleWindow::ConsoleWindow(bool startOpened) : Window(startOpened)
 {	
 	active = true; 
 }

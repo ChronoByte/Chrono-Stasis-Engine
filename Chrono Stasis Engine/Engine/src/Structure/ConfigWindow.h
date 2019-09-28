@@ -13,7 +13,7 @@ class ConfigWindow : public Window
 
 public:
 
-	ConfigWindow(Application* app);
+	ConfigWindow(bool startOpened = false);
 	~ConfigWindow();
 
 	bool Start();

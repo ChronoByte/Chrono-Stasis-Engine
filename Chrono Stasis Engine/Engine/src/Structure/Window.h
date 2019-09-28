@@ -6,11 +6,15 @@ class Application;
 class Window
 {
 
+protected:
+
+	bool active = false;
+
 public:
 
-	Window(Application* parent) : App(parent) {}
+	Window(bool startOpened = false) : active(startOpened) {}
 
-	~Window() { App = nullptr; }
+	~Window() {}
 
 
 	virtual bool Init()
@@ -77,10 +81,4 @@ public:
 		return &active;
 	}
 
-protected:
-
-	bool active = false; 
-
-protected:
-	Application* App = nullptr;
 };

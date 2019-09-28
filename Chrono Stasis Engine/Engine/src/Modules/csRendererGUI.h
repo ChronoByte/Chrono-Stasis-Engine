@@ -13,7 +13,7 @@ class ModuleUI : public Module
 {
 public:
 	
-	ModuleUI(Application* app, bool start_enabled = true);
+	ModuleUI(bool start_enabled = true);
 	~ModuleUI();
 
 	bool Init() override;

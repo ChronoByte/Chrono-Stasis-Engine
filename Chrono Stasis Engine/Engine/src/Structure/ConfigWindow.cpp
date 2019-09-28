@@ -2,9 +2,8 @@
 #include "csApp.h"
 #include "csWindow.h"
 
-ConfigWindow::ConfigWindow(Application* app) : Window(app)
+ConfigWindow::ConfigWindow(bool startOpened) : Window(startOpened)
 {	
-	
 }
 
 

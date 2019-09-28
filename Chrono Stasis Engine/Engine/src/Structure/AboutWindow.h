@@ -11,7 +11,7 @@ class AboutWindow : public Window
 
 public:
 
-	AboutWindow(Application* app);
+	AboutWindow(bool startOpened = false);
 	~AboutWindow();
 
 	void Draw() override;

@@ -11,12 +11,12 @@
 #include "src/Structure/AboutWindow.h"
 #include "src/Structure/ConsoleWindow.h"
 
-ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
-	config = new ConfigWindow(app);
-	geometryWin = new GeometryWindow(app);
-	about = new AboutWindow(app);	
-	console = new ConsoleWindow(app);
+	config = new ConfigWindow();
+	geometryWin = new GeometryWindow();
+	about = new AboutWindow();	
+	console = new ConsoleWindow(true);
 }
 
 ModuleEditor::~ModuleEditor()

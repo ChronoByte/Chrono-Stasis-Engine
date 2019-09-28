@@ -1,7 +1,7 @@
 #pragma once
 #include "csGlobals.h"
 #include "imgui/imgui.h"
-#include "csEditor.h"
+#include "csApp.h"
 
 void log(const char file[], int line, const char* format, ...)
 {
@@ -15,5 +15,4 @@ void log(const char file[], int line, const char* format, ...)
 	va_end(ap);
 	sprintf_s(tmp_string2, 4096, "\n%s(%d) : %s", file, line, tmp_string);
 	OutputDebugString(tmp_string2);
-	
 }

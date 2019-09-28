@@ -10,7 +10,7 @@ class ModuleWindow : public Module
 {
 public: // CORE METHODS
 
-	ModuleWindow(Application* app, bool start_enabled = true);
+	ModuleWindow(bool start_enabled = true);
 	virtual ~ModuleWindow();
 
 	bool Init();

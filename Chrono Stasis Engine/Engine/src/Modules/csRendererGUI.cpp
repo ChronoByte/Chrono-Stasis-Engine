@@ -6,7 +6,7 @@
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_impl_opengl3.h"
 
-ModuleUI::ModuleUI(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleUI::ModuleUI(bool start_enabled) : Module(start_enabled)
 {
 }
 

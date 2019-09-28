@@ -13,7 +13,7 @@ class GeometryWindow : public Window
 
 public:
 
-	GeometryWindow(Application* app);
+	GeometryWindow(bool startOpened = false);
 	~GeometryWindow();
 
 	void Draw() override;

@@ -14,7 +14,7 @@ class ConsoleWindow : public Window
 
 public:
 
-	ConsoleWindow(Application* app);
+	ConsoleWindow(bool startOpened = false);
 	~ConsoleWindow();
 
 	void Draw() override;

@@ -2,7 +2,7 @@
 #include "csApp.h"
 #include "csWindow.h"
 
-AboutWindow::AboutWindow(Application* app) : Window(app)
+AboutWindow::AboutWindow(bool startOpened) : Window(startOpened)
 {	
 }
 
