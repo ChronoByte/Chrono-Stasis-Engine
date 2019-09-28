@@ -17,14 +17,15 @@ public:
 	ConsoleWindow(Application* app);
 	~ConsoleWindow();
 
-	void Draw() override; 
+	void Draw() override;
+
 
 	void PushLog(char* log);
+	void PrintAllLogs();
 	void Clear();
 
 private: 
 
-	bool autoscroll = true; 
 	bool scrolltobottom = false; 
-	std::vector<char*> oplist; 
+	std::vector<char*> loglist; 
 };
