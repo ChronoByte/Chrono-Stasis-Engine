@@ -80,17 +80,40 @@ void ConfigWindow::AppConfiguration()
 			if (ImGui::InputInt("Max FPS", &max_fps))
 				App->SetFPS(max_fps);
 
+			ImGui::Separator();
+
 			ImGui::Text("Framerate:");
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i FPS", App->GetFPS());
+			
+			ImGui::SameLine(200.0f);
+			
+			ImGui::Text("Frame Counter:");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i frames", App->GetFrameCounter());
+
+			ImGui::NewLine();
 
 			ImGui::Text("Capped ms:");
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%i ms", App->GetCappedMS());
+			
+			ImGui::SameLine(200.0f);
+			
+			ImGui::Text("Seconds since App Init:");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.2f s", App->GetSeconds());
 		
+			ImGui::NewLine();
+
 			ImGui::Text("Differential Time:");
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.3f s", App->GetDT());
+
+			ImGui::Separator();
+			
+
+
 
 			flowFrames = App->GetFrames();
 

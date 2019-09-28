@@ -102,6 +102,7 @@ void Application::FinishUpdate()
 
 	float avg_fps = float(frame_count) / startup_time.ReadSec(); // Current Framerate expresed in FPS (Frames x Sec)
 	float seconds_since_startup = startup_time.ReadSec(); // Seconds since game is up (Init Module)
+	seconds = seconds_since_startup;
 	uint32 last_frame_ms = frame_time.Read(); // Amount of ms from last frame
 	uint32 frames_on_last_sec = prev_last_sec_frame_count; // Amount of frames from last second
 
@@ -236,24 +237,34 @@ void Application::SetFPS(uint fps)
 	
 }
 
-std::vector<float> Application::GetFrames()
+std::vector<float> Application::GetFrames() const
 {
 	return chart_frames;
 }
 
-std::vector<float> Application::GetMS()
+std::vector<float> Application::GetMS() const
 {
 	return chart_ms;
 }
 
-uint32 Application::GetCappedMS()
+uint32 Application::GetCappedMS() const
 {
 	return frame_ms_cap;
 }
 
-float Application::GetDT()
+float Application::GetDT() const
 {
 	return dt;
+}
+
+uint64 Application::GetFrameCounter() const
+{
+	return frame_count;
+}
+
+float Application::GetSeconds() const
+{
+	return seconds;
 }
 
 

@@ -40,6 +40,7 @@ private:
 	Timer				frame_time;
 
 	uint64				frame_count = 0;
+	float				seconds = 0.0f;
 	Timer				last_sec_frame_time;
 	uint32				last_sec_frame_count = 0;
 	uint32				prev_last_sec_frame_count = 0;
@@ -75,11 +76,13 @@ public:
 
 	uint GetFPS() const;
 	void SetFPS(uint max_fps);
-	uint32 GetCappedMS();
-	float GetDT();
+	uint32 GetCappedMS() const;
+	float GetDT() const;
+	uint64 GetFrameCounter() const;
+	float GetSeconds() const;
 
-	std::vector<float> GetFrames();
-	std::vector<float> GetMS();
+	std::vector<float> GetFrames() const;
+	std::vector<float> GetMS() const;
 	
 
 
