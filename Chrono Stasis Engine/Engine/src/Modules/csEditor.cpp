@@ -9,12 +9,14 @@
 #include "src/Structure/ConfigWindow.h"
 #include "src/Structure/GeometryWindow.h"
 #include "src/Structure/AboutWindow.h"
+#include "src/Structure/ConsoleWindow.h"
 
 ModuleEditor::ModuleEditor(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	config = new ConfigWindow(app);
 	geometryWin = new GeometryWindow(app);
 	about = new AboutWindow(app);	
+	console = new ConsoleWindow(app);
 }
 
 ModuleEditor::~ModuleEditor()
@@ -63,6 +65,9 @@ bool ModuleEditor::CleanUp()
 	delete about;
 	about = nullptr; 
 
+	delete console; 
+	console = nullptr; 
+
 	return true;
 }
 
@@ -98,7 +103,9 @@ update_status ModuleEditor::Update(float dt)
 		}
 		if (ImGui::BeginMenu("Windows"))
 		{
-			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window)) {}
+			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window))	{}
+			if (ImGui::MenuItem("Console", "", console->GetBool()))	{}
+
 			ImGui::EndMenu();
 		}
 
@@ -155,6 +162,9 @@ update_status ModuleEditor::Update(float dt)
 
 	if (about->GetActive())
 		about->Draw(); 
+
+	if (console->GetActive())
+		console->Draw(); 
 
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
