@@ -28,6 +28,8 @@ public:
 
 	bool Start();
 	update_status Update(float dt);
+	void SetHelpMenu();
+	void DrawRandomPanel();
 	bool CleanUp();
 
 

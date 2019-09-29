@@ -109,10 +109,7 @@ update_status ModuleEditor::Update(float dt)
 		}
 		if (ImGui::BeginMenu("GeoMath"))
 		{
-			if (ImGui::MenuItem("Collision Tester"))
-			{
-				geometryWin->SwitchActive();
-			}
+			if (ImGui::MenuItem("Collision Tester", "", geometryWin->GetBool())) {}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Random (PCG)"))
@@ -123,23 +120,11 @@ update_status ModuleEditor::Update(float dt)
 		if (ImGui::BeginMenu("Configuration"))
 		{
 			config->Activate();
-			
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Help"))
 		{
-			if (ImGui::MenuItem("Documentation"))
-				App->SendToLink("https://github.com/ChronoByte/Chrono-Stasis-Engine/wiki");
-
-			if (ImGui::MenuItem("Download Latest Version"))
-				App->SendToLink("https://github.com/ChronoByte/Chrono-Stasis-Engine/releases");
-
-			if (ImGui::MenuItem("Report a bug"))
-				App->SendToLink("https://github.com/ChronoByte/Chrono-Stasis-Engine/issues");
-
-			if (ImGui::MenuItem("About"))
-				about->SwitchActive();
-
+			SetHelpMenu();
 			ImGui::EndMenu(); 
 		}
 
@@ -161,60 +146,9 @@ update_status ModuleEditor::Update(float dt)
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
-	if (random_panel) {
-		ImGui::SetNextWindowSize({ 300,500 });
-
-		ImGui::Begin("Random Generator", &random_panel, window_flags);
-		ImGui::Separator();
-		ImGui::Text("Randoms rounded [0,1)");
-		ImGui::Separator();
-		
-		if (ImGui::Button("Generate 1"))
-			rand1 = ldexp(pcg32_random_r(&rng), -32);
-		
-		ImGui::SameLine();
-		ImGui::Text(std::to_string(rand1).c_str());
-
-		ImGui::Separator();
-		ImGui::Text("Randoms rounded [0,6)");
-
-		if (ImGui::Button("Generate 2"))
-			rand2 = pcg32_boundedrand_r(&rng_bounded, 6);
-
-		ImGui::SameLine();
-		ImGui::Text("%i", (int)rand2);
-
-		ImGui::Separator();
-
-		ImGui::Text("Randoms rounded to anyone [min/max]");
-		
-		ImGui::InputInt("Max", &max);
-		ImGui::InputInt("Min", &min);
-
-		if (ImGui::Button("Generate 3") && max >= min)
-			rand3 = pcg32_boundedrand_r(&rng_bounded2, (max - min)+1);
-
-		ImGui::SameLine();
-		ImGui::Text("%i", (int)(rand3 + min));
-
-		ImGui::Separator();
-
-		ImGui::Text(" Make some 32-bit numbers ");
-		
-		if (ImGui::Button("Generate 4")) {
-			for (int i = 0; i < 6; ++i)
-				nums[i] = pcg32_random_r(&rng);
-		}
-
-		for (int i = 0; i < 6; ++i) {
-			ImGui::Text("32bit: ");
-			ImGui::SameLine();
-			ImGui::Text("0x%08x", (int)nums[i]);
-		}
-
-
-		ImGui::End();
-	}
+	if (random_panel) 
+		DrawRandomPanel();
+	
 
 	glLineWidth(1.0f);
 
@@ -233,6 +167,86 @@ update_status ModuleEditor::Update(float dt)
 	glEnd();
 
 	return ret;
+}
+
+void ModuleEditor::SetHelpMenu()
+{
+	if (ImGui::MenuItem("Documentation"))
+		App->SendToLink("https://github.com/ChronoByte/Chrono-Stasis-Engine/wiki");
+
+	if (ImGui::IsItemHovered())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_::ImGuiMouseCursor_Hand);
+
+	if (ImGui::MenuItem("Download Latest Version"))
+		App->SendToLink("https://github.com/ChronoByte/Chrono-Stasis-Engine/releases");
+
+	if (ImGui::IsItemHovered())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_::ImGuiMouseCursor_Hand);
+
+	if (ImGui::MenuItem("Report a bug"))
+		App->SendToLink("https://github.com/ChronoByte/Chrono-Stasis-Engine/issues");
+
+	if (ImGui::IsItemHovered())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_::ImGuiMouseCursor_Hand);
+
+	if (ImGui::MenuItem("About"))
+		about->SwitchActive();
+}
+
+void ModuleEditor::DrawRandomPanel()
+{
+	ImGui::SetNextWindowSize({ 300,500 });
+
+	ImGui::Begin("Random Generator", &random_panel, window_flags);
+	ImGui::Separator();
+	ImGui::Text("Randoms rounded [0,1)");
+	ImGui::Separator();
+
+	if (ImGui::Button("Generate 1"))
+		rand1 = ldexp(pcg32_random_r(&rng), -32);
+
+	ImGui::SameLine();
+	ImGui::Text(std::to_string(rand1).c_str());
+
+	ImGui::Separator();
+	ImGui::Text("Randoms rounded [0,6)");
+
+	if (ImGui::Button("Generate 2"))
+		rand2 = pcg32_boundedrand_r(&rng_bounded, 6);
+
+	ImGui::SameLine();
+	ImGui::Text("%i", (int)rand2);
+
+	ImGui::Separator();
+
+	ImGui::Text("Randoms rounded to anyone [min/max]");
+
+	ImGui::InputInt("Max", &max);
+	ImGui::InputInt("Min", &min);
+
+	if (ImGui::Button("Generate 3") && max >= min)
+		rand3 = pcg32_boundedrand_r(&rng_bounded2, (max - min) + 1);
+
+	ImGui::SameLine();
+	ImGui::Text("%i", (int)(rand3 + min));
+
+	ImGui::Separator();
+
+	ImGui::Text(" Make some 32-bit numbers ");
+
+	if (ImGui::Button("Generate 4")) {
+		for (int i = 0; i < 6; ++i)
+			nums[i] = pcg32_random_r(&rng);
+	}
+
+	for (int i = 0; i < 6; ++i) {
+		ImGui::Text("32bit: ");
+		ImGui::SameLine();
+		ImGui::Text("0x%08x", (int)nums[i]);
+	}
+
+
+	ImGui::End();
 }
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
