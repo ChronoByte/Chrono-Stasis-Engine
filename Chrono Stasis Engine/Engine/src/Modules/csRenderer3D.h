@@ -18,8 +18,6 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height);
-
-
 public:
 	void SetDepthTest(const bool& depth) const;
 	void SetCullFace(const bool& cullFace) const;
@@ -35,4 +33,6 @@ public:
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+
+	
 };

@@ -1,7 +1,7 @@
 #include "csApp.h"
 #include "Windows.h"
 #include "Psapi.h"
-
+#include "mmgr/mmgr.h"
 Application::Application()
 {
 	// TODO: Load with JSON
@@ -150,6 +150,11 @@ void Application::FinishUpdate()
 		chart_ram.erase(chart_ram.begin());
 	}
 
+	// MEMORY USAGE --
+	chart_memory.push_back(m_getMemoryStatistics().totalActualMemory);
+	if (chart_memory.size() > MAX_RAM_LOGGED)
+		chart_memory.erase(chart_memory.begin());
+
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -295,6 +300,11 @@ std::vector<float> Application::GetMSCapped() const
 std::vector<float> Application::GetRAM() const
 {
 	return chart_ram;
+}
+
+std::vector<float> Application::GetMemory() const
+{
+	return chart_memory;
 }
 
 uint32 Application::GetCappedMS() const

@@ -57,7 +57,7 @@ private:
 	std::vector<float> chart_memory;
 	std::vector<float> chart_ram;
 	std::vector<float> chart_ms_capped;
-
+	
 public:
 
 	Application();
@@ -88,7 +88,7 @@ public:
 	std::vector<float> GetMS() const;
 	std::vector<float> GetRAM() const;
 	std::vector<float> GetMSCapped() const;
-	
+	std::vector<float> GetMemory() const;
 
 
 	void SendToLink(const char* link) const;

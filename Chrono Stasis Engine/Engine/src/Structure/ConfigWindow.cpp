@@ -5,7 +5,7 @@
 #include "SDL/include/SDL_cpuinfo.h"
 #include "SDL/include/SDL_version.h"
 
-
+#include "mmgr/mmgr.h"
 
 #define TEXT_COLOR { 239, 201, 0, 255 }
 
@@ -129,10 +129,9 @@ void ConfigWindow::AppConfiguration()
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(0.f, 1.f, 1.f, 1.f), "%.3f s", App->GetDT());
 
+
 			ImGui::Separator();
 			
-
-
 
 			flowFrames = App->GetFrames();
 
@@ -169,9 +168,39 @@ void ConfigWindow::AppConfiguration()
 				ImGui::PlotHistogram("##RAM", &flowRAM[0], flowRAM.size(), 0, title, 0.0f, 125.0f, ImVec2(0, 100));
 			}
 
+			ImGui::Separator();
 
+			sMStats memStats = m_getMemoryStatistics();
 
-		//TODO: Memory consumption
+			flowMemory = App->GetMemory();
+			
+			if (!flowMemory.empty()) {
+				char title[50];
+				sprintf_s(title, 50, "Memory Consumption: %.1f",flowMemory[flowMemory.size()-1]);
+				ImGui::PlotHistogram("##Memory", &flowMemory[0], flowMemory.size(), 0, title, 0.0f, 15000.0f, ImVec2(0, 100));
+			}
+
+			ImGui::Text("Total Reported Mem:"); ImGui::SameLine();
+			ImGui::TextColored(TEXT_COLOR, " %u", memStats.totalReportedMemory);
+			ImGui::Text("Total Actual Mem:"); ImGui::SameLine();
+			ImGui::TextColored(TEXT_COLOR, "%u", memStats.totalActualMemory);
+			ImGui::Text("Peak Reported Mem:"); ImGui::SameLine();
+			ImGui::TextColored(TEXT_COLOR, "%u", memStats.peakReportedMemory);
+			ImGui::Text("Peak Actual Mem:"); ImGui::SameLine();
+			ImGui::TextColored(TEXT_COLOR, "%u", memStats.peakActualMemory);
+			ImGui::Text("Accumulated Reported Mem:"); ImGui::SameLine();
+			ImGui::TextColored(TEXT_COLOR, "%u", memStats.accumulatedReportedMemory);
+			ImGui::Text("Accumulated Actual Mem:"); ImGui::SameLine();
+			ImGui::TextColored(TEXT_COLOR, "%u", memStats.accumulatedActualMemory);
+			ImGui::Text("Acumulated Alloc Unit Count:"); ImGui::SameLine();
+			ImGui::TextColored(TEXT_COLOR, "%u", memStats.accumulatedAllocUnitCount);
+			ImGui::Text("Total Alloc Unit Count:"); ImGui::SameLine();
+			ImGui::TextColored(TEXT_COLOR, "%u", memStats.totalAllocUnitCount);
+			ImGui::Text("Peak Alloc Unit Count:"); ImGui::SameLine();
+			ImGui::TextColored(TEXT_COLOR, "%u", memStats.peakAllocUnitCount);
+
+			ImGui::Separator();
+		
 		}
 }
 

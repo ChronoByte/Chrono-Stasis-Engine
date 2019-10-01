@@ -292,6 +292,8 @@
     <ClInclude Include="Engine\src\Structure\AboutWindow.h" />
     <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
     <ClInclude Include="Engine\src\Structure\ConsoleWindow.h" />
+    <ClInclude Include="Engine\Dependencies\mmgr\mmgr.h" />
+    <ClInclude Include="Engine\Dependencies\mmgr\nommgr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -456,6 +458,7 @@
     <ClCompile Include="Engine\src\Structure\AboutWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\PerfTimer.cpp" />
     <ClCompile Include="Engine\src\Structure\ConsoleWindow.cpp" />
+    <ClCompile Include="Engine\Dependencies\mmgr\mmgr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

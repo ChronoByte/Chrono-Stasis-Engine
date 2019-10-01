@@ -90,6 +90,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Engine\Dependencies\mmgr\mmgr.h" />
+    <ClInclude Include="Engine\Dependencies\mmgr\nommgr.h" />
     <ClInclude Include="Engine\src\Core\csApp.h" />
     <ClInclude Include="Engine\src\Helpers\Color.h" />
     <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
@@ -180,6 +182,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Engine\Dependencies\mmgr\mmgr.cpp" />
     <ClCompile Include="Engine\src\Core\csApp.cpp" />
     <ClCompile Include="Engine\src\Helpers\Color.cpp" />
     <ClCompile Include="Engine\src\Modules\csRendererGUI.cpp" />

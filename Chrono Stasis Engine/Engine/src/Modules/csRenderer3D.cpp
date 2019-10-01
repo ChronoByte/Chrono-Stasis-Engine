@@ -40,7 +40,7 @@ bool ModuleRenderer3D::Init()
 
 	if(ret == true)
 	{
-		//Use Vsync
+		
 		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
@@ -159,6 +159,9 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
+
+
 
 void ModuleRenderer3D::SetDepthTest(const bool& depth) const
 {
