@@ -35,7 +35,7 @@ public:
 	void HardwareConfiguration();
 	void InputConfiguration();
 	void RendererConfiguration();
-
+	void GUIConfiguration();
 private:
 
 	char engine_name[120];

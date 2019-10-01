@@ -47,6 +47,7 @@ void ConfigWindow::Draw()
 	{
 		AppConfiguration();
 		WindowConfiguration();
+		GUIConfiguration();
 		HardwareConfiguration();
 		InputConfiguration();
 		RendererConfiguration();
@@ -385,5 +386,47 @@ void ConfigWindow::RendererConfiguration()
 
 		}
 	}
+
+}
+
+void ConfigWindow::GUIConfiguration()
+{
+
+	if (ImGui::CollapsingHeader("GUI"))
+	{
+		ImGuiStyle& style = ImGui::GetStyle();
+
+		ImGui::ShowStyleSelector("ImGui Style");
+		
+		static int style_idx = -1;
+		if (ImGui::Combo("Custom Style", &style_idx, "Orange\0Black\0Light\0"))
+		{
+			switch (style_idx)
+			{
+			case 0: App->gui->StyleLoader("ORANGE"); break;
+			case 1: App->gui->StyleLoader("BLACK"); break;
+			case 2: ImGui::StyleColorsLight(); break;
+			}
+			
+		}
+
+		if (ImGui::SliderFloat("FrameRounding", &style.FrameRounding, 0.0f, 12.0f))
+		{
+			style.GrabRounding = style.FrameRounding;
+		}
+
+		bool window_border = style.WindowBorderSize;
+		if (ImGui::Checkbox("WindowBorder", &window_border))
+			style.WindowBorderSize = window_border;
+		
+		ImGui::SameLine();
+
+		bool frame_border = style.FrameBorderSize;
+		if (ImGui::Checkbox("FrameBorder", &frame_border))
+			style.FrameBorderSize = frame_border;
+
+	}
+
+
 
 }
