@@ -6,6 +6,9 @@
 #include "Window.h"
 #include <vector>
 
+#define PCG_VERSION "0.98"
+#define MATHGEOLIB_VERSION "1.5"
+
 class Application;
 
 class ConfigWindow : public Window

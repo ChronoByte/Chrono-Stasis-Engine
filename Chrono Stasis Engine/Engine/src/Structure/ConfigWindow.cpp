@@ -211,13 +211,20 @@ void ConfigWindow::HardwareConfiguration()
 
 		ImGui::Separator();
 
+		//------- DEPENDENCIES --------//
+		ImGui::Text("ImGui version: %s", ImGui::GetVersion());
+		ImGui::Text("GLEW version: %i.%i.%i", GLEW_VERSION_MAJOR, GLEW_VERSION_MINOR, GLEW_VERSION_MICRO);
+		ImGui::Text("MathGeoLib version: %s", MATHGEOLIB_VERSION);
+		ImGui::Text("PCG version: %s", PCG_VERSION);
+
+		ImGui::Separator();
 		//------- CPU --------//
 		ImGui::Text("CPU:"); ImGui::SameLine();
 		ImGui::TextColored(TEXT_COLOR, "%i (Cache: %ikb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
 
 		//------- RAM --------//
 		ImGui::Text("Memory Ram:"); ImGui::SameLine();
-		ImGui::TextColored(TEXT_COLOR, "%iMb", SDL_GetSystemRAM());
+		ImGui::TextColored(TEXT_COLOR, "%iMb", (float)SDL_GetSystemRAM()/1024.0);
 		
 		
 		//------- GPU --------//
