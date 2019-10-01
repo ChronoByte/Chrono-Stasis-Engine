@@ -25,6 +25,7 @@ public:
 	void WindowConfiguration();
 	void HardwareConfiguration();
 	void InputConfiguration();
+	void RendererConfiguration();
 
 private:
 

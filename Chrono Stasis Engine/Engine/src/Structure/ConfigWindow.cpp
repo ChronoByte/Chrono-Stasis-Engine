@@ -6,12 +6,6 @@
 #include "SDL/include/SDL_version.h"
 #define TEXT_COLOR { 239, 201, 0, 255 }
 
-#define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX			0x9047
-#define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX		0x9048
-#define GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX    0x9049
-#define GPU_MEMORY_INFO_EVICTION_COUNT_NVX				0x904A
-#define GPU_MEMORY_INFO_EVICTED_MEMORY_NVX				0x904B
-
 ConfigWindow::ConfigWindow(bool startOpened) : Window(startOpened)
 {	
 }
@@ -55,6 +49,7 @@ void ConfigWindow::Draw()
 		WindowConfiguration();
 		HardwareConfiguration();
 		InputConfiguration();
+		RendererConfiguration();
 	}
 	ImGui::End();
 
@@ -260,6 +255,102 @@ void ConfigWindow::InputConfiguration()
 		ImGui::Text("Mouse Wheel:");
 		ImGui::SameLine(); 
 		ImGui::TextColored(TEXT_COLOR, "%i", App->input->GetMouseZ());
+	}
+
+}
+
+void ConfigWindow::RendererConfiguration()
+{
+	if (ImGui::CollapsingHeader("Renderer"))
+	{
+		static bool depth_test = glIsEnabled(GL_DEPTH_TEST);
+		static bool cull_face = glIsEnabled(GL_CULL_FACE);
+		static bool lighting = glIsEnabled(GL_LIGHTING);
+		static bool line_smooth = glIsEnabled(GL_LINE_SMOOTH);
+		static bool polygon_smooth = glIsEnabled(GL_POLYGON_SMOOTH);
+		static bool color_material = glIsEnabled(GL_COLOR_MATERIAL);
+		static bool texture_2D = glIsEnabled(GL_TEXTURE_2D);
+		static bool wire_mode = false;
+
+		if (ImGui::Checkbox("Depth Test", &depth_test))
+		{
+			if (depth_test)
+				glEnable(GL_DEPTH_TEST);
+
+			else
+				glDisable(GL_DEPTH_TEST);
+		}
+
+		if (ImGui::Checkbox("Cull Face", &cull_face))
+		{
+			if (cull_face)
+				glEnable(GL_CULL_FACE);
+
+			else
+				glDisable(GL_CULL_FACE);
+		}
+
+
+		if (ImGui::Checkbox("Lighting", &lighting))
+		{
+			if (lighting)
+				glEnable(GL_LIGHTING);
+
+			else
+				glDisable(GL_LIGHTING);
+
+		}
+
+		if (ImGui::Checkbox("Smooth Lines", &line_smooth))
+		{
+			if (line_smooth)
+				glEnable(GL_LINE_SMOOTH);
+
+			else
+				glDisable(GL_LINE_SMOOTH);
+
+		}
+
+		if (ImGui::Checkbox("Smooth Polygons", &polygon_smooth))
+		{
+			if (polygon_smooth)
+				glEnable(GL_POLYGON_SMOOTH);
+
+			else
+				glDisable(GL_POLYGON_SMOOTH);
+
+		}
+
+		if (ImGui::Checkbox("Color Material", &color_material))
+		{
+			if (color_material)
+				glEnable(GL_MATRIX_MODE);
+
+			else
+				glDisable(GL_MATRIX_MODE);
+
+		}
+
+		if (ImGui::Checkbox("Texture 2D", &texture_2D))
+		{
+			if (texture_2D)
+				glEnable(GL_TEXTURE_2D);
+
+			else
+				glDisable(GL_TEXTURE_2D);
+
+		}
+
+
+		if (ImGui::Checkbox("Wire Mode", &wire_mode))
+		{
+			if (wire_mode)
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+			else
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		}
 	}
 
 }
