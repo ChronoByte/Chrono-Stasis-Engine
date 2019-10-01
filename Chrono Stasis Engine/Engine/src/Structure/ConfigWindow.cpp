@@ -233,6 +233,29 @@ void ConfigWindow::HardwareConfiguration()
 		ImGui::Text("Brand:"); ImGui::SameLine();
 		ImGui::TextColored(TEXT_COLOR, "%s", glGetString(GL_VENDOR));
 		
+		//-------------VRAM-------------
+
+		ImGui::Separator();
+
+		glGetIntegerv(GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &total_memory);
+		glGetIntegerv(GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &available_memory);
+		glGetIntegerv(GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &dedicated_memory);
+		memory_usage = total_memory - available_memory;
+
+		ImGui::Text("VRAM Budget: "); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%.4f MB", (total_memory * 0.001));
+
+		ImGui::Text("VRAM Usage: "); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%.4f MB", (memory_usage * 0.001));
+
+		ImGui::Text("VRAM Available: "); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%.4f MB", (available_memory * 0.001));
+
+		ImGui::Text("VRAM Reserved: "); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%.4f MB", (dedicated_memory * 0.001));
+
+		ImGui::Separator();
+
 		//------- CAPACITIES --------//
 		ImGui::Text("Capacities:"); ImGui::SameLine();
 		ImGui::TextColored(TEXT_COLOR, "%s%s%s%s%s%s%s%s%s%s%s", (SDL_HasAVX()) ? "AVX " : "", (SDL_HasAVX2()) ? "AVX2 " : "", (SDL_HasAltiVec()) ? "AltiVec " : "",

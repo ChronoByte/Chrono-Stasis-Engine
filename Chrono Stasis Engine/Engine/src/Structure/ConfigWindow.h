@@ -8,6 +8,12 @@
 
 #define PCG_VERSION "0.98"
 #define MATHGEOLIB_VERSION "1.5"
+#define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX			0x9047
+#define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX		0x9048
+#define GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX    0x9049
+#define GPU_MEMORY_INFO_EVICTION_COUNT_NVX				0x904A
+#define GPU_MEMORY_INFO_EVICTED_MEMORY_NVX				0x904B
+
 
 class Application;
 
@@ -53,4 +59,9 @@ private:
 	float brightness = 0.0f;
 
 	bool deletion = false;
+
+	int total_memory = 0;
+	int memory_usage = 0;
+	int dedicated_memory = 0;
+	int available_memory = 0;
 };
