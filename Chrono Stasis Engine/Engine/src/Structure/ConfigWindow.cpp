@@ -54,6 +54,7 @@ void ConfigWindow::Draw()
 		AppConfiguration();
 		WindowConfiguration();
 		HardwareConfiguration();
+		InputConfiguration();
 	}
 	ImGui::End();
 
@@ -241,4 +242,24 @@ void ConfigWindow::HardwareConfiguration()
 	
 	}
 	
+
+}
+
+void ConfigWindow::InputConfiguration()
+{
+	if (ImGui::CollapsingHeader("Input"))
+	{
+		ImGui::Text("Mouse Position:");
+		ImGui::SameLine(); 
+		ImGui::TextColored(TEXT_COLOR, "%i, %i", App->input->GetMouseX(), App->input->GetMouseY());
+
+		ImGui::Text("Mouse Motion:");
+		ImGui::SameLine(); 
+		ImGui::TextColored(TEXT_COLOR, "%i, %i", App->input->GetMouseXMotion(), App->input->GetMouseYMotion());
+
+		ImGui::Text("Mouse Wheel:");
+		ImGui::SameLine(); 
+		ImGui::TextColored(TEXT_COLOR, "%i", App->input->GetMouseZ());
+	}
+
 }

@@ -24,6 +24,7 @@ public:
 	void AppConfiguration();
 	void WindowConfiguration();
 	void HardwareConfiguration();
+	void InputConfiguration();
 
 private:
 
