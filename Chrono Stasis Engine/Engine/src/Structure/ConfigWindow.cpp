@@ -127,8 +127,8 @@ void ConfigWindow::AppConfiguration()
 			if (!flowFrames.empty())
 			{
 				char title[25];
-				sprintf_s(title, 25, "%.1f", flowFrames[flowFrames.size() - 1]);
-				ImGui::PlotHistogram("Framerate ChartFlow", &flowFrames[0], flowFrames.size(), 0, title, 70.0f, 0.0f, ImVec2(0, 100));
+				sprintf_s(title, 25, "Framerate: %.1f", flowFrames[flowFrames.size() - 1]);
+				ImGui::PlotHistogram("##Framerate:", &flowFrames[0], flowFrames.size(), 0, title, 70.0f, 0.0f, ImVec2(0, 100));
 			}
 
 			flowMS = App->GetMS();
@@ -136,9 +136,20 @@ void ConfigWindow::AppConfiguration()
 			if (!flowMS.empty())
 			{
 				char title[25];
-				sprintf_s(title, 25, "%0.1f", flowMS[flowMS.size() - 1]);
-				ImGui::PlotHistogram("ms ChartFlow", &flowMS[0], flowMS.size(), 0, title, 70.0f, 0.0f, ImVec2(0, 100));
+				sprintf_s(title, 25, "Milliseconds: %0.1f", flowMS[flowMS.size() - 1]);
+				ImGui::PlotHistogram("##Milliseconds:", &flowMS[0], flowMS.size(), 0, title, 70.0f, 0.0f, ImVec2(0, 100));
 			}
+			
+			flowRAM = App->GetRAM();
+
+			if (!flowRAM.empty()) {
+				char title[25];
+				sprintf_s(title, 25, "RAM Usage: %.1f", flowRAM[flowRAM.size() - 1]);
+				ImGui::PlotHistogram("##RAM", &flowRAM[0], flowRAM.size(), 0, title, 0.0f, 125.0f, ImVec2(0, 100));
+			}
+
+
+
 		//TODO: Memory consumption
 		}
 }

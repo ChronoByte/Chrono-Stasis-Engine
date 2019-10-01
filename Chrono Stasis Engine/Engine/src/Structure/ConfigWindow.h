@@ -44,6 +44,7 @@ private:
 
 	std::vector<float> flowFrames;
 	std::vector<float> flowMS;
+	std::vector<float> flowRAM;
 
 	int  window_width = 0;
 	int  window_height = 0;
@@ -64,4 +65,6 @@ private:
 	int memory_usage = 0;
 	int dedicated_memory = 0;
 	int available_memory = 0;
+
+	
 };

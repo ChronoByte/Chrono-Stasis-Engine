@@ -1,4 +1,6 @@
 #include "csApp.h"
+#include "Windows.h"
+#include "Psapi.h"
 
 Application::Application()
 {
@@ -125,6 +127,21 @@ void Application::FinishUpdate()
 	if (frame_ms_cap > 0 && (last_frame_ms < frame_ms_cap)) {
 		time_to_wait = frame_ms_cap - last_frame_ms;
 		SDL_Delay(time_to_wait); // Time to wait until monitor scan the panel due to its refresh rate
+	}
+
+
+	// RAM USAGE --
+	PROCESS_MEMORY_COUNTERS counters;
+	GetProcessMemoryInfo(GetCurrentProcess(), &counters, sizeof(counters));
+
+	float ramInUse = counters.WorkingSetSize;
+	ramInUse /= 1024;
+	ramInUse /= 1024;
+
+	chart_ram.push_back(ramInUse);
+	if (chart_ram.size() > MAX_RAM_LOGGED)
+	{
+		chart_ram.erase(chart_ram.begin());
 	}
 
 }
@@ -264,10 +281,16 @@ std::vector<float> Application::GetMS() const
 	return chart_ms;
 }
 
+std::vector<float> Application::GetRAM() const
+{
+	return chart_ram;
+}
+
 uint32 Application::GetCappedMS() const
 {
 	return frame_ms_cap;
 }
+
 
 float Application::GetDT() const
 {

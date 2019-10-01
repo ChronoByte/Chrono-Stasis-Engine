@@ -18,6 +18,7 @@
 
 #define MAX_FRAMES_LOGGED 100
 #define MAX_MEMORY_LOGGED 100
+#define MAX_RAM_LOGGED 100
 
 class Application
 {
@@ -54,6 +55,7 @@ private:
 	std::vector<float> chart_frames;
 	std::vector<float> chart_ms;
 	std::vector<float> chart_memory;
+	std::vector<float> chart_ram;
 
 public:
 
@@ -83,6 +85,7 @@ public:
 
 	std::vector<float> GetFrames() const;
 	std::vector<float> GetMS() const;
+	std::vector<float> GetRAM() const;
 	
 
 
