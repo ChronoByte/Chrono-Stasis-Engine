@@ -2,6 +2,16 @@
 #include "csApp.h"
 #include "csWindow.h"
 
+#include "SDL/include/SDL_cpuinfo.h"
+#include "SDL/include/SDL_version.h"
+#define TEXT_COLOR { 239, 201, 0, 255 }
+
+#define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX			0x9047
+#define GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX		0x9048
+#define GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX    0x9049
+#define GPU_MEMORY_INFO_EVICTION_COUNT_NVX				0x904A
+#define GPU_MEMORY_INFO_EVICTED_MEMORY_NVX				0x904B
+
 ConfigWindow::ConfigWindow(bool startOpened) : Window(startOpened)
 {	
 }
@@ -43,6 +53,7 @@ void ConfigWindow::Draw()
 	{
 		AppConfiguration();
 		WindowConfiguration();
+		HardwareConfiguration();
 	}
 	ImGui::End();
 
@@ -186,4 +197,48 @@ void ConfigWindow::WindowConfiguration()
 		if (ImGui::IsItemHovered())
 			ImGui::SetTooltip("Pulsa la checkbox para que reviente el programa :) ");
 	}
+}
+
+void ConfigWindow::HardwareConfiguration()
+{
+
+
+	if (ImGui::CollapsingHeader("Hardware"))
+	{
+
+		//------- SDL & OpenGL --------//
+		SDL_version version;
+		SDL_GetVersion(&version);
+
+		ImGui::Text("OpenGL version: %s", glGetString(GL_VERSION));
+		ImGui::Text("SDL version: %i.%i.%i", version.major, version.minor, version.patch);
+
+		ImGui::Separator();
+
+		//------- CPU --------//
+		ImGui::Text("CPU:"); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%i (Cache: %ikb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());
+
+		//------- RAM --------//
+		ImGui::Text("Memory Ram:"); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%iMb", SDL_GetSystemRAM());
+		
+		
+		//------- GPU --------//
+		ImGui::Text("GPU:"); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%s", glGetString(GL_RENDERER));
+		ImGui::Text("Brand:"); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%s", glGetString(GL_VENDOR));
+		
+		//------- CAPACITIES --------//
+		ImGui::Text("Capacities:"); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%s%s%s%s%s%s%s%s%s%s%s", (SDL_HasAVX()) ? "AVX " : "", (SDL_HasAVX2()) ? "AVX2 " : "", (SDL_HasAltiVec()) ? "AltiVec " : "",
+			(SDL_Has3DNow()) ? "3DNow " : "", (SDL_HasMMX()) ? "MMX " : "", (SDL_HasRDTSC()) ? "RDTSC " : "", (SDL_HasSSE()) ? "SEE " : "",
+			(SDL_HasSSE2()) ? "SSE2 " : "", (SDL_HasSSE3()) ? "SSE3 " : "", (SDL_HasSSE41()) ? "SSE41 " : "",
+			(SDL_HasSSE42()) ? "SSE42 " : "");
+
+		ImGui::Separator();
+	
+	}
+	
 }
