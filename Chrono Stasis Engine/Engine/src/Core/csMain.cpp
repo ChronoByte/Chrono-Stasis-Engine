@@ -6,6 +6,10 @@
 #pragma comment( lib, "Engine/Dependencies/SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "Engine/Dependencies/SDL/libx86/SDL2main.lib" )
 
+#ifdef _DEBUG
+#include "mmgr\mmgr.h"
+#endif 
+
 enum main_states
 {
 	MAIN_CREATION,
@@ -87,5 +91,11 @@ int main(int argc, char ** argv)
 	App = nullptr;
 
 	LOG("Exiting game '%s'...\n", TITLE);
+
+#ifdef _DEBUG
+	int leaks = MAX(0, m_getMemoryStatistics().totalAllocUnitCount - 23);
+	LOG("With %d memory leaks!\n", (leaks > 0) ? leaks : 0);
+#endif
+
 	return main_return;
 }
