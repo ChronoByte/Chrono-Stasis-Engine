@@ -5,6 +5,7 @@
 #include "imgui/imgui_internal.h"
 #include "Window.h"
 #include <vector>
+#include <string>
 
 #define PCG_VERSION "0.98"
 #define MATHGEOLIB_VERSION "1.5"
@@ -68,12 +69,21 @@ private:
 	int dedicated_memory = 0;
 	int available_memory = 0;
 
-	bool depth_test = false;;
-	bool cull_face = false;;
-	bool lighting = false;;
-	bool line_smooth = false;;
-	bool polygon_smooth = false;;
-	bool color_material = false;;
-	bool texture_2D = false;;
-	bool wire_mode = false;;
+	bool depth_test = false;
+	bool cull_face = false;
+	bool lighting = false;
+	bool line_smooth = false;
+	bool polygon_smooth = false;
+	bool color_material = false;
+	bool texture_2D = false;
+	bool wire_mode = false;
+
+	uint vendor_id;
+	uint device_id;
+	uint64 mp_budget;
+	uint64 mb_usage;
+	uint64 mb_available;
+	uint64 vmb_reserved;
+	std::wstring brand;
+
 };

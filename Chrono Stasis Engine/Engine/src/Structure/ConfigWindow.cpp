@@ -300,13 +300,44 @@ void ConfigWindow::HardwareConfiguration()
 		ImGui::Text("Total RAM in use:"); ImGui::SameLine();
 		ImGui::TextColored(TEXT_COLOR, "%.2f GB", totalRamInUse);
 		
+		ImGui::Separator();
+
 		//------- GPU --------//
 		ImGui::Text("GPU:"); ImGui::SameLine();
 		ImGui::TextColored(TEXT_COLOR, "%s", glGetString(GL_RENDERER));
 		ImGui::Text("Brand:"); ImGui::SameLine();
 		ImGui::TextColored(TEXT_COLOR, "%s", glGetString(GL_VENDOR));
+
+		//------- VRAM --------// (detect gpu!)
+		getGraphicsDeviceInfo(&vendor_id, &device_id, &brand, &mp_budget, &mb_usage, &mb_available, &vmb_reserved);
+
+		////MB
+		mp_budget /= (1024 * 1024);
+		mb_usage /= (1024 * 1024);
+		mb_available /= (1024 * 1024);
+		vmb_reserved /= (1024 * 1024);
+
+		ImGui::Text("Vendor ID: %d", vendor_id); 
+		ImGui::Text("Device ID: %d", device_id); 
+
+		ImGui::NewLine();
+
+		static char c_brand[300];
+		sprintf_s(c_brand, 300, "%S", brand.c_str());
+		ImGui::Text("GPU Brand: %s", c_brand); 
+		ImGui::NewLine();
+
+		ImGui::Text("Video Memory:"); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR,"%d MB", mp_budget); 
+		ImGui::Text("Video Memory On Use:"); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR,"%d MB", mb_usage);
+		ImGui::Text("Video Memory Available: "); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR,"%d MB", mb_available);
+		ImGui::Text("Video Memory Reserved:"); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR,"%d MB", vmb_reserved);
 		
-		//------- VRAM --------//
+		
+		//------- VRAM --------// (doesnt detect gpu)
 
 		ImGui::Separator();
 		
