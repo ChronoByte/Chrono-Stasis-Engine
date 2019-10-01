@@ -233,7 +233,7 @@ void ConfigWindow::HardwareConfiguration()
 		ImGui::Text("Brand:"); ImGui::SameLine();
 		ImGui::TextColored(TEXT_COLOR, "%s", glGetString(GL_VENDOR));
 		
-		//-------------VRAM-------------
+		//------- VRAM --------//
 
 		ImGui::Separator();
 
@@ -274,7 +274,7 @@ void ConfigWindow::InputConfiguration()
 {
 	if (ImGui::CollapsingHeader("Input"))
 	{
-		ImGui::Text("Mouse Position:");
+		ImGui::Text("Mouse Position:"); 
 		ImGui::SameLine(); 
 		ImGui::TextColored(TEXT_COLOR, "%i, %i", App->input->GetMouseX(), App->input->GetMouseY());
 
@@ -285,6 +285,9 @@ void ConfigWindow::InputConfiguration()
 		ImGui::Text("Mouse Wheel:");
 		ImGui::SameLine(); 
 		ImGui::TextColored(TEXT_COLOR, "%i", App->input->GetMouseZ());
+
+		ImGui::Text("Mouse pressed: %s", App->input->GetIsMousePressed() == true ? "Yes" : "No");
+		ImGui::Text("Key pressed: %s", App->input->GetIsKeyPressed() == true ? "Yes" : "No");
 	}
 
 }

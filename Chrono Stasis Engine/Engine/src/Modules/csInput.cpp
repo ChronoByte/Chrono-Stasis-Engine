@@ -41,11 +41,13 @@ update_status ModuleInput::PreUpdate(float dt)
 	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
-	
+	keyPressed = false;
+
 	for(int i = 0; i < MAX_KEYS; ++i)
 	{
 		if(keys[i] == 1)
 		{
+			keyPressed = true;
 			if(keyboard[i] == KEY_IDLE)
 				keyboard[i] = KEY_DOWN;
 			else
@@ -65,11 +67,13 @@ update_status ModuleInput::PreUpdate(float dt)
 	mouse_x /= SCREEN_SIZE;
 	mouse_y /= SCREEN_SIZE;
 	mouse_z = 0;
+	mousePressed = false;
 
 	for(int i = 0; i < 5; ++i)
 	{
 		if(buttons & SDL_BUTTON(i))
 		{
+			mousePressed = true;
 			if(mouse_buttons[i] == KEY_IDLE)
 				mouse_buttons[i] = KEY_DOWN;
 			else
