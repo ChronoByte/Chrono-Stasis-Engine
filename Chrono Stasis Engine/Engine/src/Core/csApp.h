@@ -56,6 +56,7 @@ private:
 	std::vector<float> chart_ms;
 	std::vector<float> chart_memory;
 	std::vector<float> chart_ram;
+	std::vector<float> chart_ms_capped;
 
 public:
 
@@ -86,6 +87,7 @@ public:
 	std::vector<float> GetFrames() const;
 	std::vector<float> GetMS() const;
 	std::vector<float> GetRAM() const;
+	std::vector<float> GetMSCapped() const;
 	
 
 

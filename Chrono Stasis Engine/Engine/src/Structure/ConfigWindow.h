@@ -45,7 +45,7 @@ private:
 	std::vector<float> flowFrames;
 	std::vector<float> flowMS;
 	std::vector<float> flowRAM;
-
+	std::vector<float> flowMSCap;
 	int  window_width = 0;
 	int  window_height = 0;
 	int window_size = 1;

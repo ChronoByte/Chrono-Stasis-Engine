@@ -129,6 +129,12 @@ void Application::FinishUpdate()
 		SDL_Delay(time_to_wait); // Time to wait until monitor scan the panel due to its refresh rate
 	}
 
+	// ms Capped 
+	chart_ms_capped.push_back((float)frame_ms_cap);
+	if (chart_ms_capped.size() > MAX_MEMORY_LOGGED)
+	{
+		chart_ms_capped.erase(chart_ms_capped.begin());
+	}
 
 	// RAM USAGE --
 	PROCESS_MEMORY_COUNTERS counters;
@@ -279,6 +285,11 @@ std::vector<float> Application::GetFrames() const
 std::vector<float> Application::GetMS() const
 {
 	return chart_ms;
+}
+
+std::vector<float> Application::GetMSCapped() const
+{
+	return chart_ms_capped;
 }
 
 std::vector<float> Application::GetRAM() const

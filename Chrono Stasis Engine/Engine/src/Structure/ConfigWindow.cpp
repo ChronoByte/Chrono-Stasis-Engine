@@ -131,6 +131,15 @@ void ConfigWindow::AppConfiguration()
 				ImGui::PlotHistogram("##Framerate:", &flowFrames[0], flowFrames.size(), 0, title, 70.0f, 0.0f, ImVec2(0, 100));
 			}
 
+			flowMSCap = App->GetMSCapped();
+
+			if (!flowMSCap.empty())
+			{
+				char title[25];
+				sprintf_s(title, 25, "Milliseconds Cap: %0.1f", flowMSCap[flowMSCap.size() - 1]);
+				ImGui::PlotHistogram("##Milliseconds Cap:", &flowMSCap[0], flowMSCap.size(), 0, title, 70.0f, 0.0f, ImVec2(0, 100));
+			}
+
 			flowMS = App->GetMS();
 
 			if (!flowMS.empty())
