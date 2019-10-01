@@ -245,8 +245,18 @@ void ConfigWindow::HardwareConfiguration()
 
 		//------- RAM --------//
 		ImGui::Text("Memory Ram:"); ImGui::SameLine();
-		ImGui::TextColored(TEXT_COLOR, "%iMb", (float)SDL_GetSystemRAM()/1024.0);
+		ImGui::TextColored(TEXT_COLOR, "%.2fGB", (float)SDL_GetSystemRAM() / 1024);
 		
+		MEMORYSTATUSEX memInfo;
+		memInfo.dwLength = sizeof(MEMORYSTATUSEX);
+		GlobalMemoryStatusEx(&memInfo);
+		DWORDLONG physMemUsed = memInfo.ullTotalPhys - memInfo.ullAvailPhys;
+		float totalRamInUse = physMemUsed / 1024;
+		totalRamInUse /= 1024;
+		totalRamInUse /= 1024;
+
+		ImGui::Text("Total RAM in use:"); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%.2f GB", totalRamInUse);
 		
 		//------- GPU --------//
 		ImGui::Text("GPU:"); ImGui::SameLine();
@@ -257,23 +267,23 @@ void ConfigWindow::HardwareConfiguration()
 		//------- VRAM --------//
 
 		ImGui::Separator();
-
+		
 		glGetIntegerv(GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &total_memory);
 		glGetIntegerv(GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &available_memory);
 		glGetIntegerv(GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &dedicated_memory);
 		memory_usage = total_memory - available_memory;
 
 		ImGui::Text("VRAM Budget: "); ImGui::SameLine();
-		ImGui::TextColored(TEXT_COLOR, "%.4f MB", (total_memory * 0.001));
+		ImGui::TextColored(TEXT_COLOR, "%.2f MB", (float)total_memory / 1024);
 
-		ImGui::Text("VRAM Usage: "); ImGui::SameLine();
-		ImGui::TextColored(TEXT_COLOR, "%.4f MB", (memory_usage * 0.001));
+		ImGui::Text("VRAM available: "); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%.2f MB", (float)available_memory / 1024);
 
-		ImGui::Text("VRAM Available: "); ImGui::SameLine();
-		ImGui::TextColored(TEXT_COLOR, "%.4f MB", (available_memory * 0.001));
+		ImGui::Text("VRAM in use: "); ImGui::SameLine();
+		ImGui::TextColored(TEXT_COLOR, "%.2f MB", ((float)total_memory / 1024) - (float)available_memory / 1024);
 
 		ImGui::Text("VRAM Reserved: "); ImGui::SameLine();
-		ImGui::TextColored(TEXT_COLOR, "%.4f MB", (dedicated_memory * 0.001));
+		ImGui::TextColored(TEXT_COLOR, "%.4f MB", ((float)dedicated_memory / 1024)); 
 
 		ImGui::Separator();
 
