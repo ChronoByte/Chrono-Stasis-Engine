@@ -89,6 +89,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Dependencies\gpudetect\DeviceId.h" />
+    <ClInclude Include="Engine\Dependencies\gpudetect\dxgi1_4.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="Engine\Dependencies\mmgr\mmgr.h" />
     <ClInclude Include="Engine\Dependencies\mmgr\nommgr.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="Engine\src\Tools\Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Dependencies\gpudetect\DeviceId.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Engine\Dependencies\mmgr\mmgr.cpp" />
     <ClCompile Include="Engine\src\Core\csApp.cpp" />

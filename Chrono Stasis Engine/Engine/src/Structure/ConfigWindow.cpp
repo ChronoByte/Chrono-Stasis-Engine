@@ -2,9 +2,10 @@
 #include "csApp.h"
 #include "csWindow.h"
 
+
 #include "SDL/include/SDL_cpuinfo.h"
 #include "SDL/include/SDL_version.h"
-
+#include "gpudetect/DeviceId.h"
 #include "mmgr/mmgr.h"
 
 #define TEXT_COLOR { 239, 201, 0, 255 }

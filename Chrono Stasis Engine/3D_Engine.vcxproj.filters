@@ -294,6 +294,8 @@
     <ClInclude Include="Engine\src\Structure\ConsoleWindow.h" />
     <ClInclude Include="Engine\Dependencies\mmgr\mmgr.h" />
     <ClInclude Include="Engine\Dependencies\mmgr\nommgr.h" />
+    <ClInclude Include="Engine\Dependencies\gpudetect\dxgi1_4.h" />
+    <ClInclude Include="Engine\Dependencies\gpudetect\DeviceId.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -459,6 +461,7 @@
     <ClCompile Include="Engine\src\Tools\PerfTimer.cpp" />
     <ClCompile Include="Engine\src\Structure\ConsoleWindow.cpp" />
     <ClCompile Include="Engine\Dependencies\mmgr\mmgr.cpp" />
+    <ClCompile Include="Engine\Dependencies\gpudetect\DeviceId.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
