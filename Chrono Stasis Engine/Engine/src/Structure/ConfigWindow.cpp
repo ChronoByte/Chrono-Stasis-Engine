@@ -4,6 +4,9 @@
 
 #include "SDL/include/SDL_cpuinfo.h"
 #include "SDL/include/SDL_version.h"
+
+#include "mmgr/mmgr.h"
+
 #define TEXT_COLOR { 239, 201, 0, 255 }
 
 ConfigWindow::ConfigWindow(bool startOpened) : Window(startOpened)
