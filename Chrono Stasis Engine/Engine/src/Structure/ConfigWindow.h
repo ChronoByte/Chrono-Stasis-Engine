@@ -66,5 +66,12 @@ private:
 	int dedicated_memory = 0;
 	int available_memory = 0;
 
-	
+	bool depth_test = false;;
+	bool cull_face = false;;
+	bool lighting = false;;
+	bool line_smooth = false;;
+	bool polygon_smooth = false;;
+	bool color_material = false;;
+	bool texture_2D = false;;
+	bool wire_mode = false;;
 };

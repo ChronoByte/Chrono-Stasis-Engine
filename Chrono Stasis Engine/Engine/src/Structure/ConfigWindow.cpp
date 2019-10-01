@@ -5,7 +5,7 @@
 #include "SDL/include/SDL_cpuinfo.h"
 #include "SDL/include/SDL_version.h"
 
-#include "mmgr/mmgr.h"
+
 
 #define TEXT_COLOR { 239, 201, 0, 255 }
 
@@ -30,6 +30,15 @@ bool ConfigWindow::Start()
 	borderless = App->window->GetBorderlessWindow();
 	fulldekstop = App->window->GetFullDesktopWindow();
 	maximized = App->window->GetMaximized();
+
+	 depth_test = glIsEnabled(GL_DEPTH_TEST);
+	 cull_face = glIsEnabled(GL_CULL_FACE);
+	 lighting = glIsEnabled(GL_LIGHTING);
+	 line_smooth = glIsEnabled(GL_LINE_SMOOTH);
+	 polygon_smooth = glIsEnabled(GL_POLYGON_SMOOTH);
+	 color_material = glIsEnabled(GL_COLOR_MATERIAL);
+	 texture_2D = glIsEnabled(GL_TEXTURE_2D);
+	 wire_mode = false;
 
 	return ret;
 
@@ -330,43 +339,19 @@ void ConfigWindow::RendererConfiguration()
 {
 	if (ImGui::CollapsingHeader("Renderer"))
 	{
-		static bool depth_test = glIsEnabled(GL_DEPTH_TEST);
-		static bool cull_face = glIsEnabled(GL_CULL_FACE);
-		static bool lighting = glIsEnabled(GL_LIGHTING);
-		static bool line_smooth = glIsEnabled(GL_LINE_SMOOTH);
-		static bool polygon_smooth = glIsEnabled(GL_POLYGON_SMOOTH);
-		static bool color_material = glIsEnabled(GL_COLOR_MATERIAL);
-		static bool texture_2D = glIsEnabled(GL_TEXTURE_2D);
-		static bool wire_mode = false;
-
+		
 		if (ImGui::Checkbox("Depth Test", &depth_test))
-		{
-			if (depth_test)
-				glEnable(GL_DEPTH_TEST);
-
-			else
-				glDisable(GL_DEPTH_TEST);
-		}
+			App->renderer3D->SetDepthTest(depth_test);
+		
 
 		if (ImGui::Checkbox("Cull Face", &cull_face))
-		{
-			if (cull_face)
-				glEnable(GL_CULL_FACE);
-
-			else
-				glDisable(GL_CULL_FACE);
-		}
-
+			App->renderer3D->SetCullFace(cull_face);
+		
 
 		if (ImGui::Checkbox("Lighting", &lighting))
-		{
-			if (lighting)
-				glEnable(GL_LIGHTING);
+			App->renderer3D->SetLighting(lighting);
 
-			else
-				glDisable(GL_LIGHTING);
-
-		}
+		
 
 		if (ImGui::Checkbox("Smooth Lines", &line_smooth))
 		{
@@ -389,35 +374,19 @@ void ConfigWindow::RendererConfiguration()
 		}
 
 		if (ImGui::Checkbox("Color Material", &color_material))
-		{
-			if (color_material)
-				glEnable(GL_MATRIX_MODE);
+			App->renderer3D->SetColorMaterial(color_material);
 
-			else
-				glDisable(GL_MATRIX_MODE);
-
-		}
+		
 
 		if (ImGui::Checkbox("Texture 2D", &texture_2D))
-		{
-			if (texture_2D)
-				glEnable(GL_TEXTURE_2D);
+			App->renderer3D->SetColorMaterial(texture_2D);
 
-			else
-				glDisable(GL_TEXTURE_2D);
-
-		}
-
+		
 
 		if (ImGui::Checkbox("Wire Mode", &wire_mode))
-		{
-			if (wire_mode)
-				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			App->renderer3D->SetWireframe(wire_mode);
 
-			else
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-		}
+		
 	}
 
 }

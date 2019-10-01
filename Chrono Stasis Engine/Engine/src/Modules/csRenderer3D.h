@@ -19,6 +19,16 @@ public:
 
 	void OnResize(int width, int height);
 
+
+public:
+	void SetDepthTest(const bool& depth) const;
+	void SetCullFace(const bool& cullFace) const;
+	void SetLighting(const bool& light) const;
+	void SetTexture2D(const bool& tex2D) const;
+	void SetColorMaterial(const bool& colorMaterial) const;
+	void SetWireframe(const bool& cullFace) const;
+	//TODO: Set more gl graphic funcs
+	
 public:
 
 	Light lights[MAX_LIGHTS];

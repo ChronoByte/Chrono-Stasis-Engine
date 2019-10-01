@@ -159,3 +159,55 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
+
+void ModuleRenderer3D::SetDepthTest(const bool& depth) const
+{
+	if (depth)
+		glEnable(GL_DEPTH_TEST);
+	else
+		glDisable(GL_DEPTH_TEST);
+}
+
+void ModuleRenderer3D::SetCullFace(const bool& cullFace) const
+{
+	if (cullFace)
+		glEnable(GL_CULL_FACE);
+	else
+		glDisable(GL_CULL_FACE);
+}
+
+
+void ModuleRenderer3D::SetLighting(const bool& light) const
+{
+	if (light)
+		glEnable(GL_LIGHTING);
+	else
+		glDisable(GL_LIGHTING);
+}
+
+void ModuleRenderer3D::SetTexture2D(const bool& tex2D) const
+{
+	if (tex2D)
+		glEnable(GL_TEXTURE_2D);
+	else
+		glDisable(GL_TEXTURE_2D);
+}
+
+void ModuleRenderer3D::SetColorMaterial(const bool& colorMaterial) const
+{
+	if (colorMaterial)
+		glEnable(GL_COLOR_MATERIAL);
+	else
+		glDisable(GL_COLOR_MATERIAL);
+}
+
+void ModuleRenderer3D::SetWireframe(const bool& wire) const
+{
+	if (wire)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+
