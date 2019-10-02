@@ -35,6 +35,8 @@ public:
 
 	void DrawCubeDirectMode();
 	void DrawCubeVertexArray(); 
+	void DrawCubeIndexArray(); 
+
 	void DrawAxis();
 
 	void Log(char* log) const; 
