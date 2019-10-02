@@ -174,7 +174,7 @@ update_status ModuleEditor::Update(float dt)
 	glEnd();
 
 
-	DrawCubeDirectMode();
+	DrawCubeVertexArray();
 
 	return ret;
 }
