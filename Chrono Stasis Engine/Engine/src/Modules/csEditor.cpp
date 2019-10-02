@@ -361,7 +361,90 @@ void ModuleEditor::DrawCubeDirectMode()
 
 void ModuleEditor::DrawCubeVertexArray()
 {
+	/*float vertices[8 * 3] =
+	{
+		0.f, 0.f, 0.f,
+		0.f, 0.f, 1.f,
+		0.f, 1.f, 0.f,
+		0.f, 1.f, 0.f,
+		1.f, 0.f, 0.f,
+		1.f, 0.f, 1.f,
+		1.f, 1.f, 0.f,
+		1.f, 1.f, 1.f
+	};*/
 
+	float vertices[6 * 9 * 2] = // Size its = 6 faces * 9 vertex * 2 triangles 
+	{
+		// Face 1
+		0.f, 0.f, 0.f,
+		0.f, 0.f, 1.f,
+		0.f, 1.f, 0.f,
+
+		0.f, 0.f, 1.f,
+		0.f, 1.f, 1.f,
+		0.f, 1.f, 0.f,
+
+		// Face 2
+		0.f, 0.f, 1.f,
+		1.f, 0.f, 1.f,
+		0.f, 1.f, 1.f,
+
+		1.f, 0.f, 1.f,
+		1.f, 1.f, 1.f,
+		0.f, 1.f, 1.f,
+
+		// Face 3
+		1.f, 0.f, 1.f,
+		1.f, 0.f, 0.f,
+		1.f, 1.f, 0.f,
+
+		1.f, 0.f, 1.f,
+		1.f, 1.f, 0.f,
+		1.f, 1.f, 1.f,
+
+
+		// Face 4
+		1.f, 0.f, 0.f,
+		0.f, 1.f, 0.f,
+		1.f, 1.f, 0.f,
+
+		0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f,
+		1.f, 0.f, 0.f,
+
+
+		// Face 5
+		0.f, 1.f, 0.f,
+		0.f, 1.f, 1.f,
+		1.f, 1.f, 0.f,
+
+		1.f, 1.f, 1.f,
+		1.f, 1.f, 0.f,
+		0.f, 1.f, 1.f,
+
+
+		// Face 6
+		0.f, 0.f, 0.f,
+		1.f, 0.f, 0.f,
+		0.f, 0.f, 1.f,
+
+		1.f, 0.f, 1.f,
+		0.f, 0.f, 1.f,
+		1.f, 0.f, 0.f
+	};
+
+
+
+	GLuint myId = 0;
+	glGenBuffers(1, &myId);	glBindBuffer(GL_ARRAY_BUFFER, myId);	glColor3f(255, 0, 158);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 9 * 2, vertices, GL_STATIC_DRAW);		// 6 faces * 9 vertex * 2 triangles 
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glBindBuffer(GL_ARRAY_BUFFER, myId);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+	// draw other buffers
+	glDrawArrays(GL_TRIANGLES, 0, (6 * 9 * 2) / 3); // 6 faces * 9 vertex * 2 triangles / 3 vertex per trianble
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
