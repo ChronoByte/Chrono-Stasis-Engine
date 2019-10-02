@@ -22,6 +22,8 @@ public:
 	void SetDepthTest(const bool& depth) const;
 	void SetCullFace(const bool& cullFace) const;
 	void SetLighting(const bool& light) const;
+	void SetSmoothPolygon(const bool& pSmooth) const;
+	void SetSmoothLine(const bool& lSmooth) const;
 	void SetTexture2D(const bool& tex2D) const;
 	void SetColorMaterial(const bool& colorMaterial) const;
 	void SetWireframe(const bool& cullFace) const;

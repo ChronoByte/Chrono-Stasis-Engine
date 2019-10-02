@@ -96,6 +96,7 @@ int main(int argc, char ** argv)
 	int leaks = MAX(0, m_getMemoryStatistics().totalAllocUnitCount - 23);
 	LOG("With %d memory leaks!\n", (leaks > 0) ? leaks : 0);
 #endif
+	
 
 	return main_return;
 }

@@ -413,26 +413,14 @@ void ConfigWindow::RendererConfiguration()
 			App->renderer3D->SetLighting(lighting);
 
 		
-
 		if (ImGui::Checkbox("Smooth Lines", &line_smooth))
-		{
-			if (line_smooth)
-				glEnable(GL_LINE_SMOOTH);
-
-			else
-				glDisable(GL_LINE_SMOOTH);
-
-		}
+			App->renderer3D->SetSmoothLine(line_smooth);
+		
 
 		if (ImGui::Checkbox("Smooth Polygons", &polygon_smooth))
-		{
-			if (polygon_smooth)
-				glEnable(GL_POLYGON_SMOOTH);
+			App->renderer3D->SetSmoothPolygon(polygon_smooth);
 
-			else
-				glDisable(GL_POLYGON_SMOOTH);
-
-		}
+		
 
 		if (ImGui::Checkbox("Color Material", &color_material))
 			App->renderer3D->SetColorMaterial(color_material);

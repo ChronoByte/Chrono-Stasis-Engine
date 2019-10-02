@@ -204,6 +204,25 @@ void ModuleRenderer3D::SetColorMaterial(const bool& colorMaterial) const
 		glDisable(GL_COLOR_MATERIAL);
 }
 
+void ModuleRenderer3D::SetSmoothLine(const bool& lSmooth) const
+{
+	if (lSmooth)
+		glEnable(GL_LINE_SMOOTH);
+
+	else
+		glDisable(GL_LINE_SMOOTH);
+}
+
+void ModuleRenderer3D::SetSmoothPolygon(const bool& pSmooth) const
+{
+	if (pSmooth)
+		glEnable(GL_POLYGON_SMOOTH);
+
+	else
+		glDisable(GL_POLYGON_SMOOTH);
+}
+
+
 void ModuleRenderer3D::SetWireframe(const bool& wire) const
 {
 	if (wire)
