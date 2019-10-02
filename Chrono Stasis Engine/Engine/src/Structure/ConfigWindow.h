@@ -82,6 +82,7 @@ private:
 	bool ambient_light = false;
 	bool diffuse_light = false;
 	bool specular_light = false;
+	bool fog = false;
 
 	uint vendor_id;
 	uint device_id;

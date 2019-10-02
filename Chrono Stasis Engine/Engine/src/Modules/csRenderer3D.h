@@ -26,6 +26,7 @@ public:
 	void SetSmoothLine(const bool& lSmooth) const;
 	void SetTexture2D(const bool& tex2D) const;
 	void SetColorMaterial(const bool& colorMaterial) const;
+	void SetFog(const bool& fog) const;
 	void SetWireframe(const bool& cullFace) const;
 
 	void SetLightModelAmbient(const bool & ambient, const float color[4]);

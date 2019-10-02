@@ -222,6 +222,14 @@ void ModuleRenderer3D::SetSmoothPolygon(const bool& pSmooth) const
 		glDisable(GL_POLYGON_SMOOTH);
 }
 
+void ModuleRenderer3D::SetFog(const bool& fog) const
+{
+	if (fog)
+		glEnable(GL_FOG);
+
+	else
+		glDisable(GL_FOG);
+}
 
 void ModuleRenderer3D::SetWireframe(const bool& wire) const
 {
