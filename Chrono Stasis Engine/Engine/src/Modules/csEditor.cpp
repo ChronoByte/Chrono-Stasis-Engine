@@ -174,7 +174,9 @@ update_status ModuleEditor::Update(float dt)
 	glEnd();
 
 
-	DrawCubeVertexArray();
+	/*DrawCubeDirectMode();
+	DrawCubeVertexArray(); */
+	DrawCubeIndexArray(); 
 
 	return ret;
 }
@@ -361,17 +363,6 @@ void ModuleEditor::DrawCubeDirectMode()
 
 void ModuleEditor::DrawCubeVertexArray()
 {
-	/*float vertices[8 * 3] =
-	{
-		0.f, 0.f, 0.f,
-		0.f, 0.f, 1.f,
-		0.f, 1.f, 0.f,
-		0.f, 1.f, 0.f,
-		1.f, 0.f, 0.f,
-		1.f, 0.f, 1.f,
-		1.f, 1.f, 0.f,
-		1.f, 1.f, 1.f
-	};*/
 
 	float vertices[6 * 9 * 2] = // Size its = 6 faces * 9 vertex * 2 triangles 
 	{
@@ -436,15 +427,48 @@ void ModuleEditor::DrawCubeVertexArray()
 
 
 	GLuint myId = 0;
-	glGenBuffers(1, &myId);	glBindBuffer(GL_ARRAY_BUFFER, myId);	glColor3f(255, 0, 158);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 9 * 2, vertices, GL_STATIC_DRAW);		// 6 faces * 9 vertex * 2 triangles 
+	glGenBuffers(1, &myId);	glBindBuffer(GL_ARRAY_BUFFER, myId);	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 9 * 2, vertices, GL_STATIC_DRAW);		// 6 faces * 9 vertex * 2 triangles 
 
+	glColor3f(255, 0, 158);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glBindBuffer(GL_ARRAY_BUFFER, myId);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 	// draw other buffers
 	glDrawArrays(GL_TRIANGLES, 0, (6 * 9 * 2) / 3); // 6 faces * 9 vertex * 2 triangles / 3 vertex per trianble
 	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void ModuleEditor::DrawCubeIndexArray()
+{
+	float vertices[8 * 3] =
+	{
+		0.f, 0.f, 0.f,
+		0.f, 0.f, 1.f,
+		0.f, 1.f, 0.f,
+		0.f, 1.f, 0.f,
+		1.f, 0.f, 0.f,
+		1.f, 0.f, 1.f,
+		1.f, 1.f, 0.f,
+		1.f, 1.f, 1.f
+	};
+
+	uint index[6] =
+	{
+		0, 1, 2,
+		1, 3, 2
+	};
+	GLuint myId = 0;
+	glGenBuffers(1, &myId);	glBindBuffer(GL_ARRAY_BUFFER, myId);	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * 3, vertices, GL_STATIC_DRAW);
+
+	uint indicesId = 0;
+	glGenBuffers(1, &indicesId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, index, GL_STATIC_DRAW);
+
+	glColor3f(255, 0, 158);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesId);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+
 }
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
