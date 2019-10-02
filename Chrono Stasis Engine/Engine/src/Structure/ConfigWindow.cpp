@@ -40,6 +40,11 @@ bool ConfigWindow::Start()
 	 color_material = glIsEnabled(GL_COLOR_MATERIAL);
 	 texture_2D = glIsEnabled(GL_TEXTURE_2D);
 	 wire_mode = false;
+	 ambient_model_light = glIsEnabled(GL_LIGHT_MODEL_AMBIENT);
+	 ambient_light = glIsEnabled(GL_AMBIENT);
+	 diffuse_light = glIsEnabled(GL_DIFFUSE);
+	 specular_light = glIsEnabled(GL_SPECULAR);
+
 
 	return ret;
 
@@ -405,44 +410,79 @@ void ConfigWindow::RendererConfiguration()
 			App->renderer3D->SetDepthTest(depth_test); ImGui::SameLine(200.0f);
 
 		if (ImGui::Checkbox("Cull Face", &cull_face))
-			App->renderer3D->SetCullFace(cull_face);
+			App->renderer3D->SetCullFace(cull_face); ImGui::SameLine(400.0f);
 		
+		if (ImGui::Checkbox("Ambient Model Light", &ambient_model_light)) {}
 
 		if (ImGui::Checkbox("Lighting", &lighting)) 
 			App->renderer3D->SetLighting(lighting); ImGui::SameLine(200.0f);
 
+		if (ImGui::Checkbox("Smooth Lines", &line_smooth)) 
+			App->renderer3D->SetSmoothLine(line_smooth); ImGui::SameLine(400.0f);
 		
-		if (ImGui::Checkbox("Smooth Lines", &line_smooth))
-			App->renderer3D->SetSmoothLine(line_smooth);
-		
+		if (ImGui::Checkbox("Diffuse Light", &diffuse_light)) {}
 
 		if (ImGui::Checkbox("Smooth Polygons", &polygon_smooth))
 			App->renderer3D->SetSmoothPolygon(polygon_smooth); ImGui::SameLine(200.0f);
 
-		
-
 		if (ImGui::Checkbox("Color Material", &color_material))
-			App->renderer3D->SetColorMaterial(color_material);
+			App->renderer3D->SetColorMaterial(color_material); ImGui::SameLine(400.0f);
 
-		
+		if (ImGui::Checkbox("Specular Light", &specular_light)) {}
 
 		if (ImGui::Checkbox("Texture 2D", &texture_2D))
 			App->renderer3D->SetColorMaterial(texture_2D); ImGui::SameLine(200.0f);
-
-		
 
 		if (ImGui::Checkbox("Wire Mode", &wire_mode))
 			App->renderer3D->SetWireframe(wire_mode);
 
 		ImGui::Separator();
 
-		if (ImGui::TreeNode("Ambient Light"))
+		if (ambient_model_light)
 		{
-			if (ImGui::ColorPicker3("Color Picker", (float*)&App->renderer3D->a_light))
-				App->renderer3D->SetLightAmbient();
+			if (ImGui::TreeNode("Ambient Model Light Color"))
+			{
+				ImGui::ColorPicker4("Ambient Model Color Picker", ambient_color,
+					ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
 
-			ImGui::TreePop();
+				ImGui::TreePop();
+			}
+				App->renderer3D->SetLightModelAmbient(ambient_model_light, ambient_color);
 		}
+		else {
+			App->renderer3D->SetLightModelAmbient(ambient_model_light, default_color);
+		}
+
+		if (diffuse_light)
+		{
+			if (ImGui::TreeNode("Diffuse Light Color"))
+			{
+				ImGui::ColorPicker4("Diffuse Color Picker", diffuse_color,
+					ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
+
+				ImGui::TreePop();
+			}
+				App->renderer3D->SetDiffuseLight(ambient_model_light, diffuse_color);
+		}
+		else {
+			App->renderer3D->SetDiffuseLight(ambient_model_light, default_color);
+		}
+
+		if (specular_light)
+		{
+			if (ImGui::TreeNode("Specular Light Color"))
+			{
+				ImGui::ColorPicker4("Specular Color Picker", specular_color,
+					ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
+
+				ImGui::TreePop();
+			}
+				App->renderer3D->SetSpecularLight(ambient_model_light, specular_color);
+		}
+		else {
+			App->renderer3D->SetSpecularLight(ambient_model_light, default_color);
+		}
+
 	}
 
 }
