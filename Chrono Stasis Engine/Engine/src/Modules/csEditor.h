@@ -28,10 +28,14 @@ public:
 
 	bool Start();
 	update_status Update(float dt);
-	void SetHelpMenu();
-	void DrawRandomPanel();
 	bool CleanUp();
 
+	void SetHelpMenu();
+	void DrawRandomPanel();
+
+	void DrawCubeDirectMode();
+	void DrawCubeVertexArray(); 
+	void DrawAxis();
 
 	void Log(char* log) const; 
 	//void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
@@ -63,4 +67,6 @@ public:
 	pcg_state_setseq_64 rng_bounded2;
 	bool show_demo_window = false;
 	bool random_panel = false;
+
+	bool debugMode = true; 
 };

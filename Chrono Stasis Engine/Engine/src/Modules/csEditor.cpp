@@ -3,7 +3,7 @@
 #include "csEditor.h"
 #include <string>
 #include "time.h"
-
+#include "csInput.h"
 
 // Including windows
 #include "src/Structure/ConfigWindow.h"
@@ -80,7 +80,12 @@ void ModuleEditor::Log(char * log) const
 // Update
 update_status ModuleEditor::Update(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		debugMode = !debugMode; 
+	
 
+	if (debugMode)
+		DrawAxis();
 
 	update_status ret = UPDATE_CONTINUE; 
 
@@ -152,6 +157,8 @@ update_status ModuleEditor::Update(float dt)
 
 	glLineWidth(1.0f);
 
+	glColor3f(255, 255, 255);
+
 	glBegin(GL_LINES);
 
 	float d = 200.0f;
@@ -165,6 +172,9 @@ update_status ModuleEditor::Update(float dt)
 	}
 
 	glEnd();
+
+
+	DrawCubeDirectMode();
 
 	return ret;
 }
@@ -247,6 +257,111 @@ void ModuleEditor::DrawRandomPanel()
 
 
 	ImGui::End();
+}
+
+void ModuleEditor::DrawAxis()
+{
+	glLineWidth(2.0f);
+
+	glBegin(GL_LINES);
+
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
+	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
+
+	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
+
+	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
+	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
+	glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
+
+	glEnd();
+
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	glLineWidth(1.0f);
+}
+
+
+void ModuleEditor::DrawCubeDirectMode()
+{
+	glBegin(GL_TRIANGLES);
+	glColor4f(255, 0, 128, 255);
+
+	// Face 1
+	glVertex3f(0.f, 0.f, 0.f);	
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(0.f, 1.f, 0.f);
+
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glVertex3f(0.f, 1.f, 0.f);
+
+
+	// Face 2
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(0.f, 1.f, 1.f);
+
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glVertex3f(0.f, 1.f, 1.f);
+
+
+	// Face 3
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(1.f, 1.f, 0.f);
+
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(1.f, 1.f, 1.f);
+
+
+	// Face 4
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(1.f, 1.f, 0.f);
+
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+
+	// Face 5
+	glVertex3f(0.f, 1.f, 0.f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glVertex3f(1.f, 1.f, 0.f);
+
+	glVertex3f(1.f, 1.f, 1.f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glVertex3f(0.f, 1.f, 1.f);
+
+
+	// Face 6
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glVertex3f(0.f, 0.f, 1.f);
+
+	glVertex3f(1.f, 0.f, 1.f);
+	glVertex3f(0.f, 0.f, 1.f);
+	glVertex3f(1.f, 0.f, 0.f);
+
+	glEnd();
+}
+
+void ModuleEditor::DrawCubeVertexArray()
+{
+
 }
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
