@@ -402,15 +402,14 @@ void ConfigWindow::RendererConfiguration()
 	{
 		
 		if (ImGui::Checkbox("Depth Test", &depth_test))
-			App->renderer3D->SetDepthTest(depth_test);
-		
+			App->renderer3D->SetDepthTest(depth_test); ImGui::SameLine(200.0f);
 
 		if (ImGui::Checkbox("Cull Face", &cull_face))
 			App->renderer3D->SetCullFace(cull_face);
 		
 
-		if (ImGui::Checkbox("Lighting", &lighting))
-			App->renderer3D->SetLighting(lighting);
+		if (ImGui::Checkbox("Lighting", &lighting)) 
+			App->renderer3D->SetLighting(lighting); ImGui::SameLine(200.0f);
 
 		
 		if (ImGui::Checkbox("Smooth Lines", &line_smooth))
@@ -418,7 +417,7 @@ void ConfigWindow::RendererConfiguration()
 		
 
 		if (ImGui::Checkbox("Smooth Polygons", &polygon_smooth))
-			App->renderer3D->SetSmoothPolygon(polygon_smooth);
+			App->renderer3D->SetSmoothPolygon(polygon_smooth); ImGui::SameLine(200.0f);
 
 		
 
@@ -428,14 +427,22 @@ void ConfigWindow::RendererConfiguration()
 		
 
 		if (ImGui::Checkbox("Texture 2D", &texture_2D))
-			App->renderer3D->SetColorMaterial(texture_2D);
+			App->renderer3D->SetColorMaterial(texture_2D); ImGui::SameLine(200.0f);
 
 		
 
 		if (ImGui::Checkbox("Wire Mode", &wire_mode))
 			App->renderer3D->SetWireframe(wire_mode);
 
-		
+		ImGui::Separator();
+
+		if (ImGui::TreeNode("Ambient Light"))
+		{
+			if (ImGui::ColorPicker3("Color Picker", (float*)&App->renderer3D->a_light))
+				App->renderer3D->SetLightAmbient();
+
+			ImGui::TreePop();
+		}
 	}
 
 }

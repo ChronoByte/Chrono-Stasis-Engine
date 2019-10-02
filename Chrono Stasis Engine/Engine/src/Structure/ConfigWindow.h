@@ -77,6 +77,7 @@ private:
 	bool color_material = false;
 	bool texture_2D = false;
 	bool wire_mode = false;
+	bool ambient_light = false;
 
 	uint vendor_id;
 	uint device_id;

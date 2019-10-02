@@ -27,6 +27,8 @@ public:
 	void SetTexture2D(const bool& tex2D) const;
 	void SetColorMaterial(const bool& colorMaterial) const;
 	void SetWireframe(const bool& cullFace) const;
+
+	void ModuleRenderer3D::SetLightAmbient();
 	//TODO: Set more gl graphic funcs
 	
 public:
@@ -36,5 +38,6 @@ public:
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
+	float3 a_light = float3(1.0f,1.0f,1.0f);
 	
 };

@@ -233,3 +233,9 @@ void ModuleRenderer3D::SetWireframe(const bool& wire) const
 }
 
 
+void ModuleRenderer3D::SetLightAmbient()
+{
+	GLfloat LightModelAmbient[] = { a_light.x, a_light.y, a_light.z, 1.0f };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
+}
+
