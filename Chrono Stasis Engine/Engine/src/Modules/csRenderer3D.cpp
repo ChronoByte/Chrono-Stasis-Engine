@@ -233,9 +233,39 @@ void ModuleRenderer3D::SetWireframe(const bool& wire) const
 }
 
 
-void ModuleRenderer3D::SetLightAmbient()
+void ModuleRenderer3D::SetLightModelAmbient(const bool & ambient, const float color[4])
 {
-	GLfloat LightModelAmbient[] = { a_light.x, a_light.y, a_light.z, 1.0f };
+	GLfloat LightModelAmbient[] = { color[0], color[1], color[2], color[3] };
 	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 }
 
+
+void ModuleRenderer3D::SetAmbientLight(const bool & ambient, const float color[4]) const
+{
+	GLfloat LightModelAmbient[] = { color[0], color[1], color[2], color[3] };
+	glLightfv(GL_LIGHT0, GL_AMBIENT, LightModelAmbient);
+}
+
+void ModuleRenderer3D::SetDiffuseLight(const bool & diffuse, const float color[4]) const
+{
+	
+	const GLfloat LightDiffuse[] = { color[0], color[1], color[2], color[3] };
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, LightDiffuse);
+
+}
+
+
+void ModuleRenderer3D::SetSpecularLight(const bool & specular, const float color[4]) const
+{
+	const GLfloat LightSpecular[] = { color[0], color[1], color[2], color[3] };
+	glLightfv(GL_LIGHT0, GL_SPECULAR, LightSpecular);
+
+}
+
+void ModuleRenderer3D::ActiveLights(bool& enable)
+{
+	if (enable)
+		glEnable(GL_LIGHT0);
+	else
+		glDisable(GL_LIGHT0);
+}

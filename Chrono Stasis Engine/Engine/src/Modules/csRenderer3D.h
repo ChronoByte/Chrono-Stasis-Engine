@@ -28,8 +28,13 @@ public:
 	void SetColorMaterial(const bool& colorMaterial) const;
 	void SetWireframe(const bool& cullFace) const;
 
-	void ModuleRenderer3D::SetLightAmbient();
-	//TODO: Set more gl graphic funcs
+	void SetLightModelAmbient(const bool & ambient, const float color[4]);
+
+	void SetAmbientLight(const bool& ambient, const float color[4]) const;
+	void SetDiffuseLight(const bool& diffuse, const float color[4]) const;
+	void SetSpecularLight(const bool& specular, const float color[4]) const;
+	
+	void ActiveLights(bool& enable);
 	
 public:
 
@@ -38,6 +43,5 @@ public:
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
-	float3 a_light = float3(1.0f,1.0f,1.0f);
 	
 };

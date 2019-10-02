@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 
+
 #define PCG_VERSION "0.98"
 #define MATHGEOLIB_VERSION "1.5"
 #define GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX			0x9047
@@ -77,7 +78,10 @@ private:
 	bool color_material = false;
 	bool texture_2D = false;
 	bool wire_mode = false;
+	bool ambient_model_light = false;
 	bool ambient_light = false;
+	bool diffuse_light = false;
+	bool specular_light = false;
 
 	uint vendor_id;
 	uint device_id;
@@ -87,4 +91,12 @@ private:
 	uint64 vmb_reserved;
 	std::wstring brand;
 
+public:
+	float ambient_color[4] = { 0.25f, 0.25f, 0.25f, 1.0f };
+	float diffuse_color[4] = { 0.25f, 0.25f, 0.25f, 1.0f };
+	float specular_color[4] = { 0.25f, 0.25f, 0.25f, 1.0f };
+
+	float ambient_model_color[4] = { 0.25f, 0.25f, 0.25f, 1.0f };
+	float default_color[4] = { 0.25f, 0.25f, 0.25f, 1.0f };
+	
 };
