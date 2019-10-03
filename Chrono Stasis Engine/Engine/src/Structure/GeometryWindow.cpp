@@ -35,6 +35,18 @@ void GeometryWindow::MathTest()
 {
 	ImGui::Begin("MathGeoLib Collision Tester", &active, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::Separator();
+	if (ImGui::CollapsingHeader("Creation"))
+	{
+		static float pos[3] = { 0,0,0 };
+		static float size[3] = { 1,1,1 };
+
+		ImGui::SliderFloat3("Position", pos, -10, 10);
+		ImGui::SliderFloat3("Size", size, 0, 10);
+		
+		if (ImGui::Button("Create Cube"))
+			App->editor->CreateCube(vec3(pos[0], pos[1], pos[2]), size[0], size[1], size[2]);
+	}
+
 
 	if (ImGui::CollapsingHeader("Spheres"))
 	{

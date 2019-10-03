@@ -13,7 +13,9 @@
 #include "MathGeoLib/include/MathGeoLibFwd.h"
 
 #include "par/par_shapes.h"
+#include "glm/glmath.h"
 
+#include <list>
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
@@ -21,6 +23,12 @@ class ConfigWindow;
 class GeometryWindow; 
 class AboutWindow;
 class ConsoleWindow; 
+
+struct shapeInfo {
+	uint myId = 0; 
+	uint indexId = 0; 
+	par_shapes_mesh* myMesh = nullptr; 
+};
 
 class ModuleEditor : public Module
 {
@@ -34,6 +42,9 @@ public:
 
 	void SetHelpMenu();
 	void DrawRandomPanel();
+
+	void CreateCube(const vec3& position, const uint& length = 1u, const uint& width = 1u, const uint& height = 1u);
+	void DrawShapes(); 
 
 	void CreateCubeParShapes();
 	void CreateSphereParShapes(); 
@@ -87,4 +98,5 @@ public:
 	uint sphereId = 0; 
 	uint indexSphereId = 0; 
 
+	std::list<shapeInfo*> shapes; 
 };

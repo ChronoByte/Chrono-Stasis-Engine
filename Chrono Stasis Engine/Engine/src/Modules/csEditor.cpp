@@ -74,6 +74,18 @@ bool ModuleEditor::CleanUp()
 	delete console; 
 	console = nullptr; 
 
+	par_shapes_free_mesh(cubeMesh); 
+	par_shapes_free_mesh(sphereMesh); 
+
+	
+	std::list<shapeInfo*>::const_iterator item = shapes.begin();
+
+	for (item; item != shapes.end(); item++)
+	{
+		par_shapes_free_mesh((*item)->myMesh); 
+	}
+
+	shapes.clear(); 
 
 	return true;
 }
@@ -185,7 +197,7 @@ update_status ModuleEditor::Update(float dt)
 	//DrawCubeVertexArray(); 
 	//DrawCubeIndexArray(); 
 	DrawCubeParShapes(); 
-
+	DrawShapes();
 	DrawSphereParShapes();
 
 	return ret;
@@ -269,6 +281,61 @@ void ModuleEditor::DrawRandomPanel()
 
 
 	ImGui::End();
+}
+
+void ModuleEditor::CreateCube(const vec3& position, const uint & length, const uint & width, const uint & height)
+{
+	par_shapes_mesh* mesh = nullptr; 
+	mesh = par_shapes_create_cube();
+	par_shapes_translate(mesh, position.x, position.y, position.z);
+	par_shapes_scale(mesh, length, height, width);
+
+	if (mesh != nullptr)
+		LOG("Created a Cube");
+
+	uint id = 0; 
+	glGenBuffers(1, &id);
+	glBindBuffer(GL_ARRAY_BUFFER, id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->npoints * 3, mesh->points, GL_STATIC_DRAW);
+
+	if (id != 0)
+		LOG("Generated array buffer correctly");
+
+	uint indexId = 0; 
+	glGenBuffers(1, &indexId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * mesh->ntriangles * 3, mesh->triangles, GL_STATIC_DRAW);
+
+	if (indexId != 0)
+		LOG("Generated element array buffer correctly");
+
+	shapeInfo* shape = new shapeInfo(); 
+	shape->myId = id; 
+	shape->indexId = indexId; 
+	shape->myMesh = mesh;
+	
+	shapes.push_back(shape); 
+}
+
+void ModuleEditor::DrawShapes()
+{
+	if (shapes.empty())
+		return; 
+
+	std::list<shapeInfo*>::const_iterator item = shapes.begin();
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	for (item; item != shapes.end(); item++)
+	{
+		// Drawing Cube
+		glBindBuffer(GL_ARRAY_BUFFER, (*item)->myId);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*item)->indexId);
+		glDrawElements(GL_TRIANGLES, (*item)->myMesh->ntriangles * 3, GL_UNSIGNED_SHORT, (void*)0);
+	}
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 }
 
 void ModuleEditor::DrawAxis()
@@ -514,6 +581,7 @@ void ModuleEditor::DrawCubeIndexArray()
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 
+	glBindBuffer(GL_ARRAY_BUFFER, myId);
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
 	glColor3f(255, 0, 158);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesId);
