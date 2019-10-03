@@ -32,19 +32,20 @@ bool ConfigWindow::Start()
 	fulldekstop = App->window->GetFullDesktopWindow();
 	maximized = App->window->GetMaximized();
 
-	 depth_test = glIsEnabled(GL_DEPTH_TEST);
-	 cull_face = glIsEnabled(GL_CULL_FACE);
-	 lighting = glIsEnabled(GL_LIGHTING);
-	 line_smooth = glIsEnabled(GL_LINE_SMOOTH);
-	 polygon_smooth = glIsEnabled(GL_POLYGON_SMOOTH);
-	 color_material = glIsEnabled(GL_COLOR_MATERIAL);
-	 texture_2D = glIsEnabled(GL_TEXTURE_2D);
-	 wire_mode = false;
-	 ambient_model_light = glIsEnabled(GL_LIGHT_MODEL_AMBIENT);
-	 ambient_light = glIsEnabled(GL_AMBIENT);
-	 diffuse_light = glIsEnabled(GL_DIFFUSE);
-	 specular_light = glIsEnabled(GL_SPECULAR);
-	 fog = glIsEnabled(GL_FOG);
+	depth_test = App->renderer3D->GetDepthTest();
+	cull_face = App->renderer3D->GetCullFace();
+	lighting = App->renderer3D->GetLighting();
+	line_smooth = App->renderer3D->GetSmoothLine();
+	polygon_smooth = App->renderer3D->GetSmoothPolygon();
+	color_material = App->renderer3D->GetColorMaterial();
+	texture_2D = App->renderer3D->GetTexture2D();
+	wire_mode = App->renderer3D->GetWireframe();
+
+	ambient_model_light = App->renderer3D->GetLightModelAmbient();
+	ambient_light = App->renderer3D->GetAmbientLight();
+	diffuse_light = App->renderer3D->GetDiffuseLight();
+	specular_light = App->renderer3D->GetSpecularLight();
+	fog = App->renderer3D->GetFog();
 
 	return ret;
 

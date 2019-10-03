@@ -159,8 +159,7 @@ update_status ModuleEditor::Update(float dt)
 
 	glLineWidth(1.0f);
 
-	if(!glIsEnabled(GL_LIGHTING))
-		glColor3f(255, 255, 255);
+	glColor4f(1.0f, 1.0f ,1.0f, 1.0f);
 
 	glBegin(GL_LINES);
 

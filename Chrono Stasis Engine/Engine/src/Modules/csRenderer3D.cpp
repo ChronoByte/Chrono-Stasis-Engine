@@ -98,11 +98,32 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 		
-		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+		depth_test = json_object_get_boolean(node, "Depth Test");
+		cull_face = json_object_get_boolean(node, "Cull Face");
+		lighting = json_object_get_boolean(node, "Lightning");
+		line_smooth = json_object_get_boolean(node, "Line Smooth");
+		polygon_smooth = json_object_get_boolean(node, "Polygon Smooth");
+		color_material = json_object_get_boolean(node, "Color Material");
+		texture_2D = json_object_get_boolean(node, "Texture 2D");
+		wire_mode = json_object_get_boolean(node, "Wireframe");
+
+		ambient_model_light = json_object_get_boolean(node, "Ambient Model");
+		ambient_light = json_object_get_boolean(node, "Ambient");
+		diffuse_light = json_object_get_boolean(node, "Diffuse");
+		specular_light = json_object_get_boolean(node, "Specular");
+		fog = json_object_get_boolean(node, "Fog");
+
+		(depth_test) ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
+		(cull_face) ? glEnable(GL_CULL_FACE) : glDisable(GL_CULL_FACE);
+		(line_smooth) ? glEnable(GL_LINE_SMOOTH) : glDisable(GL_LINE_SMOOTH);
+		(polygon_smooth) ? glEnable(GL_POLYGON_SMOOTH) : glDisable(GL_POLYGON_SMOOTH);
 		lights[0].Active(true);
-		glEnable(GL_LIGHTING);
-		glEnable(GL_COLOR_MATERIAL);
+		(lighting) ? glEnable(GL_LIGHTING) : glDisable(GL_LIGHTING);
+		(color_material) ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
+		(texture_2D) ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
+		(fog) ? glEnable(GL_FOG) : glDisable(GL_FOG);
+
+		
 	}
 
 	// Projection matrix for
@@ -269,6 +290,71 @@ void ModuleRenderer3D::SetSpecularLight(const bool & specular, const float color
 	const GLfloat LightSpecular[] = { color[0], color[1], color[2], color[3] };
 	glLightfv(GL_LIGHT0, GL_SPECULAR, LightSpecular);
 
+}
+
+bool ModuleRenderer3D::GetDepthTest() const
+{
+	return depth_test;
+}
+
+bool ModuleRenderer3D::GetCullFace() const
+{
+	return cull_face;
+}
+
+bool ModuleRenderer3D::GetLighting() const
+{
+	return lighting;
+}
+
+bool ModuleRenderer3D::GetSmoothPolygon() const
+{
+	return polygon_smooth;
+}
+
+bool ModuleRenderer3D::GetSmoothLine() const
+{
+	return line_smooth;
+}
+
+bool ModuleRenderer3D::GetTexture2D() const
+{
+	return texture_2D;
+}
+
+bool ModuleRenderer3D::GetColorMaterial() const
+{
+	return color_material;
+}
+
+bool ModuleRenderer3D::GetFog() const
+{
+	return fog;
+}
+
+bool ModuleRenderer3D::GetWireframe() const
+{
+	return wire_mode;
+}
+
+bool ModuleRenderer3D::GetLightModelAmbient() const
+{
+	return ambient_model_light;
+}
+
+bool ModuleRenderer3D::GetAmbientLight() const
+{
+	return ambient_light;
+}
+
+bool ModuleRenderer3D::GetDiffuseLight() const
+{
+	return diffuse_light;
+}
+
+bool ModuleRenderer3D::GetSpecularLight() const
+{
+	return specular_light;
 }
 
 void ModuleRenderer3D::ActiveLights(bool& enable)

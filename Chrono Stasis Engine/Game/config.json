@@ -18,6 +18,22 @@
         "Borderless": false,
         "Full Desktop": false,
         "Brightness": 100
+    },
+    "Renderer3D":
+    {
+        "Depth Test": true,
+        "Cull Face": true,
+        "Lighting": true,
+        "Line Smooth": false,
+        "Polygon Smooth": false,
+        "Color Material": true,
+        "Texture 2D": false,
+        "Wireframe": false,
+        "Ambient Model": false,
+        "Ambient": false,
+        "Diffuse": false,
+        "Specular": false,
+        "Fog": false
     }
    
 }           
