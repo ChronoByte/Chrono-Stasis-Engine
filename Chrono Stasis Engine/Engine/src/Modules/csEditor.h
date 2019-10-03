@@ -12,6 +12,8 @@
 #include "MathGeoLib/include/MathBuildConfig.h"
 #include "MathGeoLib/include/MathGeoLibFwd.h"
 
+#include "par/par_shapes.h"
+
 #define MAX_SNAKE 2
 
 struct PhysBody3D;
@@ -33,9 +35,14 @@ public:
 	void SetHelpMenu();
 	void DrawRandomPanel();
 
+	void CreateCubeParShapes();
+	void CreateSphereParShapes(); 
+
 	void DrawCubeDirectMode();
 	void DrawCubeVertexArray(); 
 	void DrawCubeIndexArray(); 
+	void DrawCubeParShapes(); 
+	void DrawSphereParShapes(); 
 
 	void DrawAxis();
 
@@ -71,4 +78,13 @@ public:
 	bool random_panel = false;
 
 	bool debugMode = true; 
+
+	par_shapes_mesh* cubeMesh = nullptr; 
+	uint cubeId = 0; 
+	uint indexCubeId = 0; 
+
+	par_shapes_mesh* sphereMesh = nullptr; 
+	uint sphereId = 0; 
+	uint indexSphereId = 0; 
+
 };

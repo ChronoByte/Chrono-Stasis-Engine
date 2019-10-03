@@ -48,6 +48,10 @@ bool ModuleEditor::Start()
 	rand2 = 0;
 	rand3 = 0;
 
+	
+	CreateCubeParShapes();
+	CreateSphereParShapes();
+
 	return ret;
 }
 
@@ -67,6 +71,7 @@ bool ModuleEditor::CleanUp()
 
 	delete console; 
 	console = nullptr; 
+
 
 	return true;
 }
@@ -175,9 +180,12 @@ update_status ModuleEditor::Update(float dt)
 	glEnd();
 
 
-	/*DrawCubeDirectMode();
-	DrawCubeVertexArray(); */
-	DrawCubeIndexArray(); 
+	//DrawCubeDirectMode();
+	//DrawCubeVertexArray(); 
+	//DrawCubeIndexArray(); 
+	DrawCubeParShapes(); 
+
+	DrawSphereParShapes();
 
 	return ret;
 }
@@ -295,6 +303,38 @@ void ModuleEditor::DrawAxis()
 	glLineWidth(1.0f);
 }
 
+
+void ModuleEditor::CreateCubeParShapes()
+{
+	cubeMesh = par_shapes_create_cube();
+	par_shapes_translate(cubeMesh, 1, 0, 0.5);
+	par_shapes_scale(cubeMesh, 1.2, 1.2, 1.2);
+	LOG("There are %i vertices", cubeMesh->npoints);
+	LOG("There are %i points", cubeMesh->ntriangles);
+
+	glGenBuffers(1, &cubeId);
+	glBindBuffer(GL_ARRAY_BUFFER, cubeId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * cubeMesh->npoints * 3, cubeMesh->points, GL_STATIC_DRAW);
+
+
+	glGenBuffers(1, &indexCubeId);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexCubeId);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * cubeMesh->ntriangles * 3, cubeMesh->triangles, GL_STATIC_DRAW);
+}
+
+void ModuleEditor::CreateSphereParShapes()
+{
+	sphereMesh = par_shapes_create_subdivided_sphere(2); 
+	par_shapes_translate(sphereMesh, 1, 1, -0.5);
+
+	glGenBuffers(1, &sphereId); 
+	glBindBuffer(GL_ARRAY_BUFFER, sphereId); 
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * sphereMesh->npoints * 3, sphereMesh->points, GL_STATIC_DRAW);
+
+	glGenBuffers(1, &indexSphereId); 
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexSphereId); 
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * sphereMesh->ntriangles * 3, sphereMesh->triangles, GL_STATIC_DRAW); 
+}
 
 void ModuleEditor::DrawCubeDirectMode()
 {
@@ -471,11 +511,47 @@ void ModuleEditor::DrawCubeIndexArray()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesId);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * 6, index, GL_STATIC_DRAW);
 
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
 	glColor3f(255, 0, 158);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesId);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
 
+	glDisableClientState(GL_VERTEX_ARRAY);
+
 }
+
+void ModuleEditor::DrawCubeParShapes()
+{ 
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+
+	// Drawing Cube
+	glBindBuffer(GL_ARRAY_BUFFER, cubeId);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexCubeId);
+	glDrawElements(GL_TRIANGLES, cubeMesh->ntriangles * 3, GL_UNSIGNED_SHORT, (void*)0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+}
+
+void ModuleEditor::DrawSphereParShapes()
+{
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glBindBuffer(GL_ARRAY_BUFFER, sphereId); 
+	glVertexPointer(3, GL_FLOAT, 0, NULL); 
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexSphereId); 
+	glDrawElements(GL_TRIANGLES, sphereMesh->ntriangles * 3, GL_UNSIGNED_SHORT, (void*)0);
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 //{
