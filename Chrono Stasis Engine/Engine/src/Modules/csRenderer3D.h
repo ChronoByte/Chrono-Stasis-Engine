@@ -35,6 +35,21 @@ public:
 	void SetDiffuseLight(const bool& diffuse, const float color[4]) const;
 	void SetSpecularLight(const bool& specular, const float color[4]) const;
 	
+	bool GetDepthTest() const;
+	bool GetCullFace() const;
+	bool GetLighting() const;
+	bool GetSmoothPolygon() const;
+	bool GetSmoothLine() const;
+	bool GetTexture2D() const;
+	bool GetColorMaterial() const;
+	bool GetFog() const;
+	bool GetWireframe() const;
+
+	bool GetLightModelAmbient() const;
+	bool GetAmbientLight() const;
+	bool GetDiffuseLight() const;
+	bool GetSpecularLight() const;
+
 	void ActiveLights(bool& enable);
 	
 public:
@@ -44,5 +59,17 @@ public:
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
-	
+	bool depth_test = false;
+	bool cull_face = false;
+	bool lighting = false;
+	bool line_smooth = false;
+	bool polygon_smooth = false;
+	bool color_material = false;
+	bool texture_2D = false;
+	bool wire_mode = false;
+	bool ambient_model_light = false;
+	bool ambient_light = false;
+	bool diffuse_light = false;
+	bool specular_light = false;
+	bool fog = false;
 };

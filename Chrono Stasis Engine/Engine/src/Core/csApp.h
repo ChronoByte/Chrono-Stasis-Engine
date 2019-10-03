@@ -51,6 +51,8 @@ private:
 
 	uint32				time_to_wait = 0;
 	
+	bool cap_frames = false;
+	bool vsync = true;
 
 	std::vector<float> chart_frames;
 	std::vector<float> chart_ms;
@@ -83,6 +85,7 @@ public:
 	float GetDT() const;
 	uint64 GetFrameCounter() const;
 	float GetSeconds() const;
+	bool GetVSYNC() const;
 
 	std::vector<float> GetFrames() const;
 	std::vector<float> GetMS() const;
@@ -100,9 +103,7 @@ public:
 	std::string version;
 
 	bool to_close_app = false;
-	bool cap_frames = false;
-
-	bool showconfig = false;
+	
 
 private:
 
