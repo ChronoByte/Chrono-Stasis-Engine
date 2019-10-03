@@ -428,7 +428,9 @@ void ModuleEditor::DrawCubeVertexArray()
 
 
 	GLuint myId = 0;
-	glGenBuffers(1, &myId);	glBindBuffer(GL_ARRAY_BUFFER, myId);	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 9 * 2, vertices, GL_STATIC_DRAW);		// 6 faces * 9 vertex * 2 triangles 
+	glGenBuffers(1, &myId);
+	glBindBuffer(GL_ARRAY_BUFFER, myId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 9 * 2, vertices, GL_STATIC_DRAW);		// 6 faces * 9 vertex * 2 triangles 
 
 	glColor3f(255, 0, 158);
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -458,8 +460,11 @@ void ModuleEditor::DrawCubeIndexArray()
 		0, 1, 2,
 		1, 3, 2
 	};
-	GLuint myId = 0;
-	glGenBuffers(1, &myId);	glBindBuffer(GL_ARRAY_BUFFER, myId);	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * 3, vertices, GL_STATIC_DRAW);
+
+	GLuint myId = 0;
+	glGenBuffers(1, &myId);
+	glBindBuffer(GL_ARRAY_BUFFER, myId);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8 * 3, vertices, GL_STATIC_DRAW);
 
 	uint indicesId = 0;
 	glGenBuffers(1, &indicesId);
