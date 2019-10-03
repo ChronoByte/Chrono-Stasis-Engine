@@ -291,7 +291,7 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 	par_shapes_scale(mesh, length, height, width);
 
 	if (mesh != nullptr)
-		LOG("Created a Cube");
+		LOG("Created a Cube in position: \nx = %.2f, y = %.2f, z = %.2f", position.x, position.y, position.y);
 
 	uint id = 0; 
 	glGenBuffers(1, &id);
@@ -299,7 +299,7 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->npoints * 3, mesh->points, GL_STATIC_DRAW);
 
 	if (id != 0)
-		LOG("Generated array buffer correctly");
+		LOG("Generated array buffer correctly. Buffer Id = %i", id);
 
 	uint indexId = 0; 
 	glGenBuffers(1, &indexId);
@@ -307,7 +307,7 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * mesh->ntriangles * 3, mesh->triangles, GL_STATIC_DRAW);
 
 	if (indexId != 0)
-		LOG("Generated element array buffer correctly");
+		LOG("Generated element array buffer correctly. Buffer Id = %i",indexId);
 
 	shapeInfo* shape = new shapeInfo(); 
 	shape->myId = id; 
@@ -315,6 +315,7 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 	shape->myMesh = mesh;
 	
 	shapes.push_back(shape); 
+	LOG("Pushed shape to the list. Current shapes: %i", shapes.size());
 }
 
 void ModuleEditor::DrawShapes()
@@ -377,8 +378,6 @@ void ModuleEditor::CreateCubeParShapes()
 	cubeMesh = par_shapes_create_cube();
 	par_shapes_translate(cubeMesh, 1, 0, 0.5);
 	par_shapes_scale(cubeMesh, 1.2, 1.2, 1.2);
-	LOG("There are %i vertices", cubeMesh->npoints);
-	LOG("There are %i points", cubeMesh->ntriangles);
 
 	glGenBuffers(1, &cubeId);
 	glBindBuffer(GL_ARRAY_BUFFER, cubeId);
