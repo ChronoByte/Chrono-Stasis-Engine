@@ -4,8 +4,9 @@
 	{
       "Engine Name": "a que me cago en tu puta madre?",
       "Organization Name": "tu puta madre en patinete",
+      "Version": "0.0.3",
       "Max FPS": 30,
-      "VSYNC": false
+      "VSYNC": true
     },
     "Window": 
 	{

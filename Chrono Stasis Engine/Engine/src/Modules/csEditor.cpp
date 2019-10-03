@@ -13,6 +13,8 @@
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
+	name = "Editor";
+
 	config = new ConfigWindow();
 	geometryWin = new GeometryWindow();
 	about = new AboutWindow();	

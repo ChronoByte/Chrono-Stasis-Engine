@@ -436,7 +436,7 @@ void ConfigWindow::RendererConfiguration()
 		if (ImGui::Checkbox("Wire Mode", &wire_mode))
 			App->renderer3D->SetWireframe(wire_mode); ImGui::SameLine(400.0f);
 
-		if (ImGui::Checkbox("Blend", &fog))
+		if (ImGui::Checkbox("Fog", &fog))
 			App->renderer3D->SetFog(fog);
 
 

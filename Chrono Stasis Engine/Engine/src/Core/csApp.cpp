@@ -9,9 +9,9 @@ Application::Application()
 	// TODO: Load with JSON
 	//engine_title = TITLE;
 	//organization_name = ORGANIZATION;
-	version = "v0.0.1";
-	framerate_cap = 30;
-	frame_ms_cap = 1000 / framerate_cap;
+	//version = "v0.0.1";
+	//framerate_cap = 30;
+	//frame_ms_cap = 1000 / framerate_cap;
 
 	window		= new ModuleWindow();
 	input		= new ModuleInput();
@@ -74,6 +74,9 @@ bool Application::Init()
 		config_node = json_object_dotget_object(config, "Application");
 		engine_title = json_object_get_string(config_node, "Engine Name");
 		organization_name = json_object_get_string(config_node, "Organization Name");
+		version = json_object_get_string(config_node, "Version");
+		framerate_cap = json_object_get_number(config_node, "Max FPS");
+		vsync = json_object_get_boolean(config_node, "VSYNC");
 
 		// Call Init() in all modules
 		std::list<Module*>::const_iterator item = list_modules.begin();
@@ -108,6 +111,8 @@ bool Application::Init()
 // ---------------------------------------------
 void Application::PrepareUpdate()
 {
+	frame_ms_cap = 1000 / framerate_cap;
+
 	frame_count++;
 	last_sec_frame_count++;
 	frame_time.Start(); 
@@ -344,6 +349,11 @@ uint64 Application::GetFrameCounter() const
 float Application::GetSeconds() const
 {
 	return seconds;
+}
+
+bool Application::GetVSYNC() const
+{
+	return vsync;
 }
 
 

@@ -9,6 +9,7 @@
 
 ModuleRenderer3D::ModuleRenderer3D(bool start_enabled) : Module(start_enabled)
 {
+	name = "Renderer3D";
 }
 
 // Destructor
@@ -41,7 +42,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	if(ret == true)
 	{
 		
-		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
+		if(App->GetVSYNC() && SDL_GL_SetSwapInterval(1) < 0)
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
 		//Initialize Projection Matrix
