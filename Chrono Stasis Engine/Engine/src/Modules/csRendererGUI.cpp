@@ -15,7 +15,7 @@ ModuleUI::~ModuleUI()
 {}
 
 // Called before render is available
-bool ModuleUI::Init()
+bool ModuleUI::Init(JSON_Object* node)
 {
 	LOG("Creating Module UI context");
 	bool ret = true;

@@ -62,7 +62,7 @@ bool Application::Init()
 
 	JSON_Value* config_file;
 	JSON_Object* config;
-	JSON_Object* app_config;
+	JSON_Object* config_node;
 
 	config_file = json_parse_file("config.json");
 
@@ -71,18 +71,20 @@ bool Application::Init()
 		ret = true;
 
 		config = json_value_get_object(config_file);
-		app_config = json_object_dotget_object(config, "Application");
-		engine_title = json_object_get_string(app_config, "Engine Name");
-		organization_name = json_object_get_string(app_config, "Organization Name");
+		config_node = json_object_dotget_object(config, "Application");
+		engine_title = json_object_get_string(config_node, "Engine Name");
+		organization_name = json_object_get_string(config_node, "Organization Name");
 
 		// Call Init() in all modules
 		std::list<Module*>::const_iterator item = list_modules.begin();
 
 		while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 		{
-			if ((*item)->IsEnabled())
-				ret = (*item)->Init();
-
+			if ((*item)->IsEnabled()) 
+			{
+				config_node = json_object_get_object(config, (*item)->name.c_str());
+				ret = (*item)->Init(config_node);
+			}
 			item++;
 		}
 

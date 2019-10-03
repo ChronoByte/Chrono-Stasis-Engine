@@ -19,7 +19,7 @@ public:
 	ModuleInput(bool start_enabled = true);
 	~ModuleInput();
 
-	bool Init();
+	bool Init(JSON_Object* node);
 	update_status PreUpdate(float dt);
 	bool CleanUp();
 

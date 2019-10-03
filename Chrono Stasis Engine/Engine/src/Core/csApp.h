@@ -35,7 +35,7 @@ private:
 	std::list<Module*> list_modules;
 	
 	
-	float				dt;
+	float				dt = 0.0f;
 
 	Timer				startup_time;
 	Timer				frame_time;

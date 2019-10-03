@@ -1,11 +1,16 @@
 #pragma once
 
-class Application;
+#include "JSON/parson.h"
+#include <string>
 
+class Application;
 
 class Module
 {
-private :
+public:
+	std::string name;
+
+private:
 	bool enabled;
 
 public:
@@ -16,7 +21,7 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Init() 
+	virtual bool Init(JSON_Object* node)
 	{
 		return true; 
 	}
@@ -45,10 +50,6 @@ public:
 	{ 
 		return true; 
 	}
-
-	/*virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2) {}*/
-
-	// ---------------------------
 
 	bool IsEnabled() const { return enabled; }
 

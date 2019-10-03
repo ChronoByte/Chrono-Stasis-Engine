@@ -16,7 +16,7 @@ public:
 	ModuleUI(bool start_enabled = true);
 	~ModuleUI();
 
-	bool Init() override;
+	bool Init(JSON_Object* node) override;
 	update_status PreUpdate(float dt) override;
 	update_status PostUpdate(float dt) override;
 	bool CleanUp() override;

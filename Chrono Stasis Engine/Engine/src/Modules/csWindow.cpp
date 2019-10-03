@@ -4,6 +4,7 @@
 
 ModuleWindow::ModuleWindow(bool start_enabled) : Module(start_enabled)
 {
+	name = "Window";
 	window = NULL;
 	screen_surface = NULL;
 }
@@ -11,10 +12,11 @@ ModuleWindow::ModuleWindow(bool start_enabled) : Module(start_enabled)
 // Destructor
 ModuleWindow::~ModuleWindow()
 {
+	
 }
 
 // Called before render is available
-bool ModuleWindow::Init()
+bool ModuleWindow::Init(JSON_Object* node)
 {
 	LOG("Init SDL window & surface");
 	bool ret = true;
@@ -26,6 +28,17 @@ bool ModuleWindow::Init()
 	}
 	else
 	{
+		width = json_object_get_number(node, "Width");
+		height = json_object_get_number(node, "Height");
+		size = json_object_get_number(node, "Size");
+
+		fullscreen = json_object_get_boolean(node, "Fullscreen");
+		fullscreen_desktop = json_object_get_boolean(node, "Full Desktop");
+		resizable = json_object_get_boolean(node, "Resizable");
+		borderless = json_object_get_boolean(node, "Borderless");
+
+		brightness = json_object_get_number(node, "Brightness");
+
 		//Create window
 		int width = SCREEN_WIDTH * SCREEN_SIZE;
 		int height = SCREEN_HEIGHT * SCREEN_SIZE;
@@ -35,22 +48,22 @@ bool ModuleWindow::Init()
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if(WIN_FULLSCREEN == true)
+		if(fullscreen == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(WIN_RESIZABLE == true)
+		if(resizable == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if(WIN_BORDERLESS == true)
+		if(borderless == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if(WIN_FULLSCREEN_DESKTOP == true)
+		if(fullscreen_desktop == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}

@@ -13,7 +13,7 @@ public: // CORE METHODS
 	ModuleWindow(bool start_enabled = true);
 	virtual ~ModuleWindow();
 
-	bool Init();
+	bool Init(JSON_Object* node);
 	bool CleanUp();
 
 
@@ -74,6 +74,10 @@ public:
 	bool fullscreen_desktop = false;
 
 	bool maximized = false;
+
+	int brightness = 100;
+
+	
 };
 
 #endif // __ModuleWindow_H__
