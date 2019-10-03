@@ -1,0 +1,21 @@
+
+{
+    "Application": 
+	{
+      "Engine Name": "a que me cago en tu puta madre?",
+      "Organization Name": "tu puta madre en patinete",
+      "Max FPS": 30,
+      "VSYNC": false
+    },
+    "Window": 
+	{
+      "Brightness": 100,
+      "Width": 1,
+      "Height": 1,
+      "Fullscreen": false,
+      "Resizable": true,
+      "Borderless": false,
+      "Full Desktop": false
+    }
+   
+}           

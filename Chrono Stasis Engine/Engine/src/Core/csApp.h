@@ -102,6 +102,7 @@ public:
 	bool to_close_app = false;
 	bool cap_frames = false;
 
+	bool showconfig = false;
 
 private:
 

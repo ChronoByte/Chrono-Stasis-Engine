@@ -2,11 +2,13 @@
 #include "Windows.h"
 #include "Psapi.h"
 #include "mmgr/mmgr.h"
+#include "JSON/parson.h"
+
 Application::Application()
 {
 	// TODO: Load with JSON
-	engine_title = TITLE;
-	organization_name = ORGANIZATION;
+	//engine_title = TITLE;
+	//organization_name = ORGANIZATION;
 	version = "v0.0.1";
 	framerate_cap = 30;
 	frame_ms_cap = 1000 / framerate_cap;
@@ -56,34 +58,48 @@ Application::~Application()
 
 bool Application::Init()
 {
-	bool ret = true;
+	bool ret = false;
 
+	JSON_Value* config_file;
+	JSON_Object* config;
+	JSON_Object* app_config;
 
-	// Call Init() in all modules
-	std::list<Module*>::const_iterator item = list_modules.begin();
+	config_file = json_parse_file("config.json");
 
-	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
+	if (config_file)
 	{
-		if((*item)->IsEnabled())
-			ret = (*item)->Init();
+		ret = true;
 
-		item++;
+		config = json_value_get_object(config_file);
+		app_config = json_object_dotget_object(config, "Application");
+		engine_title = json_object_get_string(app_config, "Engine Name");
+		organization_name = json_object_get_string(app_config, "Organization Name");
+
+		// Call Init() in all modules
+		std::list<Module*>::const_iterator item = list_modules.begin();
+
+		while (item != list_modules.end() && ret == UPDATE_CONTINUE)
+		{
+			if ((*item)->IsEnabled())
+				ret = (*item)->Init();
+
+			item++;
+		}
+
+		// After all Init calls we call Start() in all modules
+		LOG("Application Start --------------");
+		item = list_modules.begin();
+
+		while (item != list_modules.end() && ret == UPDATE_CONTINUE)
+		{
+			if ((*item)->IsEnabled())
+				ret = (*item)->Start();
+
+			item++;
+		}
+
+		startup_time.Start();
 	}
-
-	// After all Init calls we call Start() in all modules
-	LOG("Application Start --------------");
-	item = list_modules.begin();
-
-	while (item != list_modules.end() && ret == UPDATE_CONTINUE)
-	{
-		if ((*item)->IsEnabled())
-			ret = (*item)->Start();
-
-		item++;
-	}
-	
-	startup_time.Start();
-	
 	return ret;
 }
 
