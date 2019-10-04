@@ -115,27 +115,20 @@ update_status ModuleEditor::Update(float dt)
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Style"))
-		{
-			if (ImGui::MenuItem("Orange")) { App->gui->StyleLoader(App->gui->color.ORANGE);  }
-			if (ImGui::MenuItem("Black")) { App->gui->StyleLoader(App->gui->color.BLACK); }
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("GeoMath"))
-		{
-			if (ImGui::MenuItem("Collision Tester", "", geometryWin->GetBool())) {}
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Random (PCG)"))
-		{
-			if (ImGui::MenuItem("Test pcg", "", randomWin->GetBool())) {}
-			ImGui::EndMenu();
-		}
 		if (ImGui::BeginMenu("Configuration"))
 		{
 			config->Activate();
 			ImGui::EndMenu();
 		}
+
+		if (ImGui::BeginMenu("Tools"))
+		{
+			if (ImGui::MenuItem("Collision Tester", "", geometryWin->GetBool())) {}
+			if (ImGui::MenuItem("Random Tester", "", randomWin->GetBool())) {}
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Help"))
 		{
 			SetHelpMenu();
