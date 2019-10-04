@@ -42,15 +42,6 @@ public:
 	void CreateCube(const vec3& position, const uint& length = 1u, const uint& width = 1u, const uint& height = 1u);
 	void DrawShapes(); 
 
-	void CreateCubeParShapes();
-	void CreateSphereParShapes(); 
-
-	void DrawCubeDirectMode();
-	void DrawCubeVertexArray(); 
-	void DrawCubeIndexArray(); 
-	void DrawCubeParShapes(); 
-	void DrawSphereParShapes(); 
-
 	void DrawAxis();
 
 	void Log(char* log) const; 
@@ -67,14 +58,6 @@ public:
 	
 	bool show_demo_window = false;
 	bool debugMode = true; 
-
-	par_shapes_mesh* cubeMesh = nullptr; 
-	uint cubeId = 0; 
-	uint indexCubeId = 0; 
-
-	par_shapes_mesh* sphereMesh = nullptr; 
-	uint sphereId = 0; 
-	uint indexSphereId = 0; 
 
 	std::list<shapeInfo*> shapes; 
 };
