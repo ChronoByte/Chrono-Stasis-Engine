@@ -10,6 +10,7 @@
 #include "src/Structure/GeometryWindow.h"
 #include "src/Structure/AboutWindow.h"
 #include "src/Structure/ConsoleWindow.h"
+#include "src/Structure/RandomWindow.h"
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
@@ -19,6 +20,8 @@ ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 	geometryWin = new GeometryWindow();
 	about = new AboutWindow();	
 	console = new ConsoleWindow(true);
+	randomWin = new RandomWindow(); 
+
 }
 
 ModuleEditor::~ModuleEditor()
@@ -36,21 +39,8 @@ bool ModuleEditor::Start()
 	
 	config->Start();
 
-	//Seeds random number generator
-	//pcg32_srandom_r(&rng, time(NULL), (intptr_t)&rng);
-	
-	//Seed with external entropy
-	entropy_getbytes((void*)seeds, sizeof(seeds));
-	pcg32_srandom_r(&rng, seeds[0], seeds[1]);
-
 	//Adding flags using bit-wise OR
-	window_flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_AlwaysAutoResize;
 
-	rand1 = 0;
-	rand2 = 0;
-	rand3 = 0;
-
-	
 	CreateCubeParShapes();
 	CreateSphereParShapes();
 
@@ -138,7 +128,7 @@ update_status ModuleEditor::Update(float dt)
 		}
 		if (ImGui::BeginMenu("Random (PCG)"))
 		{
-			if (ImGui::MenuItem("Test pcg", "", &random_panel)) {}
+			if (ImGui::MenuItem("Test pcg", "", randomWin->GetBool())) {}
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Configuration"))
@@ -167,12 +157,11 @@ update_status ModuleEditor::Update(float dt)
 	if (console->GetActive())
 		console->Draw(); 
 
+	if (randomWin->GetActive())
+		randomWin->Draw();
+
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
-
-	if (random_panel) 
-		DrawRandomPanel();
-	
 
 	glLineWidth(1.0f);
 
@@ -225,62 +214,6 @@ void ModuleEditor::SetHelpMenu()
 
 	if (ImGui::MenuItem("About"))
 		about->SwitchActive();
-}
-
-void ModuleEditor::DrawRandomPanel()
-{
-	ImGui::SetNextWindowSize({ 300,500 });
-
-	ImGui::Begin("Random Generator", &random_panel, window_flags);
-	ImGui::Separator();
-	ImGui::Text("Randoms rounded [0,1)");
-	ImGui::Separator();
-
-	if (ImGui::Button("Generate 1"))
-		rand1 = ldexp(pcg32_random_r(&rng), -32);
-
-	ImGui::SameLine();
-	ImGui::Text(std::to_string(rand1).c_str());
-
-	ImGui::Separator();
-	ImGui::Text("Randoms rounded [0,6)");
-
-	if (ImGui::Button("Generate 2"))
-		rand2 = pcg32_boundedrand_r(&rng_bounded, 6);
-
-	ImGui::SameLine();
-	ImGui::Text("%i", (int)rand2);
-
-	ImGui::Separator();
-
-	ImGui::Text("Randoms rounded to anyone [min/max]");
-
-	ImGui::InputInt("Max", &max);
-	ImGui::InputInt("Min", &min);
-
-	if (ImGui::Button("Generate 3") && max >= min)
-		rand3 = pcg32_boundedrand_r(&rng_bounded2, (max - min) + 1);
-
-	ImGui::SameLine();
-	ImGui::Text("%i", (int)(rand3 + min));
-
-	ImGui::Separator();
-
-	ImGui::Text(" Make some 32-bit numbers ");
-
-	if (ImGui::Button("Generate 4")) {
-		for (int i = 0; i < 6; ++i)
-			nums[i] = pcg32_random_r(&rng);
-	}
-
-	for (int i = 0; i < 6; ++i) {
-		ImGui::Text("32bit: ");
-		ImGui::SameLine();
-		ImGui::Text("0x%08x", (int)nums[i]);
-	}
-
-
-	ImGui::End();
 }
 
 void ModuleEditor::CreateCube(const vec3& position, const uint & length, const uint & width, const uint & height)

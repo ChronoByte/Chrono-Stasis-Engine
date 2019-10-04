@@ -2,10 +2,6 @@
 #include "csModule.h"
 #include "csGlobals.h"
 
-#include "imgui/imgui.h"
-#include "pcg/pcg C/include/pcg_variants.h"
-#include "pcg/pcg C/extras/entropy.h"
-
 #include "glew/include/GL/glew.h"
 
 #include "MathGeoLib/include/MathGeoLib.h"
@@ -23,6 +19,7 @@ class ConfigWindow;
 class GeometryWindow; 
 class AboutWindow;
 class ConsoleWindow; 
+class RandomWindow; 
 
 struct shapeInfo {
 	uint myId = 0; 
@@ -41,7 +38,6 @@ public:
 	bool CleanUp();
 
 	void SetHelpMenu();
-	void DrawRandomPanel();
 
 	void CreateCube(const vec3& position, const uint& length = 1u, const uint& width = 1u, const uint& height = 1u);
 	void DrawShapes(); 
@@ -67,27 +63,9 @@ public:
 	AboutWindow*	about = nullptr;
 	PhysBody3D*		sensor = nullptr;
 	ConsoleWindow*	console = nullptr; 
-
-	double rand1;
-	uint32_t rand2;
-	uint32_t rand3;
-
-	uint32_t nums[6];
-	uint64_t seeds[2];
-
-	int min = 0;
-	int	max = 0;
-
-	ImGuiWindowFlags window_flags = ImGuiWindowFlags_None;
-	bool math_test = false;
-
-	//Struct with state + inc
-	pcg32_random_t rng; //typedef struct 64-b
-	pcg_state_setseq_64 rng_bounded; // struct 64-b
-	pcg_state_setseq_64 rng_bounded2;
+	RandomWindow*	randomWin = nullptr; 
+	
 	bool show_demo_window = false;
-	bool random_panel = false;
-
 	bool debugMode = true; 
 
 	par_shapes_mesh* cubeMesh = nullptr; 

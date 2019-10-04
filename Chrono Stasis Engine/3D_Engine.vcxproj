@@ -180,6 +180,7 @@
     <ClInclude Include="Engine\src\Structure\ConfigWindow.h" />
     <ClInclude Include="Engine\src\Structure\ConsoleWindow.h" />
     <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
+    <ClInclude Include="Engine\src\Structure\RandomWindow.h" />
     <ClInclude Include="Engine\src\Structure\Window.h" />
     <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
     <ClInclude Include="Engine\src\Tools\Timer.h" />
@@ -204,6 +205,7 @@
     <ClCompile Include="Engine\src\Structure\ConfigWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ConsoleWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
+    <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\log.cpp" />
     <ClCompile Include="Engine\src\Core\csMain.cpp" />
     <ClCompile Include="Engine\src\Modules\csCamera3D.cpp" />

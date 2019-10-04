@@ -298,6 +298,7 @@
     <ClInclude Include="Engine\Dependencies\gpudetect\DeviceId.h" />
     <ClInclude Include="Engine\Dependencies\par\par_shapes.h" />
     <ClInclude Include="Engine\Dependencies\JSON\parson.h" />
+    <ClInclude Include="Engine\src\Structure\RandomWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -466,6 +467,7 @@
     <ClCompile Include="Engine\Dependencies\gpudetect\DeviceId.cpp" />
     <ClCompile Include="Engine\Dependencies\par\par_shapes.cpp" />
     <ClCompile Include="Engine\Dependencies\JSON\parson.c" />
+    <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
