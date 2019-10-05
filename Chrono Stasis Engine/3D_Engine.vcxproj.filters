@@ -337,6 +337,7 @@
     <ClInclude Include="Engine\Dependencies\Assimp\include\vector2.h" />
     <ClInclude Include="Engine\Dependencies\Assimp\include\vector3.h" />
     <ClInclude Include="Engine\Dependencies\Assimp\include\version.h" />
+    <ClInclude Include="Engine\Dependencies\imgui\imgui_dock.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -507,6 +508,7 @@
     <ClCompile Include="Engine\Dependencies\JSON\parson.c" />
     <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
     <ClCompile Include="Engine\src\Modules\csFBXLoader.cpp" />
+    <ClCompile Include="Engine\Dependencies\imgui\imgui_dock.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

@@ -128,6 +128,7 @@
     <ClInclude Include="Engine\Dependencies\Assimp\include\version.h" />
     <ClInclude Include="Engine\Dependencies\gpudetect\DeviceId.h" />
     <ClInclude Include="Engine\Dependencies\gpudetect\dxgi1_4.h" />
+    <ClInclude Include="Engine\Dependencies\imgui\imgui_dock.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_opengl3.h" />
     <ClInclude Include="Engine\Dependencies\JSON\parson.h" />
     <ClInclude Include="Engine\Dependencies\mmgr\mmgr.h" />
@@ -225,6 +226,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Dependencies\gpudetect\DeviceId.cpp" />
+    <ClCompile Include="Engine\Dependencies\imgui\imgui_dock.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Engine\Dependencies\JSON\parson.c" />
     <ClCompile Include="Engine\Dependencies\mmgr\mmgr.cpp" />
