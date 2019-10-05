@@ -137,6 +137,7 @@
     <ClInclude Include="Engine\src\Core\csApp.h" />
     <ClInclude Include="Engine\src\Helpers\Color.h" />
     <ClInclude Include="Engine\src\Modules\csFBXLoader.h" />
+    <ClInclude Include="Engine\src\Modules\csMesh.h" />
     <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
     <ClInclude Include="Engine\Dependencies\glm\glmath.h" />
     <ClInclude Include="Engine\src\Core\csGlobals.h" />
@@ -235,6 +236,7 @@
     <ClCompile Include="Engine\src\Core\csApp.cpp" />
     <ClCompile Include="Engine\src\Helpers\Color.cpp" />
     <ClCompile Include="Engine\src\Modules\csFBXLoader.cpp" />
+    <ClCompile Include="Engine\src\Modules\csMesh.cpp" />
     <ClCompile Include="Engine\src\Modules\csRendererGUI.cpp" />
     <ClCompile Include="Engine\Dependencies\glm\glmath.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui.cpp" />

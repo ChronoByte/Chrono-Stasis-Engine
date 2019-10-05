@@ -21,11 +21,7 @@ class AboutWindow;
 class ConsoleWindow; 
 class RandomWindow; 
 
-struct shapeInfo {
-	uint myId = 0; 
-	uint indexId = 0; 
-	par_shapes_mesh* myMesh = nullptr; 
-};
+class Mesh; 
 
 class ModuleEditor : public Module
 {
@@ -40,7 +36,6 @@ public:
 	void SetHelpMenu();
 
 	void CreateCube(const vec3& position, const uint& length = 1u, const uint& width = 1u, const uint& height = 1u);
-	void DrawShapes(); 
 
 	void DrawAxis();
 
@@ -60,7 +55,7 @@ public:
 	bool show_demo_window = false;
 	bool debugMode = true; 
 
-	std::list<shapeInfo*> shapes; 
+	std::list<Mesh*> shapes; 
 
 	
 };

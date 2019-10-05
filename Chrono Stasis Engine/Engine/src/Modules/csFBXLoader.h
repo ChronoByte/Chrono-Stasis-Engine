@@ -1,28 +1,7 @@
 #pragma once
 #include "csModule.h"
 #include "csGlobals.h"
-
-
-struct Mesh
-{
-	uint id_indices = 0; // index in VRAM
-	uint num_indices = 0;
-	uint* indices = nullptr;
-
-	uint id_vertices = 0; // unique vertex in VRAM
-	uint num_vertices = 0;
-	float* vertices = nullptr;
-
-	~Mesh()
-	{
-		delete[] indices;
-		delete[] vertices;
-	}
-
-	
-};
-
-
+#include "csMesh.h"
 
 class ModuleFBXLoader : public Module
 {

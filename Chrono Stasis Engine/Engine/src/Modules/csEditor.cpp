@@ -7,6 +7,8 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_dock.h"
 
+#include "csMesh.h"
+
 // Including windows
 #include "src/Structure/ConfigWindow.h"
 #include "src/Structure/GeometryWindow.h"
@@ -62,11 +64,11 @@ bool ModuleEditor::CleanUp()
 	delete console; 
 	console = nullptr; 
 	
-	std::list<shapeInfo*>::const_iterator item = shapes.begin();
+	std::list<Mesh*>::const_iterator item = shapes.begin();
 
 	for (item; item != shapes.end(); item++)
 	{
-		par_shapes_free_mesh((*item)->myMesh); 
+		delete (*item); 
 	}
 
 	shapes.clear(); 
@@ -181,7 +183,11 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
 	
-	DrawShapes();
+	std::list <Mesh*> ::const_iterator item = shapes.begin();
+	for (item; item != shapes.end(); item++)
+	{
+		(*item)->Draw(); 
+	}
 
 	return ret;
 }
@@ -217,53 +223,13 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 	par_shapes_translate(mesh, position.x, position.y, position.z);
 	par_shapes_scale(mesh, length, height, width);
 
-	if (mesh != nullptr)
-		LOG("Created a Cube in position: \nx = %.2f, y = %.2f, z = %.2f", position.x, position.y, position.y);
+	LOG("Created a Cube in position: \nx = %.2f, y = %.2f, z = %.2f", position.x, position.y, position.y);
 
-	uint id = 0; 
-	glGenBuffers(1, &id);
-	glBindBuffer(GL_ARRAY_BUFFER, id);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * mesh->npoints * 3, mesh->points, GL_STATIC_DRAW);
+	Mesh* shape = new Mesh(mesh); 
 
-	if (id != 0)
-		LOG("Generated array buffer correctly. Buffer Id = %i", id);
-
-	uint indexId = 0; 
-	glGenBuffers(1, &indexId);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexId);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * mesh->ntriangles * 3, mesh->triangles, GL_STATIC_DRAW);
-
-	if (indexId != 0)
-		LOG("Generated element array buffer correctly. Buffer Id = %i",indexId);
-
-	shapeInfo* shape = new shapeInfo(); 
-	shape->myId = id; 
-	shape->indexId = indexId; 
-	shape->myMesh = mesh;
-	
 	shapes.push_back(shape); 
+
 	LOG("Pushed shape to the list. Current shapes: %i", shapes.size());
-}
-
-void ModuleEditor::DrawShapes()
-{
-	if (shapes.empty())
-		return; 
-
-	std::list<shapeInfo*>::const_iterator item = shapes.begin();
-	glEnableClientState(GL_VERTEX_ARRAY);
-
-	for (item; item != shapes.end(); item++)
-	{
-		// Drawing Cube
-		glBindBuffer(GL_ARRAY_BUFFER, (*item)->myId);
-		glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, (*item)->indexId);
-		glDrawElements(GL_TRIANGLES, (*item)->myMesh->ntriangles * 3, GL_UNSIGNED_SHORT, (void*)0);
-	}
-	glDisableClientState(GL_VERTEX_ARRAY);
-
 }
 
 void ModuleEditor::DrawAxis()
