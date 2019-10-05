@@ -39,6 +39,21 @@ update_status ModuleFBXLoader::PreUpdate(float dt)
 
 update_status ModuleFBXLoader::Update(float dt)
 {
+
+	if(App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN){
+	
+		if (!meshes.empty()) {
+			for (uint i = 0; i < meshes.size(); i++)
+			{
+				LOG("Mesh num: %d", i);
+				LOG("Num of Vertices: %d", meshes[i].num_vertices);
+				LOG("Num of Indices: %d", meshes[i].num_indices);
+			}
+		}
+	
+	}
+		
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -50,6 +65,7 @@ update_status ModuleFBXLoader::PostUpdate(float dt)
 bool ModuleFBXLoader::CleanUp()
 {
 	aiDetachAllLogStreams();
+	
 	return true;
 }
 
@@ -73,7 +89,6 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 			m.vertices = new float[m.num_vertices * 3];
 			memcpy(m.vertices, new_mesh->mVertices, sizeof(float) * m.num_vertices * 3);
 
-			LOG("New mesh with %d vertices", m.num_vertices);
 
 			// copy faces
 			if (new_mesh->HasFaces())
@@ -91,10 +106,13 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 				}
 			}
 
+			LOG("Mesh Loaded Correctly!");
 			meshes.push_back(m); // Push mesh into container of meshes
 		}
 
+		
 		aiReleaseImport(scene); // a tomar por culo el fbx 
+		scene = nullptr;
 	}
 	else
 		LOG("Error loading scene %s", fbx_name);

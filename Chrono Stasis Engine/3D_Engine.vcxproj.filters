@@ -338,6 +338,7 @@
     <ClInclude Include="Engine\Dependencies\Assimp\include\vector3.h" />
     <ClInclude Include="Engine\Dependencies\Assimp\include\version.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui_dock.h" />
+    <ClInclude Include="Engine\src\Modules\Game\csScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -509,6 +510,7 @@
     <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
     <ClCompile Include="Engine\src\Modules\csFBXLoader.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_dock.cpp" />
+    <ClCompile Include="Engine\src\Modules\Game\csScene.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

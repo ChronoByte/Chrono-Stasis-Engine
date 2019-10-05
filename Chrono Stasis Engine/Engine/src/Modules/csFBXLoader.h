@@ -18,6 +18,8 @@ struct Mesh
 		delete[] indices;
 		delete[] vertices;
 	}
+
+	
 };
 
 
