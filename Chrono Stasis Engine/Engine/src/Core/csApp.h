@@ -10,7 +10,7 @@
 #include "csRenderer3D.h"
 #include "csCamera3D.h"
 #include "csRendererGUI.h"
-
+#include "csFBXLoader.h"
 
 
 #include <list>
@@ -29,6 +29,7 @@ public:
 	ModuleRenderer3D*	renderer3D = nullptr;
 	ModuleCamera3D*		camera = nullptr;
 	ModuleUI*			gui = nullptr;
+	ModuleFBXLoader*    fbx = nullptr;
 
 private:
 

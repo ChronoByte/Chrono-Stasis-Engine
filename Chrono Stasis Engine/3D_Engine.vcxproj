@@ -89,6 +89,43 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Dependencies\Assimp\include\ai_assert.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\anim.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\camera.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\cexport.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\cfileio.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\cimport.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\color4.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\Compiler\poppack1.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\Compiler\pstdint.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\Compiler\pushpack1.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\config.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\DefaultLogger.hpp" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\defs.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\Exporter.hpp" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\Importer.hpp" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\importerdesc.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\IOStream.hpp" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\IOSystem.hpp" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\light.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\Logger.hpp" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\LogStream.hpp" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\material.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\matrix3x3.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\matrix4x4.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\mesh.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\metadata.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\NullLogger.hpp" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\port\AndroidJNI\AndroidJNIIOSystem.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\postprocess.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\ProgressHandler.hpp" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\quaternion.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\scene.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\texture.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\types.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\vector2.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\vector3.h" />
+    <ClInclude Include="Engine\Dependencies\Assimp\include\version.h" />
     <ClInclude Include="Engine\Dependencies\gpudetect\DeviceId.h" />
     <ClInclude Include="Engine\Dependencies\gpudetect\dxgi1_4.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui_impl_opengl3.h" />
@@ -98,6 +135,7 @@
     <ClInclude Include="Engine\Dependencies\par\par_shapes.h" />
     <ClInclude Include="Engine\src\Core\csApp.h" />
     <ClInclude Include="Engine\src\Helpers\Color.h" />
+    <ClInclude Include="Engine\src\Modules\csFBXLoader.h" />
     <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
     <ClInclude Include="Engine\Dependencies\glm\glmath.h" />
     <ClInclude Include="Engine\src\Core\csGlobals.h" />
@@ -193,6 +231,7 @@
     <ClCompile Include="Engine\Dependencies\par\par_shapes.cpp" />
     <ClCompile Include="Engine\src\Core\csApp.cpp" />
     <ClCompile Include="Engine\src\Helpers\Color.cpp" />
+    <ClCompile Include="Engine\src\Modules\csFBXLoader.cpp" />
     <ClCompile Include="Engine\src\Modules\csRendererGUI.cpp" />
     <ClCompile Include="Engine\Dependencies\glm\glmath.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui.cpp" />
@@ -251,6 +290,13 @@
     <ClCompile Include="Engine\src\Tools\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Engine\Dependencies\Assimp\include\color4.inl" />
+    <None Include="Engine\Dependencies\Assimp\include\material.inl" />
+    <None Include="Engine\Dependencies\Assimp\include\matrix3x3.inl" />
+    <None Include="Engine\Dependencies\Assimp\include\matrix4x4.inl" />
+    <None Include="Engine\Dependencies\Assimp\include\quaternion.inl" />
+    <None Include="Engine\Dependencies\Assimp\include\vector2.inl" />
+    <None Include="Engine\Dependencies\Assimp\include\vector3.inl" />
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl" />
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\QuadTree.inl" />
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />

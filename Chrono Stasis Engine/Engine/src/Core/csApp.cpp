@@ -19,6 +19,7 @@ Application::Application()
 	renderer3D	= new ModuleRenderer3D();
 	camera		= new ModuleCamera3D();
 	gui			= new ModuleUI();
+	fbx			= new ModuleFBXLoader();
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -30,6 +31,7 @@ Application::Application()
 	AddModule(input);
 	// Scenes
 	AddModule(editor);
+	AddModule(fbx);
 
 	// Renderer GUI
 	AddModule(gui);
@@ -54,6 +56,7 @@ Application::~Application()
 	renderer3D	= nullptr;
 	camera		= nullptr;
 	gui			= nullptr;
+	fbx			= nullptr;
 }
 
 bool Application::Init()
