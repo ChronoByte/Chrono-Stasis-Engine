@@ -53,6 +53,18 @@ update_status ModuleFBXLoader::Update(float dt)
 	
 	}
 		
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	for (uint i = 0; i < meshes.size(); i++)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, meshes[i].id_vertices);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshes[i].id_indices);
+		glDrawElements(GL_TRIANGLES, meshes[i].num_indices, GL_UNSIGNED_INT, (void*)0);
+	}
+
+	glDisableClientState(GL_VERTEX_ARRAY);
 	
 	return UPDATE_CONTINUE;
 }
@@ -105,6 +117,17 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 					else memcpy(&m.indices[i * 3], new_mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 				}
 			}
+
+			glGenBuffers(1, &m.id_vertices);
+			glBindBuffer(GL_ARRAY_BUFFER, m.id_vertices);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * m.num_vertices * 3, m.vertices, GL_STATIC_DRAW);
+
+			if (m.id_vertices != 0)
+				LOG("Generated array buffer correctly. Buffer Id = %i", m.id_vertices);
+
+			glGenBuffers(1, &m.id_indices);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m.id_indices);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * m.num_indices, m.indices, GL_STATIC_DRAW);
 
 			LOG("Mesh Loaded Correctly!");
 			meshes.push_back(m); // Push mesh into container of meshes
