@@ -26,6 +26,9 @@ bool ModuleFBXLoader::Init(JSON_Object* node)
 
 bool ModuleFBXLoader::Start()
 {
+	struct aiLogStream stream;
+	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	aiAttachLogStream(&stream);
 	return true;
 }
 
@@ -46,5 +49,6 @@ update_status ModuleFBXLoader::PostUpdate(float dt)
 
 bool ModuleFBXLoader::CleanUp()
 {
+	aiDetachAllLogStreams();
 	return true;
 }

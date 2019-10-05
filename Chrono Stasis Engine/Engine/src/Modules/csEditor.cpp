@@ -89,7 +89,8 @@ update_status ModuleEditor::Update(float dt)
 
 	if (debugMode)
 		DrawAxis();
-
+	ImGui::SetNextWindowPos(ImVec2(App->window->width - 500.0f, App->window->height - 205.0f), ImGuiCond_Once); //Imaginary numbers are from size params!
+	ImGui::SetNextWindowSize(ImVec2(500.0f, 205.0f), ImGuiCond_Once);
 	if (ImGui::Begin("Dock Demo"))
 	{
 		// dock layout by hard-coded or .ini file
