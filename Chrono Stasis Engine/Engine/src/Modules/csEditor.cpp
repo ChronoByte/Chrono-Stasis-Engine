@@ -4,6 +4,8 @@
 #include <string>
 #include "time.h"
 #include "csInput.h"
+#include "imgui/imgui.h"
+#include "imgui/imgui_dock.h"
 
 // Including windows
 #include "src/Structure/ConfigWindow.h"
@@ -39,6 +41,7 @@ bool ModuleEditor::Start()
 	
 	config->Start();
 
+	
 	return ret;
 }
 
@@ -87,6 +90,35 @@ update_status ModuleEditor::Update(float dt)
 	if (debugMode)
 		DrawAxis();
 
+	if (ImGui::Begin("Dock Demo"))
+	{
+		// dock layout by hard-coded or .ini file
+		ImGui::BeginDockspace();
+
+		if (ImGui::BeginDock("Dock 1")) {
+			ImGui::Text("Sebas");
+		}
+		ImGui::EndDock();
+
+		if (ImGui::BeginDock("Dock 2")) {
+			ImGui::Text("Carlos");
+		}
+		ImGui::EndDock();
+
+		if (ImGui::BeginDock("Dock 3")) {
+			ImGui::Text("E.T.");
+		}
+		ImGui::EndDock();
+		if (ImGui::BeginDock("Configuration Window")) {
+			config->DockDraw();
+		}
+		ImGui::EndDock();
+
+		ImGui::EndDockspace();
+	}
+	ImGui::End();
+
+	
 	update_status ret = UPDATE_CONTINUE; 
 
 	//d = ldexp(pcg32_random_r(&rng), -32); //generating a flaoting points between [0,1) rounded nearest multiple of 1/2^32
@@ -282,6 +314,7 @@ void ModuleEditor::DrawAxis()
 
 	glLineWidth(1.0f);
 }
+
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 //{

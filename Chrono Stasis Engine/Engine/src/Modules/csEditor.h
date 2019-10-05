@@ -45,6 +45,7 @@ public:
 	void DrawAxis();
 
 	void Log(char* log) const; 
+	
 	//void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
@@ -60,4 +61,6 @@ public:
 	bool debugMode = true; 
 
 	std::list<shapeInfo*> shapes; 
+
+	
 };

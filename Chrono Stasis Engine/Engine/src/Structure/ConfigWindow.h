@@ -32,6 +32,7 @@ public:
 	bool CleanUp();
 
 	void Draw() override;
+	void DockDraw();
 	void AppConfiguration();
 	void WindowConfiguration();
 	void HardwareConfiguration();

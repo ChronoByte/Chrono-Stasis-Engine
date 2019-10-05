@@ -75,6 +75,17 @@ void ConfigWindow::Draw()
 
 }
 
+void ConfigWindow::DockDraw() {
+
+		AppConfiguration();
+		WindowConfiguration();
+		GUIConfiguration();
+		HardwareConfiguration();
+		InputConfiguration();
+		RendererConfiguration();
+	
+}
+
 bool ConfigWindow::CleanUp()
 {
 	bool ret = true;
