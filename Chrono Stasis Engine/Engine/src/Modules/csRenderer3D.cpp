@@ -272,6 +272,11 @@ void ModuleRenderer3D::ToggleDebugMode()
 	debugMode = !debugMode; 
 }
 
+bool ModuleRenderer3D::GetDebugMode() const
+{
+	return debugMode;
+}
+
 void ModuleRenderer3D::SetDepthTest(const bool& depth) const
 {
 	if (depth)

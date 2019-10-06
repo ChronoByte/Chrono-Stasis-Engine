@@ -27,7 +27,7 @@ public:
 	void DrawOriginAxis();
 
 	void ToggleDebugMode(); 
-
+	bool GetDebugMode() const; 
 private:
 
 	bool debugMode = true;

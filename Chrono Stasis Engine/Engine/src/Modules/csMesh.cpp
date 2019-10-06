@@ -45,10 +45,108 @@ void Mesh::Draw()
 
 void Mesh::DrawNormals()
 {
+	glBegin(GL_LINES);
+
+	glColor3f(0, 1, 0);
+	uint normalSize = 5;
+
+	int j = 0; 
+	for (int i = 0; i < index.capacity; i += 3)
+	{
+		/*float xMid = vertex.buffer[i] + vertex.buffer[i + 3] + vertex.buffer[i + 6];
+		float yMid = vertex.buffer[i + 1] + vertex.buffer[i + 4] + vertex.buffer[i + 7];
+		float zMid = vertex.buffer[i + 2] + vertex.buffer[i + 5] + vertex.buffer[i + 8];*/
+
+
+		// Center of triangle 
+
+		float v1x = vertex.buffer[index.buffer[i] * 3] ; 
+		float v1y = vertex.buffer[(index.buffer[i] * 3) + 1];
+		float v1z = vertex.buffer[(index.buffer[i] * 3) + 2];
+		
+		float v2x = vertex.buffer[index.buffer[i + 1] * 3];
+		float v2y = vertex.buffer[(index.buffer[i + 1] * 3) + 1];
+		float v2z = vertex.buffer[(index.buffer[i + 1] * 3) + 2];
+		
+		float v3x = vertex.buffer[index.buffer[i + 2] * 3];
+		float v3y = vertex.buffer[(index.buffer[i + 2] * 3) + 1];
+		float v3z = vertex.buffer[(index.buffer[i + 2] * 3) + 2];
+
+
+		float xMid = v1x + v2x + v3x; 
+		float yMid = v1y + v2y + v3y; 
+		float zMid = v1z + v2z + v3z; 
+
+		xMid /= 3; 
+		yMid /= 3; 
+		zMid /= 3; 
+
+		vec3 v1 = vec3(v1x, v1y, v1z); 
+		vec3 v2 = vec3(v2x, v2y, v2z); 
+		vec3 v3 = vec3(v3x, v3y, v3z);
+
+		vec3 u = v2 - v1; 
+		vec3 v = v3 - v1; 
+
+		float normalX = (u.y * v.z) - (u.z * v.y);
+		float normalY = (u.z * v.x) - (u.x * v.z);
+		float normalZ = (u.x * v.y) - (u.y * v.x);
+		
+		float module = sqrt(normalX * normalX + normalY * normalY + normalZ * normalZ);
+		normalX /= module; 
+		normalY /= module; 
+		normalZ /= module; 
+
+		glVertex3f(xMid, yMid, zMid); 
+		//glVertex3f(xMid + normals.buffer[j] * normalSize, yMid + normals.buffer[j + 1] * normalSize, zMid + normals.buffer[j + 2] * normalSize);
+		glVertex3f(xMid + normalX * normalSize, yMid + normalY * normalSize, zMid + normalZ * normalSize);
+		j += 3; 
+	}
+
+	glColor3f(0, 0, 0);
+
+	glEnd();
 }
 
 void Mesh::DrawVertexNormals()
 {
+	glBegin(GL_LINES);
+	uint normalSize = 10; 
+	glColor3f(1, 0, 0);
+
+	float n1x = 0;
+	float n1y = 0;
+	float n1z = 0;
+
+	float v1x = 0;
+	float v1y = 0;
+	float v1z = 0;
+
+	float v2x = 0;
+	float v2y = 0;
+	float v2z = 0;
+
+	for (int i = 0; i < normals.capacity * 3; i += 3)
+	{
+		n1x = normals.buffer[i];			
+		n1y = normals.buffer[i + 1];
+		n1z = normals.buffer[i + 2];
+
+		v1x = vertex.buffer[i];
+		v1y = vertex.buffer[i + 1];
+		v1z = vertex.buffer[i + 2];
+
+		v2x = v1x + n1x * normalSize;
+		v2y = v1y + n1y * normalSize;
+		v2z = v1z + n1z * normalSize;
+
+		glVertex3f(v1x, v1y, v1z);
+		glVertex3f(v2x, v2y, v2z);
+
+	}
+	glColor3f(0, 0, 0);
+
+	glEnd();
 }
 
 void Mesh::LoadMeshVertices(aiMesh* mesh)
@@ -78,7 +176,7 @@ void Mesh::LoadMeshIndices(aiMesh* mesh)
 
 void Mesh::LoadMeshNormals(aiMesh* mesh)
 {
-	normals.capacity = mesh->mNumFaces;
+	normals.capacity = mesh->mNumFaces * 3;
 	normals.buffer = new float[normals.capacity * 3];
 	memcpy(normals.buffer, mesh->mNormals, sizeof(float) * normals.capacity * 3);
 	LOG("New mesh loaded with %d normals", normals.capacity);

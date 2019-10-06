@@ -105,7 +105,7 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 			}
 			else LOG("No UV Channel detected");
 
-			//m.LoadMeshFromFBX(new_mesh);
+			m.LoadMeshFromFBX(new_mesh);	// Using this for now, mesh loader and buffer loading still to patronize
 			m.CreateMeshBuffers(); 
 
 			App->renderer3D->PushMeshToRender(&m);  // Push mesh into container of meshes

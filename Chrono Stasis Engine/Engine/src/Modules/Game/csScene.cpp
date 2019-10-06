@@ -27,23 +27,26 @@ update_status ModuleScene::Update(float dt)
 		App->fbx->LoadFBXData("Assets/warrior.FBX");
 	
 
-	glLineWidth(1.0f);
-
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-	glBegin(GL_LINES);
-
-	float d = 200.0f;
-
-	for (float i = -d; i <= d; i += 1.0f)
+	if (App->renderer3D->GetDebugMode())
 	{
-		glVertex3f(i, 0.0f, -d);
-		glVertex3f(i, 0.0f, d);
-		glVertex3f(-d, 0.0f, i);
-		glVertex3f(d, 0.0f, i);
-	}
+		glLineWidth(1.0f);
 
-	glEnd();
+		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+		glBegin(GL_LINES);
+
+		float d = 200.0f;
+
+		for (float i = -d; i <= d; i += 1.0f)
+		{
+			glVertex3f(i, 0.0f, -d);
+			glVertex3f(i, 0.0f, d);
+			glVertex3f(-d, 0.0f, i);
+			glVertex3f(d, 0.0f, i);
+		}
+
+		glEnd();
+	}
 
 
 	return UPDATE_CONTINUE;
