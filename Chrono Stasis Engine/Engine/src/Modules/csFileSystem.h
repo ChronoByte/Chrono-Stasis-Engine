@@ -13,9 +13,10 @@ public:
 	bool CleanUp();
 
 public:
-	bool ModuleFileSystem::AddPath(const char* path);
-	bool ModuleFileSystem::FileExist(char* file_name) const;
-
+	bool AddPath(const char* path);
+	bool FileExist(char* file_name) const;
+	bool OpenFileWrite(char* file_name) const;
+	bool OpenFileRead(char* file_name) const;
 private:
 
 };

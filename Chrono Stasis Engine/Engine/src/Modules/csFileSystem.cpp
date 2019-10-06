@@ -30,10 +30,11 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 
 	SDL_free(app_path);
 
-	//LOG("Game Folder Directory pointed...\n");
+	LOG("FILESYSTEM: Setting Up directories");
 	AddPath(".");
 	AddPath("../Game");
 
+	PHYSFS_setWriteDir(".");
 
 	return ret;
 }
@@ -72,6 +73,8 @@ bool ModuleFileSystem::AddPath(const char* path)
 		ret = true;
 		LOG("FILESYSTEM: Directory ( %s ) successfully added to the search path!", path);
 	}
+	else
+		LOG("FILESYSTEM: could not add Directory ( %s ) to the search path: %s",path, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 
 	return ret;
 }
@@ -84,4 +87,39 @@ bool ModuleFileSystem::FileExist(char* file_name) const
 		ret = true;
 
 	return ret;
+}
+
+bool ModuleFileSystem::OpenFileWrite(char* file_name) const
+{
+	bool ret = false;
+	PHYSFS_File* file = PHYSFS_openWrite(file_name);
+
+	if (file != nullptr)
+	{
+		ret = true;
+		LOG("FILESYSTEM: file %s successfully opened for writing.", file_name);
+	}
+	else
+		LOG("FILESYSTEM: could not open file %s for writting: %s", file_name, PHYSFS_getLastErrorCode());
+
+	PHYSFS_close(file);
+	return ret;		
+} 	
+
+bool ModuleFileSystem::OpenFileRead(char* file_name) const
+{
+	bool ret = false;
+	PHYSFS_File* file = PHYSFS_openRead(file_name);
+
+	if (file != nullptr)
+	{
+		ret = true;
+		LOG("FILESYSTEM: file %s successfully opened for reading.", file_name);
+	}
+	else
+		LOG("FILESYSTEM: could not open file %s for reading: %s", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+
+	PHYSFS_close(file);
+	return ret;
+
 }
