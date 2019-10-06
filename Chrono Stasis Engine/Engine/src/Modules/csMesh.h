@@ -32,8 +32,8 @@ public:
 	void LoadMeshVertices(aiMesh* mesh);
 	void LoadMeshIndices(aiMesh* mesh);
 	void LoadMeshNormals(aiMesh* mesh);
-	void LoadMeshColors(aiMesh* mesh);
-	void LoadMeshTextureCoords(aiMesh* mesh);
+	void LoadMeshColors(aiMesh* mesh, int index);
+	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 
 	void LoadMeshFromFBX(aiMesh* mesh); 
 	void CreateMeshBuffers(); 
