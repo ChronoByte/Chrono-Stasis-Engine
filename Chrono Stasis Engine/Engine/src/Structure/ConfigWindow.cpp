@@ -47,6 +47,7 @@ bool ConfigWindow::Start()
 	specular_light = App->renderer3D->GetSpecularLight();
 	fog = App->renderer3D->GetFog();
 
+
 	return ret;
 
 }
@@ -451,6 +452,9 @@ void ConfigWindow::RendererConfiguration()
 		if (ImGui::Checkbox("Fog", &fog))
 			App->renderer3D->SetFog(fog);
 
+		if (ImGui::Checkbox("Draw Normals", &App->renderer3D->drawNormals)) {} ImGui::SameLine(200.0f);
+
+		if (ImGui::Checkbox("Draw Vertex Normals", &App->renderer3D->drawVertexNormals)) {}
 
 		ImGui::Separator();
 

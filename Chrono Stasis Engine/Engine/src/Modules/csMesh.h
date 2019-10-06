@@ -28,6 +28,8 @@ public:
 	~Mesh();
 
 	void Draw();
+	void DrawNormals(); 
+	void DrawVertexNormals(); 
 
 	void LoadMeshVertices(aiMesh* mesh);
 	void LoadMeshIndices(aiMesh* mesh);

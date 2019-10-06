@@ -43,6 +43,14 @@ void Mesh::Draw()
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
+void Mesh::DrawNormals()
+{
+}
+
+void Mesh::DrawVertexNormals()
+{
+}
+
 void Mesh::LoadMeshVertices(aiMesh* mesh)
 {
 	vertex.capacity = mesh->mNumVertices;

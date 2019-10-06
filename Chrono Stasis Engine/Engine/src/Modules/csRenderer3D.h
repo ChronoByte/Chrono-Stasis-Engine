@@ -6,6 +6,8 @@
 
 #define MAX_LIGHTS 8
 
+class Mesh; 
+
 class ModuleRenderer3D : public Module
 {
 public:
@@ -14,11 +16,25 @@ public:
 
 	bool Init(JSON_Object* node);
 	update_status PreUpdate(float dt);
+	update_status Update(float dt); 
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
 	void OnResize(int width, int height);
+
+	void PushMeshToRender(Mesh* mesh); 
+	void DrawMeshes(); 
+	void DrawOriginAxis();
+
+	void ToggleDebugMode(); 
+
+private:
+
+	bool debugMode = true;
+	std::list<Mesh*> meshes; 
+
 public:
+
 	void SetDepthTest(const bool& depth) const;
 	void SetCullFace(const bool& cullFace) const;
 	void SetLighting(const bool& light) const;
@@ -72,4 +88,7 @@ public:
 	bool diffuse_light = false;
 	bool specular_light = false;
 	bool fog = false;
+
+	bool drawNormals = false; 
+	bool drawVertexNormals = false; 
 };

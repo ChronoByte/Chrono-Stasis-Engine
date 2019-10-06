@@ -64,15 +64,6 @@ bool ModuleEditor::CleanUp()
 	delete console; 
 	console = nullptr; 
 	
-	std::list<Mesh*>::const_iterator item = shapes.begin();
-
-	for (item; item != shapes.end(); item++)
-	{
-		delete (*item); 
-	}
-
-	shapes.clear(); 
-
 	return true;
 }
 
@@ -85,12 +76,7 @@ void ModuleEditor::Log(char * log) const
 // Update
 update_status ModuleEditor::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		debugMode = !debugMode; 
-	
 
-	if (debugMode)
-		DrawAxis();
 	ImGui::SetNextWindowPos(ImVec2(App->window->width - 500.0f, App->window->height - 205.0f), ImGuiCond_Once); //Imaginary numbers are from size params!
 	ImGui::SetNextWindowSize(ImVec2(500.0f, 205.0f), ImGuiCond_Once);
 	if (ImGui::Begin("Dock Demo"))
@@ -182,13 +168,6 @@ update_status ModuleEditor::Update(float dt)
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
-	
-	std::list <Mesh*> ::const_iterator item = shapes.begin();
-	for (item; item != shapes.end(); item++)
-	{
-		(*item)->Draw(); 
-	}
-
 	return ret;
 }
 
@@ -227,44 +206,8 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 
 	Mesh* shape = new Mesh(mesh); 
 
-	shapes.push_back(shape); 
-
-	LOG("Pushed shape to the list. Current shapes: %i", shapes.size());
+	App->renderer3D->PushMeshToRender(shape); 
 }
-
-void ModuleEditor::DrawAxis()
-{
-	glLineWidth(2.0f);
-
-	glBegin(GL_LINES);
-
-	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-
-	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
-	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
-
-	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
-
-	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
-	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
-
-	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-
-	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
-	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
-	glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
-
-	glEnd();
-
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-	glLineWidth(1.0f);
-}
-
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 //{

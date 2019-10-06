@@ -22,5 +22,4 @@ public:
 
 private:
 	Mesh m;
-	std::vector<Mesh> meshes;
 };

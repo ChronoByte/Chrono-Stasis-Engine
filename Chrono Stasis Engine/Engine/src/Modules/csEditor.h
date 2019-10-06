@@ -37,8 +37,6 @@ public:
 
 	void CreateCube(const vec3& position, const uint& length = 1u, const uint& width = 1u, const uint& height = 1u);
 
-	void DrawAxis();
-
 	void Log(char* log) const; 
 	
 	//void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
@@ -53,9 +51,4 @@ public:
 	RandomWindow*	randomWin = nullptr; 
 	
 	bool show_demo_window = false;
-	bool debugMode = true; 
-
-	std::list<Mesh*> shapes; 
-
-	
 };

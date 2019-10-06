@@ -148,6 +148,29 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
 	
+	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+		ToggleDebugMode();
+
+	if (debugMode)
+		DrawOriginAxis();
+
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleRenderer3D::Update(float dt)
+{
+	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+
+		std::list <Mesh*> ::const_iterator item = meshes.begin();
+		for (item; item != meshes.end(); item++)
+		{
+			LOG("Num of Vertices: %d", (*item)->num_vertices);
+			LOG("Num of Indices: %d", (*item)->num_indices);
+		}
+	}
+
+	DrawMeshes();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -162,6 +185,15 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
+
+	std::list<Mesh*>::const_iterator item = meshes.begin();
+
+	for (item; item != meshes.end(); item++)
+	{
+		delete (*item);
+	}
+
+	meshes.clear();
 
 	SDL_GL_DeleteContext(context);
 
@@ -182,8 +214,63 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
+void ModuleRenderer3D::PushMeshToRender(Mesh * mesh)
+{
+	meshes.push_back(mesh); 
+}
 
+void ModuleRenderer3D::DrawMeshes()
+{
+	std::list <Mesh*> ::const_iterator item = meshes.begin();
+	for (item; item != meshes.end(); item++)
+	{
+		(*item)->Draw();
 
+		if (drawNormals)
+			(*item)->DrawNormals();
+
+		if (drawVertexNormals)
+			(*item)->DrawVertexNormals();
+	}
+}
+
+void ModuleRenderer3D::DrawOriginAxis()
+{
+	glLineWidth(2.0f);
+
+	glBegin(GL_LINES);
+
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
+	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
+
+	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
+
+	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
+	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
+	glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
+
+	glEnd();
+
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	glLineWidth(1.0f);
+}
+
+void ModuleRenderer3D::ToggleDebugMode()
+{
+	debugMode = !debugMode; 
+}
 
 void ModuleRenderer3D::SetDepthTest(const bool& depth) const
 {
@@ -261,7 +348,6 @@ void ModuleRenderer3D::SetWireframe(const bool& wire) const
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
-
 
 void ModuleRenderer3D::SetLightModelAmbient(const bool & ambient, const float color[4])
 {
