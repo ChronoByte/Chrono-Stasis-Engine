@@ -84,13 +84,20 @@ void Mesh::LoadMeshNormals(aiMesh* mesh)
 	LOG("New mesh loaded with %d normals", normals.capacity);
 }
 
-void Mesh::LoadMeshColors(aiMesh* mesh)
+void Mesh::LoadMeshColors(aiMesh* mesh, int index)
 {
+	colors.capacity = mesh->mNumVertices;
+	colors.buffer = new float[colors.capacity * 4]; // (r,g,b,a) for each vertex
+	memcpy(colors.buffer, mesh->mColors[index], sizeof(float) * colors.capacity * 4);
+	LOG("New mesh loaded with %d colors", colors.capacity);
 }
 
-void Mesh::LoadMeshTextureCoords(aiMesh* mesh)
+void Mesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 {
-
+	TextCoords.capacity = mesh->mNumVertices;
+	TextCoords.buffer = new float[TextCoords.capacity * 2]; // 2 Coords (x,y) for each vertex
+	memcpy(&TextCoords.buffer[index * 2], mesh->mTextureCoords[index], sizeof(float) * 2);
+	LOG("New mesh loaded with %d Texture Coords", TextCoords.capacity);
 }
 
 void Mesh::LoadMeshFromFBX(aiMesh * mesh)

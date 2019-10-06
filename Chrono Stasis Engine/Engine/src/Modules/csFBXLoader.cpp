@@ -10,7 +10,7 @@
 
 ModuleFBXLoader::ModuleFBXLoader(bool start_enabled) : Module(start_enabled)
 {
-	//name = "FBXLoader";
+	name = "FBXLoader";
 }
 
 ModuleFBXLoader::~ModuleFBXLoader()
@@ -45,6 +45,11 @@ update_status ModuleFBXLoader::Update(float dt)
 
 update_status ModuleFBXLoader::PostUpdate(float dt)
 {
+	if (App->input->imported)
+	{
+		LoadFBXData(App->input->dropped_filedir);
+		App->input->imported = false;
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -79,6 +84,26 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 			
 			if (new_mesh->HasNormals())
 				m.LoadMeshNormals(new_mesh);
+
+			if (new_mesh->GetNumColorChannels() > 0) 
+			{
+				for (int i = 0; i < new_mesh->GetNumColorChannels(); ++i)
+				{
+					if (new_mesh->HasVertexColors(i))
+						m.LoadMeshColors(new_mesh, i);
+				}
+			}
+			else LOG("No Color Channel detected");
+
+			if (new_mesh->GetNumUVChannels() > 0) 
+			{
+				for (int i = 0; i < new_mesh->GetNumUVChannels(); ++i) 
+				{
+					if (new_mesh->HasTextureCoords(i))
+						m.LoadMeshTextureCoords(new_mesh, i);
+				}
+			}
+			else LOG("No UV Channel detected");
 
 			//m.LoadMeshFromFBX(new_mesh);
 			m.CreateMeshBuffers(); 
