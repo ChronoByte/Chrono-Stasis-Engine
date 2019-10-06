@@ -8,7 +8,7 @@ class ModuleFileSystem : public Module
 public:
 	ModuleFileSystem();
 	~ModuleFileSystem();
-
+	bool ModuleFileSystem::Init(JSON_Object* node);
 	bool Start();
 	bool CleanUp();
 
