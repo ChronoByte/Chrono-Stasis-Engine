@@ -12,6 +12,9 @@ public:
 	bool Start();
 	bool CleanUp();
 
+public:
+	bool ModuleFileSystem::AddPath(const char* path);
+
 private:
 
 };
