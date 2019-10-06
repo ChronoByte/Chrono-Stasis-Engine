@@ -1,6 +1,6 @@
 #include "csApp.h"
 #include "csFBXLoader.h"
-
+#include "csFileSystem.h"
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
@@ -20,12 +20,17 @@ ModuleFBXLoader::~ModuleFBXLoader()
 
 bool ModuleFBXLoader::Init(JSON_Object* node)
 {
+
 	return true;
 }
 
 
 bool ModuleFBXLoader::Start()
 {
+	App->fs->GenerateDirectory(LIBRARY_DIR);
+	App->fs->GenerateDirectory(MESH_DIR);
+	App->fs->GenerateDirectory(MATERIAL_DIR);
+
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
