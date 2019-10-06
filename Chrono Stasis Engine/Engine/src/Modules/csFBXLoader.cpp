@@ -10,7 +10,7 @@
 
 ModuleFBXLoader::ModuleFBXLoader(bool start_enabled) : Module(start_enabled)
 {
-	//name = "FBXLoader";
+	name = "FBXLoader";
 }
 
 ModuleFBXLoader::~ModuleFBXLoader()
@@ -73,6 +73,11 @@ update_status ModuleFBXLoader::Update(float dt)
 
 update_status ModuleFBXLoader::PostUpdate(float dt)
 {
+	if (App->input->imported)
+	{
+		LoadFBXData(App->input->dropped_filedir);
+		App->input->imported = false;
+	}
 	return UPDATE_CONTINUE;
 }
 

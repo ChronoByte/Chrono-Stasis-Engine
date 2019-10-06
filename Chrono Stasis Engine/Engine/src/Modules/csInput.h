@@ -79,4 +79,8 @@ private:
 	bool keyPressed;
 	bool mousePressed;
 	//int mouse_z_motion;
+
+public:
+	char* dropped_filedir = nullptr;
+	bool imported = false;
 };
