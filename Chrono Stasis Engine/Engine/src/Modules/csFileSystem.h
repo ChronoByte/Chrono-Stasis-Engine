@@ -32,6 +32,9 @@ public:
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
 	bool GenerateDirectory(const char* dir_name);
 	bool DeleteDirectory(const char* file_dir_name);
+
+	void GetExtensionFile(const char* file, std::string& extension);
+
 private:
 
 };

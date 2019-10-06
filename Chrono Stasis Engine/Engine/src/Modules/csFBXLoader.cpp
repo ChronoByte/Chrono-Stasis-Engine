@@ -27,10 +27,7 @@ bool ModuleFBXLoader::Init(JSON_Object* node)
 
 bool ModuleFBXLoader::Start()
 {
-	App->fs->GenerateDirectory(LIBRARY_DIR);
-	App->fs->GenerateDirectory(MESH_DIR);
-	App->fs->GenerateDirectory(MATERIAL_DIR);
-
+	
 	struct aiLogStream stream;
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
@@ -50,16 +47,14 @@ update_status ModuleFBXLoader::Update(float dt)
 
 update_status ModuleFBXLoader::PostUpdate(float dt)
 {
-	if (App->input->imported)
-	{
-		LoadFBXData(App->input->dropped_filedir);
-		App->input->imported = false;
-	}
+
 	return UPDATE_CONTINUE;
 }
 
 bool ModuleFBXLoader::CleanUp()
 {
+	
+
 	aiDetachAllLogStreams();
 	
 	return true;

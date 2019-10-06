@@ -2,6 +2,7 @@
 #include "csModule.h"
 #include "csGlobals.h"
 
+
 #define MAX_MOUSE_BUTTONS 5
 
 enum KEY_STATE
@@ -81,6 +82,6 @@ private:
 	//int mouse_z_motion;
 
 public:
-	char* dropped_filedir = nullptr;
-	bool imported = false;
+	
+	char* file = nullptr;
 };

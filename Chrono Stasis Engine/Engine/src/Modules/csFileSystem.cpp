@@ -42,6 +42,12 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 
 bool ModuleFileSystem::Start()
 {
+
+	App->fs->GenerateDirectory(LIBRARY_DIR);
+	App->fs->GenerateDirectory(MESH_DIR);
+	App->fs->GenerateDirectory(MATERIAL_DIR);
+
+
 	//EXIST FILE TEST
 	bool test1 = false;
 	test1 = FileExist("test.txt");
@@ -63,6 +69,10 @@ bool ModuleFileSystem::CleanUp()
 	bool ret = false;
 
 	LOG("FILESYSTEM: Deinitializing PHYSFS...");
+
+	App->fs->DeleteDirectory(MATERIAL_DIR);
+	App->fs->DeleteDirectory(MESH_DIR);
+	App->fs->DeleteDirectory(LIBRARY_DIR);
 
 	if (PHYSFS_deinit() != 0)
 	{
@@ -217,4 +227,16 @@ bool ModuleFileSystem::DeleteDirectory(const char* file_dir_name)
 	
 
 	return ret;
+}
+
+void ModuleFileSystem::GetExtensionFile(const char* file, std::string& extension)
+{
+	extension = file;
+
+	uint position = extension.find_last_of(".");
+
+	if (position != std::string::npos)
+		extension = extension.substr(position);
+
+
 }

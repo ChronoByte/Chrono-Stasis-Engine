@@ -4,6 +4,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
 
+
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(bool start_enabled) : Module(start_enabled)
@@ -114,16 +115,21 @@ update_status ModuleInput::PreUpdate(float dt)
 			break;
 
 			case SDL_DROPFILE:
-			dropped_filedir = e.drop.file;
-			SDL_ShowSimpleMessageBox(
-				SDL_MESSAGEBOX_INFORMATION, 
-				"File dropped on window", 
-				dropped_filedir, 
-				App->window->window
-			);
-			imported = true;
-			SDL_free(dropped_filedir);
-			break;
+			{
+				std::string extension;
+				file = e.drop.file;
+				App->fs->GetExtensionFile(file, extension);
+			
+				if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+				{
+					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", e.drop.file, App->window->window);
+					App->fbx->LoadFBXData(e.drop.file);
+				}
+				
+
+				SDL_free(e.drop.file);
+				break;
+			}
 
 			case SDL_QUIT:
 			quit = true;
@@ -134,6 +140,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
 					App->renderer3D->OnResize(e.window.data1, e.window.data2);
 			}
+
 		}
 	}
 
