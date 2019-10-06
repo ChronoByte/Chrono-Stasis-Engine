@@ -40,6 +40,9 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 
 bool ModuleFileSystem::Start()
 {
+	bool test1 = false;
+	test1 = FileExist("test.txt");
+	LOG("FILESYSTEM: txt: %d", test1);
 	return true;
 }
 
@@ -69,6 +72,16 @@ bool ModuleFileSystem::AddPath(const char* path)
 		ret = true;
 		LOG("FILESYSTEM: Directory ( %s ) successfully added to the search path!", path);
 	}
+
+	return ret;
+}
+
+bool ModuleFileSystem::FileExist(char* file_name) const
+{
+	bool ret = false;
+
+	if (PHYSFS_exists(file_name) != 0)
+		ret = true;
 
 	return ret;
 }
