@@ -3,6 +3,8 @@
 #include "csGlobals.h"
 #include "csModule.h"
 
+struct PHYSFS_File;
+
 class ModuleFileSystem : public Module
 {
 public:
@@ -14,9 +16,16 @@ public:
 
 public:
 	bool AddPath(const char* path);
-	bool FileExist(char* file_name) const;
-	bool OpenFileWrite(char* file_name) const;
-	bool OpenFileRead(char* file_name) const;
+	bool FileExist(const char* file_name) const;
+
+	PHYSFS_File* OpenFileWrite(const char* file_name) const;
+	PHYSFS_File* OpenFileRead(const char* file_name) const;
+
+	bool WriteFile(const char* file_name, char* buffer, uint32 size) const;
+	bool ReadFile(const char* file_name, char* buffer);
+
+	void CloseFile(PHYSFS_File* file, const char* file_name) const;
+	bool GenerateDirectory(const char* dir_name);
 private:
 
 };
