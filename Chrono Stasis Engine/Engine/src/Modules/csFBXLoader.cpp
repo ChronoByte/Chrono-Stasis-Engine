@@ -97,8 +97,19 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 		{
 		
 			new_mesh = scene->mMeshes[i];
+			
+			LOG("Mesh num: %u", i);
+
+			m.LoadMeshVertices(new_mesh);
+
+			if (new_mesh->HasFaces())
+				m.LoadMeshIndices(new_mesh);
+			
+			if (new_mesh->HasNormals())
+				m.LoadMeshNormals(new_mesh);
+
 		
-			m.LoadMeshFromFBX(new_mesh);
+			//m.LoadMeshFromFBX(new_mesh);
 			m.CreateMeshBuffers(); 
 
 			meshes.push_back(m); // Push mesh into container of meshes

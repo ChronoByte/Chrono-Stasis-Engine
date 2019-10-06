@@ -10,6 +10,14 @@
 
 class aiMesh; 
 
+template<typename T>
+struct MeshInfo
+{
+	uint id = 0u;
+	uint capacity = 0u;
+	T* buffer = nullptr;
+};
+
 class Mesh
 {
 public: 
@@ -20,6 +28,12 @@ public:
 	~Mesh();
 
 	void Draw();
+
+	void LoadMeshVertices(aiMesh* mesh);
+	void LoadMeshIndices(aiMesh* mesh);
+	void LoadMeshNormals(aiMesh* mesh);
+	void LoadMeshColors(aiMesh* mesh);
+	void LoadMeshTextureCoords(aiMesh* mesh);
 
 	void LoadMeshFromFBX(aiMesh* mesh); 
 	void CreateMeshBuffers(); 
@@ -33,4 +47,11 @@ public:
 	uint id_vertices = 0; // unique vertex in VRAM
 	uint num_vertices = 0;
 	float* vertices = nullptr;	
+
+	MeshInfo<uint> index;
+	MeshInfo<float> vertex;
+	MeshInfo<float> colors;
+	MeshInfo<float> normals;
+	MeshInfo<float> TextCoords;
+
 };

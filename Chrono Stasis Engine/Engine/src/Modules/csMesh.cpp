@@ -43,6 +43,48 @@ void Mesh::Draw()
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
+void Mesh::LoadMeshVertices(aiMesh* mesh)
+{
+	vertex.capacity = mesh->mNumVertices;
+	vertex.buffer = new float[vertex.capacity * 3];
+	memcpy(vertex.buffer, mesh->mVertices, sizeof(float) * vertex.capacity * 3);
+
+	LOG("New mesh loaded with %d vertices", vertex.capacity);
+}
+
+void Mesh::LoadMeshIndices(aiMesh* mesh)
+{
+	index.capacity = mesh->mNumFaces * 3;
+	index.buffer = new uint[index.capacity]; 
+
+	for (uint i = 0; i < mesh->mNumFaces; ++i)
+	{
+		if (mesh->mFaces[i].mNumIndices != 3) {
+			LOG("WARNING, geometry face with != 3 indices!");
+		}
+	
+		else memcpy(&index.buffer[i * 3], mesh->mFaces[i].mIndices, 3 * sizeof(uint));
+	}
+	LOG("New mesh loaded with %d indices", index.capacity);
+}
+
+void Mesh::LoadMeshNormals(aiMesh* mesh)
+{
+	normals.capacity = mesh->mNumFaces;
+	normals.buffer = new float[normals.capacity * 3];
+	memcpy(normals.buffer, mesh->mNormals, sizeof(float) * normals.capacity * 3);
+	LOG("New mesh loaded with %d normals", normals.capacity);
+}
+
+void Mesh::LoadMeshColors(aiMesh* mesh)
+{
+}
+
+void Mesh::LoadMeshTextureCoords(aiMesh* mesh)
+{
+
+}
+
 void Mesh::LoadMeshFromFBX(aiMesh * mesh)
 {
 	LOG("Creating mesh from FBX");
