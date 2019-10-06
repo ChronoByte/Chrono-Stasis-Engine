@@ -340,6 +340,8 @@
     <ClInclude Include="Engine\Dependencies\imgui\imgui_dock.h" />
     <ClInclude Include="Engine\src\Modules\Game\csScene.h" />
     <ClInclude Include="Engine\src\Modules\csMesh.h" />
+    <ClInclude Include="Engine\src\Modules\csFileSystem.h" />
+    <ClInclude Include="Engine\Dependencies\PhysFS\include\physfs.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -513,6 +515,7 @@
     <ClCompile Include="Engine\Dependencies\imgui\imgui_dock.cpp" />
     <ClCompile Include="Engine\src\Modules\Game\csScene.cpp" />
     <ClCompile Include="Engine\src\Modules\csMesh.cpp" />
+    <ClCompile Include="Engine\src\Modules\csFileSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

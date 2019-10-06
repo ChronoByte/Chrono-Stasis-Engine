@@ -12,6 +12,7 @@
 #include "csRendererGUI.h"
 #include "csFBXLoader.h"
 #include "csScene.h"
+#include "csFileSystem.h"
 
 #include <list>
 #include <vector>
@@ -31,6 +32,7 @@ public:
 	ModuleUI*			gui = nullptr;
 	ModuleFBXLoader*    fbx = nullptr;
 	ModuleScene*		scene = nullptr;
+	ModuleFileSystem*	fs = nullptr;
 
 private:
 

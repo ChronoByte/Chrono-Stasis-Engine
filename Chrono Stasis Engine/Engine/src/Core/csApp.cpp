@@ -21,7 +21,7 @@ Application::Application()
 	gui			= new ModuleUI();
 	fbx			= new ModuleFBXLoader();
 	scene		= new ModuleScene();
-
+	fs			= new ModuleFileSystem();
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -30,13 +30,15 @@ Application::Application()
 	AddModule(window);
 	AddModule(camera);
 	AddModule(input);
-	// Scenes
+	
+	// Managers
 	AddModule(editor);
 	AddModule(fbx);
+	AddModule(fs);
 
 	// Game Scenes 
 	AddModule(scene);
-
+	
 	// Renderer GUI
 	AddModule(gui);
 	// Renderer last!
@@ -62,6 +64,7 @@ Application::~Application()
 	gui			= nullptr;
 	fbx			= nullptr;
 	scene		= nullptr;
+	fs			= nullptr;
 }
 
 bool Application::Init()
