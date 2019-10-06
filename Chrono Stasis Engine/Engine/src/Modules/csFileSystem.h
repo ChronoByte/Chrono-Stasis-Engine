@@ -3,7 +3,12 @@
 #include "csGlobals.h"
 #include "csModule.h"
 
+#define LIBRARY_DIR "Library"
+#define MESH_DIR "/Library/Meshes"
+#define MATERIAL_DIR "/Library/Materials"
+
 struct PHYSFS_File;
+
 
 class ModuleFileSystem : public Module
 {
