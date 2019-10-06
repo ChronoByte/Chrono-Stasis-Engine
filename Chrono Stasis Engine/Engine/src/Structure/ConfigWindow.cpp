@@ -7,6 +7,7 @@
 #include "SDL/include/SDL_version.h"
 #include "gpudetect/DeviceId.h"
 #include "mmgr/mmgr.h"
+#include "PhysFS/include/physfs.h"
 
 #define TEXT_COLOR { 239, 201, 0, 255 }
 
@@ -297,7 +298,7 @@ void ConfigWindow::HardwareConfiguration()
 		ImGui::Text("GLEW version: %i.%i.%i", GLEW_VERSION_MAJOR, GLEW_VERSION_MINOR, GLEW_VERSION_MICRO);
 		ImGui::Text("MathGeoLib version: %s", MATHGEOLIB_VERSION);
 		ImGui::Text("PCG version: %s", PCG_VERSION);
-
+		ImGui::Text("PHYSFS version: %i.%i.%i", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH);
 		ImGui::Separator();
 		//------- CPU --------//
 		ImGui::Text("CPU:"); ImGui::SameLine();

@@ -1,6 +1,7 @@
 #include "AboutWindow.h"
 #include "csApp.h"
 #include "csWindow.h"
+#include "PhysFS/include/physfs.h"
 
 AboutWindow::AboutWindow(bool startOpened) : Window(startOpened)
 {	
@@ -88,6 +89,12 @@ void AboutWindow::SoftwareUsed()
 		ImGui::SetMouseCursor(ImGuiMouseCursor_::ImGuiMouseCursor_Hand);
 	if (ImGui::IsItemClicked())
 		App->SendToLink("https://www.opengl.org/");
+
+	ImGui::Text("  PhysFS v%i.%i.%i", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH);
+	if (ImGui::IsItemHovered())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_::ImGuiMouseCursor_Hand);
+	if (ImGui::IsItemClicked())
+		App->SendToLink("https://icculus.org/physfs/");
 
 	ImGui::NewLine();
 }

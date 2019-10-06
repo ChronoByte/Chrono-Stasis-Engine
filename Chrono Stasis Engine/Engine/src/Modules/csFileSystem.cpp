@@ -203,3 +203,18 @@ bool ModuleFileSystem::GenerateDirectory(const char* dir_name)
 
 	return ret;
 }
+
+bool ModuleFileSystem::DeleteDirectory(const char* file_dir_name)
+{
+	bool ret = false;
+
+	if (PHYSFS_delete(file_dir_name) != 0) {
+		ret = true;
+		LOG("FILESYSTEM: Directory [%s] deleted!", file_dir_name);
+	}
+	else
+		LOG("FILESYSTEM: could not delete [%s] directory: %s", file_dir_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+	
+
+	return ret;
+}
