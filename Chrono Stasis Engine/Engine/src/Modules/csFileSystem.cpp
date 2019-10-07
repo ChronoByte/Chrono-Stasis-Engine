@@ -240,3 +240,18 @@ void ModuleFileSystem::GetExtensionFile(const char* file, std::string& extension
 
 
 }
+
+void ModuleFileSystem::GetNameFile(const char* file, std::string& name)
+{
+	name = file;
+
+	uint slash_pos = name.find_last_of("/");
+
+	if (slash_pos != std::string::npos)
+		name = name.substr(slash_pos + 1);
+
+	uint ext_pos = name.find_last_of(".");
+
+	if (ext_pos != std::string::npos)
+		name = name.erase(ext_pos);
+}

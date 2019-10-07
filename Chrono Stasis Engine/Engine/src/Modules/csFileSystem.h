@@ -34,6 +34,7 @@ public:
 	bool DeleteDirectory(const char* file_dir_name);
 
 	void GetExtensionFile(const char* file, std::string& extension);
+	void GetNameFile(const char* file, std::string& name);
 
 private:
 
