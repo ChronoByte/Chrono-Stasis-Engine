@@ -18,7 +18,6 @@ Mesh::Mesh(par_shapes_mesh * mesh)
 
 Mesh::Mesh(aiMesh * mesh)
 {
-	LoadMeshFromFBX(mesh); 
 }
 
 Mesh::~Mesh()
@@ -34,11 +33,11 @@ void Mesh::Draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 
-	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, vertex.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_indices);
-	glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, (void*)0);  // Carefull with this unsigned int
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index.id);
+	glDrawElements(GL_TRIANGLES, index.capacity, GL_UNSIGNED_INT, (void*)0);  // Carefull with this unsigned int
 	
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
@@ -114,36 +113,22 @@ void Mesh::DrawVertexNormals()
 	uint normalSize = 10; 
 	glColor3f(1, 0, 0);
 
-	float n1x = 0;
-	float n1y = 0;
-	float n1z = 0;
-
-	float v1x = 0;
-	float v1y = 0;
-	float v1z = 0;
-
-	float v2x = 0;
-	float v2y = 0;
-	float v2z = 0;
-
 	for (int i = 0; i < normals.capacity * 3; i += 3)
 	{
-		n1x = normals.buffer[i];			
-		n1y = normals.buffer[i + 1];
-		n1z = normals.buffer[i + 2];
+		/*float v1x = vertex.buffer[i];
+		float v1y = vertex.buffer[i + 1];
+		float v1z = vertex.buffer[i + 2];
 
-		v1x = vertex.buffer[i];
-		v1y = vertex.buffer[i + 1];
-		v1z = vertex.buffer[i + 2];
+		float v2x = v1x + normals.buffer[i] * normalSize;
+		float v2y = v1y + normals.buffer[i + 1] * normalSize;
+		float v2z = v1z + normals.buffer[i + 2] * normalSize;*/
 
-		v2x = v1x + n1x * normalSize;
-		v2y = v1y + n1y * normalSize;
-		v2z = v1z + n1z * normalSize;
-
-		glVertex3f(v1x, v1y, v1z);
-		glVertex3f(v2x, v2y, v2z);
-
+		glVertex3f(vertex.buffer[i], vertex.buffer[i + 1], vertex.buffer[i + 2]);
+		glVertex3f(vertex.buffer[i] + normals.buffer[i] * normalSize, 
+			vertex.buffer[i + 1] + normals.buffer[i + 1] * normalSize, 
+			vertex.buffer[i + 2] + normals.buffer[i + 2] * normalSize);
 	}
+
 	glColor3f(0, 0, 0);
 
 	glEnd();
@@ -192,44 +177,60 @@ void Mesh::LoadMeshColors(aiMesh* mesh, int index)
 
 void Mesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 {
-	TextCoords.capacity = mesh->mNumVertices;
-	TextCoords.buffer = new float[TextCoords.capacity * 2]; // 2 Coords (x,y) for each vertex
-	memcpy(&TextCoords.buffer[index * 2], mesh->mTextureCoords[index], sizeof(float) * 2);
-	LOG("New mesh loaded with %d Texture Coords", TextCoords.capacity);
-}
-
-void Mesh::LoadMeshFromFBX(aiMesh * mesh)
-{
-	LOG("Creating mesh from FBX");
-
-	num_vertices = mesh->mNumVertices;
-	vertices = new float[num_vertices * 3];
-	memcpy(vertices, mesh->mVertices, sizeof(float) * num_vertices * 3);
-
-	// copy faces
-	if (mesh->HasFaces())
-	{
-		num_indices = mesh->mNumFaces * 3;
-		indices = new uint[num_indices]; // assume each face is a triangle
-
-		for (uint i = 0; i < mesh->mNumFaces; ++i)
-		{
-			if (mesh->mFaces[i].mNumIndices != 3) {
-				LOG("WARNING, geometry face with != 3 indices!");
-			}
-
-			else memcpy(&indices[i * 3], mesh->mFaces[i].mIndices, 3 * sizeof(uint));
-		}
-	}
+	textureCoords.capacity = mesh->mNumVertices;
+	textureCoords.buffer = new float[textureCoords.capacity * 2]; // 2 Coords (x,y) for each vertex
+	memcpy(&textureCoords.buffer[index * 2], mesh->mTextureCoords[index], sizeof(float) * 2);
+	LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
 }
 
 void Mesh::CreateMeshBuffers()
 {
-	glGenBuffers(1, &id_vertices);
-	glBindBuffer(GL_ARRAY_BUFFER, id_vertices);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_vertices * 3, vertices, GL_STATIC_DRAW);
+	// Vertices Buffer 
 
-	glGenBuffers(1, &id_indices);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_indices);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * num_indices, indices, GL_STATIC_DRAW);
+	if (vertex.buffer != nullptr)
+	{
+		glGenBuffers(1, &vertex.id);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex.capacity * 3, vertex.buffer, GL_STATIC_DRAW);
+		LOG("Generated vertex buffer with ID: %i and size %i", vertex.id, vertex.capacity);
+	}
+	else LOG("There's no data to create a vertex buffer");
+
+
+	// Index Buffer 
+
+	if (index.buffer != nullptr)
+	{
+		glGenBuffers(1, &index.id);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index.id);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * index.capacity, index.buffer, GL_STATIC_DRAW);
+		LOG("Generated index buffer with ID %i and size %i ", index.id, index.capacity);
+	}
+	else LOG("There's no data to create a index buffer");
+
+	// Normals Buffer
+	// To figure out if its needed a buffer for the normals. Believe so, but still figure out how to do store it
+
+
+	// Texture Coords Buffer
+
+	if (textureCoords.buffer != nullptr)
+	{
+		glGenBuffers(1, &textureCoords.id);
+		glBindBuffer(GL_ARRAY_BUFFER, textureCoords.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * textureCoords.capacity * 2, textureCoords.buffer, GL_STATIC_DRAW);
+		LOG("Generated Texture Coords buffer with ID %i and size %i ", textureCoords.id, textureCoords.capacity);
+	}
+	else LOG("There's no data to create a Texture Coords buffer");
+
+
+	// Colors Buffer
+	if (colors.buffer != nullptr)
+	{
+		glGenBuffers(1, &colors.id);
+		glBindBuffer(GL_ARRAY_BUFFER, colors.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * colors.capacity * 4, colors.buffer, GL_STATIC_DRAW);
+		LOG("Generated Colors buffer with ID %i and size %i ", colors.id, colors.capacity);
+	}
+	else LOG("There's no data to create Colors buffer");
 }

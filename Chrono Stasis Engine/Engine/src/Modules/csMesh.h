@@ -37,7 +37,6 @@ public:
 	void LoadMeshColors(aiMesh* mesh, int index);
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 
-	void LoadMeshFromFBX(aiMesh* mesh); 
 	void CreateMeshBuffers(); 
 
 public: 
@@ -54,6 +53,6 @@ public:
 	MeshInfo<float> vertex;
 	MeshInfo<float> colors;
 	MeshInfo<float> normals;
-	MeshInfo<float> TextCoords;
+	MeshInfo<float> textureCoords;
 
 };
