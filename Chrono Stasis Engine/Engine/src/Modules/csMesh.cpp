@@ -54,6 +54,10 @@ Mesh::~Mesh()
 void Mesh::Draw()
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
+	//glEnableClientState(GL_NORMAL_ARRAY);
+
+	/*glBindBuffer(GL_ARRAY_BUFFER, normals.id);
+	glNormalPointer(GL_FLOAT, 3, NULL);*/
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertex.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -61,6 +65,7 @@ void Mesh::Draw()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index.id);
 	glDrawElements(GL_TRIANGLES, index.capacity, GL_UNSIGNED_INT, (void*)0);  // Carefull with this unsigned int
 	
+	//glDisableClientState(GL_NORMAL_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
@@ -231,8 +236,16 @@ void Mesh::CreateMeshBuffers()
 	else LOG("There's no data to create a index buffer");
 
 	// Normals Buffer
-	// To figure out if its needed a buffer for the normals. Believe so, but still figure out how to do store it
+	// To figure out if its needed a buffer for the normals. Believe so, but still to figure out how to do store it -> Normal Vertex
 
+	if (normals.buffer != nullptr)
+	{
+		glGenBuffers(1, &normals.id);
+		glBindBuffer(GL_ARRAY_BUFFER, normals.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * normals.capacity, normals.buffer, GL_STATIC_DRAW);
+		LOG("Generated Normals buffer with ID %i and size %i ", normals.id, normals.capacity);
+	}
+	else LOG("There's no data to create a index buffer");
 
 	// Texture Coords Buffer
 
