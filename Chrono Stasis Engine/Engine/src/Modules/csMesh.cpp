@@ -8,11 +8,12 @@ Mesh::Mesh()
 
 Mesh::Mesh(par_shapes_mesh * mesh)
 {
-	num_vertices = mesh->npoints; 
-	num_indices = mesh->ntriangles * 3; 
-	vertices = mesh->points;
-	indices = (uint*)mesh->triangles; // TODO: Figure out how to solve 32 - 16 bites problem
+	vertex.capacity = mesh->npoints; 
+	index.capacity = mesh->ntriangles * 3; 
+	vertex.buffer = mesh->points;
+	index.buffer = (uint*)mesh->triangles; // TODO: Figure out how to solve 32 - 16 bites problem
 
+	// TODO Add normals and texture coords
 	CreateMeshBuffers(); 
 }
 
@@ -22,11 +23,32 @@ Mesh::Mesh(aiMesh * mesh)
 
 Mesh::~Mesh()
 {
-	delete[] indices;
-	delete[] vertices;
-
-	indices = nullptr; 
-	vertices = nullptr;
+	if (vertex.buffer != nullptr)
+	{
+		delete[] vertex.buffer;
+		vertex.buffer = nullptr;
+	}
+	
+	if (index.buffer != nullptr)
+	{
+		delete[] index.buffer;
+		index.buffer = nullptr;
+	}
+	if (colors.buffer != nullptr)
+	{
+		delete[] colors.buffer;
+		colors.buffer = nullptr;
+	}
+	if (normals.buffer != nullptr)
+	{
+		delete[] normals.buffer;
+		normals.buffer = nullptr;
+	}
+	if (textureCoords.buffer != nullptr)
+	{
+		delete[] textureCoords.buffer;
+		textureCoords.buffer = nullptr;
+	}
 }
 
 void Mesh::Draw()

@@ -74,23 +74,23 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 		{
 		
 			new_mesh = scene->mMeshes[i];
-			
+			m = new Mesh(); 
 			LOG("Mesh num: %u", i);
 
-			m.LoadMeshVertices(new_mesh);
+			m->LoadMeshVertices(new_mesh);
 
 			if (new_mesh->HasFaces())
-				m.LoadMeshIndices(new_mesh);
+				m->LoadMeshIndices(new_mesh);
 			
 			if (new_mesh->HasNormals())
-				m.LoadMeshNormals(new_mesh);
+				m->LoadMeshNormals(new_mesh);
 
 			if (new_mesh->GetNumColorChannels() > 0) 
 			{
 				for (int i = 0; i < new_mesh->GetNumColorChannels(); ++i)
 				{
 					if (new_mesh->HasVertexColors(i))
-						m.LoadMeshColors(new_mesh, i);
+						m->LoadMeshColors(new_mesh, i);
 				}
 			}
 			else LOG("No Color Channel detected");
@@ -100,15 +100,15 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 				for (int i = 0; i < new_mesh->GetNumUVChannels(); ++i) 
 				{
 					if (new_mesh->HasTextureCoords(i))
-						m.LoadMeshTextureCoords(new_mesh, i);
+						m->LoadMeshTextureCoords(new_mesh, i);
 				}
 			}
 			else LOG("No UV Channel detected");
 
-			m.CreateMeshBuffers(); 
+			m->CreateMeshBuffers(); 
 
-			App->renderer3D->PushMeshToRender(&m);  // Push mesh into container of meshes
-			SaveMeshData(fbx_name, &m);
+			App->renderer3D->PushMeshToRender(m);  // Push mesh into container of meshes
+			SaveMeshData(fbx_name, m);
 		}
 
 		

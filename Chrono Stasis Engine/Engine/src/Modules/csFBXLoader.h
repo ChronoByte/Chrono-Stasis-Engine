@@ -22,5 +22,5 @@ public:
 	bool SaveMeshData(const char* fbx_name, Mesh* mesh_data);
 	bool LoadMeshData();
 private:
-	Mesh m;
+	Mesh* m;
 };
