@@ -299,6 +299,7 @@ void ConfigWindow::HardwareConfiguration()
 		ImGui::Text("MathGeoLib version: %s", MATHGEOLIB_VERSION);
 		ImGui::Text("PCG version: %s", PCG_VERSION);
 		ImGui::Text("PHYSFS version: %i.%i.%i", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH);
+		ImGui::Text("DevIL version: %i.%i.%i", 1, 8, 0);
 		ImGui::Separator();
 		//------- CPU --------//
 		ImGui::Text("CPU:"); ImGui::SameLine();

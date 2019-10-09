@@ -3,6 +3,7 @@
 #include "csWindow.h"
 #include "PhysFS/include/physfs.h"
 
+
 AboutWindow::AboutWindow(bool startOpened) : Window(startOpened)
 {	
 }
@@ -95,6 +96,12 @@ void AboutWindow::SoftwareUsed()
 		ImGui::SetMouseCursor(ImGuiMouseCursor_::ImGuiMouseCursor_Hand);
 	if (ImGui::IsItemClicked())
 		App->SendToLink("https://icculus.org/physfs/");
+
+	ImGui::Text("  DevIL (Developer's Image Library) v%i.%i.%i", 1, 8, 0);
+	if (ImGui::IsItemHovered())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_::ImGuiMouseCursor_Hand);
+	if (ImGui::IsItemClicked())
+		App->SendToLink("http://openil.sourceforge.net/");
 
 	ImGui::NewLine();
 }

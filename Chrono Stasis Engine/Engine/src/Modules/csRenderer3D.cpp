@@ -7,6 +7,11 @@
 
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
 
+#pragma comment (lib, "Engine/Dependencies/DevIL/libx86/DevIL.lib") 
+#pragma comment (lib, "Engine/Dependencies/DevIL/libx86/ILU.lib")
+#pragma comment (lib, "Engine/Dependencies/DevIL/libx86/ILUT.lib")
+
+
 ModuleRenderer3D::ModuleRenderer3D(bool start_enabled) : Module(start_enabled)
 {
 	name = "Renderer3D";

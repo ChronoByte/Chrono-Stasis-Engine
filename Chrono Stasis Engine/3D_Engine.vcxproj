@@ -126,6 +126,14 @@
     <ClInclude Include="Engine\Dependencies\Assimp\include\vector2.h" />
     <ClInclude Include="Engine\Dependencies\Assimp\include\vector3.h" />
     <ClInclude Include="Engine\Dependencies\Assimp\include\version.h" />
+    <ClInclude Include="Engine\Dependencies\DevIL\include\devil_cpp_wrapper.hpp" />
+    <ClInclude Include="Engine\Dependencies\DevIL\include\devil_internal_exports.h" />
+    <ClInclude Include="Engine\Dependencies\DevIL\include\il.h" />
+    <ClInclude Include="Engine\Dependencies\DevIL\include\ilu.h" />
+    <ClInclude Include="Engine\Dependencies\DevIL\include\ilut.h" />
+    <ClInclude Include="Engine\Dependencies\DevIL\include\ilut_config.h" />
+    <ClInclude Include="Engine\Dependencies\DevIL\include\ilu_region.h" />
+    <ClInclude Include="Engine\Dependencies\DevIL\include\il_wrap.h" />
     <ClInclude Include="Engine\Dependencies\gpudetect\DeviceId.h" />
     <ClInclude Include="Engine\Dependencies\gpudetect\dxgi1_4.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui_dock.h" />
