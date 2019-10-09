@@ -29,6 +29,9 @@ public:
 
 public:
 	GLubyte LoadCheckeredTexture();
+	bool LoadTexture(const char* tex_file);
+	void CreateTextureBuffers(TextureInfo* tex);
 public:
-	TextureInfo texture;
+	TextureInfo* t = nullptr;
+	std::vector<TextureInfo*> textures;
 };

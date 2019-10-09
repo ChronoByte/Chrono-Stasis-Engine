@@ -49,6 +49,7 @@ update_status ModuleScene::Update(float dt)
 	}
 
 
+
 	glBegin(GL_TRIANGLES);
 	//glColor4f(255, 0, 128, 255);
 
