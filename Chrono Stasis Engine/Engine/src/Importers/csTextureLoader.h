@@ -3,6 +3,14 @@
 #include "csModule.h"
 #include "csGlobals.h"
 
+struct TextureInfo
+{
+	GLuint id = 0;
+	GLubyte image = 0;
+	int width = 0;
+	int height = 0;
+};
+
 class ModuleTextureLoader : public Module
 {
 public:
@@ -19,6 +27,8 @@ public:
 
 	bool CleanUp();
 
-private:
-
+public:
+	GLubyte LoadCheckeredTexture();
+public:
+	TextureInfo texture;
 };
