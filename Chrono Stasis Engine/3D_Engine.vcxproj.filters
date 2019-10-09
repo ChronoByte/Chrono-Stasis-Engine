@@ -299,7 +299,6 @@
     <ClInclude Include="Engine\Dependencies\par\par_shapes.h" />
     <ClInclude Include="Engine\Dependencies\JSON\parson.h" />
     <ClInclude Include="Engine\src\Structure\RandomWindow.h" />
-    <ClInclude Include="Engine\src\Modules\csFBXLoader.h" />
     <ClInclude Include="Engine\Dependencies\Assimp\include\Compiler\poppack1.h" />
     <ClInclude Include="Engine\Dependencies\Assimp\include\Compiler\pstdint.h" />
     <ClInclude Include="Engine\Dependencies\Assimp\include\Compiler\pushpack1.h" />
@@ -350,6 +349,8 @@
     <ClInclude Include="Engine\Dependencies\DevIL\include\ilu_region.h" />
     <ClInclude Include="Engine\Dependencies\DevIL\include\ilut.h" />
     <ClInclude Include="Engine\Dependencies\DevIL\include\ilut_config.h" />
+    <ClInclude Include="Engine\src\Importers\csFBXLoader.h" />
+    <ClInclude Include="Engine\src\Importers\csTextureLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -519,11 +520,12 @@
     <ClCompile Include="Engine\Dependencies\par\par_shapes.cpp" />
     <ClCompile Include="Engine\Dependencies\JSON\parson.c" />
     <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
-    <ClCompile Include="Engine\src\Modules\csFBXLoader.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_dock.cpp" />
     <ClCompile Include="Engine\src\Modules\Game\csScene.cpp" />
     <ClCompile Include="Engine\src\Modules\csMesh.cpp" />
     <ClCompile Include="Engine\src\Modules\csFileSystem.cpp" />
+    <ClCompile Include="Engine\src\Importers\csFBXLoader.cpp" />
+    <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

@@ -56,7 +56,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Engine\src\Modules\Game;$(SolutionDir)\Engine\Dependencies;$(SolutionDir)\Engine\src\Core;$(SolutionDir)\Engine\src\Modules;$(SolutionDir)\Engine\src\Helpers;$(SolutionDir)\Engine\src\Tools;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Engine\src\Importers;$(SolutionDir)\Engine\src\Modules\Game;$(SolutionDir)\Engine\Dependencies;$(SolutionDir)\Engine\src\Core;$(SolutionDir)\Engine\src\Modules;$(SolutionDir)\Engine\src\Helpers;$(SolutionDir)\Engine\src\Tools;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -145,7 +145,8 @@
     <ClInclude Include="Engine\Dependencies\PhysFS\include\physfs.h" />
     <ClInclude Include="Engine\src\Core\csApp.h" />
     <ClInclude Include="Engine\src\Helpers\Color.h" />
-    <ClInclude Include="Engine\src\Modules\csFBXLoader.h" />
+    <ClInclude Include="Engine\src\Importers\csFBXLoader.h" />
+    <ClInclude Include="Engine\src\Importers\csTextureLoader.h" />
     <ClInclude Include="Engine\src\Modules\csFileSystem.h" />
     <ClInclude Include="Engine\src\Modules\csMesh.h" />
     <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
@@ -245,7 +246,8 @@
     <ClCompile Include="Engine\Dependencies\par\par_shapes.cpp" />
     <ClCompile Include="Engine\src\Core\csApp.cpp" />
     <ClCompile Include="Engine\src\Helpers\Color.cpp" />
-    <ClCompile Include="Engine\src\Modules\csFBXLoader.cpp" />
+    <ClCompile Include="Engine\src\Importers\csFBXLoader.cpp" />
+    <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
     <ClCompile Include="Engine\src\Modules\csFileSystem.cpp" />
     <ClCompile Include="Engine\src\Modules\csMesh.cpp" />
     <ClCompile Include="Engine\src\Modules\csRendererGUI.cpp" />

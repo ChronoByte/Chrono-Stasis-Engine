@@ -11,6 +11,7 @@
 #include "csCamera3D.h"
 #include "csRendererGUI.h"
 #include "csFBXLoader.h"
+#include "csTextureLoader.h"
 #include "csScene.h"
 #include "csFileSystem.h"
 
@@ -24,15 +25,16 @@
 class Application
 {
 public:
-	ModuleWindow*		window = nullptr;
-	ModuleInput*		input = nullptr;
-	ModuleEditor*		editor = nullptr;
-	ModuleRenderer3D*	renderer3D = nullptr;
-	ModuleCamera3D*		camera = nullptr;
-	ModuleUI*			gui = nullptr;
-	ModuleFBXLoader*    fbx = nullptr;
-	ModuleScene*		scene = nullptr;
-	ModuleFileSystem*	fs = nullptr;
+	ModuleWindow*			window = nullptr;
+	ModuleInput*			input = nullptr;
+	ModuleEditor*			editor = nullptr;
+	ModuleRenderer3D*		renderer3D = nullptr;
+	ModuleCamera3D*			camera = nullptr;
+	ModuleUI*				gui = nullptr;
+	ModuleFBXLoader*		fbx = nullptr;
+	ModuleTextureLoader*	texture = nullptr;
+	ModuleScene*			scene = nullptr;
+	ModuleFileSystem*		fs = nullptr;
 
 private:
 
