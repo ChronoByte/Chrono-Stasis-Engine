@@ -49,6 +49,103 @@ update_status ModuleScene::Update(float dt)
 	}
 
 
+	glBegin(GL_TRIANGLES);
+	//glColor4f(255, 0, 128, 255);
+
+	// Face 1
+	glVertex3f(0.f, 0.f, 0.f);
+	glTexCoord2f(0.0f, 0.0f); 
+	glVertex3f(0.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glTexCoord2f(0.0f, 1.0f);
+
+	glVertex3f(0.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glTexCoord2f(0.0f, 1.0f);
+
+	// Face 2
+	glVertex3f(0.f, 0.f, 1.f);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(1.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glTexCoord2f(0.0f, 1.0f);
+
+	glVertex3f(1.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glTexCoord2f(0.0f, 1.0f);
+
+
+	// Face 3
+	glVertex3f(1.f, 0.f, 1.f);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glTexCoord2f(1.0f, 1.0f);
+
+	glVertex3f(1.f, 0.f, 1.f);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(1.f, 1.f, 1.f);
+	glTexCoord2f(0.0f, 1.0f);
+
+	// Face 4
+	glVertex3f(1.f, 0.f, 0.f);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glTexCoord2f(0.0f, 1.0f);
+
+	glVertex3f(0.f, 0.f, 0.f);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glTexCoord2f(0.0f, 0.0f);
+
+	// Face 5
+	glVertex3f(0.f, 1.f, 0.f);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(1.f, 1.f, 0.f); 
+	glTexCoord2f(0.0f, 1.0f);
+
+	glVertex3f(1.f, 1.f, 1.f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(1.f, 1.f, 0.f);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex3f(0.f, 1.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f);
+
+
+	// Face 6
+	glVertex3f(0.f, 0.f, 0.f);
+	glTexCoord2f(0.0f, 0.0f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glTexCoord2f(0.0f, 1.0f);
+	glVertex3f(0.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f);
+
+	glVertex3f(1.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 1.0f);
+	glVertex3f(0.f, 0.f, 1.f);
+	glTexCoord2f(1.0f, 0.0f);
+	glVertex3f(1.f, 0.f, 0.f);
+	glTexCoord2f(0.0f, 1.0f);
+
+	glEnd();
+
 	return UPDATE_CONTINUE;
 }
 
