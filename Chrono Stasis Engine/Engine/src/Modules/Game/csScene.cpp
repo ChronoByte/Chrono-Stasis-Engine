@@ -2,6 +2,10 @@
 #include "csApp.h"
 #include "csScene.h"
 #include "csFBXLoader.h"
+#include "csTextureLoader.h"
+#include "csMesh.h"
+
+#include "GLEW/include/GL/glew.h"
 
 ModuleScene::ModuleScene(bool start_enabled) : Module(start_enabled)
 {
@@ -18,6 +22,11 @@ bool ModuleScene::Init(JSON_Object* node)
 }
 bool ModuleScene::Start()
 {
+	Mesh* m = nullptr; 
+	uint texture = 0; 
+
+	m = App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
+
 	return true;
 }
 
@@ -48,14 +57,49 @@ update_status ModuleScene::Update(float dt)
 		glEnd();
 	}
 
+	
+	/*GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
+	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
+		for (int j = 0; j < CHECKERS_WIDTH; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}*/
+
+	/*uint imageId = 0; 
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &imageId);
+	glBindTexture(GL_TEXTURE_2D, imageId);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT,
+		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);*/
 
 
+
+	//Mesh* mesh = new Mesh();
+
+
+	//DirectDrawing(imageId);
+
+	return UPDATE_CONTINUE;
+}
+
+void ModuleScene::DirectDrawing(const uint &imageId)
+{
+	glBindTexture(GL_TEXTURE_2D, imageId);
 	glBegin(GL_TRIANGLES);
 	//glColor4f(255, 0, 128, 255);
 
 	// Face 1
 	glVertex3f(0.f, 0.f, 0.f);
-	glTexCoord2f(0.0f, 0.0f); 
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(0.f, 0.f, 1.f);
 	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(0.f, 1.f, 0.f);
@@ -119,7 +163,7 @@ update_status ModuleScene::Update(float dt)
 	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(0.f, 1.f, 1.f);
 	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(1.f, 1.f, 0.f); 
+	glVertex3f(1.f, 1.f, 0.f);
 	glTexCoord2f(0.0f, 1.0f);
 
 	glVertex3f(1.f, 1.f, 1.f);
@@ -145,9 +189,8 @@ update_status ModuleScene::Update(float dt)
 	glVertex3f(1.f, 0.f, 0.f);
 	glTexCoord2f(0.0f, 1.0f);
 
+	glBindTexture(GL_TEXTURE_2D, 0);
 	glEnd();
-
-	return UPDATE_CONTINUE;
 }
 
 bool ModuleScene::CleanUp()

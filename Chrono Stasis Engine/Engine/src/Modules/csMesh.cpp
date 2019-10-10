@@ -4,6 +4,29 @@
 
 Mesh::Mesh()
 {
+	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
+	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
+		for (int j = 0; j < CHECKERS_WIDTH; j++) {
+			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
+			checkImage[i][j][0] = (GLubyte)c;
+			checkImage[i][j][1] = (GLubyte)c;
+			checkImage[i][j][2] = (GLubyte)c;
+			checkImage[i][j][3] = (GLubyte)255;
+		}
+	}
+
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGenTextures(1, &imageId);
+	glBindTexture(GL_TEXTURE_2D, imageId);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT,
+		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
+
+	tex = App->texture->LoadTexture("Assets/Baker_house.tga");
 }
 
 Mesh::Mesh(par_shapes_mesh * mesh)
@@ -53,20 +76,33 @@ Mesh::~Mesh()
 
 void Mesh::Draw()
 {
+
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	//glEnableClientState(GL_NORMAL_ARRAY);
 
 	/*glBindBuffer(GL_ARRAY_BUFFER, normals.id);
 	glNormalPointer(GL_FLOAT, 3, NULL);*/
+	
+	if (tex != nullptr)
+		glBindTexture(GL_TEXTURE_2D, tex->id);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertex.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+
+	glBindBuffer(GL_ARRAY_BUFFER, textureCoords.id);
+	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index.id);
 	glDrawElements(GL_TRIANGLES, index.capacity, GL_UNSIGNED_INT, (void*)0);  // Carefull with this unsigned int
 	
 	//glDisableClientState(GL_NORMAL_ARRAY);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
+
 }
 
 void Mesh::DrawNormals()
@@ -74,7 +110,7 @@ void Mesh::DrawNormals()
 	glBegin(GL_LINES);
 
 	glColor3f(0, 1, 0);
-	uint normalSize = 5;
+	uint normalSize = 2;
 
 	int j = 0; 
 	for (int i = 0; i < index.capacity; i += 3)
@@ -137,7 +173,7 @@ void Mesh::DrawNormals()
 void Mesh::DrawVertexNormals()
 {
 	glBegin(GL_LINES);
-	uint normalSize = 10; 
+	uint normalSize = 2; 
 	glColor3f(1, 0, 0);
 
 	for (int i = 0; i < normals.capacity * 3; i += 3)
@@ -206,7 +242,14 @@ void Mesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 {
 	textureCoords.capacity = mesh->mNumVertices;
 	textureCoords.buffer = new float[textureCoords.capacity * 2]; // 2 Coords (x,y) for each vertex
-	memcpy(&textureCoords.buffer[index * 2], mesh->mTextureCoords[index], sizeof(float) * 2);
+	uint j = 0; 
+	for (uint i = 0; i < mesh->mNumVertices; ++i) {
+
+		//there are two for each vertex
+		memcpy(&textureCoords.buffer[j], &mesh->mTextureCoords[index][i].x, sizeof(float));
+		memcpy(&textureCoords.buffer[j + 1], &mesh->mTextureCoords[index][i].y, sizeof(float));
+		j += 2; 
+	}
 	LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
 }
 

@@ -446,7 +446,7 @@ void ConfigWindow::RendererConfiguration()
 		if (ImGui::Checkbox("Specular Light", &specular_light)) {}
 
 		if (ImGui::Checkbox("Texture 2D", &texture_2D))
-			App->renderer3D->SetColorMaterial(texture_2D); ImGui::SameLine(200.0f);
+			App->renderer3D->SetTexture2D(texture_2D); ImGui::SameLine(200.0f);
 
 		if (ImGui::Checkbox("Wire Mode", &wire_mode))
 			App->renderer3D->SetWireframe(wire_mode); ImGui::SameLine(400.0f);

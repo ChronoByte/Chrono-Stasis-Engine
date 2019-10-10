@@ -197,16 +197,16 @@ void ModuleEditor::SetHelpMenu()
 
 void ModuleEditor::CreateCube(const vec3& position, const uint & length, const uint & width, const uint & height)
 {
-	par_shapes_mesh* mesh = nullptr; 
+	par_shapes_mesh* mesh = nullptr;
 	mesh = par_shapes_create_cube();
 	par_shapes_translate(mesh, position.x, position.y, position.z);
 	par_shapes_scale(mesh, length, height, width);
 
 	LOG("Created a Cube in position: \nx = %.2f, y = %.2f, z = %.2f", position.x, position.y, position.y);
 
-	Mesh* shape = new Mesh(mesh); 
+	Mesh* shape = new Mesh(mesh);
 
-	App->renderer3D->PushMeshToRender(shape); 
+	App->renderer3D->PushMeshToRender(shape);
 }
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)

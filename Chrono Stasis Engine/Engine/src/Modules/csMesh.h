@@ -7,8 +7,10 @@
 #include "par/par_shapes.h"
 
 //struct par_shapes_mesh; 
-
+#define CHECKERS_HEIGHT 100
+#define CHECKERS_WIDTH 100
 class aiMesh; 
+class TextureInfo; 
 
 template<typename T>
 struct MeshInfo
@@ -55,4 +57,6 @@ public:
 	MeshInfo<float> normals;
 	MeshInfo<float> textureCoords;
 
+	TextureInfo* tex = nullptr;
+	uint imageId; 
 };

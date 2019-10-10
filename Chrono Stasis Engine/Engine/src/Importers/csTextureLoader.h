@@ -31,10 +31,11 @@ public:
 
 public:
 	GLubyte LoadCheckeredTexture();
-	bool LoadTexture(const char* tex_file);
+	TextureInfo* LoadTexture(const char* tex_file);
 	void CreateTextureBuffers(TextureInfo* tex);
 	void StorageTextureData(TextureInfo* tex);
 	void DeleteTextures();
+
 public:
 	TextureInfo* t = nullptr;
 	std::vector<TextureInfo*> textures;

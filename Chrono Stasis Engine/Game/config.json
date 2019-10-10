@@ -27,7 +27,7 @@
         "Line Smooth": false,
         "Polygon Smooth": false,
         "Color Material": true,
-        "Texture 2D": false,
+        "Texture 2D": true,
         "Wireframe": false,
         "Ambient Model": false,
         "Ambient": false,

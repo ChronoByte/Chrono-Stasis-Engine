@@ -93,7 +93,7 @@ GLubyte ModuleTextureLoader::LoadCheckeredTexture()
 	return checkImage[checker_height][checker_width][4];
 }
 
-bool ModuleTextureLoader::LoadTexture(const char* tex_file)
+TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 {
 	
 	uint imageID = 0;
@@ -103,6 +103,7 @@ bool ModuleTextureLoader::LoadTexture(const char* tex_file)
 
 	if ((bool)ilLoadImage(tex_file))
 	{
+		iluFlipImage();
 		t = new TextureInfo;
 
 		if (ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
@@ -119,7 +120,7 @@ bool ModuleTextureLoader::LoadTexture(const char* tex_file)
 	
 
 	ilDeleteImages(1, &imageID);
-	return false;
+	return t;
 }
 
 void ModuleTextureLoader::CreateTextureBuffers(TextureInfo* tex)

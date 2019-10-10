@@ -60,13 +60,14 @@ bool ModuleFBXLoader::CleanUp()
 	return true;
 }
 
-bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
+Mesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 {
 	bool ret = false;
 	const aiScene* scene = aiImportFile(fbx_name, aiProcessPreset_TargetRealtime_MaxQuality); //container of meshes
 	
 	aiMesh* new_mesh = nullptr; //pointer interator of meshes
-	
+	Mesh* m = nullptr;
+
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		
@@ -106,9 +107,9 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 			else LOG("No UV Channel detected");
 
 			m->CreateMeshBuffers(); 
-
+			
 			App->renderer3D->PushMeshToRender(m);  // Push mesh into container of meshes
-			SaveMeshData(fbx_name, m);
+			//SaveMeshData(fbx_name, m);
 		}
 
 		
@@ -117,7 +118,7 @@ bool ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 	}
 	else
 		LOG("Error loading scene %s", fbx_name);
-	return ret;
+	return m;
 }
 
 bool ModuleFBXLoader::SaveMeshData(const char* fbx_name, Mesh* mesh_data)
