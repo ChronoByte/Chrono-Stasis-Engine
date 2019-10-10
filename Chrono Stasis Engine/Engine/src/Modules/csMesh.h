@@ -40,7 +40,7 @@ public:
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 
 	void AssignTexture(TextureInfo* texture);
-
+	void AssignTexture(uint id); 
 	void CreateMeshBuffers(); 
 
 public: 
@@ -52,4 +52,5 @@ public:
 	MeshInfo<float> textureCoords;
 
 	const TextureInfo* tex = nullptr;
+	uint texId = 0; 
 };

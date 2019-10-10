@@ -63,8 +63,8 @@ void Mesh::Draw()
 	/*glBindBuffer(GL_ARRAY_BUFFER, normals.id);
 	glNormalPointer(GL_FLOAT, 3, NULL);*/
 	
-	if (tex != nullptr)
-		glBindTexture(GL_TEXTURE_2D, tex->id);
+	if (texId != 0)
+		glBindTexture(GL_TEXTURE_2D, texId);
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertex.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
@@ -235,6 +235,11 @@ void Mesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 void Mesh::AssignTexture(TextureInfo * texture)
 {
 	this->tex = texture; 
+}
+
+void Mesh::AssignTexture(uint id)
+{
+	texId = id; 
 }
 
 void Mesh::CreateMeshBuffers()

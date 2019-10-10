@@ -60,13 +60,14 @@ bool ModuleFBXLoader::CleanUp()
 	return true;
 }
 
-Mesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
+std::vector<Mesh*> ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 {
 	bool ret = false;
 	const aiScene* scene = aiImportFile(fbx_name, aiProcessPreset_TargetRealtime_MaxQuality); //container of meshes
 	
 	aiMesh* new_mesh = nullptr; //pointer interator of meshes
 	Mesh* m = nullptr;
+	std::vector<Mesh*> newMeshes; 
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -108,8 +109,9 @@ Mesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 
 			m->CreateMeshBuffers(); 
 			
-			App->renderer3D->PushMeshToRender(m);  // Push mesh into container of meshes
+			//App->renderer3D->PushGameObject(m);  // Push mesh into container of meshes
 			//SaveMeshData(fbx_name, m);
+			newMeshes.push_back(m);
 		}
 
 		
@@ -118,7 +120,7 @@ Mesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 	}
 	else
 		LOG("Error loading scene %s", fbx_name);
-	return m;
+	return newMeshes;
 }
 
 bool ModuleFBXLoader::SaveMeshData(const char* fbx_name, Mesh* mesh_data)

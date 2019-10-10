@@ -6,7 +6,7 @@
 
 #define MAX_LIGHTS 8
 
-class Mesh; 
+class GameObject; 
 
 class ModuleRenderer3D : public Module
 {
@@ -22,7 +22,7 @@ public:
 
 	void OnResize(int width, int height);
 
-	void PushMeshToRender(Mesh* mesh); 
+	void PushGameObject(GameObject* mesh); 
 	void DrawMeshes(); 
 	void DrawOriginAxis();
 
@@ -31,7 +31,7 @@ public:
 private:
 
 	bool debugMode = true;
-	std::list<Mesh*> meshes; 
+	std::list<GameObject*> gameObjects; 
 
 public:
 

@@ -351,6 +351,7 @@
     <ClInclude Include="Engine\Dependencies\DevIL\include\ilut_config.h" />
     <ClInclude Include="Engine\src\Importers\csFBXLoader.h" />
     <ClInclude Include="Engine\src\Importers\csTextureLoader.h" />
+    <ClInclude Include="Engine\src\Modules\csGameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -526,6 +527,7 @@
     <ClCompile Include="Engine\src\Modules\csFileSystem.cpp" />
     <ClCompile Include="Engine\src\Importers\csFBXLoader.cpp" />
     <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
+    <ClCompile Include="Engine\src\Modules\csGameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

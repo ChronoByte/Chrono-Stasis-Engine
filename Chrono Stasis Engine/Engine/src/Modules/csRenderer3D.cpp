@@ -3,6 +3,8 @@
 #include "csRenderer3D.h"
 #include "glew/include/GL/glew.h"
 
+#include "csGameObject.h"
+
 #include "SDL\include\SDL_opengl.h"
 
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -160,7 +162,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 update_status ModuleRenderer3D::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
+	/*if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 
 		std::list <Mesh*> ::const_iterator item = meshes.begin();
 		for (item; item != meshes.end(); item++)
@@ -168,7 +170,7 @@ update_status ModuleRenderer3D::Update(float dt)
 			LOG("Num of Vertices: %d", (*item)->vertex.capacity);
 			LOG("Num of Indices: %d", (*item)->index.capacity);
 		}
-	}
+	}*/
 
 	DrawMeshes();
 
@@ -187,14 +189,14 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 
-	std::list<Mesh*>::const_iterator item = meshes.begin();
+	std::list<GameObject*>::const_iterator item = gameObjects.begin();
 
-	for (item; item != meshes.end(); item++)
+	for (item; item != gameObjects.end(); item++)
 	{
 		delete (*item);
 	}
 
-	meshes.clear();
+	gameObjects.clear();
 
 	SDL_GL_DeleteContext(context);
 
@@ -215,23 +217,23 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
-void ModuleRenderer3D::PushMeshToRender(Mesh * mesh)
+void ModuleRenderer3D::PushGameObject(GameObject* go)
 {
-	meshes.push_back(mesh); 
+	gameObjects.push_back(go); 
 }
 
 void ModuleRenderer3D::DrawMeshes()
 {
-	std::list <Mesh*> ::const_iterator item = meshes.begin();
-	for (item; item != meshes.end(); item++)
+	std::list <GameObject*> ::const_iterator item = gameObjects.begin();
+	for (item; item != gameObjects.end(); item++)
 	{
 		(*item)->Draw();
 
-		if (drawNormals)
+		/*if (drawNormals)
 			(*item)->DrawNormals();
 
 		if (drawVertexNormals)
-			(*item)->DrawVertexNormals();
+			(*item)->DrawVertexNormals();*/
 	}
 }
 

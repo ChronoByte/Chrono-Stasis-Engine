@@ -206,7 +206,7 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 
 	Mesh* shape = new Mesh(mesh);
 
-	App->renderer3D->PushMeshToRender(shape);
+	//App->renderer3D->PushGameObject(shape);
 }
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)

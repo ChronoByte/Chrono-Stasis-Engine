@@ -4,6 +4,9 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
 
+#include "csGameObject.h"
+#include "csMesh.h"
+#include <vector>
 
 #define MAX_KEYS 300
 
@@ -123,17 +126,21 @@ update_status ModuleInput::PreUpdate(float dt)
 				if (!extension.compare(".fbx") || !extension.compare(".FBX"))
 				{
 					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", file, App->window->window);
-					lastMesh = App->fbx->LoadFBXData(file);
+					lastGameObject = new GameObject(); 
+					std::vector<Mesh*> meshes = App->fbx->LoadFBXData(file);
+					lastGameObject->AssignMeshes(meshes); 
+					App->renderer3D->PushGameObject(lastGameObject); 
 				}
 				
-				if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") || !extension.compare(".TGA") || !extension.compare(".dds"))
+				if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") 
+					|| !extension.compare(".TGA") || !extension.compare(".dds") || !extension.compare(".jpg"))
 				{
 					SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", e.drop.file, App->window->window);
 
 					TextureInfo* tex = nullptr; 
 					tex = App->texture->LoadTexture(file);
-					if (lastMesh != nullptr)
-						lastMesh->AssignTexture(tex); 
+					if (lastGameObject != nullptr)
+						lastGameObject->AssignTexture(tex->id);
 				}
 
 				SDL_free(e.drop.file);

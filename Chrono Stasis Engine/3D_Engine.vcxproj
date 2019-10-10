@@ -148,6 +148,7 @@
     <ClInclude Include="Engine\src\Importers\csFBXLoader.h" />
     <ClInclude Include="Engine\src\Importers\csTextureLoader.h" />
     <ClInclude Include="Engine\src\Modules\csFileSystem.h" />
+    <ClInclude Include="Engine\src\Modules\csGameObject.h" />
     <ClInclude Include="Engine\src\Modules\csMesh.h" />
     <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
     <ClInclude Include="Engine\Dependencies\glm\glmath.h" />
@@ -249,6 +250,7 @@
     <ClCompile Include="Engine\src\Importers\csFBXLoader.cpp" />
     <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
     <ClCompile Include="Engine\src\Modules\csFileSystem.cpp" />
+    <ClCompile Include="Engine\src\Modules\csGameObject.cpp" />
     <ClCompile Include="Engine\src\Modules\csMesh.cpp" />
     <ClCompile Include="Engine\src\Modules\csRendererGUI.cpp" />
     <ClCompile Include="Engine\Dependencies\glm\glmath.cpp" />

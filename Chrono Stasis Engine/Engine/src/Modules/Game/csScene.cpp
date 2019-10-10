@@ -5,6 +5,8 @@
 #include "csTextureLoader.h"
 #include "csMesh.h"
 
+#include "csGameObject.h"
+
 #include "GLEW/include/GL/glew.h"
 
 ModuleScene::ModuleScene(bool start_enabled) : Module(start_enabled)
@@ -23,18 +25,24 @@ bool ModuleScene::Init(JSON_Object* node)
 }
 bool ModuleScene::Start()
 {
-	Mesh* mesh = nullptr; 
-	TextureInfo* tex = nullptr; 
+	std::vector<Mesh*> meshes;
+
+	TextureInfo* tex = nullptr;
+	GameObject* go = nullptr; 
+
+	//go = new GameObject();
+
 	uint texture = 0; 
 
-	mesh = App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
-
+	/*meshes = App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
+	go->AssignMeshes(meshes); 
 
 	tex = App->texture->LoadTexture("Assets/Baker_house.tga");
+	
+	if (tex != nullptr && !meshes.empty())
+		go->AssignTexture(tex->id); 
 
-	if (tex != nullptr && mesh != nullptr)
-		mesh->AssignTexture(tex); 
-
+	App->renderer3D->PushGameObject(go); */
 
 	return true;
 }
@@ -198,7 +206,8 @@ void ModuleScene::DirectDrawing(const uint &imageId)
 	glVertex3f(1.f, 0.f, 0.f);
 	glTexCoord2f(0.0f, 1.0f);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	glEnd();
 }
 

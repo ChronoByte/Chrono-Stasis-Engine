@@ -3,6 +3,8 @@
 #include "csGlobals.h"
 #include "csMesh.h"
 
+class GameObject; 
+
 class ModuleFBXLoader : public Module
 {
 public:
@@ -18,7 +20,7 @@ public:
 	bool CleanUp();
 	
 public:
-	Mesh* LoadFBXData(const char* fbx_name);
+	std::vector<Mesh*> LoadFBXData(const char* fbx_name);
 	bool SaveMeshData(const char* fbx_name, Mesh* mesh_data);
 	bool LoadMeshData();
 
