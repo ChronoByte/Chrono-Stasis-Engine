@@ -72,6 +72,7 @@ update_status ModuleTextureLoader::PostUpdate(float dt)
 
 bool ModuleTextureLoader::CleanUp()
 {
+	DeleteTextures();
 	return true;
 }
 
@@ -104,8 +105,10 @@ bool ModuleTextureLoader::LoadTexture(const char* tex_file)
 	{
 		t = new TextureInfo;
 
-		if (ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE))
+		if (ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
 			CreateTextureBuffers(t);
+			StorageTextureData(t);
+		}
 		else
 			LOG("Image could not be converted, error: %s", iluErrorString(ilGetError()));
 		
@@ -134,6 +137,25 @@ void ModuleTextureLoader::CreateTextureBuffers(TextureInfo* tex)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT),
 		0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+}
+
+void ModuleTextureLoader::StorageTextureData(TextureInfo* tex)
+{
+	tex->data = ilGetData();
+	tex->width = ilGetInteger(IL_IMAGE_WIDTH);
+	tex->height = ilGetInteger(IL_IMAGE_HEIGHT);
+	
+	//TODO: fill with more texture data
+
+}
+
+void ModuleTextureLoader::DeleteTextures()
+{
+	for (int i = 0; i < textures.size(); ++i)
+	{
+		delete textures[i];
+	}
+	textures.clear();
 }
 
 
