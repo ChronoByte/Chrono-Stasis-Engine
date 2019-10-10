@@ -2,6 +2,7 @@
 #include "csModule.h"
 #include "csGlobals.h"
 
+class Mesh; 
 
 #define MAX_MOUSE_BUTTONS 5
 
@@ -81,6 +82,9 @@ private:
 	bool mousePressed;
 	//int mouse_z_motion;
 
+	// -------
+	Mesh* lastMesh = nullptr; 
+	
 public:
 	
 	char* file = nullptr;

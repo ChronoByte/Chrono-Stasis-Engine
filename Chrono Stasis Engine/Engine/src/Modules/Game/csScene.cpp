@@ -9,6 +9,7 @@
 
 ModuleScene::ModuleScene(bool start_enabled) : Module(start_enabled)
 {
+	name = "Scene"; 
 }
 
 ModuleScene::~ModuleScene()
@@ -22,10 +23,18 @@ bool ModuleScene::Init(JSON_Object* node)
 }
 bool ModuleScene::Start()
 {
-	Mesh* m = nullptr; 
+	Mesh* mesh = nullptr; 
+	TextureInfo* tex = nullptr; 
 	uint texture = 0; 
 
-	m = App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
+	mesh = App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
+
+
+	tex = App->texture->LoadTexture("Assets/Baker_house.tga");
+
+	if (tex != nullptr && mesh != nullptr)
+		mesh->AssignTexture(tex); 
+
 
 	return true;
 }

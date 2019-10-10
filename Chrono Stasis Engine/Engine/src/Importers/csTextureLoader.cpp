@@ -52,6 +52,8 @@ bool ModuleTextureLoader::Init(JSON_Object* node)
 
 bool ModuleTextureLoader::Start()
 {
+	LoadCheckeredTexture();
+
 	return true;
 }
 
@@ -73,11 +75,17 @@ update_status ModuleTextureLoader::PostUpdate(float dt)
 bool ModuleTextureLoader::CleanUp()
 {
 	DeleteTextures();
+
+	delete testTexture;
+	testTexture = nullptr; 
+
 	return true;
 }
 
-GLubyte ModuleTextureLoader::LoadCheckeredTexture()
+void ModuleTextureLoader::LoadCheckeredTexture()
 {
+	testTexture = new TextureInfo; 
+
 	const int checker_height = 120;
 	const int checker_width = 120;
 	GLubyte checkImage[checker_height][checker_width][4];
@@ -90,12 +98,16 @@ GLubyte ModuleTextureLoader::LoadCheckeredTexture()
 			checkImage[i][j][3] = (GLubyte)255;
 		}
 	}
-	return checkImage[checker_height][checker_width][4];
+	testTexture->image = &checkImage[0][0][0];
+	testTexture->width = checker_width; 
+	testTexture->height = checker_height;
+
+	CreateTextureBuffers(testTexture); 
 }
 
 TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 {
-	
+	TextureInfo* t = nullptr; 
 	uint imageID = 0;
 
 	ilGenImages(1, &imageID);
@@ -107,8 +119,8 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 		t = new TextureInfo;
 
 		if (ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
-			CreateTextureBuffers(t);
 			StorageTextureData(t);
+			CreateTextureBuffers(t);
 		}
 		else
 			LOG("Image could not be converted, error: %s", iluErrorString(ilGetError()));
@@ -136,13 +148,13 @@ void ModuleTextureLoader::CreateTextureBuffers(TextureInfo* tex)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), ilGetInteger(IL_IMAGE_WIDTH), ilGetInteger(IL_IMAGE_HEIGHT),
-		0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, ilGetData());
+	glTexImage2D(GL_TEXTURE_2D, 0, ilGetInteger(IL_IMAGE_FORMAT), tex->width, tex->height,
+		0, ilGetInteger(IL_IMAGE_FORMAT), GL_UNSIGNED_BYTE, tex->image);
 }
 
 void ModuleTextureLoader::StorageTextureData(TextureInfo* tex)
 {
-	tex->data = ilGetData();
+	tex->image = ilGetData();
 	tex->width = ilGetInteger(IL_IMAGE_WIDTH);
 	tex->height = ilGetInteger(IL_IMAGE_HEIGHT);
 	

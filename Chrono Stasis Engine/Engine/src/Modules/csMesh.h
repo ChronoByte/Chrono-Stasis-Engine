@@ -39,6 +39,8 @@ public:
 	void LoadMeshColors(aiMesh* mesh, int index);
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 
+	void AssignTexture(TextureInfo* texture);
+
 	void CreateMeshBuffers(); 
 
 public: 
@@ -57,6 +59,6 @@ public:
 	MeshInfo<float> normals;
 	MeshInfo<float> textureCoords;
 
-	TextureInfo* tex = nullptr;
+	const TextureInfo* tex = nullptr;
 	uint imageId; 
 };

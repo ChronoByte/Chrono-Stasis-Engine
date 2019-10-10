@@ -4,29 +4,8 @@
 
 Mesh::Mesh()
 {
-	GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
-	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
-		for (int j = 0; j < CHECKERS_WIDTH; j++) {
-			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = (GLubyte)255;
-		}
-	}
+	
 
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &imageId);
-	glBindTexture(GL_TEXTURE_2D, imageId);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);
-
-	tex = App->texture->LoadTexture("Assets/Baker_house.tga");
 }
 
 Mesh::Mesh(par_shapes_mesh * mesh)
@@ -251,6 +230,11 @@ void Mesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 		j += 2; 
 	}
 	LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
+}
+
+void Mesh::AssignTexture(TextureInfo * texture)
+{
+	this->tex = texture; 
 }
 
 void Mesh::CreateMeshBuffers()

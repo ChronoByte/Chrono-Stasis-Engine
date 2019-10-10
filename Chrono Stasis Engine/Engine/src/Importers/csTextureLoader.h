@@ -5,10 +5,8 @@
 
 struct TextureInfo
 {
-	
-	unsigned char* data = nullptr;
+	GLubyte* image = nullptr;
 	GLuint id = 0;
-	GLubyte image = 0;
 	int width = 0;
 	int height = 0;
 };
@@ -30,13 +28,13 @@ public:
 	bool CleanUp();
 
 public:
-	GLubyte LoadCheckeredTexture();
+	void LoadCheckeredTexture();
 	TextureInfo* LoadTexture(const char* tex_file);
 	void CreateTextureBuffers(TextureInfo* tex);
 	void StorageTextureData(TextureInfo* tex);
 	void DeleteTextures();
 
 public:
-	TextureInfo* t = nullptr;
+	TextureInfo* testTexture = nullptr;
 	std::vector<TextureInfo*> textures;
 };
