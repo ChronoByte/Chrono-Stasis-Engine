@@ -165,8 +165,8 @@ update_status ModuleRenderer3D::Update(float dt)
 		std::list <Mesh*> ::const_iterator item = meshes.begin();
 		for (item; item != meshes.end(); item++)
 		{
-			LOG("Num of Vertices: %d", (*item)->num_vertices);
-			LOG("Num of Indices: %d", (*item)->num_indices);
+			LOG("Num of Vertices: %d", (*item)->vertex.capacity);
+			LOG("Num of Indices: %d", (*item)->index.capacity);
 		}
 	}
 
