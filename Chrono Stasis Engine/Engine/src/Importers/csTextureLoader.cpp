@@ -47,6 +47,8 @@ bool ModuleTextureLoader::Init(JSON_Object* node)
 		ret = false;
 	}
 
+	ilEnable(IL_ORIGIN_SET);
+	ilOriginFunc(IL_ORIGIN_UPPER_LEFT); // Setting as default origin to load images in upper left mode
 	return ret;
 }
 
@@ -115,7 +117,13 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 
 	if ((bool)ilLoadImage(tex_file))
 	{
-		iluFlipImage();
+		//Checking image origin
+		ILinfo img_info;
+		iluGetImageInfo(&img_info);
+
+		if (img_info.Origin != IL_ORIGIN_UPPER_LEFT) 
+			iluFlipImage();
+
 		t = new TextureInfo;
 
 		if (ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
