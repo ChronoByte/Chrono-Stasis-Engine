@@ -58,10 +58,10 @@ void Mesh::Draw()
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	//glEnableClientState(GL_NORMAL_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
 
-	/*glBindBuffer(GL_ARRAY_BUFFER, normals.id);
-	glNormalPointer(GL_FLOAT, 3, NULL);*/
+	glBindBuffer(GL_ARRAY_BUFFER, normals.id);
+	glNormalPointer(GL_FLOAT, 0, NULL);
 	
 	if (texId != 0)
 		glBindTexture(GL_TEXTURE_2D, texId);
@@ -76,7 +76,7 @@ void Mesh::Draw()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index.id);
 	glDrawElements(GL_TRIANGLES, index.capacity, GL_UNSIGNED_INT, (void*)0);  // Carefull with this unsigned int
 	
-	//glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -203,9 +203,9 @@ void Mesh::LoadMeshIndices(aiMesh* mesh)
 
 void Mesh::LoadMeshNormals(aiMesh* mesh)
 {
-	normals.capacity = mesh->mNumFaces * 3;
-	normals.buffer = new float[normals.capacity * 3];
-	memcpy(normals.buffer, mesh->mNormals, sizeof(float) * normals.capacity * 3);
+	normals.capacity = mesh->mNumVertices * 3;
+	normals.buffer = new float[normals.capacity];
+	memcpy(normals.buffer, mesh->mNormals, sizeof(float) * normals.capacity);
 	LOG("New mesh loaded with %d normals", normals.capacity);
 }
 
