@@ -85,57 +85,7 @@ void ModuleEditor::Log(char * log) const
 // Update
 update_status ModuleEditor::Update(float dt)
 {
-	/*static bool show_global = true;
 
-	static int width;
-	static int height;
-	SDL_GetWindowSize(App->window->window, &width, &height);
-	ImGui::SetNextWindowPos(ImVec2(0, 20));
-	ImGui::SetNextWindowSize(ImVec2(width, height - 20));
-
-
-	ImGui::Begin("MasterWindow", &show_global, ImGuiWindowFlags_NoMove |
-		ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize |
-		ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar);
-
-	ImGui::BeginDockspace();
-	inspector->Draw();
-	ImGui::EndDockspace();
-
-	ImGui::End();*/
-
-	
-	//ImGui::SetNextWindowPos(ImVec2(App->window->width - 500.0f, App->window->height - 205.0f), ImGuiCond_Once); //Imaginary numbers are from size params!
-	//ImGui::SetNextWindowSize(ImVec2(500.0f, 205.0f), ImGuiCond_Once);
-	//if (ImGui::Begin("Dock Demo"))
-	//{
-	//	// dock layout by hard-coded or .ini file
-	//	ImGui::BeginDockspace();
-
-	//	if (ImGui::BeginDock("Dock 1")) {
-	//		ImGui::Text("Sebas");
-	//	}
-	//	ImGui::EndDock();
-
-	//	if (ImGui::BeginDock("Dock 2")) {
-	//		ImGui::Text("Carlos");
-	//	}
-	//	ImGui::EndDock();
-
-	//	if (ImGui::BeginDock("Dock 3")) {
-	//		ImGui::Text("E.T.");
-	//	}
-	//	ImGui::EndDock();
-	//	if (ImGui::BeginDock("Configuration Window")) {
-	//		config->DockDraw();
-	//	}
-	//	ImGui::EndDock();
-
-	//	ImGui::EndDockspace();
-	//}
-	//ImGui::End();
-
-	
 	update_status ret = UPDATE_CONTINUE; 
 
 	if (ImGui::BeginMainMenuBar())
@@ -195,11 +145,12 @@ update_status ModuleEditor::Update(float dt)
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
+
 	std::vector<Window*>::iterator item = windowManager.begin();
 	for (int i = 0; i < windowManager.size(); i++)
 	{
-		if (item[i]->GetBool())
-			item[i]->Draw();
+			if (item[i]->GetActive())
+				item[i]->Draw();
 	}
 
 	return ret;
