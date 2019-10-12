@@ -1,6 +1,6 @@
 #include "ComponentTransform.h"
 
-ComponentTransform::ComponentTransform()
+ComponentTransform::ComponentTransform() : Component(ComponentType::C_TRANSFORM)
 {
 }
 

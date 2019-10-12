@@ -147,6 +147,7 @@
     <ClInclude Include="Engine\src\Helpers\Color.h" />
     <ClInclude Include="Engine\src\Importers\csFBXLoader.h" />
     <ClInclude Include="Engine\src\Importers\csTextureLoader.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentTransform.h" />
     <ClInclude Include="Engine\src\Modules\Containers\csComponent.h" />
     <ClInclude Include="Engine\src\Modules\Containers\csGameObject.h" />
     <ClInclude Include="Engine\src\Modules\csFileSystem.h" />
@@ -251,6 +252,7 @@
     <ClCompile Include="Engine\src\Helpers\Color.cpp" />
     <ClCompile Include="Engine\src\Importers\csFBXLoader.cpp" />
     <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentTransform.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\csGameObject.cpp" />
     <ClCompile Include="Engine\src\Modules\csFileSystem.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMesh.cpp" />

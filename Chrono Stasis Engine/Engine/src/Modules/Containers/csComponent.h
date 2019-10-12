@@ -4,6 +4,7 @@
 
 class GameObject; 
 
+
 enum class ComponentType
 {
 	C_NONE = 0,
@@ -16,11 +17,12 @@ enum class ComponentType
 	C_MAX
 };
 
-
 class Component
 {
+
 public:
-	Component(){}
+	Component() {}
+	Component(ComponentType type){}
 	~Component(){}
 
 	virtual void Update(float dt){}
@@ -36,7 +38,7 @@ public:
 		type = mytype; 
 	}
 
-private:
+protected:
 
 	ComponentType type = ComponentType::C_NONE; 
 	const GameObject* myGo = nullptr; 
