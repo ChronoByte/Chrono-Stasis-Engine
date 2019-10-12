@@ -7,7 +7,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_dock.h"
 
-#include "csMesh.h"
+#include "ComponentMesh.h"
 
 // Including windows
 #include "src/Structure/ConfigWindow.h"
@@ -238,7 +238,7 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 
 	LOG("Created a Cube in position: \nx = %.2f, y = %.2f, z = %.2f", position.x, position.y, position.y);
 
-	Mesh* shape = new Mesh(mesh);
+	ComponentMesh* shape = new ComponentMesh(mesh);
 
 	App->renderer3D->PushMeshToRender(shape);
 }

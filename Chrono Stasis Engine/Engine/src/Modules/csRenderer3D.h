@@ -5,7 +5,6 @@
 #include "Light.h"
 
 #define MAX_LIGHTS 8
-
 class Mesh; 
 
 class ModuleRenderer3D : public Module
@@ -22,7 +21,7 @@ public:
 
 	void OnResize(int width, int height);
 
-	void PushMeshToRender(Mesh* mesh); 
+	void PushMeshToRender(ComponentMesh* mesh);
 	void DrawMeshes(); 
 	void DrawOriginAxis();
 
@@ -31,7 +30,7 @@ public:
 private:
 
 	bool debugMode = true;
-	std::list<Mesh*> meshes; 
+	std::list<ComponentMesh*> meshes;
 
 public:
 

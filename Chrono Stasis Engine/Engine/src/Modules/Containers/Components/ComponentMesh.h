@@ -1,14 +1,14 @@
 #pragma once
 
 #include "csGlobals.h"
+#include "csComponent.h"
 
 // TO DO: Add forward declaration so it doesnt
 // have to include par_shapes
 #include "par/par_shapes.h"
 
 //struct par_shapes_mesh; 
-#define CHECKERS_HEIGHT 100
-#define CHECKERS_WIDTH 100
+
 class aiMesh; 
 class TextureInfo; 
 
@@ -20,14 +20,14 @@ struct MeshInfo
 	T* buffer = nullptr;
 };
 
-class Mesh
+class ComponentMesh : public Component
 {
 public: 
 
-	Mesh(); 
-	Mesh(par_shapes_mesh* mesh); 
-	Mesh(aiMesh* mesh); 
-	~Mesh();
+	ComponentMesh();
+	ComponentMesh(par_shapes_mesh* mesh);
+	ComponentMesh(aiMesh* mesh);
+	~ComponentMesh();
 
 	void Draw();
 	void DrawNormals(); 

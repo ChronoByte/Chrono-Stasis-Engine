@@ -1,8 +1,10 @@
 #include "csGlobals.h"
 #include "csApp.h"
 #include "csRenderer3D.h"
-#include "glew/include/GL/glew.h"
 
+#include "ComponentMesh.h"
+
+#include "glew/include/GL/glew.h"
 #include "SDL\include\SDL_opengl.h"
 
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -162,7 +164,7 @@ update_status ModuleRenderer3D::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
 
-		std::list <Mesh*> ::const_iterator item = meshes.begin();
+		std::list <ComponentMesh*> ::const_iterator item = meshes.begin();
 		for (item; item != meshes.end(); item++)
 		{
 			LOG("Num of Vertices: %d", (*item)->vertex.capacity);
@@ -187,7 +189,7 @@ bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
 
-	std::list<Mesh*>::const_iterator item = meshes.begin();
+	std::list<ComponentMesh*>::const_iterator item = meshes.begin();
 
 	for (item; item != meshes.end(); item++)
 	{
@@ -215,14 +217,14 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
-void ModuleRenderer3D::PushMeshToRender(Mesh * mesh)
+void ModuleRenderer3D::PushMeshToRender(ComponentMesh * mesh)
 {
 	meshes.push_back(mesh); 
 }
 
 void ModuleRenderer3D::DrawMeshes()
 {
-	std::list <Mesh*> ::const_iterator item = meshes.begin();
+	std::list <ComponentMesh*> ::const_iterator item = meshes.begin();
 	for (item; item != meshes.end(); item++)
 	{
 		(*item)->Draw();

@@ -337,7 +337,6 @@
     <ClInclude Include="Engine\Dependencies\Assimp\include\vector3.h" />
     <ClInclude Include="Engine\Dependencies\Assimp\include\version.h" />
     <ClInclude Include="Engine\src\Modules\Game\csScene.h" />
-    <ClInclude Include="Engine\src\Modules\csMesh.h" />
     <ClInclude Include="Engine\src\Modules\csFileSystem.h" />
     <ClInclude Include="Engine\Dependencies\PhysFS\include\physfs.h" />
     <ClInclude Include="Engine\Dependencies\DevIL\include\devil_cpp_wrapper.hpp" />
@@ -353,7 +352,8 @@
     <ClInclude Include="Engine\src\Structure\InspectorWindow.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui_dock.h" />
     <ClInclude Include="Engine\src\Modules\Containers\csGameObject.h" />
-    <ClInclude Include="Engine\src\Modules\Containers\Components\csComponent.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\csComponent.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -524,13 +524,13 @@
     <ClCompile Include="Engine\Dependencies\JSON\parson.c" />
     <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
     <ClCompile Include="Engine\src\Modules\Game\csScene.cpp" />
-    <ClCompile Include="Engine\src\Modules\csMesh.cpp" />
     <ClCompile Include="Engine\src\Modules\csFileSystem.cpp" />
     <ClCompile Include="Engine\src\Importers\csFBXLoader.cpp" />
     <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
     <ClCompile Include="Engine\src\Structure\InspectorWindow.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_dock.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\csGameObject.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

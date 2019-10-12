@@ -3,7 +3,7 @@
 #include "csScene.h"
 #include "csFBXLoader.h"
 #include "csTextureLoader.h"
-#include "csMesh.h"
+#include "ComponentMesh.h"
 
 #include "GLEW/include/GL/glew.h"
 
@@ -23,7 +23,7 @@ bool ModuleScene::Init(JSON_Object* node)
 }
 bool ModuleScene::Start()
 {
-	Mesh* mesh = nullptr; 
+	ComponentMesh* mesh = nullptr;
 	TextureInfo* tex = nullptr; 
 	uint texture = 0; 
 

@@ -1,7 +1,6 @@
 #pragma once
 #include "csModule.h"
 #include "csGlobals.h"
-#include "csMesh.h"
 #include <array>
 
 #include "Assimp/include/cimport.h"
@@ -9,10 +8,12 @@
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
 
+class ComponentMesh; 
+
 struct FBXModel
 {
 	// Meshes of Model
-	std::vector<Mesh*> meshes;
+	std::vector<ComponentMesh*> meshes;
 	
 	//Transform of Model
 	float3 position;
@@ -44,11 +45,11 @@ public:
 	void FBXModelImport(const char* path);
 	FBXModel* LoadModel(const char* path);
 
-	Mesh* LoadMesh(aiMesh* mesh,const aiScene* scene);
+	ComponentMesh* LoadMesh(aiMesh* mesh,const aiScene* scene);
 	void NodePath(aiNode* node, const aiScene* scene);
 
-	Mesh* LoadFBXData(const char* fbx_name);
-	bool SaveMeshData(const char* fbx_name, Mesh* mesh_data);
+	ComponentMesh* LoadFBXData(const char* fbx_name);
+	bool SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data);
 	bool LoadMeshData();
 
 private:

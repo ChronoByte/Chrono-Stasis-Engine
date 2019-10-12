@@ -147,10 +147,10 @@
     <ClInclude Include="Engine\src\Helpers\Color.h" />
     <ClInclude Include="Engine\src\Importers\csFBXLoader.h" />
     <ClInclude Include="Engine\src\Importers\csTextureLoader.h" />
-    <ClInclude Include="Engine\src\Modules\Containers\Components\csComponent.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\csComponent.h" />
     <ClInclude Include="Engine\src\Modules\Containers\csGameObject.h" />
     <ClInclude Include="Engine\src\Modules\csFileSystem.h" />
-    <ClInclude Include="Engine\src\Modules\csMesh.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMesh.h" />
     <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
     <ClInclude Include="Engine\Dependencies\glm\glmath.h" />
     <ClInclude Include="Engine\src\Core\csGlobals.h" />
@@ -253,7 +253,7 @@
     <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\csGameObject.cpp" />
     <ClCompile Include="Engine\src\Modules\csFileSystem.cpp" />
-    <ClCompile Include="Engine\src\Modules\csMesh.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMesh.cpp" />
     <ClCompile Include="Engine\src\Modules\csRendererGUI.cpp" />
     <ClCompile Include="Engine\Dependencies\glm\glmath.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui.cpp" />

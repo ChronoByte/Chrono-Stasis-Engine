@@ -1,14 +1,14 @@
-#include "csMesh.h"
+#include "ComponentMesh.h"
 #include "Assimp/include/scene.h"
 #include "csApp.h"
 
-Mesh::Mesh()
+ComponentMesh::ComponentMesh()
 {
 	
 
 }
 
-Mesh::Mesh(par_shapes_mesh * mesh)
+ComponentMesh::ComponentMesh(par_shapes_mesh * mesh)
 {
 	vertex.capacity = mesh->npoints; 
 	index.capacity = mesh->ntriangles * 3; 
@@ -19,11 +19,11 @@ Mesh::Mesh(par_shapes_mesh * mesh)
 	CreateMeshBuffers(); 
 }
 
-Mesh::Mesh(aiMesh * mesh)
+ComponentMesh::ComponentMesh(aiMesh * mesh)
 {
 }
 
-Mesh::~Mesh()
+ComponentMesh::~ComponentMesh()
 {
 	if (vertex.buffer != nullptr)
 	{
@@ -53,7 +53,7 @@ Mesh::~Mesh()
 	}
 }
 
-void Mesh::Draw()
+void ComponentMesh::Draw()
 {
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -84,7 +84,7 @@ void Mesh::Draw()
 
 }
 
-void Mesh::DrawNormals()
+void ComponentMesh::DrawNormals()
 {
 	glBegin(GL_LINES);
 
@@ -149,7 +149,7 @@ void Mesh::DrawNormals()
 	glEnd();
 }
 
-void Mesh::DrawVertexNormals()
+void ComponentMesh::DrawVertexNormals()
 {
 	glBegin(GL_LINES);
 	uint normalSize = 2; 
@@ -176,7 +176,7 @@ void Mesh::DrawVertexNormals()
 	glEnd();
 }
 
-void Mesh::LoadMeshVertices(aiMesh* mesh)
+void ComponentMesh::LoadMeshVertices(aiMesh* mesh)
 {
 	vertex.capacity = mesh->mNumVertices;
 	vertex.buffer = new float[vertex.capacity * 3];
@@ -185,7 +185,7 @@ void Mesh::LoadMeshVertices(aiMesh* mesh)
 	LOG("New mesh loaded with %d vertices", vertex.capacity);
 }
 
-void Mesh::LoadMeshIndices(aiMesh* mesh)
+void ComponentMesh::LoadMeshIndices(aiMesh* mesh)
 {
 	index.capacity = mesh->mNumFaces * 3;
 	index.buffer = new uint[index.capacity]; 
@@ -201,7 +201,7 @@ void Mesh::LoadMeshIndices(aiMesh* mesh)
 	LOG("New mesh loaded with %d indices", index.capacity);
 }
 
-void Mesh::LoadMeshNormals(aiMesh* mesh)
+void ComponentMesh::LoadMeshNormals(aiMesh* mesh)
 {
 	normals.capacity = mesh->mNumVertices * 3;
 	normals.buffer = new float[normals.capacity];
@@ -209,7 +209,7 @@ void Mesh::LoadMeshNormals(aiMesh* mesh)
 	LOG("New mesh loaded with %d normals", normals.capacity);
 }
 
-void Mesh::LoadMeshColors(aiMesh* mesh, int index)
+void ComponentMesh::LoadMeshColors(aiMesh* mesh, int index)
 {
 	colors.capacity = mesh->mNumVertices;
 	colors.buffer = new float[colors.capacity * 4]; // (r,g,b,a) for each vertex
@@ -217,7 +217,7 @@ void Mesh::LoadMeshColors(aiMesh* mesh, int index)
 	LOG("New mesh loaded with %d colors", colors.capacity);
 }
 
-void Mesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
+void ComponentMesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 {
 	textureCoords.capacity = mesh->mNumVertices;
 	textureCoords.buffer = new float[textureCoords.capacity * 2]; // 2 Coords (x,y) for each vertex
@@ -232,12 +232,12 @@ void Mesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 	LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
 }
 
-void Mesh::AssignTexture(TextureInfo * texture)
+void ComponentMesh::AssignTexture(TextureInfo * texture)
 {
 	this->tex = texture; 
 }
 
-void Mesh::CreateMeshBuffers()
+void ComponentMesh::CreateMeshBuffers()
 {
 	// Vertices Buffer 
 

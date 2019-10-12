@@ -1,6 +1,7 @@
 #include "csApp.h"
 #include "csFBXLoader.h"
 #include "csFileSystem.h"
+#include "ComponentMesh.h"
 
 
 #pragma comment (lib, "Engine/Dependencies/Assimp/libx86/assimp.lib")
@@ -114,9 +115,9 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 	}
 }
 
-Mesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
+ComponentMesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
 {
-	Mesh* m = new Mesh();
+	ComponentMesh* m = new ComponentMesh();
 
 	m->LoadMeshVertices(mesh);
 
@@ -145,13 +146,13 @@ Mesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
 }
 
 
-Mesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
+ComponentMesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 {
 	bool ret = false;
 	const aiScene* scene = aiImportFile(fbx_name, aiProcessPreset_TargetRealtime_MaxQuality); //container of meshes
 	
 	aiMesh* new_mesh = nullptr; //pointer interator of meshes
-	Mesh* m = nullptr;
+	ComponentMesh* m = nullptr;
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -160,7 +161,7 @@ Mesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 		{
 		
 			new_mesh = scene->mMeshes[i];
-			m = new Mesh(); 
+			m = new ComponentMesh();
 			LOG("Mesh num: %u", i);
 
 			m->LoadMeshVertices(new_mesh);
@@ -206,7 +207,7 @@ Mesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 	return m;
 }
 
-bool ModuleFBXLoader::SaveMeshData(const char* fbx_name, Mesh* mesh_data)
+bool ModuleFBXLoader::SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data)
 {
 	std::string output_file;
 	App->fs->GetNameFile(fbx_name, output_file);
