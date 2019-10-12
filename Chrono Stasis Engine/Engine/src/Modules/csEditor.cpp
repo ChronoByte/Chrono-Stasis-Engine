@@ -25,7 +25,8 @@ ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 	about = new AboutWindow();	
 	console = new ConsoleWindow(true);
 	randomWin = new RandomWindow(); 
-	inspector = new InspectorWindow();
+
+	windowManager.push_back(new InspectorWindow());
 
 }
 
@@ -44,6 +45,13 @@ bool ModuleEditor::Start()
 	
 	config->Start();
 
+	windowManager[INSPECTOR]->Activate();
+
+	//START ALL WINDOWS
+	std::vector<Window*>::iterator item = windowManager.begin();
+	for (int i = 0; i < windowManager.size(); i++)
+		item[i]->Start();
+	
 	
 	return ret;
 }
@@ -96,40 +104,39 @@ update_status ModuleEditor::Update(float dt)
 
 	ImGui::End();*/
 
-	ImGui::SetNextWindowPos(ImVec2(App->window->width - 500.0f, App->window->height - 205.0f), ImGuiCond_Once); //Imaginary numbers are from size params!
-	ImGui::SetNextWindowSize(ImVec2(500.0f, 205.0f), ImGuiCond_Once);
-	if (ImGui::Begin("Dock Demo"))
-	{
-		// dock layout by hard-coded or .ini file
-		ImGui::BeginDockspace();
+	
+	//ImGui::SetNextWindowPos(ImVec2(App->window->width - 500.0f, App->window->height - 205.0f), ImGuiCond_Once); //Imaginary numbers are from size params!
+	//ImGui::SetNextWindowSize(ImVec2(500.0f, 205.0f), ImGuiCond_Once);
+	//if (ImGui::Begin("Dock Demo"))
+	//{
+	//	// dock layout by hard-coded or .ini file
+	//	ImGui::BeginDockspace();
 
-		if (ImGui::BeginDock("Dock 1")) {
-			ImGui::Text("Sebas");
-		}
-		ImGui::EndDock();
+	//	if (ImGui::BeginDock("Dock 1")) {
+	//		ImGui::Text("Sebas");
+	//	}
+	//	ImGui::EndDock();
 
-		if (ImGui::BeginDock("Dock 2")) {
-			ImGui::Text("Carlos");
-		}
-		ImGui::EndDock();
+	//	if (ImGui::BeginDock("Dock 2")) {
+	//		ImGui::Text("Carlos");
+	//	}
+	//	ImGui::EndDock();
 
-		if (ImGui::BeginDock("Dock 3")) {
-			ImGui::Text("E.T.");
-		}
-		ImGui::EndDock();
-		if (ImGui::BeginDock("Configuration Window")) {
-			config->DockDraw();
-		}
-		ImGui::EndDock();
+	//	if (ImGui::BeginDock("Dock 3")) {
+	//		ImGui::Text("E.T.");
+	//	}
+	//	ImGui::EndDock();
+	//	if (ImGui::BeginDock("Configuration Window")) {
+	//		config->DockDraw();
+	//	}
+	//	ImGui::EndDock();
 
-		ImGui::EndDockspace();
-	}
-	ImGui::End();
+	//	ImGui::EndDockspace();
+	//}
+	//ImGui::End();
 
 	
 	update_status ret = UPDATE_CONTINUE; 
-
-	//d = ldexp(pcg32_random_r(&rng), -32); //generating a flaoting points between [0,1) rounded nearest multiple of 1/2^32
 
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -142,6 +149,7 @@ update_status ModuleEditor::Update(float dt)
 		{
 			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window))	{}
 			if (ImGui::MenuItem("Console", "", console->GetBool()))	{}
+			if (ImGui::MenuItem("Inspector", "", windowManager[INSPECTOR]->GetBool())) {}
 
 			ImGui::EndMenu();
 		}
@@ -186,6 +194,13 @@ update_status ModuleEditor::Update(float dt)
 
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
+
+	std::vector<Window*>::iterator item = windowManager.begin();
+	for (int i = 0; i < windowManager.size(); i++)
+	{
+		if (item[i]->GetBool())
+			item[i]->Draw();
+	}
 
 	return ret;
 }

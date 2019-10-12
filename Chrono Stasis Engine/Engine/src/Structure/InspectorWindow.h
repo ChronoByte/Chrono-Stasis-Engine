@@ -19,6 +19,6 @@ public:
 
 	void ShowInspector();
 private:
-	bool activate = true;
+	
 };
 

@@ -22,7 +22,16 @@ class ConsoleWindow;
 class RandomWindow; 
 class InspectorWindow;
 class Mesh; 
+class Window;
 
+enum WindowType
+{
+	INSPECTOR,
+	CONFIGURATION,
+	ABOUT,
+	HIERARCHY,
+	SCENEWORLD
+};
 class ModuleEditor : public Module
 {
 public:
@@ -46,9 +55,11 @@ public:
 	ConfigWindow*	config = nullptr;
 	GeometryWindow* geometryWin = nullptr; 
 	AboutWindow*	about = nullptr;
-	PhysBody3D*		sensor = nullptr;
+	//PhysBody3D*		sensor = nullptr;
 	ConsoleWindow*	console = nullptr; 
 	RandomWindow*	randomWin = nullptr; 
 	InspectorWindow* inspector = nullptr;
 	bool show_demo_window = false;
+
+	std::vector<Window*> windowManager;
 };
