@@ -15,7 +15,7 @@
 #include "src/Structure/AboutWindow.h"
 #include "src/Structure/ConsoleWindow.h"
 #include "src/Structure/RandomWindow.h"
-
+#include "src/Structure/InspectorWindow.h"
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
 	name = "Editor";
@@ -25,6 +25,7 @@ ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 	about = new AboutWindow();	
 	console = new ConsoleWindow(true);
 	randomWin = new RandomWindow(); 
+	inspector = new InspectorWindow();
 
 }
 
@@ -76,6 +77,24 @@ void ModuleEditor::Log(char * log) const
 // Update
 update_status ModuleEditor::Update(float dt)
 {
+	/*static bool show_global = true;
+
+	static int width;
+	static int height;
+	SDL_GetWindowSize(App->window->window, &width, &height);
+	ImGui::SetNextWindowPos(ImVec2(0, 20));
+	ImGui::SetNextWindowSize(ImVec2(width, height - 20));
+
+
+	ImGui::Begin("MasterWindow", &show_global, ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar);
+
+	ImGui::BeginDockspace();
+	inspector->Draw();
+	ImGui::EndDockspace();
+
+	ImGui::End();*/
 
 	ImGui::SetNextWindowPos(ImVec2(App->window->width - 500.0f, App->window->height - 205.0f), ImGuiCond_Once); //Imaginary numbers are from size params!
 	ImGui::SetNextWindowSize(ImVec2(500.0f, 205.0f), ImGuiCond_Once);

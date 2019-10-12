@@ -20,7 +20,7 @@ class GeometryWindow;
 class AboutWindow;
 class ConsoleWindow; 
 class RandomWindow; 
-
+class InspectorWindow;
 class Mesh; 
 
 class ModuleEditor : public Module
@@ -49,6 +49,6 @@ public:
 	PhysBody3D*		sensor = nullptr;
 	ConsoleWindow*	console = nullptr; 
 	RandomWindow*	randomWin = nullptr; 
-	
+	InspectorWindow* inspector = nullptr;
 	bool show_demo_window = false;
 };
