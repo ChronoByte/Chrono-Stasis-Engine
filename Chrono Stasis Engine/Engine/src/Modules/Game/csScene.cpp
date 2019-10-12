@@ -198,7 +198,8 @@ void ModuleScene::DirectDrawing(const uint &imageId)
 	glVertex3f(1.f, 0.f, 0.f);
 	glTexCoord2f(0.0f, 1.0f);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	glEnd();
 }
 

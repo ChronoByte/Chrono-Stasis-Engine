@@ -352,6 +352,8 @@
     <ClInclude Include="Engine\src\Importers\csTextureLoader.h" />
     <ClInclude Include="Engine\src\Structure\InspectorWindow.h" />
     <ClInclude Include="Engine\Dependencies\imgui\imgui_dock.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\csGameObject.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\csComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -528,6 +530,7 @@
     <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
     <ClCompile Include="Engine\src\Structure\InspectorWindow.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_dock.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\csGameObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
