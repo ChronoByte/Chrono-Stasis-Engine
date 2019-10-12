@@ -2,6 +2,29 @@
 #include "csModule.h"
 #include "csGlobals.h"
 #include "csMesh.h"
+#include <array>
+
+#include "Assimp/include/cimport.h"
+#include "Assimp/include/scene.h"
+#include "Assimp/include/postprocess.h"
+#include "Assimp/include/cfileio.h"
+
+struct FBXModel
+{
+	// Meshes of Model
+	std::vector<Mesh*> meshes;
+	
+	//Transform of Model
+	float3 position;
+	float3 rotation;
+	float3 scale;
+
+	std::array<float3, 3> transform; //just for test transform properties on compile time
+
+	float3 GetPosition() const { return transform.at(0); };
+	float3 GetRotation() const { return transform.at(1); };
+	float3 GetScale() const { return transform.at(2); };;
+};
 
 class ModuleFBXLoader : public Module
 {
@@ -18,8 +41,17 @@ public:
 	bool CleanUp();
 	
 public:
+	void FBXModelImport(const char* path);
+	FBXModel* LoadModel(const char* path);
+
+	Mesh* LoadMesh(aiMesh* mesh,const aiScene* scene);
+	void NodePath(aiNode* node, const aiScene* scene);
+
 	Mesh* LoadFBXData(const char* fbx_name);
 	bool SaveMeshData(const char* fbx_name, Mesh* mesh_data);
 	bool LoadMeshData();
+
+private:
+	FBXModel* model = nullptr;
 
 };

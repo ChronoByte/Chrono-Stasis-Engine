@@ -1,10 +1,7 @@
 #include "csApp.h"
 #include "csFBXLoader.h"
 #include "csFileSystem.h"
-#include "Assimp/include/cimport.h"
-#include "Assimp/include/scene.h"
-#include "Assimp/include/postprocess.h"
-#include "Assimp/include/cfileio.h"
+
 
 #pragma comment (lib, "Engine/Dependencies/Assimp/libx86/assimp.lib")
 
@@ -59,6 +56,94 @@ bool ModuleFBXLoader::CleanUp()
 	
 	return true;
 }
+
+void ModuleFBXLoader::FBXModelImport(const char* fbx_name)
+{
+	FBXModel* new_model = LoadModel(fbx_name);
+
+}
+
+FBXModel* ModuleFBXLoader::LoadModel(const char* path)
+{
+	//bool ret = false;
+	//FBXModel* new_model = nullptr;
+
+	model = new FBXModel();
+
+	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
+
+	if (scene != nullptr && scene->HasMeshes())
+	{
+		
+		NodePath(scene->mRootNode, scene);
+
+
+		aiQuaternion quat_rotation;
+		aiVector3D position;
+		aiVector3D scale;
+
+		scene->mRootNode->mTransformation.Decompose(scale, quat_rotation, position);
+		Quat rot(quat_rotation.x, quat_rotation.y, quat_rotation.z, quat_rotation.w);
+
+		float3 euler_rotation = rot.ToEulerXYZ();
+
+		model->transform[0].Set(position.x, position.y, position.z);
+		model->transform[1].Set(euler_rotation.x, euler_rotation.y, euler_rotation.z);
+		model->transform[2].Set(scale.x, scale.y, scale.z);
+
+		//-----------------------------------
+
+		aiReleaseImport(scene);
+
+		return model;
+	}
+
+}
+
+void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
+{
+	for (uint i = 0; i < node->mNumMeshes; i++)
+	{
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		model->meshes.push_back(LoadMesh(mesh, scene));
+	}
+
+	for (uint i = 0; i < node->mNumChildren; i++)
+	{
+		NodePath(node->mChildren[i], scene);
+	}
+}
+
+Mesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
+{
+	Mesh* m = new Mesh();
+
+	m->LoadMeshVertices(mesh);
+
+	if (mesh->HasFaces())
+		m->LoadMeshIndices(mesh);
+
+	if (mesh->HasNormals())
+		m->LoadMeshNormals(mesh);
+
+	if (mesh->GetNumColorChannels() > 0)
+	{
+			if (mesh->HasVertexColors(0))
+				m->LoadMeshColors(mesh, 0);
+	}
+	else LOG("No Color Channel detected");
+
+	if (mesh->GetNumUVChannels() > 0)
+	{
+			if (mesh->HasTextureCoords(0))
+			m->LoadMeshTextureCoords(mesh, 0);
+	}
+	else LOG("No UV Channel detected");
+
+
+	return m;
+}
+
 
 Mesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 {
