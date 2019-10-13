@@ -29,7 +29,6 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Zoom in/ Zoom out: **Mouse Wheel**
 * Go Up and DowN: **R / F**
 
-
 ## Authors
 * Carlos Peña [CarlosUPC](https://github.com/CarlosUPC)
 * Sebastián López [Sebi Lopez](https://github.com/Sebi-Lopez)
@@ -55,21 +54,64 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * 3D Engine Engine Repository: [Chrono Stasis Engine](https://github.com/ChronoByte/Chrono-Stasis-Engine)
 * Our Organization: [ChronoByte](https://github.com/ChronoByte)
 
-## Camera Controls
-* WIP
-* WIP
-* WIP
-
-## Geometry Loader
-
-* WIP
+## Unity Camera Like
+* **Mouse Right:** Move Camera with static position
+* **Mouse Left + Alt:** Move Camera around object (Orbit)
+* **Mouse wheel:** Move Camera Zoom in and Zoom out
+* **F**: Center the Camera on an object
 
 ## Updates & Changelog
 
-* WIP
-* WIP
-* WIP
+* 0.3.0
+     * Added Basic GameObject  Structure 
+     * Reestructured Model Importer 
+     * Added Inspector Window
+     * Component Design Pattern 
+        > Transform, Material, Mesh
 
+* 0.2.5
+    * Implemented DevIL 
+     * Texture Loader
+     * Drag & Drop funcionality (to import DDS textures).
+
+
+* 0.2.0
+    * Implemented Assimp  
+    * FBX Model Loader
+       > Draw vertices, indices, normals.
+    * Drag & Drop funcionality (to import FBX models).
+
+
+* 0.1.7
+     * Add ImGui::Dock 
+     * 3D Geometry Creation
+       > Vertex Buffers, Index Buffers, Par shapes
+     
+      
+* 0.1.5
+   * Implemented JSON Parser
+      > Load / Save editor configuration
+   * Implemented OpenGL Context with GLEW (init & renderer)
+      > Initialization, Renderer, Shutdown 
+   * Implemented "Render" options inside "Configuration" window
+      > Depth test, lightning, color material, wireframe, axis, smooth polygons and fog mode.
+    * Congifuration Window development
+      > OpenGL + GLEW info.
+
+* 0.1.0
+    * Implemented "Configuration" Window:
+      >Frame rate options. Window options (resizable, fullscreen, etc). Renderer options. Hardware info 
+    * Added "About us..." Modal Window:
+      >Name, description, libraries used.
+    * "Console" Window:
+      >Logs & Engine inner performance.
+      
+ * 0.0.5
+   * Implemented MathGeoLib Framework
+     > Cube, Sphere, Cilinders, Frustum, AABB, etc
+   * Implemented PCG Pseudo-Random Helper
+     > Float between 0.0 and 1.0. 
+     > Int between any min/max
 ## License
 
       MIT License
