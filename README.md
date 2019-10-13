@@ -10,20 +10,25 @@ That is to say, is an illusion where that person perceives an instance of time a
 Metaphorically for us (software engineers and game developers), we live in a chronostasis loop measuring and observing the behavior and time performance in each frame at all the time until the game ends. In addition, we decide to make Chrono Stasis as compound word because it contains the acronym of our names: **C**hrono (Carlos) & **S**tasis (Sebas).
 
 ## Features
-* WIP
-* WIP
-* WIP
-* WIP
-* WIP
-* WIP
-* WIP
-
+* Configuration & Model Windows (App, Hardware, renderer,...)
+* Load / Save editor configuration with JSON Parser
+* Geometry Creation (Cube, Sphere, ...)
+* GameObject and Component Design Pattern 
+* Model and Texture Loader with Drag & Drop functionality
+* Geometry Editors (Hierarchy, Inspector)
+* Camera Controlling (Zoom in, zoom out, orbitation,..)
 
 ## Installation
 * Go to our github release page: [Click Here!](https://github.com/ChronoByte/Chrono-Stasis-Engine/releases)
 * Download the last version **.zip**
 * Extract .zip files inside a folder 
 * Execute **.exe** file
+
+## Controls & ShortCuts
+* Camera Movement: **WASD**
+* Zoom in/ Zoom out: **Mouse Wheel**
+* Go Up and DowN: **R / F**
+
 
 ## Authors
 * Carlos Peña [CarlosUPC](https://github.com/CarlosUPC)
