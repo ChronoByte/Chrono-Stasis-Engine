@@ -88,4 +88,5 @@ private:
 public:
 	
 	char* file = nullptr;
+	bool dropped = false;
 };

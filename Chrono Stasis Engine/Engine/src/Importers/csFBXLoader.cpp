@@ -39,11 +39,73 @@ update_status ModuleFBXLoader::PreUpdate(float dt)
 update_status ModuleFBXLoader::Update(float dt)
 {
 
+	if (App->input->dropped)
+	{
+		std::string extension;
+		std::string file = App->input->file;
+		App->fs->GetExtensionFile(file.c_str(), extension);
+
+		if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+		{
+			type = FileType::MODEL;
+		}
+
+		if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") || !extension.compare(".TGA") || !extension.compare(".dds"))
+		{
+			type = FileType::TEXTURE;
+		}
+			
+		else
+		{
+			type = FileType::UNKNOWN;
+		}
+	}
+
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleFBXLoader::PostUpdate(float dt)
 {
+
+	if (App->input->dropped) 
+	{
+
+		switch (type)
+		{
+		case MODEL:
+		{
+			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+
+			GameObject* go = nullptr;
+			go = App->fbx->LoadFBXData(App->input->file);
+			break;
+		}
+		case TEXTURE:
+		{
+			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+
+			TextureInfo* tex = nullptr;
+			tex = App->texture->LoadTexture(App->input->file);
+			break;
+		}
+		case UNKNOWN:
+		{
+			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Unknown file dropped on window", App->input->file, App->window->window);
+			break;
+		}
+		case NONE:
+		{
+			break;
+		}
+
+		default:
+			break;
+		}
+
+		type = FileType::NONE;
+		App->input->dropped = false;
+
+	}
 
 	return UPDATE_CONTINUE;
 }

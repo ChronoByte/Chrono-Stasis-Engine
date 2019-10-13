@@ -11,6 +11,15 @@
 class ComponentMesh; 
 class GameObject; 
 
+
+enum FileType
+{
+	NONE = -1,
+	UNKNOWN,
+	MODEL,
+	TEXTURE
+};
+
 struct FBXModel
 {
 	// Meshes of Model
@@ -55,5 +64,5 @@ public:
 
 private:
 	FBXModel* model = nullptr;
-
+	FileType type = FileType::NONE;
 };
