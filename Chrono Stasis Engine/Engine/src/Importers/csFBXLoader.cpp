@@ -214,14 +214,15 @@ GameObject* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 	
 	aiMesh* new_mesh = nullptr; //pointer interator of meshes
 	ComponentMesh* m = nullptr;
-	GameObject* go = nullptr; 
+	GameObject* parent = nullptr; 
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		
+		parent = App->scene->CreateGameObject(nullptr, fbx_name);
+
 		for (uint i = 0; i < scene->mNumMeshes; i++) // Use scene->mNumMeshes to iterate on scene->mMeshes array
 		{
-			go = App->scene->CreateGameObject(go, "FBX"); 
+			GameObject* go = App->scene->CreateGameObject(parent, "Meshx"); 
 
 			new_mesh = scene->mMeshes[i];
 			m = dynamic_cast<ComponentMesh*>(go->CreateComponent(ComponentType::C_MESH)); 
@@ -268,7 +269,7 @@ GameObject* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 	}
 	else
 		LOG("Error loading scene %s", fbx_name);
-	return go;
+	return parent;
 }
 
 bool ModuleFBXLoader::SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data)
