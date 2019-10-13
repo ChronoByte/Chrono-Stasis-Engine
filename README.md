@@ -10,20 +10,24 @@ That is to say, is an illusion where that person perceives an instance of time a
 Metaphorically for us (software engineers and game developers), we live in a chronostasis loop measuring and observing the behavior and time performance in each frame at all the time until the game ends. In addition, we decide to make Chrono Stasis as compound word because it contains the acronym of our names: **C**hrono (Carlos) & **S**tasis (Sebas).
 
 ## Features
-* WIP
-* WIP
-* WIP
-* WIP
-* WIP
-* WIP
-* WIP
-
+* Configuration & Model Windows (App, Hardware, renderer,...)
+* Load / Save editor configuration with JSON Parser
+* Geometry Creation (Cube, Sphere, ...)
+* GameObject and Component Design Pattern 
+* Model and Texture Loader with Drag & Drop functionality
+* Geometry Editors (Hierarchy, Inspector)
+* Camera Controlling (Zoom in, zoom out, orbitation,..)
 
 ## Installation
 * Go to our github release page: [Click Here!](https://github.com/ChronoByte/Chrono-Stasis-Engine/releases)
 * Download the last version **.zip**
 * Extract .zip files inside a folder 
 * Execute **.exe** file
+
+## Controls & ShortCuts
+* Camera Movement: **WASD**
+* Zoom in/ Zoom out: **Mouse Wheel**
+* Go Up and DowN: **R / F**
 
 ## Authors
 * Carlos Peña [CarlosUPC](https://github.com/CarlosUPC)
@@ -50,21 +54,64 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * 3D Engine Engine Repository: [Chrono Stasis Engine](https://github.com/ChronoByte/Chrono-Stasis-Engine)
 * Our Organization: [ChronoByte](https://github.com/ChronoByte)
 
-## Camera Controls
-* WIP
-* WIP
-* WIP
-
-## Geometry Loader
-
-* WIP
+## Unity Camera Like
+* **Mouse Right:** Move Camera with static position
+* **Mouse Left + Alt:** Move Camera around object (Orbit)
+* **Mouse wheel:** Move Camera Zoom in and Zoom out
+* **F**: Center the Camera on an object
 
 ## Updates & Changelog
 
-* WIP
-* WIP
-* WIP
+* 0.3.0
+     * Added Basic GameObject  Structure 
+     * Reestructured Model Importer 
+     * Added Inspector Window
+     * Component Design Pattern 
+        > Transform, Material, Mesh
 
+* 0.2.5
+    * Implemented DevIL 
+     * Texture Loader
+     * Drag & Drop funcionality (to import DDS textures).
+
+
+* 0.2.0
+    * Implemented Assimp  
+    * FBX Model Loader
+       > Draw vertices, indices, normals.
+    * Drag & Drop funcionality (to import FBX models).
+
+
+* 0.1.7
+     * Add ImGui::Dock 
+     * 3D Geometry Creation
+       > Vertex Buffers, Index Buffers, Par shapes
+     
+      
+* 0.1.5
+   * Implemented JSON Parser
+      > Load / Save editor configuration
+   * Implemented OpenGL Context with GLEW (init & renderer)
+      > Initialization, Renderer, Shutdown 
+   * Implemented "Render" options inside "Configuration" window
+      > Depth test, lightning, color material, wireframe, axis, smooth polygons and fog mode.
+    * Congifuration Window development
+      > OpenGL + GLEW info.
+
+* 0.1.0
+    * Implemented "Configuration" Window:
+      >Frame rate options. Window options (resizable, fullscreen, etc). Renderer options. Hardware info 
+    * Added "About us..." Modal Window:
+      >Name, description, libraries used.
+    * "Console" Window:
+      >Logs & Engine inner performance.
+      
+ * 0.0.5
+   * Implemented MathGeoLib Framework
+     > Cube, Sphere, Cilinders, Frustum, AABB, etc
+   * Implemented PCG Pseudo-Random Helper
+     > Float between 0.0 and 1.0. 
+     > Int between any min/max
 ## License
 
       MIT License
