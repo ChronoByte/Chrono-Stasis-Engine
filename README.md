@@ -27,11 +27,6 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eleifend velit 
 * Extract .zip files inside a folder 
 * Execute **.exe** file
 
-## Controls & ShortCuts
-* Camera Movement: **WASD**
-* Zoom in/ Zoom out: **Mouse Wheel**
-* Go Up and DowN: **R / F**
-
 ## Authors
 * Carlos Peña [CarlosUPC](https://github.com/CarlosUPC)
 * Sebastián López [Sebi Lopez](https://github.com/Sebi-Lopez)
@@ -57,11 +52,13 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eleifend velit 
 * 3D Engine Engine Repository: [Chrono Stasis Engine](https://github.com/ChronoByte/Chrono-Stasis-Engine)
 * Our Organization: [ChronoByte](https://github.com/ChronoByte)
 
-## Unity Camera Like
+## Unity-Like Camera Controls
+* **WASD:** fps-like movement and free look around
 * **Mouse Right:** Move Camera with static position
 * **Mouse Left + Alt:** Move Camera around object (Orbit)
 * **Mouse wheel:** Move Camera Zoom in and Zoom out
 * **F**: Center the Camera on an object
+* **SHIFT:** Duplicates movement speed.
 
 ## Updates & Changelog
 
