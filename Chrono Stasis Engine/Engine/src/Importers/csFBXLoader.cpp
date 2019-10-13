@@ -46,6 +46,8 @@ update_status ModuleFBXLoader::Update(float dt)
 		std::string file = App->input->file;
 		App->fs->GetExtensionFile(file.c_str(), extension);
 
+		type = FileType::UNKNOWN;
+		
 		if (!extension.compare(".fbx") || !extension.compare(".FBX"))
 		{
 			type = FileType::MODEL;
@@ -56,10 +58,6 @@ update_status ModuleFBXLoader::Update(float dt)
 			type = FileType::TEXTURE;
 		}
 			
-		else
-		{
-			type = FileType::UNKNOWN;
-		}
 	}
 
 	return UPDATE_CONTINUE;
