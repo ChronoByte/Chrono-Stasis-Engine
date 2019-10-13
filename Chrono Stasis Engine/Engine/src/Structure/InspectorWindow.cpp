@@ -2,7 +2,7 @@
 #include "csApp.h"
 
 
-InspectorWindow::InspectorWindow(bool startOpened)
+InspectorWindow::InspectorWindow(bool startOpened) : Window(startOpened)
 {
 }
 

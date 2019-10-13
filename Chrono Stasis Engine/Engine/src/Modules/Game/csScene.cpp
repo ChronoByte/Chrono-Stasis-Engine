@@ -52,7 +52,7 @@ bool ModuleScene::CleanUp()
 update_status ModuleScene::Update(float dt)
 {
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-		App->fbx->LoadFBXData("Assets/warrior.FBX");
+		App->fbx->LoadModel("Assets/BakerHouse.FBX");
 	
 
 	if (App->renderer3D->GetDebugMode())
@@ -203,6 +203,11 @@ GameObject * ModuleScene::CreateRoot()
 	root = new GameObject(nullptr);
 	root->SetName("Root");
 	return root; 
+}
+
+const GameObject * ModuleScene::GetRoot() const
+{
+	return root;
 }
 
 void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)

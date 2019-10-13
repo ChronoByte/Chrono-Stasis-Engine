@@ -134,7 +134,6 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		
 		NodePath(scene->mRootNode, scene);
 
 		ComponentTransform* transform = dynamic_cast<ComponentTransform*>(newGo->CreateComponent(ComponentType::C_TRANSFORM));
@@ -167,7 +166,7 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
 		// A GameObject son for each mesh
-		GameObject* go = App->scene->CreateGameObject(newGo, "Mesh"); 
+		GameObject* go = App->scene->CreateGameObject(newGo, node->mName.C_Str()); 
 
 		// Create and assign Component Mesh 
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];

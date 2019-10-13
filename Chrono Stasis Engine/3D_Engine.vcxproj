@@ -236,6 +236,7 @@
     <ClInclude Include="Engine\src\Structure\ConfigWindow.h" />
     <ClInclude Include="Engine\src\Structure\ConsoleWindow.h" />
     <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
+    <ClInclude Include="Engine\src\Structure\HierarchyWindow.h" />
     <ClInclude Include="Engine\src\Structure\InspectorWindow.h" />
     <ClInclude Include="Engine\src\Structure\RandomWindow.h" />
     <ClInclude Include="Engine\src\Structure\Window.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="Engine\src\Structure\ConfigWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ConsoleWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
+    <ClCompile Include="Engine\src\Structure\HierarchyWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\InspectorWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\log.cpp" />

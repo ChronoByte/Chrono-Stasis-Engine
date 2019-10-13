@@ -12,7 +12,7 @@ protected:
 
 public:
 
-	Window(bool startOpened = false) : active(startOpened) {}
+	Window(bool startOpened) : active(startOpened) {}
 
 	~Window() {}
 

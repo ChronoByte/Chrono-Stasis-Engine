@@ -14,13 +14,14 @@ public:
 	bool Init(JSON_Object* node);
 	bool Start();
 	update_status Update(float dt);
-	void DirectDrawing(const uint &imageId);
 	bool CleanUp();
 
+	void RecursiveUpdate(GameObject* parent, float dt); 
 
 	GameObject* CreateGameObject(GameObject* parent, const char* name); 
 	GameObject* CreateRoot(); 
-	void RecursiveUpdate(GameObject* parent, float dt); 
+	const GameObject* GetRoot() const; 
+	void DirectDrawing(const uint &imageId);
 
 private:
 	//vars

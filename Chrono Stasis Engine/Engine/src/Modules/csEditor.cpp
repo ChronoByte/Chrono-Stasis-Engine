@@ -16,6 +16,8 @@
 #include "src/Structure/ConsoleWindow.h"
 #include "src/Structure/RandomWindow.h"
 #include "src/Structure/InspectorWindow.h"
+#include "src/Structure/HierarchyWindow.h"
+
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
 	name = "Editor";
@@ -25,6 +27,7 @@ ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 	about = new AboutWindow();	
 	console = new ConsoleWindow(true);
 	randomWin = new RandomWindow(); 
+	hierarchy = new HierarchyWindow(true);
 
 	windowManager.push_back(new InspectorWindow());
 
@@ -100,6 +103,7 @@ update_status ModuleEditor::Update(float dt)
 			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window))	{}
 			if (ImGui::MenuItem("Console", "", console->GetBool()))	{}
 			if (ImGui::MenuItem("Inspector", "", windowManager[INSPECTOR]->GetBool())) {}
+			if (ImGui::MenuItem("Hierarchy", "", hierarchy->GetBool())) {}
 
 			ImGui::EndMenu();
 		}
@@ -141,6 +145,9 @@ update_status ModuleEditor::Update(float dt)
 
 	if (randomWin->GetActive())
 		randomWin->Draw();
+
+	if (hierarchy->GetActive())
+		hierarchy->Draw(); 
 
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
