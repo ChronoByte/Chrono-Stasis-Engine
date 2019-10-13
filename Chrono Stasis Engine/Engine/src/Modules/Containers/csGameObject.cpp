@@ -151,6 +151,11 @@ const char * GameObject::GetName() const
 	return name.c_str();
 }
 
+std::list<GameObject*> GameObject::GetChilds() const
+{
+	return childs;
+}
+
 void GameObject::DrawInspectorComponents()
 {
 

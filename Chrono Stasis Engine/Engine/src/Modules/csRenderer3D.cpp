@@ -162,17 +162,6 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 update_status ModuleRenderer3D::Update(float dt)
 {
-	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN) {
-
-		std::list <ComponentMesh*> ::const_iterator item = meshes.begin();
-		for (item; item != meshes.end(); item++)
-		{
-			LOG("Num of Vertices: %d", (*item)->vertex.capacity);
-			LOG("Num of Indices: %d", (*item)->index.capacity);
-		}
-	}
-
-	DrawMeshes();
 
 	return UPDATE_CONTINUE;
 }
@@ -188,15 +177,6 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
-
-	std::list<ComponentMesh*>::const_iterator item = meshes.begin();
-
-	for (item; item != meshes.end(); item++)
-	{
-		delete (*item);
-	}
-
-	meshes.clear();
 
 	SDL_GL_DeleteContext(context);
 
@@ -215,26 +195,6 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-}
-
-void ModuleRenderer3D::PushMeshToRender(ComponentMesh * mesh)
-{
-	meshes.push_back(mesh); 
-}
-
-void ModuleRenderer3D::DrawMeshes()
-{
-	std::list <ComponentMesh*> ::const_iterator item = meshes.begin();
-	for (item; item != meshes.end(); item++)
-	{
-		(*item)->Draw();
-
-		if (drawNormals)
-			(*item)->DrawNormals();
-
-		if (drawVertexNormals)
-			(*item)->DrawVertexNormals();
-	}
 }
 
 void ModuleRenderer3D::DrawOriginAxis()

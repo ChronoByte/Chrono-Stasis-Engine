@@ -3,7 +3,6 @@
 #include "csFileSystem.h"
 #include "ComponentMesh.h"
 
-
 #pragma comment (lib, "Engine/Dependencies/Assimp/libx86/assimp.lib")
 
 ModuleFBXLoader::ModuleFBXLoader(bool start_enabled) : Module(start_enabled)
@@ -146,22 +145,25 @@ ComponentMesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
 }
 
 
-ComponentMesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
+GameObject* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 {
 	bool ret = false;
 	const aiScene* scene = aiImportFile(fbx_name, aiProcessPreset_TargetRealtime_MaxQuality); //container of meshes
 	
 	aiMesh* new_mesh = nullptr; //pointer interator of meshes
 	ComponentMesh* m = nullptr;
+	GameObject* go = nullptr; 
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
 		
 		for (uint i = 0; i < scene->mNumMeshes; i++) // Use scene->mNumMeshes to iterate on scene->mMeshes array
 		{
-		
+			go = App->scene->CreateGameObject(go, "FBX"); 
+
 			new_mesh = scene->mMeshes[i];
-			m = new ComponentMesh(nullptr);
+			m = dynamic_cast<ComponentMesh*>(go->CreateComponent(ComponentType::C_MESH)); 
+
 			LOG("Mesh num: %u", i);
 
 			m->LoadMeshVertices(new_mesh);
@@ -194,7 +196,7 @@ ComponentMesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 
 			m->CreateMeshBuffers(); 
 			
-			App->renderer3D->PushMeshToRender(m);  // Push mesh into container of meshes
+			//App->renderer3D->PushMeshToRender(m);  // Push mesh into container of meshes
 			//SaveMeshData(fbx_name, m);
 		}
 
@@ -204,7 +206,7 @@ ComponentMesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 	}
 	else
 		LOG("Error loading scene %s", fbx_name);
-	return m;
+	return go;
 }
 
 bool ModuleFBXLoader::SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data)

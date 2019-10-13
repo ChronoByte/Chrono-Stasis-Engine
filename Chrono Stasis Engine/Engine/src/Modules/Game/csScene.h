@@ -18,8 +18,8 @@ public:
 	bool CleanUp();
 
 
-	GameObject* CreateGameObject(const char* name); 
-	
+	GameObject* CreateGameObject(GameObject* parent, const char* name); 
+	void RecursiveUpdate(GameObject* parent, float dt); 
 
 private:
 	//vars

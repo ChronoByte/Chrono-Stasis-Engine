@@ -27,6 +27,8 @@ public:
 	ComponentMesh(GameObject* parent);
 	~ComponentMesh();
 
+	void Update(float dt) override; 
+
 	void Draw();
 	void DrawNormals(); 
 	void DrawVertexNormals(); 

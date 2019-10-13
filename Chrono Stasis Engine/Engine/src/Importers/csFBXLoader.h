@@ -9,6 +9,7 @@
 #include "Assimp/include/cfileio.h"
 
 class ComponentMesh; 
+class GameObject; 
 
 struct FBXModel
 {
@@ -48,7 +49,7 @@ public:
 	ComponentMesh* LoadMesh(aiMesh* mesh,const aiScene* scene);
 	void NodePath(aiNode* node, const aiScene* scene);
 
-	ComponentMesh* LoadFBXData(const char* fbx_name);
+	GameObject* LoadFBXData(const char* fbx_name);
 	bool SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data);
 	bool LoadMeshData();
 

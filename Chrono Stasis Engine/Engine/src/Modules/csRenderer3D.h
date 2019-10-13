@@ -21,8 +21,6 @@ public:
 
 	void OnResize(int width, int height);
 
-	void PushMeshToRender(ComponentMesh* mesh);
-	void DrawMeshes(); 
 	void DrawOriginAxis();
 
 	void ToggleDebugMode(); 
@@ -30,7 +28,6 @@ public:
 private:
 
 	bool debugMode = true;
-	std::list<ComponentMesh*> meshes;
 
 public:
 

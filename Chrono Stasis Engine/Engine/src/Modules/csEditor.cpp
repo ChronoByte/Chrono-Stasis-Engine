@@ -191,7 +191,7 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 
 	ComponentMesh* shape = new ComponentMesh(nullptr);
 
-	App->renderer3D->PushMeshToRender(shape);
+	//App->renderer3D->PushMeshToRender(shape);
 }
 
 //void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)

@@ -37,6 +37,17 @@ ComponentMesh::~ComponentMesh()
 	}
 }
 
+void ComponentMesh::Update(float dt)
+{
+	Draw(); 
+		
+	if (App->renderer3D->drawNormals)
+		DrawNormals();
+
+	if (App->renderer3D->drawVertexNormals)
+		DrawVertexNormals();
+}
+
 void ComponentMesh::Draw()
 {
 

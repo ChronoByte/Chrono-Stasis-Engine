@@ -35,19 +35,20 @@ public:
 	bool isActive() const;
 	GameObject* GetParent() const;
 	const char* GetName() const;
+	std::list<GameObject*> GetChilds() const; 
 
 	// Inspector Panel
 	void DrawInspectorComponents();
-
-public:
 
 
 private: 
 
 	bool active = false; 
+	GameObject* parent = nullptr; 
+
+public:
+
 	std::string name; 
 	std::list<Component*> components; 
-
-	GameObject* parent = nullptr; 
 	std::list<GameObject*> childs; 
 };

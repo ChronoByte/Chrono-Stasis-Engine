@@ -29,23 +29,12 @@ bool ModuleScene::Start()
 	TextureInfo* tex = nullptr; 
 	uint texture = 0; 
 
-	root = CreateGameObject("Root"); 
-	GameObject* child1 = CreateGameObject("Child 1"); 
-	child1->SetParent(root); 
+	root = CreateGameObject(nullptr, "Root"); 
+	GameObject* child1 = CreateGameObject(root, "Child 1"); 
 
-	GameObject* child2 = CreateGameObject("Child 2");
-	child2->SetParent(child1); 
+	GameObject* child2 = CreateGameObject(child1, "Child 2");
 
-	child2->SetParent(child1); 
-	child1->SetParent(child2); 
-
-
-
-
-
-
-
-	mesh = App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
+	root = App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
 	tex = App->texture->LoadTexture("Assets/Baker_house.tga");
 
 	if (tex != nullptr && mesh != nullptr)
@@ -89,35 +78,8 @@ update_status ModuleScene::Update(float dt)
 		glEnd();
 	}
 
-	
-	/*GLubyte checkImage[CHECKERS_HEIGHT][CHECKERS_WIDTH][4];
-	for (int i = 0; i < CHECKERS_HEIGHT; i++) {
-		for (int j = 0; j < CHECKERS_WIDTH; j++) {
-			int c = ((((i & 0x8) == 0) ^ (((j & 0x8)) == 0))) * 255;
-			checkImage[i][j][0] = (GLubyte)c;
-			checkImage[i][j][1] = (GLubyte)c;
-			checkImage[i][j][2] = (GLubyte)c;
-			checkImage[i][j][3] = (GLubyte)255;
-		}
-	}*/
-
-	/*uint imageId = 0; 
-
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGenTextures(1, &imageId);
-	glBindTexture(GL_TEXTURE_2D, imageId);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, CHECKERS_WIDTH, CHECKERS_HEIGHT,
-		0, GL_RGBA, GL_UNSIGNED_BYTE, checkImage);*/
-
-
-
-	//Mesh* mesh = new Mesh();
-
-
+	//root->Update(dt); 
+	RecursiveUpdate(root, dt);
 	//DirectDrawing(imageId);
 
 	return UPDATE_CONTINUE;
@@ -228,10 +190,22 @@ void ModuleScene::DirectDrawing(const uint &imageId)
 
 
 
-GameObject * ModuleScene::CreateGameObject(const char* name)
+GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name)
 {
-	GameObject* go = nullptr; 
-	go = new GameObject(); 
+	if (parent == nullptr)
+		parent = root; 
+
+	GameObject* go = new GameObject(parent); 
 	go->SetName(name); 
 	return go;
+}
+
+void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)
+{
+	parent->Update(dt);
+
+	for (std::list<GameObject*>::const_iterator it = parent->childs.begin(); it != parent->childs.end(); ++it)
+	{
+		RecursiveUpdate((*it), dt); 
+	}
 }
