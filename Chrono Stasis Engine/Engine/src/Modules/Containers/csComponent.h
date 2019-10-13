@@ -23,7 +23,7 @@ class Component
 public:
 	Component() {}
 	Component(GameObject* parent) : myGameObject(parent) {}
-	Component(ComponentType type){}
+
 	~Component(){}
 
 	virtual void Update(float dt){}
@@ -35,6 +35,7 @@ public:
 	void SetParent(const GameObject* goParent) { myGameObject = goParent; }
 	void SetType(ComponentType mytype) { type = mytype; }
 	ComponentType GetType() const { return type;  }
+
 protected:
 
 	ComponentType type = ComponentType::C_NONE; 
