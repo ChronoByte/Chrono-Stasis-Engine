@@ -1,12 +1,10 @@
 #include "ComponentTransform.h"
 
-ComponentTransform::ComponentTransform() : Component(ComponentType::C_TRANSFORM)
-{
-}
 
-//ComponentTransform::ComponentTransform() : Component(nullptr)
-//{
-//}
+ComponentTransform::ComponentTransform() : Component(nullptr)
+{
+	type = ComponentType::C_TRANSFORM; 
+}
 
 ComponentTransform::~ComponentTransform()
 {

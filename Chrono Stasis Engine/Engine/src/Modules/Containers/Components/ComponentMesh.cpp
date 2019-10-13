@@ -4,6 +4,7 @@
 
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 {
+	type = ComponentType::C_MESH; 
 }
 
 ComponentMesh::~ComponentMesh()
