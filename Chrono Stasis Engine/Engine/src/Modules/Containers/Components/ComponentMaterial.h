@@ -3,6 +3,7 @@
 #include "Color.h"
 #include "csGlobals.h"
 
+
 //struct Texture {
 //	uint id = 0u;
 //	uint width = 0u;
@@ -30,4 +31,5 @@ public:
 private:
 	Color color;
 	TextureInfo* texture = nullptr; 
+	
 };

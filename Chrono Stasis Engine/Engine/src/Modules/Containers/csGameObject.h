@@ -36,6 +36,9 @@ public:
 	GameObject* GetParent() const;
 	const char* GetName() const;
 
+	// Inspector Panel
+	void DrawInspectorComponents();
+
 public:
 
 

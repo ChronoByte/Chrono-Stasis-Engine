@@ -150,3 +150,25 @@ const char * GameObject::GetName() const
 {
 	return name.c_str();
 }
+
+void GameObject::DrawInspectorComponents()
+{
+
+	ImGui::Checkbox("go", &active); //GameObject active
+	ImGui::SameLine();
+	char* NonConstName = (char*)&name; //vale la pena romper el const del name para hacer el inputText y usar std::string name? 
+	if (ImGui::InputText("name", NonConstName, 256, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+		SetName(NonConstName);
+
+
+	if (isActive()) {
+
+		std::list<Component*>::const_iterator it = components.begin();
+		for (it; it != components.end(); ++it)
+		{
+			if ((*it)->isActive()) //Component active
+				(*it)->InspectorInfo();
+			ImGui::Separator();
+		}
+	}
+}

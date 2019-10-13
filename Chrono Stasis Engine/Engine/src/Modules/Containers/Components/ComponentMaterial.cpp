@@ -31,16 +31,18 @@ void ComponentMaterial::SetTexture(TextureInfo* texture)
 
 void ComponentMaterial::SetMaterial(TextureInfo* texture, float r, float g, float b, float a)
 {
+	
 	SetTexture(texture);
 	SetColor(r, g, b, a);
 }
 
 void ComponentMaterial::InspectorInfo()
 {
-	
-	ImGui::Text("Texture:");
-	ImGui::Image((ImTextureID*)2, ImVec2(150, 150));
+	if (ImGui::Checkbox("Active Component", &active)) {
 
+		ImGui::Text("Texture:");
+		ImGui::Image((ImTextureID*)2, ImVec2(150, 150));
+	}
 	//TODO: Set more info
 	
 }
