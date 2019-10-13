@@ -29,7 +29,7 @@ void HierarchyWindow::Draw()
 void HierarchyWindow::CreateRecursiveTreeNodes(const GameObject * parent)
 {
 	
-	if (ImGui::TreeNode("%s", parent->GetName()))
+	if (ImGui::TreeNode(parent, "%s", parent->GetName()))
 	{
 		std::list<GameObject*>::const_iterator it = parent->childs.begin();
 
