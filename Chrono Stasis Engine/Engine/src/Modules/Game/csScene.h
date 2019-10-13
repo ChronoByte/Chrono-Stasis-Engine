@@ -19,6 +19,7 @@ public:
 
 
 	GameObject* CreateGameObject(GameObject* parent, const char* name); 
+	GameObject* CreateRoot(); 
 	void RecursiveUpdate(GameObject* parent, float dt); 
 
 private:

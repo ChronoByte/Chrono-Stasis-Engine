@@ -29,12 +29,9 @@ bool ModuleScene::Start()
 	TextureInfo* tex = nullptr; 
 	uint texture = 0; 
 
-	root = CreateGameObject(nullptr, "Root"); 
-	GameObject* child1 = CreateGameObject(root, "Child 1"); 
+	CreateRoot(); 
 
-	GameObject* child2 = CreateGameObject(child1, "Child 2");
-
-	root = App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
+	App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
 	tex = App->texture->LoadTexture("Assets/Baker_house.tga");
 
 	if (tex != nullptr && mesh != nullptr)
@@ -198,6 +195,13 @@ GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name)
 	GameObject* go = new GameObject(parent); 
 	go->SetName(name); 
 	return go;
+}
+
+GameObject * ModuleScene::CreateRoot()
+{
+	root = new GameObject(nullptr);
+	root->SetName("Root");
+	return root; 
 }
 
 void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)

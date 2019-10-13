@@ -43,7 +43,7 @@ public:
 
 private: 
 
-	bool active = false; 
+	bool active = true; 
 	GameObject* parent = nullptr; 
 
 public:
