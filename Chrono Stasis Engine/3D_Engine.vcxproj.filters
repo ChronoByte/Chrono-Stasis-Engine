@@ -355,6 +355,7 @@
     <ClInclude Include="Engine\src\Modules\Containers\csComponent.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMesh.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentTransform.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -533,6 +534,7 @@
     <ClCompile Include="Engine\src\Modules\Containers\csGameObject.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMesh.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentTransform.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

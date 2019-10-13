@@ -280,3 +280,37 @@ void ComponentMesh::CreateMeshBuffers()
 	}
 	else LOG("There's no data to create Colors buffer");
 }
+
+void ComponentMesh::InspectorInfo()
+{
+	ImGui::Text("Total Vertices:"); ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetVertices());
+	ImGui::Text("Total Indices:"); ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetIndices());
+	ImGui::Text("Total UV:"); ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTextureCoords());
+	ImGui::Text("Total Triangles:"); ImGui::SameLine();
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTriangles());
+
+	//TODO: Add more info like normal checkbox, uv checkbox ...
+}
+
+const uint ComponentMesh::GetIndices() const
+{
+	return index.capacity;
+}
+
+const uint ComponentMesh::GetVertices() const
+{
+	return vertex.capacity;
+}
+
+const uint ComponentMesh::GetTextureCoords() const
+{
+	return textureCoords.capacity;
+}
+
+const uint ComponentMesh::GetTriangles() const
+{
+	return 0;
+}

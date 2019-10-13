@@ -3,6 +3,7 @@
 #include <string>
 
 #include "csGameObject.h"
+#include "imgui/imgui.h"
 
 enum class ComponentType
 {
@@ -30,6 +31,7 @@ public:
 	virtual void Enable() { active = true; }
 	virtual void Disable() { active = false; }
 	
+	virtual void InspectorInfo() {} // Update Inspector Info
 
 	// Gets
 	bool isActive() const { return active; }

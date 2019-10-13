@@ -34,10 +34,9 @@ const void ComponentTransform::SetPosition(const float3& pos)
 
 const void ComponentTransform::SetRotationEuler(const float3& euler)
 {
-	float3 diff = euler - rotation_euler;
-	Quat quat_diff = Quat::FromEulerXYZ(diff.x * DEGTORAD, diff.y * DEGTORAD, diff.z * DEGTORAD);
-	this->rotation_quat = rotation_quat * quat_diff;
 	this->rotation_euler = euler;
+	this->rotation_quat = Quat::FromEulerXYZ(euler.x * DEGTORAD, euler.y * DEGTORAD, euler.z * DEGTORAD);
+	
 }
 
 const void ComponentTransform::SetRotationQuat(const Quat& quat)
@@ -73,9 +72,24 @@ const float3 ComponentTransform::GetScale() const
 
 void ComponentTransform::SetupTransform(const float3& position, const float3& scale, const Quat& rotation)
 {
-	this->position = position;
-	this->scale = scale;
-	this->rotation_quat = rotation;
+	SetPosition(position);
+	SetScale(scale);
+	SetRotationQuat(rotation); // euler setting up too!
+	
+}
 
+void ComponentTransform::InspectorInfo()
+{
+	
+	if (ImGui::InputFloat3("Position", (float*)&position, 2))
+		SetPosition(position);
+
+	if (ImGui::InputFloat3("Rotation", (float*)&rotation_euler, 2))
+		SetRotationEuler(rotation_euler);
+	
+	if (ImGui::InputFloat3("Scale", (float*)&scale, 2))
+		SetScale(scale);
+
+	// TODO: More info like bounding box..
 }
 

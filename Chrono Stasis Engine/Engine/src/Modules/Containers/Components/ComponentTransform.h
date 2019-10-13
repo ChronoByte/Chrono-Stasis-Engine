@@ -29,6 +29,7 @@ public:
 
 	void SetupTransform(const float3& position, const float3& scale, const Quat& rotation);
 
+	void InspectorInfo();
 
 private:
 

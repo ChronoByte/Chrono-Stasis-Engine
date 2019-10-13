@@ -41,6 +41,13 @@ public:
 
 	void CreateMeshBuffers(); 
 
+
+	void InspectorInfo();
+	const uint GetIndices() const;
+	const uint GetVertices() const;
+	const uint GetTextureCoords() const;
+	const uint GetTriangles() const;
+
 public: 
 
 	MeshInfo<uint> index;
