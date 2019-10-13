@@ -1,9 +1,13 @@
 # Chrono-Stasis-Engine
 
-
+Chrono Stasis Engine is a 3D game engine created in the third year of our Videogame Design and Development degree at CITM UPC from Spain. 
 
 ## Therminology
+As his name says, Chrono Stasis comes from the greek term **Chronostasis** (*chrónos* "Time" and *stásis* "standing"), a temporal illusion in which the first impression following the introduction of a new event or task-demand to the brain can appear to be extended in time. 
 
+That is to say, is an illusion where that person perceives an instance of time as an extremely long or even infinite state of time, hence the word "standing time." Therefore, we can affirm that it is an allegory in the computational world and videogames, where for a user or player an instance of time is a millisecond of time spent playing, whereas internally it is an instance where millions of instructions, operations and calculations happen internally in the engine. 
+
+Metaphorically, for us software engineers and game developers, we live in a loop chronostasis measuring and observing the behavior and time performance in each frame until the game ends.
 
 ## Features
 
