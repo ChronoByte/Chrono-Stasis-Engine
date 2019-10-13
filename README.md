@@ -10,6 +10,13 @@ That is to say, is an illusion where that person perceives an instance of time a
 Metaphorically for us (software engineers and game developers), we live in a chronostasis loop measuring and observing the behavior and time performance in each frame at all the time until the game ends. In addition, we decide to make Chrono Stasis as compound word because it contains the acronym of our names: **C**hrono (Carlos) & **S**tasis (Sebas).
 
 ## Features
+* WIP
+* WIP
+* WIP
+* WIP
+* WIP
+* WIP
+* WIP
 
 
 ## Installation
@@ -44,13 +51,19 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Our Organization: [ChronoByte](https://github.com/ChronoByte)
 
 ## Camera Controls
-
+* WIP
+* WIP
+* WIP
 
 ## Geometry Loader
 
+* WIP
 
-## Updates
+## Updates & Changelog
 
+* WIP
+* WIP
+* WIP
 
 ## License
 
