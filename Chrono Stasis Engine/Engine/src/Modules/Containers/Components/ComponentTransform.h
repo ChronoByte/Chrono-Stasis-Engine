@@ -10,7 +10,7 @@ class ComponentTransform : public Component
 {
 public:
 
-	ComponentTransform();
+	ComponentTransform(GameObject* parent);
 	virtual ~ComponentTransform();
 
 	const float4x4 GetLocalTransform() const;

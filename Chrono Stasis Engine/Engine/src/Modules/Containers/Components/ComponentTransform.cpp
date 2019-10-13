@@ -1,7 +1,7 @@
 #include "ComponentTransform.h"
 
 
-ComponentTransform::ComponentTransform() : Component(nullptr)
+ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 {
 	type = ComponentType::C_TRANSFORM; 
 }

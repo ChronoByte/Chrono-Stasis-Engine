@@ -1,7 +1,12 @@
 #include "csGameObject.h"
 #include "csGlobals.h"
+
+// -----------
 #include "csComponent.h"
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
+
+
 GameObject::GameObject()
 {
 }
@@ -87,7 +92,8 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 
 	case ComponentType::C_TRANSFORM:
-
+		component = new ComponentTransform(this);
+		components.push_back(component);
 		break;
 
 	case ComponentType::C_MATERIAL:
@@ -105,10 +111,14 @@ Component * GameObject::CreateComponent(ComponentType type)
 	return component;
 }
 
-bool GameObject::AddComponent(Component * component)
+bool GameObject::AssignComponent(Component * component)
 {
 	if (!FindComponent(component->GetType()))
 	{
+		if (component->GetOwner() != nullptr && component->GetOwner() != this)	// If has an owner and its not me
+			component->GetOwner()->RemoveComponent(component); 
+
+		component->SetOwner(this); 
 		components.push_back(component);
 		return true; 
 	}

@@ -27,7 +27,7 @@ public:
 
 	// Components 
 	Component* CreateComponent(ComponentType type);
-	bool AddComponent(Component* component);
+	bool AssignComponent(Component* component);
 	bool FindComponent(ComponentType type); 
 	void RemoveComponent(Component* component);
 

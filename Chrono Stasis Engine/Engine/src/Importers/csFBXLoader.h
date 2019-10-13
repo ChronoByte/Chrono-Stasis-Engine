@@ -53,7 +53,7 @@ public:
 	
 public:
 	void FBXModelImport(const char* path);
-	FBXModel* LoadModel(const char* path);
+	GameObject* LoadModel(const char* path);
 
 	ComponentMesh* LoadMesh(aiMesh* mesh,const aiScene* scene);
 	void NodePath(aiNode* node, const aiScene* scene);
@@ -64,5 +64,6 @@ public:
 
 private:
 	FBXModel* model = nullptr;
+	GameObject* newGo = nullptr; 
 	FileType type = FileType::NONE;
 };

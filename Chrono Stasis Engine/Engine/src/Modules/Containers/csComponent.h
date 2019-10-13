@@ -33,10 +33,13 @@ public:
 	
 	virtual void InspectorInfo() {} // Update Inspector Info
 
+	void SetOwner(GameObject* parent) { owner = parent; } // Only to be used in GameObject->AddComponent()
+
 	// Gets
 	bool isActive() const { return active; }
 	ComponentType GetType() const { return type;  }
 	const char* GetName() const { return name.c_str(); }
+	GameObject* GetOwner() const { return owner; }
 
 protected:
 

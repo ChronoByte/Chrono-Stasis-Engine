@@ -31,7 +31,8 @@ bool ModuleScene::Start()
 
 	CreateRoot(); 
 
-	App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
+	//App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
+	App->fbx->LoadModel("Assets/BakerHouse.FBX");
 	tex = App->texture->LoadTexture("Assets/Baker_house.tga");
 
 	if (tex != nullptr && mesh != nullptr)

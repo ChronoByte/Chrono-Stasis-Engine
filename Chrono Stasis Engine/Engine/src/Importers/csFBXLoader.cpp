@@ -2,6 +2,7 @@
 #include "csFBXLoader.h"
 #include "csFileSystem.h"
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
 
 #pragma comment (lib, "Engine/Dependencies/Assimp/libx86/assimp.lib")
 
@@ -121,16 +122,13 @@ bool ModuleFBXLoader::CleanUp()
 
 void ModuleFBXLoader::FBXModelImport(const char* fbx_name)
 {
-	FBXModel* new_model = LoadModel(fbx_name);
+	GameObject* newGameObject = LoadModel(fbx_name);
 
 }
 
-FBXModel* ModuleFBXLoader::LoadModel(const char* path)
+GameObject* ModuleFBXLoader::LoadModel(const char* path)
 {
-	//bool ret = false;
-	//FBXModel* new_model = nullptr;
-
-	model = new FBXModel();
+	newGo = App->scene->CreateGameObject(nullptr, path);
 
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 
@@ -139,6 +137,7 @@ FBXModel* ModuleFBXLoader::LoadModel(const char* path)
 		
 		NodePath(scene->mRootNode, scene);
 
+		ComponentTransform* transform = dynamic_cast<ComponentTransform*>(newGo->CreateComponent(ComponentType::C_TRANSFORM));
 
 		aiQuaternion quat_rotation;
 		aiVector3D position;
@@ -149,15 +148,16 @@ FBXModel* ModuleFBXLoader::LoadModel(const char* path)
 
 		float3 euler_rotation = rot.ToEulerXYZ();
 
-		model->transform[0].Set(position.x, position.y, position.z);
+		/*model->transform[0].Set(position.x, position.y, position.z);
 		model->transform[1].Set(euler_rotation.x, euler_rotation.y, euler_rotation.z);
-		model->transform[2].Set(scale.x, scale.y, scale.z);
+		model->transform[2].Set(scale.x, scale.y, scale.z);*/
 
+		transform->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
 		//-----------------------------------
 
 		aiReleaseImport(scene);
 
-		return model;
+		return newGo;
 	}
 
 }
@@ -166,8 +166,12 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 {
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
+		// A GameObject son for each mesh
+		GameObject* go = App->scene->CreateGameObject(newGo, "Mesh"); 
+
+		// Create and assign Component Mesh 
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		model->meshes.push_back(LoadMesh(mesh, scene));
+		go->AssignComponent(LoadMesh(mesh, scene));
 	}
 
 	for (uint i = 0; i < node->mNumChildren; i++)
@@ -202,6 +206,7 @@ ComponentMesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
 	}
 	else LOG("No UV Channel detected");
 
+	m->CreateMeshBuffers();
 
 	return m;
 }
