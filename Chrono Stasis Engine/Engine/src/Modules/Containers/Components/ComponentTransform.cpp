@@ -1,12 +1,17 @@
 #include "ComponentTransform.h"
 
-ComponentTransform::ComponentTransform()
+ComponentTransform::ComponentTransform() : Component(ComponentType::C_TRANSFORM)
 {
 }
+
+//ComponentTransform::ComponentTransform() : Component(nullptr)
+//{
+//}
 
 ComponentTransform::~ComponentTransform()
 {
 }
+
 
 const float4x4 ComponentTransform::GetLocalTransform() const
 {

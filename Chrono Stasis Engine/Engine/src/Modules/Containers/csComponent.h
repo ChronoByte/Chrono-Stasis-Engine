@@ -4,6 +4,7 @@
 
 class GameObject; 
 
+
 enum class ComponentType
 {
 	C_NONE = 0,
@@ -16,30 +17,28 @@ enum class ComponentType
 	C_MAX
 };
 
-
 class Component
 {
+
 public:
-	Component(){}
+	Component() {}
+	Component(GameObject* parent) : myGameObject(parent) {}
+	Component(ComponentType type){}
 	~Component(){}
 
 	virtual void Update(float dt){}
+	
 	virtual void Enable() { active = true; }
 	virtual void Disable() { active = false; }
+	bool isActive() const { return active; }
 
-	void SetParent(const GameObject* goParent)
-	{
-		myGo = goParent; 
-	}
-	void SetType(ComponentType mytype)
-	{
-		type = mytype; 
-	}
-
-private:
+	void SetParent(const GameObject* goParent) { myGameObject = goParent; }
+	void SetType(ComponentType mytype) { type = mytype; }
+	ComponentType GetType() const { return type;  }
+protected:
 
 	ComponentType type = ComponentType::C_NONE; 
-	const GameObject* myGo = nullptr; 
+	const GameObject* myGameObject = nullptr; 
 	bool active = true; 
 	std::string name; 
 

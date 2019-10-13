@@ -4,6 +4,7 @@
 #include "csFBXLoader.h"
 #include "csTextureLoader.h"
 #include "ComponentMesh.h"
+#include "csGameObject.h"
 
 #include "GLEW/include/GL/glew.h"
 
@@ -21,20 +22,42 @@ bool ModuleScene::Init(JSON_Object* node)
 {
 	return true;
 }
+
 bool ModuleScene::Start()
 {
 	ComponentMesh* mesh = nullptr;
 	TextureInfo* tex = nullptr; 
 	uint texture = 0; 
 
+	root = CreateGameObject("Root"); 
+	GameObject* child1 = CreateGameObject("Child 1"); 
+	child1->SetParent(root); 
+
+	GameObject* child2 = CreateGameObject("Child 2");
+	child2->SetParent(child1); 
+
+	child2->SetParent(child1); 
+	child1->SetParent(child2); 
+
+
+
+
+
+
+
 	mesh = App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
-
-
 	tex = App->texture->LoadTexture("Assets/Baker_house.tga");
 
 	if (tex != nullptr && mesh != nullptr)
 		mesh->AssignTexture(tex); 
 
+
+	return true;
+}
+
+bool ModuleScene::CleanUp()
+{
+	delete root; 
 
 	return true;
 }
@@ -203,7 +226,12 @@ void ModuleScene::DirectDrawing(const uint &imageId)
 	glEnd();
 }
 
-bool ModuleScene::CleanUp()
+
+
+GameObject * ModuleScene::CreateGameObject(const char* name)
 {
-	return true;
+	GameObject* go = nullptr; 
+	go = new GameObject(); 
+	go->SetName(name); 
+	return go;
 }

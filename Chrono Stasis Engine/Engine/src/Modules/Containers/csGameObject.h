@@ -1,9 +1,10 @@
 #pragma once
 
 #include <string>
-#include <vector>
+#include <list>
 
 class Component; 
+enum class ComponentType; 
 
 class GameObject
 {
@@ -14,6 +15,15 @@ public:
 
 	void Update(float dt); 
 
+	void RemoveChild(GameObject* child); 
+
+	GameObject* GetParent() const; 
+	void SetParent(GameObject* parent); 
+	void SetName(const char* name); 
+
+	Component* CreateComponent(ComponentType type);
+	void AddComponent(Component* component);
+
 public:
 	bool isActive() const;
 	void Enable();
@@ -23,8 +33,8 @@ private:
 
 	bool active = false; 
 	std::string name; 
-	std::vector<Component*> components; 
+	std::list<Component*> components; 
 
-	const GameObject* parent = nullptr; 
-	std::vector<GameObject*> childs; 
+	GameObject* parent = nullptr; 
+	std::list<GameObject*> childs; 
 };

@@ -24,9 +24,7 @@ class ComponentMesh : public Component
 {
 public: 
 
-	ComponentMesh();
-	ComponentMesh(par_shapes_mesh* mesh);
-	ComponentMesh(aiMesh* mesh);
+	ComponentMesh(GameObject* parent);
 	~ComponentMesh();
 
 	void Draw();

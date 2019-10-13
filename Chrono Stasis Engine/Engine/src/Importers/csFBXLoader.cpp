@@ -117,7 +117,7 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 
 ComponentMesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
 {
-	ComponentMesh* m = new ComponentMesh();
+	ComponentMesh* m = new ComponentMesh(nullptr);
 
 	m->LoadMeshVertices(mesh);
 
@@ -161,7 +161,7 @@ ComponentMesh* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 		{
 		
 			new_mesh = scene->mMeshes[i];
-			m = new ComponentMesh();
+			m = new ComponentMesh(nullptr);
 			LOG("Mesh num: %u", i);
 
 			m->LoadMeshVertices(new_mesh);

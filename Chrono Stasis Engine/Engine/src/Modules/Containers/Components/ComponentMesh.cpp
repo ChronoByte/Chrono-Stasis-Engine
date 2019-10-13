@@ -2,24 +2,7 @@
 #include "Assimp/include/scene.h"
 #include "csApp.h"
 
-ComponentMesh::ComponentMesh()
-{
-	
-
-}
-
-ComponentMesh::ComponentMesh(par_shapes_mesh * mesh)
-{
-	vertex.capacity = mesh->npoints; 
-	index.capacity = mesh->ntriangles * 3; 
-	vertex.buffer = mesh->points;
-	index.buffer = (uint*)mesh->triangles; // TODO: Figure out how to solve 32 - 16 bites problem
-
-	// TODO Add normals and texture coords
-	CreateMeshBuffers(); 
-}
-
-ComponentMesh::ComponentMesh(aiMesh * mesh)
+ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 {
 }
 

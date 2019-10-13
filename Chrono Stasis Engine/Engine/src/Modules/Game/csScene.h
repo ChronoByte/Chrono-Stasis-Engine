@@ -3,7 +3,7 @@
 #include "csModule.h"
 #include "csGlobals.h"
 
-
+class GameObject;
 
 class ModuleScene : public Module
 {
@@ -17,8 +17,11 @@ public:
 	void DirectDrawing(const uint &imageId);
 	bool CleanUp();
 
+
+	GameObject* CreateGameObject(const char* name); 
 	
 
 private:
 	//vars
+	GameObject* root = nullptr; 
 };

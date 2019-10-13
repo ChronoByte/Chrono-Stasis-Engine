@@ -189,7 +189,7 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 
 	LOG("Created a Cube in position: \nx = %.2f, y = %.2f, z = %.2f", position.x, position.y, position.y);
 
-	ComponentMesh* shape = new ComponentMesh(mesh);
+	ComponentMesh* shape = new ComponentMesh(nullptr);
 
 	App->renderer3D->PushMeshToRender(shape);
 }
