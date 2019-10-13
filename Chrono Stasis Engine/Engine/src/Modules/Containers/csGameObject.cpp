@@ -6,6 +6,11 @@ GameObject::GameObject()
 {
 }
 
+GameObject::GameObject(GameObject * parent) 
+{
+	SetParent(parent); 
+}
+
 GameObject::~GameObject()
 {
 	LOG("Deleting %s", name.c_str());
@@ -34,29 +39,32 @@ void GameObject::Update(float dt)
 
 }
 
+
+void GameObject::Enable()
+{
+	active = true; 
+}
+
+void GameObject::Disable()
+{
+	active = false;
+}
+
 void GameObject::RemoveChild(GameObject * child)
 {
 	childs.remove(child);
 }
 
-GameObject * GameObject::GetParent() const
-{
-	return parent;
-}
-
 void GameObject::SetParent(GameObject * newParent)
 {
-	if (newParent == this)
+	if (newParent == this || newParent == nullptr || newParent == parent)
 		return; 
 
 	if (parent != nullptr)
 		parent->RemoveChild(this); 
 
-	if (newParent != nullptr)
-	{
-		parent = newParent; 
-		newParent->childs.push_back(this);
-	}
+	parent = newParent; 
+	newParent->childs.push_back(this);
 }
 
 void GameObject::SetName(const char * name)
@@ -66,12 +74,16 @@ void GameObject::SetName(const char * name)
 
 Component * GameObject::CreateComponent(ComponentType type)
 {
-	Component* component = nullptr; 
+	if (FindComponent(type))
+		return nullptr; 
+
+	Component* component = nullptr;
 
 	switch (type)
 	{
 	case ComponentType::C_MESH:
-
+		component = new ComponentMesh(this); 
+		components.push_back(component); 
 		break;
 
 	case ComponentType::C_TRANSFORM:
@@ -93,20 +105,35 @@ Component * GameObject::CreateComponent(ComponentType type)
 	return component;
 }
 
-void GameObject::AddComponent(Component * component)
+bool GameObject::AddComponent(Component * component)
 {
+	if (!FindComponent(component->GetType()))
+	{
+		components.push_back(component);
+		return true; 
+	}
+	
+	LOG("Game Object Already has this component");
+	return false; 
+}
 
+bool GameObject::FindComponent(ComponentType type)
+{
 	std::list<Component*>::const_iterator it = components.begin();
 	for (it; it != components.end(); ++it)
 	{
-		if ((*it)->GetType() == component->GetType())
+		if ((*it)->GetType() == type)
 		{
-			LOG("Game Object Already has this component");
-			return; 
+			return true;
 		}
 	}
 
-	components.push_back(component);
+	return false;
+}
+
+void GameObject::RemoveComponent(Component * component)
+{
+	components.remove(component);
 }
 
 bool GameObject::isActive() const
@@ -114,12 +141,12 @@ bool GameObject::isActive() const
 	return active;
 }
 
-void GameObject::Enable()
+GameObject * GameObject::GetParent() const
 {
-	active = true; 
+	return parent;
 }
 
-void GameObject::Disable()
+const char * GameObject::GetName() const
 {
-	active = false;
+	return name.c_str();
 }

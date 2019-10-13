@@ -11,23 +11,33 @@ class GameObject
 public:
 
 	GameObject();
+	GameObject(GameObject* parent); 
 	~GameObject(); 
 
+	// Logic
 	void Update(float dt); 
 
-	void RemoveChild(GameObject* child); 
+	void Enable();
+	void Disable();
 
-	GameObject* GetParent() const; 
+	// Parenting
+	void RemoveChild(GameObject* child); 
 	void SetParent(GameObject* parent); 
 	void SetName(const char* name); 
 
+	// Components 
 	Component* CreateComponent(ComponentType type);
-	void AddComponent(Component* component);
+	bool AddComponent(Component* component);
+	bool FindComponent(ComponentType type); 
+	void RemoveComponent(Component* component);
+
+	// Gets
+	bool isActive() const;
+	GameObject* GetParent() const;
+	const char* GetName() const;
 
 public:
-	bool isActive() const;
-	void Enable();
-	void Disable();
+
 
 private: 
 

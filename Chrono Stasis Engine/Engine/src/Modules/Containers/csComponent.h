@@ -2,8 +2,7 @@
 
 #include <string>
 
-class GameObject; 
-
+#include "csGameObject.h"
 
 enum class ComponentType
 {
@@ -22,7 +21,7 @@ class Component
 
 public:
 	Component() {}
-	Component(GameObject* parent) : myGameObject(parent) {}
+	Component(GameObject* parent) : owner(parent) {}
 
 	~Component(){}
 
@@ -30,16 +29,17 @@ public:
 	
 	virtual void Enable() { active = true; }
 	virtual void Disable() { active = false; }
-	bool isActive() const { return active; }
+	
 
-	void SetParent(const GameObject* goParent) { myGameObject = goParent; }
-	void SetType(ComponentType mytype) { type = mytype; }
+	// Gets
+	bool isActive() const { return active; }
 	ComponentType GetType() const { return type;  }
+	const char* GetName() const { return name.c_str(); }
 
 protected:
 
 	ComponentType type = ComponentType::C_NONE; 
-	const GameObject* myGameObject = nullptr; 
+	GameObject* owner = nullptr; 
 	bool active = true; 
 	std::string name; 
 
