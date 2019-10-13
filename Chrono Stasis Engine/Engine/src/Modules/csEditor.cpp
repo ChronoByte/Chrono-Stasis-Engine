@@ -146,12 +146,17 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
 
+	
+
 	std::vector<Window*>::iterator item = windowManager.begin();
 	for (int i = 0; i < windowManager.size(); i++)
 	{
 			if (item[i]->GetActive())
 				item[i]->Draw();
 	}
+	
+
+
 
 	return ret;
 }

@@ -14,11 +14,34 @@ void InspectorWindow::Draw()
 {
 	ImGui::SetNextWindowPos(ImVec2(App->window->width - 300.0f, 20.0f), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(300.0f, 700.0f), ImGuiCond_Once);
-	if (ImGui::Begin("Panel", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar))
+
+		
+	if (ImGui::Begin("Inspector", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar  | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse))
 	{
-		ImGui::BeginDockspace();
-		ShowInspector();
-		ImGui::EndDockspace();
+		GameObject* go_selected = nullptr;
+
+		if (go_selected == nullptr) { //This must be !=
+
+			if (ImGui::BeginMenuBar())
+			{
+				if (ImGui::BeginMenu("Add Component"))
+				{
+					if (ImGui::MenuItem("Add Material")) {}
+
+					if (ImGui::MenuItem("Add Geometry")) {}
+
+					if (ImGui::MenuItem("Add Camera")) {}
+
+
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenuBar();
+			}
+
+			//go_selected->DrawInspectorComponents();  
+		    ShowInspector();
+		}
+		
 	}
 	ImGui::End();
 
@@ -30,12 +53,10 @@ void InspectorWindow::ShowInspector()
 	//TODO1 : obtain a gameobject or array of them and loop each one to generate collapsingheaders
 	//TODO2 : create a itemMenu to create on inspector components using GameObject methods
 	//TODO3 : loop a component draw method to put info
-
-	if (ImGui::BeginDock("INSPECTOR", &active, ImGuiWindowFlags_HorizontalScrollbar))
-	{
+	
 		ImGui::Text("Options");
 		bool enabled = true;
-	
+
 		ImGui::Checkbox("", &enabled);
 		ImGui::SameLine();
 		char name[25];
@@ -72,7 +93,15 @@ void InspectorWindow::ShowInspector()
 		{
 			ImGui::Text("Texture:");
 			ImGui::Image((ImTextureID*)2, ImVec2(150, 150));
+
+			float3 color = float3(20.0f, 0.0f, 40.0f);
+
+			if (ImGui::TreeNodeEx("Color", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				ImGui::ColorEdit3("", (float*)&color);
+				ImGui::TreePop();
+			}
+			
 		}
-	}
-	ImGui::EndDock();
+	
 }

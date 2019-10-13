@@ -29,5 +29,5 @@ IMGUI_API void SetNextDockFloatingSize(const ImVec2& floating_size = ImVec2(0.5,
 IMGUI_API void EndDock();
 IMGUI_API void SetDockActive();
 IMGUI_API void DockDebugWindow();
-
 };
+

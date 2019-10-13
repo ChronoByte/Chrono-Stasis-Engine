@@ -294,16 +294,19 @@ void ComponentMesh::CreateMeshBuffers()
 
 void ComponentMesh::InspectorInfo()
 {
-	if (ImGui::Checkbox("Active Component", &active)) {
+	if (ImGui::CollapsingHeader("Geometry", ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		if (ImGui::Checkbox("Active Component", &active)) {
 
-		ImGui::Text("Total Vertices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetVertices());
-		ImGui::Text("Total Indices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetIndices());
-		ImGui::Text("Total UV:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTextureCoords());
-		ImGui::Text("Total Triangles:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTriangles());
+			ImGui::Text("Total Vertices:"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetVertices());
+			ImGui::Text("Total Indices:"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetIndices());
+			ImGui::Text("Total UV:"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTextureCoords());
+			ImGui::Text("Total Triangles:"); ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTriangles());
+		}
 	}
 	//TODO: Add more info like normal checkbox, uv checkbox ...
 }

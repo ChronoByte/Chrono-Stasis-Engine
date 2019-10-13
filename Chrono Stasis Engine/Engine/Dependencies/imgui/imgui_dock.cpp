@@ -972,6 +972,7 @@ struct DockContext
 
 		if (first || (prev_opened != dock.opened)) {
 			Dock* root = m_next_parent ? m_next_parent : getRootDock();
+			
 			if (root && (&dock != root) && !dock.parent) {
 				doDock(dock, root, next_slot);
 			}
@@ -1093,7 +1094,7 @@ struct DockContext
 };
 
 
-static DockContext g_dock;
+ static DockContext g_dock;
 
 void ImGui::ShutdownDock()
 {
@@ -1149,3 +1150,4 @@ void ImGui::DockDebugWindow()
 {
 	g_dock.debugWindow();
 }
+
