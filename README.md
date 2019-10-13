@@ -18,6 +18,9 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Geometry Editors (Hierarchy, Inspector)
 * Camera Controlling (Zoom in, zoom out, orbitation,..)
 
+## Innovation System
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eleifend velit id sodales viverra. Maecenas interdum lorem dolor, congue lobortis mi molestie tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+
 ## Installation
 * Go to our github release page: [Click Here!](https://github.com/ChronoByte/Chrono-Stasis-Engine/releases)
 * Download the last version **.zip**
