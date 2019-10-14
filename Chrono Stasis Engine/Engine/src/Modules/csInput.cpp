@@ -137,7 +137,7 @@ update_status ModuleInput::PreUpdate(float dt)
 				//		//go->AssignTexture(tex);
 				//}
 
-				SDL_free(e.drop.file);
+				//SDL_free(e.drop.file);
 				break;
 			}
 

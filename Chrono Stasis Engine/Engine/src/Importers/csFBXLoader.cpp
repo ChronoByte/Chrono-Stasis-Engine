@@ -76,7 +76,7 @@ update_status ModuleFBXLoader::PostUpdate(float dt)
 			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
 
 			GameObject* go = nullptr;
-			go = App->fbx->LoadFBXData(App->input->file);
+			go = App->fbx->LoadModel(App->input->file);
 			break;
 		}
 		case TEXTURE:
@@ -103,7 +103,7 @@ update_status ModuleFBXLoader::PostUpdate(float dt)
 
 		type = FileType::NONE;
 		App->input->dropped = false;
-
+		SDL_free(App->input->file);
 	}
 
 	return UPDATE_CONTINUE;

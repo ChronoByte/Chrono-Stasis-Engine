@@ -16,9 +16,10 @@ public:
 	~InspectorWindow();
 
 	void Draw() override;
-
+	
 	void ShowInspector();
 private:
+	 
 	
 };
 

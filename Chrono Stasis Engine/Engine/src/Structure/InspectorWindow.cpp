@@ -1,7 +1,6 @@
 #include "InspectorWindow.h"
 #include "csApp.h"
 
-
 InspectorWindow::InspectorWindow(bool startOpened) : Window(startOpened)
 {
 }
@@ -20,7 +19,7 @@ void InspectorWindow::Draw()
 	{
 		GameObject* go_selected = nullptr;
 
-		if (go_selected == nullptr) { //This must be !=
+		if (go_selected != nullptr) {
 
 			if (ImGui::BeginMenuBar())
 			{
@@ -39,7 +38,7 @@ void InspectorWindow::Draw()
 			}
 
 			//go_selected->DrawInspectorComponents();  
-		    ShowInspector();
+		   // ShowInspector();
 		}
 		
 	}

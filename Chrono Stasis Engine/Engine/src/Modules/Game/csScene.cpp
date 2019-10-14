@@ -29,6 +29,7 @@ bool ModuleScene::Start()
 	TextureInfo* tex = nullptr; 
 	uint texture = 0; 
 
+	
 	CreateRoot(); 
 
 	//App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
