@@ -57,7 +57,7 @@ update_status ModuleScene::Update(float dt)
 	{
 		glLineWidth(1.0f);
 
-		glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+		//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 		glBegin(GL_LINES);
 

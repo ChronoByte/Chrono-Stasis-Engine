@@ -180,6 +180,7 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 		
 		ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
 		myMaterial->SetTexture(App->texture->LoadTexture("Assets/Baker_house.tga"));	
+
 		// TODO: Get the path correctly. 
 		// TODO: Save created textures, so no need to load multiple times same texture
 		// TODO: Ugly Code 
