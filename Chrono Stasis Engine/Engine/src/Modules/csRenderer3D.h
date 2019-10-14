@@ -87,4 +87,5 @@ public:
 
 	bool drawNormals = false; 
 	bool drawVertexNormals = false; 
+	bool drawBoundingBox = false;
 };

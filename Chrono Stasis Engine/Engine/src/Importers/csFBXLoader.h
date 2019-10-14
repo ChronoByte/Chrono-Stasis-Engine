@@ -59,6 +59,7 @@ public:
 	void NodePath(aiNode* node, const aiScene* scene);
 
 	GameObject* LoadFBXData(const char* fbx_name);
+	void UpdateAABBCoords(aiMesh* mesh, float3* min, float3* max);
 	bool SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data);
 	bool LoadMeshData();
 
@@ -66,4 +67,8 @@ private:
 	FBXModel* model = nullptr;
 	GameObject* newGo = nullptr; 
 	FileType type = FileType::NONE;
+	AABB bounding_box;
+	float3 min;
+	float3 max;
+
 };

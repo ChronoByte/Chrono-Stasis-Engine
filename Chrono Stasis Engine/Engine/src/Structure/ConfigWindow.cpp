@@ -456,7 +456,9 @@ void ConfigWindow::RendererConfiguration()
 
 		if (ImGui::Checkbox("Draw Normals", &App->renderer3D->drawNormals)) {} ImGui::SameLine(200.0f);
 
-		if (ImGui::Checkbox("Draw Vertex Normals", &App->renderer3D->drawVertexNormals)) {}
+		if (ImGui::Checkbox("Draw Vertex Normals", &App->renderer3D->drawVertexNormals)) {} ImGui::SameLine(400.0f);
+
+		if (ImGui::Checkbox("Draw Bounding Box", &App->renderer3D->drawBoundingBox)) {} 
 
 		ImGui::Separator();
 

@@ -132,6 +132,7 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		
 		NodePath(scene->mRootNode, scene);
 
 		ComponentTransform* transform = dynamic_cast<ComponentTransform*>(newGo->CreateComponent(ComponentType::C_TRANSFORM));
@@ -148,10 +149,14 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		/*model->transform[0].Set(position.x, position.y, position.z);
 		model->transform[1].Set(euler_rotation.x, euler_rotation.y, euler_rotation.z);
 		model->transform[2].Set(scale.x, scale.y, scale.z);*/
+		bounding_box = AABB(min,max);
 
 		transform->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
+		transform->SetBoundingBox(bounding_box);
 		//-----------------------------------
-
+		
+		
+		
 		aiReleaseImport(scene);
 
 		return newGo;
@@ -179,6 +184,7 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 
 ComponentMesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
 {
+
 	ComponentMesh* m = new ComponentMesh(nullptr);
 
 	m->LoadMeshVertices(mesh);
@@ -202,6 +208,9 @@ ComponentMesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
 			m->LoadMeshTextureCoords(mesh, 0);
 	}
 	else LOG("No UV Channel detected");
+	
+
+	UpdateAABBCoords(mesh, &min, &max);
 
 	m->CreateMeshBuffers();
 
@@ -272,6 +281,20 @@ GameObject* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 	else
 		LOG("Error loading scene %s", fbx_name);
 	return parent;
+}
+
+void ModuleFBXLoader::UpdateAABBCoords(aiMesh* mesh, float3* min, float3* max)
+{
+	for (uint i = 0; i < mesh->mNumVertices; i++)
+	{
+		float3 vec(0.0f,0.0f,0.0f);
+		vec = float3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
+
+		*min = min->Min(vec);
+		*max = max->Max(vec);
+
+	}
+
 }
 
 bool ModuleFBXLoader::SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data)

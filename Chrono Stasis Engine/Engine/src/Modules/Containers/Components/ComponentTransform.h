@@ -13,6 +13,8 @@ public:
 	ComponentTransform(GameObject* parent);
 	virtual ~ComponentTransform();
 
+	void Update(float dt) override;
+	void DrawBoundingBox();
 	const float4x4 GetLocalTransform() const;
 	const void SetLocalTransform(const float4x4& local);
 	const float4x4 GetGlobalTransform() const;
@@ -29,6 +31,9 @@ public:
 
 	void SetupTransform(const float3& position, const float3& scale, const Quat& rotation);
 
+	const void SetBoundingBox(const AABB& bb);
+	const AABB GetBoundingBox() const;
+
 	void InspectorInfo();
 
 private:
@@ -41,4 +46,5 @@ private:
 	Quat     rotation_quat = Quat::identity;
 	float3   scale = float3::zero;
 
+	AABB bounding_box;
 };

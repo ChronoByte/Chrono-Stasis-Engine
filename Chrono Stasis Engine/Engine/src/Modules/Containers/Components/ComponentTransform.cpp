@@ -1,5 +1,5 @@
 #include "ComponentTransform.h"
-
+#include "csApp.h"
 
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 {
@@ -8,6 +8,31 @@ ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 
 ComponentTransform::~ComponentTransform()
 {
+}
+
+void ComponentTransform::Update(float dt)
+{
+	if (App->renderer3D->drawBoundingBox)
+		 DrawBoundingBox(); 
+
+}
+
+void ComponentTransform::DrawBoundingBox()
+{
+	for (uint i = 0; i < 12; i++)
+	{
+		glBegin(GL_LINES);
+		glLineWidth(1.0f);
+
+		glColor3f(0, 1, 0);
+
+		glVertex3f(bounding_box.Edge(i).a.x, bounding_box.Edge(i).a.y, bounding_box.Edge(i).a.z);
+		glVertex3f(bounding_box.Edge(i).b.x, bounding_box.Edge(i).b.y, bounding_box.Edge(i).b.z);
+
+		glColor3f(1, 1, 1);
+		glEnd();
+	}
+
 }
 
 
@@ -70,12 +95,22 @@ const float3 ComponentTransform::GetScale() const
 	return scale;
 }
 
+const AABB ComponentTransform::GetBoundingBox() const
+{
+	return bounding_box;
+}
+
 void ComponentTransform::SetupTransform(const float3& position, const float3& scale, const Quat& rotation)
 {
 	SetPosition(position);
 	SetScale(scale);
 	SetRotationQuat(rotation); // euler setting up too!
 	
+}
+
+const void ComponentTransform::SetBoundingBox(const AABB& bb)
+{
+	this->bounding_box = bb;
 }
 
 void ComponentTransform::InspectorInfo()
