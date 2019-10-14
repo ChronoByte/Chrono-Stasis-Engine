@@ -4,6 +4,7 @@
 #include <list>
 
 class Component; 
+class ComponentTransform; 
 enum class ComponentType; 
 
 class GameObject
@@ -36,8 +37,9 @@ public:
 	GameObject* GetParent() const;
 	const char* GetName() const;
 	std::list<GameObject*> GetChilds() const; 
+	ComponentTransform* GetTransform() const; 
 
-	// Inspector Panel
+	// Inspector Panel 
 	void DrawInspectorComponents();
 
 
@@ -45,6 +47,7 @@ private:
 
 	bool active = true; 
 	GameObject* parent = nullptr; 
+	ComponentTransform* transform = nullptr; 
 
 public:
 

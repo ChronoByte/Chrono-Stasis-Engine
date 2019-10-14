@@ -9,11 +9,16 @@
 
 GameObject::GameObject()
 {
+	transform = new ComponentTransform(this);
+	components.push_back(transform);
 }
 
 GameObject::GameObject(GameObject * parent) 
 {
 	SetParent(parent); 
+
+	transform = new ComponentTransform(this);
+	components.push_back(transform); 
 }
 
 GameObject::~GameObject()
@@ -92,8 +97,10 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 
 	case ComponentType::C_TRANSFORM:
-		component = new ComponentTransform(this);
-		components.push_back(component);
+		LOG("Transform Component Is already created for each Game Object.");
+		/*component = new ComponentTransform(this);
+		transform = dynamic_cast<ComponentTransform*>(component); 
+		components.push_back(component);*/
 		break;
 
 	case ComponentType::C_MATERIAL:
@@ -121,6 +128,7 @@ bool GameObject::AssignComponent(Component * component)
 
 		component->SetOwner(this); 
 		components.push_back(component);
+
 		return true; 
 	}
 	
@@ -165,6 +173,11 @@ const char * GameObject::GetName() const
 std::list<GameObject*> GameObject::GetChilds() const
 {
 	return childs;
+}
+
+ComponentTransform * GameObject::GetTransform() const
+{
+	return transform;
 }
 
 void GameObject::DrawInspectorComponents()

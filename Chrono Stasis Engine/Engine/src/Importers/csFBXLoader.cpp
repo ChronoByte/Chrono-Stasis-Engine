@@ -135,8 +135,6 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		
 		NodePath(scene->mRootNode, scene);
 
-		ComponentTransform* transform = dynamic_cast<ComponentTransform*>(newGo->CreateComponent(ComponentType::C_TRANSFORM));
-
 		aiQuaternion quat_rotation;
 		aiVector3D position;
 		aiVector3D scale;
@@ -151,8 +149,8 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		model->transform[2].Set(scale.x, scale.y, scale.z);*/
 		bounding_box = AABB(min,max);
 
-		transform->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
-		transform->SetBoundingBox(bounding_box);
+		newGo->GetTransform()->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
+		newGo->GetTransform()->SetBoundingBox(bounding_box);
 		//-----------------------------------
 		
 		
@@ -174,6 +172,19 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 		// Create and assign Component Mesh 
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		go->AssignComponent(LoadMesh(mesh, scene));
+
+		// Set Up the Game Object Transform
+		aiQuaternion quat_rotation;
+		aiVector3D position;
+		aiVector3D scale;
+		
+		node->mTransformation.Decompose(scale, quat_rotation, position);
+		Quat rot(quat_rotation.x, quat_rotation.y, quat_rotation.z, quat_rotation.w);
+
+		go->GetTransform()->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
+
+		// Material Texture
+		
 	}
 
 	for (uint i = 0; i < node->mNumChildren; i++)
