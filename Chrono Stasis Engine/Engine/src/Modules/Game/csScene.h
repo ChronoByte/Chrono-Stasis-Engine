@@ -20,7 +20,7 @@ public:
 
 	GameObject* CreateGameObject(GameObject* parent, const char* name); 
 	GameObject* CreateRoot(); 
-	const GameObject* GetRoot() const; 
+	GameObject* GetRoot() const; 
 	void DirectDrawing(const uint &imageId);
 
 private:

@@ -17,6 +17,7 @@
         "Resizable": true,
         "Borderless": false,
         "Full Desktop": false,
+		"Maximized": true, 
         "Brightness": 100
     },
     "Renderer3D":

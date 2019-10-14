@@ -17,10 +17,12 @@ public:
 	~HierarchyWindow();
 
 	void Draw() override;
-	void CreateRecursiveTreeNodes(const GameObject* parent); 
+	void CreateRecursiveTreeNodes(GameObject* parent); 
+
+	GameObject* GetSelected() const;
 
 private:
-	const GameObject* selectedGo = nullptr; 
+	GameObject* selectedGo = nullptr;
 	//friend class InspectorWindow; 
 
 };

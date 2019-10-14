@@ -203,7 +203,7 @@ GameObject * ModuleScene::CreateRoot()
 	return root; 
 }
 
-const GameObject * ModuleScene::GetRoot() const
+GameObject * ModuleScene::GetRoot() const
 {
 	return root;
 }

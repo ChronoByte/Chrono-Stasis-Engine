@@ -16,7 +16,7 @@ void HierarchyWindow::Draw()
 	ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(300.0f, App->window->GetHeight()), ImGuiCond_Once);
 
-	const GameObject* root = App->scene->GetRoot(); 
+	GameObject* root = App->scene->GetRoot(); 
 
 	if (ImGui::Begin("Hierarchy", &active, ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse))
 	{
@@ -28,7 +28,7 @@ void HierarchyWindow::Draw()
 		LOG("Selected game object: %s", selectedGo->GetName());
 }
 
-void HierarchyWindow::CreateRecursiveTreeNodes(const GameObject * parent)
+void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 {
 	static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 	ImGuiTreeNodeFlags node_flags = base_flags;
@@ -49,6 +49,11 @@ void HierarchyWindow::CreateRecursiveTreeNodes(const GameObject * parent)
 		}
 		ImGui::TreePop();
 	}
+}
+
+GameObject* HierarchyWindow::GetSelected() const
+{
+	return selectedGo;
 }
 
 

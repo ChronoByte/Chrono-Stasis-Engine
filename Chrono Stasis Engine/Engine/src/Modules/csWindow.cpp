@@ -36,8 +36,10 @@ bool ModuleWindow::Init(JSON_Object* node)
 		fullscreen_desktop = json_object_get_boolean(node, "Full Desktop");
 		resizable = json_object_get_boolean(node, "Resizable");
 		borderless = json_object_get_boolean(node, "Borderless");
+		maximized = json_object_get_boolean(node, "Maximized");
 
 		brightness = json_object_get_number(node, "Brightness");
+
 
 		//Create window
 		int width = SCREEN_WIDTH * SCREEN_SIZE;
@@ -67,6 +69,11 @@ bool ModuleWindow::Init(JSON_Object* node)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
+		if (maximized == true)
+		{
+			flags |= SDL_WINDOW_MAXIMIZED;
+		}
+
 
 		window = SDL_CreateWindow(App->engine_title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
