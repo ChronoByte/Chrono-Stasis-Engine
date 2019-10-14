@@ -84,7 +84,7 @@ void GameObject::SetName(const char * name)
 
 Component * GameObject::CreateComponent(ComponentType type)
 {
-	if (FindComponent(type))
+	if (HasComponent(type))
 		return nullptr; 
 
 	Component* component = nullptr;
@@ -121,7 +121,7 @@ Component * GameObject::CreateComponent(ComponentType type)
 
 bool GameObject::AssignComponent(Component * component)
 {
-	if (!FindComponent(component->GetType()))
+	if (!HasComponent(component->GetType()))
 	{
 		if (component->GetOwner() != nullptr && component->GetOwner() != this)	// If has an owner and its not me
 			component->GetOwner()->RemoveComponent(component); 
@@ -136,7 +136,7 @@ bool GameObject::AssignComponent(Component * component)
 	return false; 
 }
 
-bool GameObject::FindComponent(ComponentType type)
+bool GameObject::HasComponent(ComponentType type)
 {
 	std::list<Component*>::const_iterator it = components.begin();
 	for (it; it != components.end(); ++it)
@@ -148,6 +148,20 @@ bool GameObject::FindComponent(ComponentType type)
 	}
 
 	return false;
+}
+
+Component * GameObject::FindComponent(ComponentType type)
+{
+	std::list<Component*>::const_iterator it = components.begin();
+	for (it; it != components.end(); ++it)
+	{
+		if ((*it)->GetType() == type)
+		{
+			return (*it);
+		}
+	}
+
+	return nullptr;
 }
 
 void GameObject::RemoveComponent(Component * component)

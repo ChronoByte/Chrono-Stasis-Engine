@@ -34,8 +34,8 @@ bool ModuleScene::Start()
 	CreateRoot(); 
 
 	GameObject* go = App->fbx->LoadModel("Assets/BakerHouse.FBX");
-	ComponentMaterial* tex = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
-	tex->SetTexture(App->texture->LoadTexture("Assets/Baker_house.tga"));
+	//ComponentMaterial* tex = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
+	//tex->SetTexture(App->texture->LoadTexture("Assets/Baker_house.tga"));
 
 	return true;
 }
