@@ -43,19 +43,24 @@ update_status ModuleCamera3D::Update(float dt)
 	// Now we can make this movememnt frame rate independant!
 
 	vec3 newPos(0,0,0);
-	float speed = 20.f * dt;
+	float speed = 5.f * dt;
+	float zoom_speed = 10.f;
+
 	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed = 8.0f * dt;
+		speed = 20.0f * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
 	if(App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
 
+	// FPS-LIKE MOVEMENT (AWSD)
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
 	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
-
-
 	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+
+	// ZOOM IN / ZOOM OUT (MOUSE WHEEL)
+	if (App->input->GetMouseZ() > 0) newPos -= Z * speed * zoom_speed;
+	if (App->input->GetMouseZ() < 0) newPos += Z * speed * zoom_speed;
 
 	Position += newPos;
 	Reference += newPos;
@@ -96,7 +101,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 		Position = Reference + Z * length(Position);
 	}
-
+	
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 
