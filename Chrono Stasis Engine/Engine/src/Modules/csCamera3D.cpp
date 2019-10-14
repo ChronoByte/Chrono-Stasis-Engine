@@ -101,7 +101,25 @@ update_status ModuleCamera3D::Update(float dt)
 
 		Position = Reference + Z * length(Position);
 	}
-	
+	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
+	{
+		int dx = -App->input->GetMouseXMotion();
+		int dy = App->input->GetMouseYMotion();
+
+		float Sensitivity = 0.01f;
+		
+		if (dx != 0 || dy != 0)
+		{
+			float DeltaX = (float)dx * Sensitivity;
+			float DeltaY = (float)dy * Sensitivity;
+
+			newPos += X * DeltaX;
+			newPos += Y * DeltaY;
+
+			Position += newPos;
+			Reference += newPos;
+		}
+	}
 	// Recalculate matrix -------------
 	CalculateViewMatrix();
 
