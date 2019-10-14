@@ -3,7 +3,9 @@
 #include "csScene.h"
 #include "csFBXLoader.h"
 #include "csTextureLoader.h"
+
 #include "ComponentMesh.h"
+#include "ComponentMaterial.h"
 #include "csGameObject.h"
 
 #include "GLEW/include/GL/glew.h"
@@ -26,19 +28,14 @@ bool ModuleScene::Init(JSON_Object* node)
 bool ModuleScene::Start()
 {
 	ComponentMesh* mesh = nullptr;
-	TextureInfo* tex = nullptr; 
 	uint texture = 0; 
 
 	
 	CreateRoot(); 
 
-	//App->fbx->LoadFBXData("Assets/BakerHouse.FBX");
-	App->fbx->LoadModel("Assets/BakerHouse.FBX");
-	tex = App->texture->LoadTexture("Assets/Baker_house.tga");
-
-	if (tex != nullptr && mesh != nullptr)
-		mesh->AssignTexture(tex); 
-
+	GameObject* go = App->fbx->LoadModel("Assets/BakerHouse.FBX");
+	ComponentMaterial* tex = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
+	tex->SetTexture(App->texture->LoadTexture("Assets/Baker_house.tga"));
 
 	return true;
 }

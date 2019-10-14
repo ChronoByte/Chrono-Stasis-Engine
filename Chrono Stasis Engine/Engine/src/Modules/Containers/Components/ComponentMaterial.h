@@ -12,11 +12,12 @@
 //};
 
 struct TextureInfo;
+class GameObject; 
 
 class ComponentMaterial : public Component
 {
 public:
-	ComponentMaterial();
+	ComponentMaterial(GameObject* parent);
 	virtual ~ComponentMaterial();
 
 	void SetColor(float r, float g, float b, float a);

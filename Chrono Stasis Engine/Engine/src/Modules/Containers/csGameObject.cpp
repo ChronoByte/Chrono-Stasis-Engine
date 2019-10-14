@@ -5,7 +5,7 @@
 #include "csComponent.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
-
+#include "ComponentMaterial.h"
 
 GameObject::GameObject()
 {
@@ -97,7 +97,8 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 
 	case ComponentType::C_MATERIAL:
-
+		component = new ComponentMaterial(this);
+		components.push_back(component);
 		break;
 
 	case ComponentType::C_LIGHT:
