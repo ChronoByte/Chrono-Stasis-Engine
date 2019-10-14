@@ -20,7 +20,8 @@ public:
 	void CreateRecursiveTreeNodes(const GameObject* parent); 
 
 private:
-	GameObject* selectedGo = nullptr; 
+	const GameObject* selectedGo = nullptr; 
+	//friend class InspectorWindow; 
 
 };
 
