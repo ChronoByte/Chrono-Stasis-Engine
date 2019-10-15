@@ -9,11 +9,16 @@
 
 GameObject::GameObject()
 {
+	transform = new ComponentTransform(this);
+	components.push_back(transform);
 }
 
 GameObject::GameObject(GameObject * parent) 
 {
 	SetParent(parent); 
+
+	transform = new ComponentTransform(this);
+	components.push_back(transform); 
 }
 
 GameObject::~GameObject()
@@ -79,7 +84,7 @@ void GameObject::SetName(const char * name)
 
 Component * GameObject::CreateComponent(ComponentType type)
 {
-	if (FindComponent(type))
+	if (HasComponent(type))
 		return nullptr; 
 
 	Component* component = nullptr;
@@ -92,8 +97,10 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 
 	case ComponentType::C_TRANSFORM:
-		component = new ComponentTransform(this);
-		components.push_back(component);
+		LOG("Transform Component Is already created for each Game Object.");
+		/*component = new ComponentTransform(this);
+		transform = dynamic_cast<ComponentTransform*>(component); 
+		components.push_back(component);*/
 		break;
 
 	case ComponentType::C_MATERIAL:
@@ -114,13 +121,14 @@ Component * GameObject::CreateComponent(ComponentType type)
 
 bool GameObject::AssignComponent(Component * component)
 {
-	if (!FindComponent(component->GetType()))
+	if (!HasComponent(component->GetType()))
 	{
 		if (component->GetOwner() != nullptr && component->GetOwner() != this)	// If has an owner and its not me
 			component->GetOwner()->RemoveComponent(component); 
 
 		component->SetOwner(this); 
 		components.push_back(component);
+
 		return true; 
 	}
 	
@@ -128,7 +136,7 @@ bool GameObject::AssignComponent(Component * component)
 	return false; 
 }
 
-bool GameObject::FindComponent(ComponentType type)
+bool GameObject::HasComponent(ComponentType type)
 {
 	std::list<Component*>::const_iterator it = components.begin();
 	for (it; it != components.end(); ++it)
@@ -140,6 +148,20 @@ bool GameObject::FindComponent(ComponentType type)
 	}
 
 	return false;
+}
+
+Component * GameObject::FindComponent(ComponentType type)
+{
+	std::list<Component*>::const_iterator it = components.begin();
+	for (it; it != components.end(); ++it)
+	{
+		if ((*it)->GetType() == type)
+		{
+			return (*it);
+		}
+	}
+
+	return nullptr;
 }
 
 void GameObject::RemoveComponent(Component * component)
@@ -165,6 +187,11 @@ const char * GameObject::GetName() const
 std::list<GameObject*> GameObject::GetChilds() const
 {
 	return childs;
+}
+
+ComponentTransform * GameObject::GetTransform() const
+{
+	return transform;
 }
 
 void GameObject::DrawInspectorComponents()

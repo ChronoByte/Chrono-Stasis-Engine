@@ -1,8 +1,10 @@
 #include "csApp.h"
 #include "csFBXLoader.h"
 #include "csFileSystem.h"
+
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
+#include "ComponentMaterial.h"
 
 #pragma comment (lib, "Engine/Dependencies/Assimp/libx86/assimp.lib")
 
@@ -136,8 +138,6 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		
 		NodePath(scene->mRootNode, scene);
 
-		ComponentTransform* transform = dynamic_cast<ComponentTransform*>(newGo->CreateComponent(ComponentType::C_TRANSFORM));
-
 		aiQuaternion quat_rotation;
 		aiVector3D position;
 		aiVector3D scale;
@@ -147,6 +147,7 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 
 		float3 euler_rotation = rot.ToEulerXYZ();
 
+
 		/*model->transform[0].Set(position.x, position.y, position.z);
 		model->transform[1].Set(euler_rotation.x, euler_rotation.y, euler_rotation.z);
 		model->transform[2].Set(scale.x, scale.y, scale.z);*/
@@ -154,6 +155,7 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 
 		transform->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
 		transform->SetBoundingBox(bounding_box.box);
+
 		//-----------------------------------
 		
 		
@@ -170,12 +172,36 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
-		// A GameObject son for each mesh
+		// --------------- A GameObject son for each mesh
 		GameObject* go = App->scene->CreateGameObject(newGo, node->mName.C_Str()); 
 
 		// Create and assign Component Mesh 
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 		go->AssignComponent(LoadMesh(mesh, scene));
+		
+
+		// --------------- Set Up Texture - Component Material
+		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+		aiString path;
+		material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
+		
+		ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
+		myMaterial->SetTexture(App->texture->LoadTexture("Assets/Baker_house.tga"));	
+
+		// TODO: Get the path correctly. 
+		// TODO: Save created textures, so no need to load multiple times same texture
+		// TODO: Ugly Code 
+		// TODO: Safety
+
+		// --------------- Set Up the Game Object Transform
+		aiQuaternion quat_rotation;
+		aiVector3D position;
+		aiVector3D scale;
+		
+		node->mTransformation.Decompose(scale, quat_rotation, position);
+		Quat rot(quat_rotation.x, quat_rotation.y, quat_rotation.z, quat_rotation.w);
+
+		go->GetTransform()->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);		
 	}
 
 	for (uint i = 0; i < node->mNumChildren; i++)

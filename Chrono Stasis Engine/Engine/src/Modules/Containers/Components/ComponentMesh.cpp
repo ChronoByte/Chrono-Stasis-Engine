@@ -1,6 +1,7 @@
 #include "ComponentMesh.h"
 #include "Assimp/include/scene.h"
 #include "csApp.h"
+#include "ComponentMaterial.h"
 
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 {
@@ -55,12 +56,21 @@ void ComponentMesh::Draw()
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 
+	if (owner->HasComponent(ComponentType::C_MATERIAL))
+	{
+		ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(owner->FindComponent(ComponentType::C_MATERIAL));
+
+		if (mat->GetTexture() != nullptr)
+			glBindTexture(GL_TEXTURE_2D, mat->GetTexture()->id);
+
+		// TODO: Handle Color or diferent Material types
+		else 
+			glColor3f(mat->GetColor().r, mat->GetColor().g, mat->GetColor().b); 
+	}
+
 	glBindBuffer(GL_ARRAY_BUFFER, normals.id);
 	glNormalPointer(GL_FLOAT, 0, NULL);
 	
-	if (tex != nullptr)
-		glBindTexture(GL_TEXTURE_2D, tex->id);
-
 	glBindBuffer(GL_ARRAY_BUFFER, vertex.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
@@ -77,6 +87,7 @@ void ComponentMesh::Draw()
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
+	glColor3f(1, 1, 1);
 }
 
 void ComponentMesh::DrawNormals()
