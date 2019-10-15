@@ -35,6 +35,7 @@ public:
 
 	void GetExtensionFile(const char* file, std::string& extension);
 	void GetNameFile(const char* file, std::string& name);
+	std::string GetDirectoryPath(const char* file); 
 
 private:
 

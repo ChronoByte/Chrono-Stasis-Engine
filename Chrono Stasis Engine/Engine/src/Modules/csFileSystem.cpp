@@ -245,7 +245,7 @@ void ModuleFileSystem::GetNameFile(const char* file, std::string& name)
 {
 	name = file;
 
-	uint slash_pos = name.find_last_of("\\");
+	uint slash_pos = name.find_last_of("\\");  // TODO: Handle with this file nav stuff 
 
 	if (slash_pos != std::string::npos)
 		name = name.substr(slash_pos + 1);
@@ -254,4 +254,16 @@ void ModuleFileSystem::GetNameFile(const char* file, std::string& name)
 
 	if (ext_pos != std::string::npos)
 		name = name.erase(ext_pos);
+}
+
+std::string ModuleFileSystem::GetDirectoryPath(const char * file)	// Gets directory of a certain path
+{
+	std::string path = file; 
+
+	uint ext_pos = path.find_last_of("/"); // TODO: Handle with this file nav stuff too plsxd
+
+	if (ext_pos != std::string::npos)
+		path = path.erase(ext_pos + 1);
+
+	return path;
 }

@@ -114,7 +114,7 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 
 	ilGenImages(1, &imageID);
 	ilBindImage(imageID);
-
+	LOG("Loading texture with path: %s", tex_file); 
 	if ((bool)ilLoadImage(tex_file))
 	{
 		//Checking image origin
@@ -136,7 +136,7 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 		textures.push_back(t);
 	}
 	else 
-		LOG("Error loading texture %s", iluErrorString(ilGetError()));
+		LOG("Error loading texture at %s, error: %s", tex_file, iluErrorString(ilGetError()));
 	
 
 	ilDeleteImages(1, &imageID);

@@ -65,7 +65,7 @@ void ConsoleWindow::PrintAllLogs()
 
 		// Normally you would store more information in your item (e.g. make Items[] an array of structure, store color/type etc.)
 		bool pop_color = false;
-		if (strstr(item, "error")) { ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f)); pop_color = true; }
+		if (strstr(item, "error") || strstr(item, "Error")) { ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f)); pop_color = true; }
 		if (strstr(item, "warning")) { ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f)); pop_color = true; }
 		ImGui::TextUnformatted(item);
 		if (pop_color)

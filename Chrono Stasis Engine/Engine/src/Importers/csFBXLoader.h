@@ -75,6 +75,7 @@ private:
 	GameObject* newGo = nullptr; 
 	FileType type = FileType::NONE;
 
+	std::string filePath;
 	BoundingBox bounding_box;
 
 };

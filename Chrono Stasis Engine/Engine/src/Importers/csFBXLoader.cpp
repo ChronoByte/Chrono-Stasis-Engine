@@ -134,11 +134,12 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		LOG("Loading FBX Model with path: %s", path);
 		SetBoundingBox(scene);
 		
+		filePath = App->fs->GetDirectoryPath(path); 
 		NodePath(scene->mRootNode, scene);
 
-		
 
 		aiQuaternion quat_rotation;
 		aiVector3D position;
@@ -183,11 +184,12 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 
 		// --------------- Set Up Texture - Component Material
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
-		aiString path;
-		material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
-		
+		aiString fileName;
+		material->GetTexture(aiTextureType_DIFFUSE, 0, &fileName);
+
+		std::string newPath = filePath + fileName.C_Str(); 
 		ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
-		myMaterial->SetTexture(App->texture->LoadTexture("Assets/Baker_house.tga"));	
+		myMaterial->SetTexture(App->texture->LoadTexture(newPath.c_str()));	
 
 		// TODO: Get the path correctly. 
 		// TODO: Save created textures, so no need to load multiple times same texture
