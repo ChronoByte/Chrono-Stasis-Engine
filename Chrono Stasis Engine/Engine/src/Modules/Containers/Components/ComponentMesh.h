@@ -36,6 +36,7 @@ public:
 	void LoadMeshVertices(aiMesh* mesh);
 	void LoadMeshIndices(aiMesh* mesh);
 	void LoadMeshNormals(aiMesh* mesh);
+	void LoadMeshVertexNormals(aiMesh * mesh);
 	void LoadMeshColors(aiMesh* mesh, int index);
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 
@@ -56,7 +57,10 @@ public:
 	MeshInfo<float> vertex;
 	MeshInfo<float> colors;
 	MeshInfo<float> normals;
+	MeshInfo<float> faceNormals; 
+	MeshInfo<float> vertexNormals; 
 	MeshInfo<float> textureCoords;
+
 
 	const TextureInfo* tex = nullptr;
 };

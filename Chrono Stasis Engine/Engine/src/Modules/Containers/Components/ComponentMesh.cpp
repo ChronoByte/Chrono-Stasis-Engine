@@ -92,9 +92,20 @@ void ComponentMesh::Draw()
 
 void ComponentMesh::DrawNormals()
 {
-	glBegin(GL_LINES);
+	/*glEnableClientState(GL_VERTEX_ARRAY);
+	glColor3f(0.f, 1.f, 0.f);
 
-	glColor3f(0, 1, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, faceNormals.id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+	glDrawArrays(GL_LINES, 0, faceNormals.capacity);
+
+
+	glColor3f(1.f, 1.f, 1.f);
+	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glBegin(GL_LINES);*/
+
 	uint normalSize = 2;
 
 	int j = 0; 
@@ -157,29 +168,17 @@ void ComponentMesh::DrawNormals()
 
 void ComponentMesh::DrawVertexNormals()
 {
-	glBegin(GL_LINES);
-	uint normalSize = 2; 
-	glColor3f(1, 0, 0);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glColor3f(1.f, 0.f, 0.f); 
 
-	for (int i = 0; i < normals.capacity * 3; i += 3)
-	{
-		/*float v1x = vertex.buffer[i];
-		float v1y = vertex.buffer[i + 1];
-		float v1z = vertex.buffer[i + 2];
+	glBindBuffer(GL_ARRAY_BUFFER, vertexNormals.id);
+	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-		float v2x = v1x + normals.buffer[i] * normalSize;
-		float v2y = v1y + normals.buffer[i + 1] * normalSize;
-		float v2z = v1z + normals.buffer[i + 2] * normalSize;*/
+	glDrawArrays(GL_LINES, 0, vertexNormals.capacity);
 
-		glVertex3f(vertex.buffer[i], vertex.buffer[i + 1], vertex.buffer[i + 2]);
-		glVertex3f(vertex.buffer[i] + normals.buffer[i] * normalSize, 
-			vertex.buffer[i + 1] + normals.buffer[i + 1] * normalSize, 
-			vertex.buffer[i + 2] + normals.buffer[i + 2] * normalSize);
-	}
-
-	glColor3f(0, 0, 0);
-
-	glEnd();
+	
+	glColor3f(1.f, 1.f, 1.f);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void ComponentMesh::LoadMeshVertices(aiMesh* mesh)
@@ -213,6 +212,60 @@ void ComponentMesh::LoadMeshNormals(aiMesh* mesh)
 	normals.buffer = new float[normals.capacity];
 	memcpy(normals.buffer, mesh->mNormals, sizeof(float) * normals.capacity);
 	LOG("New mesh loaded with %d normals", normals.capacity);
+
+
+	// ---------- Load Vertex Normals  ----------
+	LoadMeshVertexNormals(mesh);
+
+	// ---------- Load Face Normals  ----------
+
+	//faceNormals.capacity = mesh->mNumVertices * 3;
+	//faceNormals.buffer = new float[faceNormals.capacity * 2];
+
+	//j = 0;
+	//for (uint i = 0; i < faceNormals.capacity * 2; i += 6) //  vertexNormals.capacity * 2 (Origin vertex and Final Vertex)
+	//{
+	//	// v1
+	//	memcpy(&faceNormals.buffer[i], &vertex.buffer[j], sizeof(float));
+	//	memcpy(&faceNormals.buffer[i + 1], &vertex.buffer[j + 1], sizeof(float));
+	//	memcpy(&faceNormals.buffer[i + 2], &vertex.buffer[j + 2], sizeof(float));
+
+	//	// v2
+	//	/*float* v2x = new float(vertex.buffer[i] + normals.buffer[i] * normalSize);
+	//	float* v2y = new float(vertex.buffer[i + 1] + normals.buffer[i + 1] * normalSize);
+	//	float* v2z = new float(vertex.buffer[i + 2] + normals.buffer[i + 2] * normalSize);*/
+
+	//	memcpy(&faceNormals.buffer[i + 3], new float(vertex.buffer[j] + normals.buffer[j] * normalSize), sizeof(float));
+	//	memcpy(&faceNormals.buffer[i + 4], new float(vertex.buffer[j + 1] + normals.buffer[j + 1] * normalSize), sizeof(float));
+	//	memcpy(&faceNormals.buffer[i + 5], new float(vertex.buffer[j + 2] + normals.buffer[j + 2] * normalSize), sizeof(float));
+	//	j += 3;
+	//}
+
+
+
+}
+
+void ComponentMesh::LoadMeshVertexNormals(aiMesh * mesh)
+{
+	vertexNormals.capacity = mesh->mNumVertices * 3 * 2;
+	vertexNormals.buffer = new float[vertexNormals.capacity];
+
+	uint normalSize = 1;
+	uint j = 0;
+	for (uint i = 0; i < vertexNormals.capacity; i += 6) //  vertexNormals.capacity * 2 (Origin vertex and Final Vertex)
+	{
+		// v1
+		memcpy(&vertexNormals.buffer[i], &vertex.buffer[j], sizeof(float));
+		memcpy(&vertexNormals.buffer[i + 1], &vertex.buffer[j + 1], sizeof(float));
+		memcpy(&vertexNormals.buffer[i + 2], &vertex.buffer[j + 2], sizeof(float));
+
+		// v2
+		memcpy(&vertexNormals.buffer[i + 3], new float(vertex.buffer[j] + normals.buffer[j] * normalSize), sizeof(float));
+		memcpy(&vertexNormals.buffer[i + 4], new float(vertex.buffer[j + 1] + normals.buffer[j + 1] * normalSize), sizeof(float));
+		memcpy(&vertexNormals.buffer[i + 5], new float(vertex.buffer[j + 2] + normals.buffer[j + 2] * normalSize), sizeof(float));
+		j += 3;
+	}
+	LOG("New mesh loaded with %d Vertex Normals", vertexNormals.capacity);
 }
 
 void ComponentMesh::LoadMeshColors(aiMesh* mesh, int index)
@@ -254,7 +307,7 @@ void ComponentMesh::CreateMeshBuffers()
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex.capacity * 3, vertex.buffer, GL_STATIC_DRAW);
 		LOG("Generated vertex buffer with ID: %i and size %i", vertex.id, vertex.capacity);
 	}
-	else LOG("There's no data to create a vertex buffer");
+	else LOG("Error: There's no data to create a vertex buffer");
 
 
 	// Index Buffer 
@@ -266,10 +319,9 @@ void ComponentMesh::CreateMeshBuffers()
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * index.capacity, index.buffer, GL_STATIC_DRAW);
 		LOG("Generated index buffer with ID %i and size %i ", index.id, index.capacity);
 	}
-	else LOG("There's no data to create a index buffer");
+	else LOG("Error: There's no data to create a index buffer");
 
 	// Normals Buffer
-	// To figure out if its needed a buffer for the normals. Believe so, but still to figure out how to do store it -> Normal Vertex
 
 	if (normals.buffer != nullptr)
 	{
@@ -278,8 +330,19 @@ void ComponentMesh::CreateMeshBuffers()
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * normals.capacity, normals.buffer, GL_STATIC_DRAW);
 		LOG("Generated Normals buffer with ID %i and size %i ", normals.id, normals.capacity);
 	}
-	else LOG("There's no data to create a index buffer");
+	else LOG("Error: There's no data to create a index buffer");
 
+	// Vertex Normals Buffer
+
+	if (vertexNormals.buffer != nullptr)
+	{
+		glGenBuffers(1, &vertexNormals.id);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexNormals.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexNormals.capacity, vertexNormals.buffer, GL_STATIC_DRAW);
+		LOG("Generated Vertex Normals Buffer buffer with ID %i and size %i ", vertexNormals.id, vertexNormals.capacity);
+	}
+	else LOG("Error: There's no data to create a Vertex Normals Buffer");
+	
 	// Texture Coords Buffer
 
 	if (textureCoords.buffer != nullptr)
@@ -289,7 +352,7 @@ void ComponentMesh::CreateMeshBuffers()
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * textureCoords.capacity * 2, textureCoords.buffer, GL_STATIC_DRAW);
 		LOG("Generated Texture Coords buffer with ID %i and size %i ", textureCoords.id, textureCoords.capacity);
 	}
-	else LOG("There's no data to create a Texture Coords buffer");
+	else LOG("Error: There's no data to create a Texture Coords buffer");
 
 
 	// Colors Buffer
