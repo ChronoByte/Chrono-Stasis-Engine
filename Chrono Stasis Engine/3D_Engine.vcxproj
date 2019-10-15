@@ -76,7 +76,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Engine\Dependencies;$(SolutionDir)\Engine\src\Core;$(SolutionDir)\Engine\src\Modules\Game;$(SolutionDir)\Engine\src\Modules;$(SolutionDir)\Engine\src\Modules\Containers;$(SolutionDir)\Engine\src\Modules\Containers\Components;$(SolutionDir)\Engine\src\Helpers;$(SolutionDir)\Engine\src\Importers;$(SolutionDir)\Engine\src\Tools;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Engine\Dependencies;$(SolutionDir)\Engine\src\Core;$(SolutionDir)\Engine\src\Modules\Game;$(SolutionDir)\Engine\src\Modules\Containers\Components;$(SolutionDir)\Engine\src\Modules;$(SolutionDir)\Engine\src\Modules\Containers;$(SolutionDir)\Engine\src\Helpers;$(SolutionDir)\Engine\src\Importers;$(SolutionDir)\Engine\src\Tools;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

@@ -1,5 +1,7 @@
 #include "csGlobals.h"
 #include "csApp.h"
+#include "../Structure/HierarchyWindow.h"
+#include "ComponentTransform.h"
 #include "csCamera3D.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
@@ -50,7 +52,7 @@ update_status ModuleCamera3D::Update(float dt)
 		speed = 20.0f * dt;
 
 	if(App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-	if(App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
+	if(App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) newPos.y -= speed;
 
 	// FPS-LIKE MOVEMENT (AWSD)
 	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
@@ -61,6 +63,9 @@ update_status ModuleCamera3D::Update(float dt)
 	// ZOOM IN / ZOOM OUT (MOUSE WHEEL)
 	if (App->input->GetMouseZ() > 0) newPos -= Z * speed * zoom_speed;
 	if (App->input->GetMouseZ() < 0) newPos += Z * speed * zoom_speed;
+
+	// FOCUS ON OBJECT (F)
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) FocusAtObject();
 
 	Position += newPos;
 	Reference += newPos;
@@ -204,6 +209,31 @@ void ModuleCamera3D::Move(const vec3 &Movement)
 	Reference += Movement;
 
 	CalculateViewMatrix();
+}
+
+void ModuleCamera3D::FocusAtObject()
+{
+	GameObject* go_selected = App->editor->hierarchy->GetSelected();
+
+	if (go_selected != nullptr) 
+	{
+		const AABB* box = &go_selected->GetTransform()->GetBoundingBox();
+
+		float3 center = box->Centroid();
+		float3 size = box->Size();
+
+		float dirX = center.x;
+		float dirY = center.y + size.y;
+		float dirZ = center.z - size.z;
+
+		Position.Set(dirX, dirY, dirZ);
+		
+		LookAt(vec3(center.x, center.y, center.z));
+
+	}
+
+
+
 }
 
 // -----------------------------------------------------------------
