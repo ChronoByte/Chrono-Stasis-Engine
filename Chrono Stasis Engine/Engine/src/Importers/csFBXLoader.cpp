@@ -138,6 +138,8 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		
 		NodePath(scene->mRootNode, scene);
 
+		
+
 		aiQuaternion quat_rotation;
 		aiVector3D position;
 		aiVector3D scale;
@@ -147,14 +149,13 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 
 		float3 euler_rotation = rot.ToEulerXYZ();
 
-
 		/*model->transform[0].Set(position.x, position.y, position.z);
 		model->transform[1].Set(euler_rotation.x, euler_rotation.y, euler_rotation.z);
 		model->transform[2].Set(scale.x, scale.y, scale.z);*/
 		bounding_box.box = AABB(bounding_box.min, bounding_box.max);
 
-		transform->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
-		transform->SetBoundingBox(bounding_box.box);
+		newGo->GetTransform()->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
+		newGo->GetTransform()->SetBoundingBox(bounding_box.box);
 
 		//-----------------------------------
 		
