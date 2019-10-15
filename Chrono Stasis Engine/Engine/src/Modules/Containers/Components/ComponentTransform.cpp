@@ -118,7 +118,7 @@ void ComponentTransform::InspectorInfo()
 {
 	if (ImGui::CollapsingHeader("Local Transformation", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		if (ImGui::Checkbox("Active Component", &active)) {
+		//if (ImGui::Checkbox("Active Component", &active)) {
 
 			if (ImGui::InputFloat3("Position", (float*)&position, 2))
 				SetPosition(position);
@@ -128,7 +128,7 @@ void ComponentTransform::InspectorInfo()
 
 			if (ImGui::InputFloat3("Scale", (float*)&scale, 2))
 				SetScale(scale);
-		}
+		//}
 	}
 	// TODO: More info like bounding box..
 }

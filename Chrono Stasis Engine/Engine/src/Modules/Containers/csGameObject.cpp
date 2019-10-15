@@ -211,6 +211,7 @@ void GameObject::DrawInspectorComponents()
 		{
 			if ((*it)->isActive()) //Component active
 				(*it)->InspectorInfo();
+
 			ImGui::Separator();
 		}
 	}

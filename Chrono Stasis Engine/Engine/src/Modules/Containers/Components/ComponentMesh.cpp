@@ -307,7 +307,7 @@ void ComponentMesh::InspectorInfo()
 {
 	if (ImGui::CollapsingHeader("Geometry", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		if (ImGui::Checkbox("Active Component", &active)) {
+		//if (ImGui::Checkbox("Active Component", &active)) {
 
 			ImGui::Text("Total Vertices:"); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetVertices());
@@ -317,7 +317,7 @@ void ComponentMesh::InspectorInfo()
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTextureCoords());
 			ImGui::Text("Total Triangles:"); ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTriangles());
-		}
+		//}
 	}
 	//TODO: Add more info like normal checkbox, uv checkbox ...
 }

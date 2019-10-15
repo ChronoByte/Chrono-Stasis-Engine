@@ -40,7 +40,7 @@ void ComponentMaterial::InspectorInfo()
 {
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		if (ImGui::Checkbox("Active Component", &active)) {
+		//if (ImGui::Checkbox("Active Component", &active)) {
 
 			ImGui::Text("Texture:");
 			ImGui::Image((ImTextureID*)2, ImVec2(150, 150));
@@ -50,7 +50,7 @@ void ComponentMaterial::InspectorInfo()
 				ImGui::ColorEdit3("", (float*)&color);
 				ImGui::TreePop();
 			}
-		}
+		//}
 	}
 	//TODO: Set more info
 	
