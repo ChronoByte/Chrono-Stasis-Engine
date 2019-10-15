@@ -132,6 +132,7 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		SetBoundingBox(scene);
 		
 		NodePath(scene->mRootNode, scene);
 
@@ -149,10 +150,10 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		/*model->transform[0].Set(position.x, position.y, position.z);
 		model->transform[1].Set(euler_rotation.x, euler_rotation.y, euler_rotation.z);
 		model->transform[2].Set(scale.x, scale.y, scale.z);*/
-		bounding_box = AABB(min,max);
+		bounding_box.box = AABB(bounding_box.min, bounding_box.max);
 
 		transform->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
-		transform->SetBoundingBox(bounding_box);
+		transform->SetBoundingBox(bounding_box.box);
 		//-----------------------------------
 		
 		
@@ -166,6 +167,7 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 
 void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 {
+
 	for (uint i = 0; i < node->mNumMeshes; i++)
 	{
 		// A GameObject son for each mesh
@@ -210,7 +212,7 @@ ComponentMesh* ModuleFBXLoader::LoadMesh(aiMesh* mesh, const aiScene* scene)
 	else LOG("No UV Channel detected");
 	
 
-	UpdateAABBCoords(mesh, &min, &max);
+	UpdateBoundingBox(mesh, &bounding_box.min, &bounding_box.max);
 
 	m->CreateMeshBuffers();
 
@@ -227,8 +229,10 @@ GameObject* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 	ComponentMesh* m = nullptr;
 	GameObject* parent = nullptr; 
 
+
 	if (scene != nullptr && scene->HasMeshes())
 	{
+
 		parent = App->scene->CreateGameObject(nullptr, fbx_name);
 
 		for (uint i = 0; i < scene->mNumMeshes; i++) // Use scene->mNumMeshes to iterate on scene->mMeshes array
@@ -283,19 +287,27 @@ GameObject* ModuleFBXLoader::LoadFBXData(const char* fbx_name)
 	return parent;
 }
 
-void ModuleFBXLoader::UpdateAABBCoords(aiMesh* mesh, float3* min, float3* max)
+void ModuleFBXLoader::SetBoundingBox(const aiScene* scene)
+{
+	if (scene->mMeshes[0]->mNumVertices > 0)
+	{
+		bounding_box.min = float3(scene->mMeshes[0]->mVertices[0].x, scene->mMeshes[0]->mVertices[0].y, scene->mMeshes[0]->mVertices[0].z);
+		bounding_box.max = float3(scene->mMeshes[0]->mVertices[0].x, scene->mMeshes[0]->mVertices[0].y, scene->mMeshes[0]->mVertices[0].z);
+	}
+}
+
+void ModuleFBXLoader::UpdateBoundingBox(aiMesh* mesh, float3* min, float3* max)
 {
 	for (uint i = 0; i < mesh->mNumVertices; i++)
 	{
-		float3 vec(0.0f,0.0f,0.0f);
-		vec = float3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
+		float3 vec(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
 
 		*min = min->Min(vec);
 		*max = max->Max(vec);
-
 	}
 
 }
+
 
 bool ModuleFBXLoader::SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data)
 {

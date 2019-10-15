@@ -48,6 +48,7 @@ const void ComponentTransform::SetLocalTransform(const float4x4& local)
 
 const float4x4 ComponentTransform::GetGlobalTransform() const
 {
+	
 	return global_matrix;
 }
 
