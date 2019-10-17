@@ -143,6 +143,10 @@ void ComponentMesh::LoadMeshIndices(aiMesh* mesh)
 		else memcpy(&index.buffer[i * 3], mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 	}
 	LOG("New mesh loaded with %d indices", index.capacity);
+
+	// ---------- Load Face Normals  ----------
+
+	LoadMeshFaceNormals(mesh);
 }
 
 void ComponentMesh::LoadMeshNormals(aiMesh* mesh)
@@ -155,10 +159,6 @@ void ComponentMesh::LoadMeshNormals(aiMesh* mesh)
 
 	// ---------- Load Vertex Normals  ----------
 	LoadMeshVertexNormals(mesh);
-
-	// ---------- Load Face Normals  ----------
-
-	LoadMeshFaceNormals(mesh);
 }
 
 void ComponentMesh::LoadMeshFaceNormals(aiMesh * mesh)
