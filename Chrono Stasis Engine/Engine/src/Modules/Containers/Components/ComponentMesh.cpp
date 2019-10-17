@@ -92,7 +92,7 @@ void ComponentMesh::Draw()
 
 void ComponentMesh::DrawNormals()
 {
-	/*glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_VERTEX_ARRAY);
 	glColor3f(0.f, 1.f, 0.f);
 
 	glBindBuffer(GL_ARRAY_BUFFER, faceNormals.id);
@@ -103,67 +103,6 @@ void ComponentMesh::DrawNormals()
 
 	glColor3f(1.f, 1.f, 1.f);
 	glDisableClientState(GL_VERTEX_ARRAY);
-
-	glBegin(GL_LINES);*/
-
-	uint normalSize = 2;
-
-	int j = 0; 
-	for (int i = 0; i < index.capacity; i += 3)
-	{
-		/*float xMid = vertex.buffer[i] + vertex.buffer[i + 3] + vertex.buffer[i + 6];
-		float yMid = vertex.buffer[i + 1] + vertex.buffer[i + 4] + vertex.buffer[i + 7];
-		float zMid = vertex.buffer[i + 2] + vertex.buffer[i + 5] + vertex.buffer[i + 8];*/
-
-
-		// Center of triangle 
-
-		float v1x = vertex.buffer[index.buffer[i] * 3] ; 
-		float v1y = vertex.buffer[(index.buffer[i] * 3) + 1];
-		float v1z = vertex.buffer[(index.buffer[i] * 3) + 2];
-		
-		float v2x = vertex.buffer[index.buffer[i + 1] * 3];
-		float v2y = vertex.buffer[(index.buffer[i + 1] * 3) + 1];
-		float v2z = vertex.buffer[(index.buffer[i + 1] * 3) + 2];
-		
-		float v3x = vertex.buffer[index.buffer[i + 2] * 3];
-		float v3y = vertex.buffer[(index.buffer[i + 2] * 3) + 1];
-		float v3z = vertex.buffer[(index.buffer[i + 2] * 3) + 2];
-
-
-		float xMid = v1x + v2x + v3x; 
-		float yMid = v1y + v2y + v3y; 
-		float zMid = v1z + v2z + v3z; 
-
-		xMid /= 3; 
-		yMid /= 3; 
-		zMid /= 3; 
-
-		vec3 v1 = vec3(v1x, v1y, v1z); 
-		vec3 v2 = vec3(v2x, v2y, v2z); 
-		vec3 v3 = vec3(v3x, v3y, v3z);
-
-		vec3 u = v2 - v1; 
-		vec3 v = v3 - v1; 
-
-		float normalX = (u.y * v.z) - (u.z * v.y);
-		float normalY = (u.z * v.x) - (u.x * v.z);
-		float normalZ = (u.x * v.y) - (u.y * v.x);
-		
-		float module = sqrt(normalX * normalX + normalY * normalY + normalZ * normalZ);
-		normalX /= module; 
-		normalY /= module; 
-		normalZ /= module; 
-
-		glVertex3f(xMid, yMid, zMid); 
-		//glVertex3f(xMid + normals.buffer[j] * normalSize, yMid + normals.buffer[j + 1] * normalSize, zMid + normals.buffer[j + 2] * normalSize);
-		glVertex3f(xMid + normalX * normalSize, yMid + normalY * normalSize, zMid + normalZ * normalSize);
-		j += 3; 
-	}
-
-	glColor3f(0, 0, 0);
-
-	glEnd();
 }
 
 void ComponentMesh::DrawVertexNormals()
@@ -219,30 +158,69 @@ void ComponentMesh::LoadMeshNormals(aiMesh* mesh)
 
 	// ---------- Load Face Normals  ----------
 
-	//faceNormals.capacity = mesh->mNumVertices * 3;
-	//faceNormals.buffer = new float[faceNormals.capacity * 2];
+	LoadMeshFaceNormals(mesh);
+}
 
-	//j = 0;
-	//for (uint i = 0; i < faceNormals.capacity * 2; i += 6) //  vertexNormals.capacity * 2 (Origin vertex and Final Vertex)
-	//{
-	//	// v1
-	//	memcpy(&faceNormals.buffer[i], &vertex.buffer[j], sizeof(float));
-	//	memcpy(&faceNormals.buffer[i + 1], &vertex.buffer[j + 1], sizeof(float));
-	//	memcpy(&faceNormals.buffer[i + 2], &vertex.buffer[j + 2], sizeof(float));
+void ComponentMesh::LoadMeshFaceNormals(aiMesh * mesh)
+{
+	faceNormals.capacity = mesh->mNumFaces * 3 * 2;
+	faceNormals.buffer = new float[faceNormals.capacity];
 
-	//	// v2
-	//	/*float* v2x = new float(vertex.buffer[i] + normals.buffer[i] * normalSize);
-	//	float* v2y = new float(vertex.buffer[i + 1] + normals.buffer[i + 1] * normalSize);
-	//	float* v2z = new float(vertex.buffer[i + 2] + normals.buffer[i + 2] * normalSize);*/
+	uint j = 0;
+	uint normalSize = 1;
 
-	//	memcpy(&faceNormals.buffer[i + 3], new float(vertex.buffer[j] + normals.buffer[j] * normalSize), sizeof(float));
-	//	memcpy(&faceNormals.buffer[i + 4], new float(vertex.buffer[j + 1] + normals.buffer[j + 1] * normalSize), sizeof(float));
-	//	memcpy(&faceNormals.buffer[i + 5], new float(vertex.buffer[j + 2] + normals.buffer[j + 2] * normalSize), sizeof(float));
-	//	j += 3;
-	//}
+	for (uint i = 0; i < faceNormals.capacity; i += 6) //  vertexNormals.capacity * 2 (Origin vertex and Final Vertex)
+	{
+		// ----------
+		// v1
+		float v1x = vertex.buffer[index.buffer[j] * 3];
+		float v1y = vertex.buffer[(index.buffer[j] * 3) + 1];
+		float v1z = vertex.buffer[(index.buffer[j] * 3) + 2];
 
+		float v2x = vertex.buffer[index.buffer[j + 1] * 3];
+		float v2y = vertex.buffer[(index.buffer[j + 1] * 3) + 1];
+		float v2z = vertex.buffer[(index.buffer[j + 1] * 3) + 2];
 
+		float v3x = vertex.buffer[index.buffer[j + 2] * 3];
+		float v3y = vertex.buffer[(index.buffer[j + 2] * 3) + 1];
+		float v3z = vertex.buffer[(index.buffer[j + 2] * 3) + 2];
 
+		float* xMid = new float(v1x + v2x + v3x);
+		float* yMid = new float(v1y + v2y + v3y);
+		float* zMid = new float(v1z + v2z + v3z);
+
+		*xMid /= 3;
+		*yMid /= 3;
+		*zMid /= 3;
+
+		memcpy(&faceNormals.buffer[i], xMid, sizeof(float));
+		memcpy(&faceNormals.buffer[i + 1], yMid, sizeof(float));
+		memcpy(&faceNormals.buffer[i + 2], zMid, sizeof(float));
+
+		// ---------------
+		// v2
+
+		float3 v1(v1x, v1y, v1z);
+		float3 v2(v2x, v2y, v2z);
+		float3 v3(v3x, v3y, v3z);
+
+		float3 u = v2 - v1;
+		float3 v = v3 - v1;
+
+		float normalX = (u.y * v.z) - (u.z * v.y);
+		float normalY = (u.z * v.x) - (u.x * v.z);
+		float normalZ = (u.x * v.y) - (u.y * v.x);
+
+		float module = sqrt(normalX * normalX + normalY * normalY + normalZ * normalZ);
+		float* xNormal = new float(*xMid + (normalX / module) * normalSize);
+		float* yNormal = new float(*yMid + (normalY / module) * normalSize);
+		float* zNormal = new float(*zMid + (normalZ / module) * normalSize);
+
+		memcpy(&faceNormals.buffer[i + 3], xNormal, sizeof(float));
+		memcpy(&faceNormals.buffer[i + 4], yNormal, sizeof(float));
+		memcpy(&faceNormals.buffer[i + 5], zNormal, sizeof(float));
+		j += 3;
+	}
 }
 
 void ComponentMesh::LoadMeshVertexNormals(aiMesh * mesh)
@@ -343,6 +321,17 @@ void ComponentMesh::CreateMeshBuffers()
 	}
 	else LOG("Error: There's no data to create a Vertex Normals Buffer");
 	
+	// Face Normals Buffer
+
+	if (faceNormals.buffer != nullptr)
+	{
+		glGenBuffers(1, &faceNormals.id);
+		glBindBuffer(GL_ARRAY_BUFFER, faceNormals.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * faceNormals.capacity, faceNormals.buffer, GL_STATIC_DRAW);
+		LOG("Generated Face Normals Buffer buffer with ID %i and size %i ", faceNormals.id, faceNormals.capacity);
+	}
+	else LOG("Error: There's no data to create a Face Normals Buffer");
+
 	// Texture Coords Buffer
 
 	if (textureCoords.buffer != nullptr)
