@@ -152,7 +152,7 @@ void ComponentMesh::LoadMeshIndices(aiMesh* mesh)
 
 	// ---------- Load Face Normals  ----------
 
-	LoadMeshFaceNormals(mesh);
+	LoadMeshFaceNormals();
 }
 
 void ComponentMesh::LoadMeshNormals(aiMesh* mesh)
@@ -164,12 +164,12 @@ void ComponentMesh::LoadMeshNormals(aiMesh* mesh)
 
 
 	// ---------- Load Vertex Normals  ----------
-	LoadMeshVertexNormals(mesh);
+	LoadMeshVertexNormals();
 }
 
-void ComponentMesh::LoadMeshFaceNormals(aiMesh * mesh)
+void ComponentMesh::LoadMeshFaceNormals()
 {
-	faceNormals.capacity = mesh->mNumFaces * 3 * 2;
+	faceNormals.capacity = index.capacity * 2;
 	faceNormals.buffer = new float[faceNormals.capacity];
 
 	uint j = 0;
@@ -229,9 +229,9 @@ void ComponentMesh::LoadMeshFaceNormals(aiMesh * mesh)
 	}
 }
 
-void ComponentMesh::LoadMeshVertexNormals(aiMesh * mesh)
+void ComponentMesh::LoadMeshVertexNormals()
 {
-	vertexNormals.capacity = mesh->mNumVertices * 3 * 2;
+	vertexNormals.capacity = normals.capacity * 2;
 	vertexNormals.buffer = new float[vertexNormals.capacity];
 
 	uint normalSize = 1;
@@ -305,6 +305,12 @@ void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape)
 		textureCoords.buffer = new float[textureCoords.capacity * 2];
 		memcpy(textureCoords.buffer, shape->tcoords, sizeof(float) * textureCoords.capacity *2);
 	}
+
+	// Vertex Normals
+	LoadMeshVertexNormals(); 
+
+	// Face Normals
+	LoadMeshFaceNormals(); 
 
 	CreateMeshBuffers();
 }

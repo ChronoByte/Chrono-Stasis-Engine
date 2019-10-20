@@ -36,8 +36,8 @@ public:
 	void LoadMeshVertices(aiMesh* mesh);
 	void LoadMeshIndices(aiMesh* mesh);
 	void LoadMeshNormals(aiMesh* mesh);
-	void LoadMeshFaceNormals(aiMesh * mesh);
-	void LoadMeshVertexNormals(aiMesh * mesh);
+	void LoadMeshFaceNormals();
+	void LoadMeshVertexNormals();
 	void LoadMeshColors(aiMesh* mesh, int index);
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 
