@@ -8,13 +8,13 @@
 
 class Application;
 
-class GeometryWindow : public Window
+class CollisionWindow : public Window
 {
 
 public:
 
-	GeometryWindow(bool startOpened = false);
-	~GeometryWindow();
+	CollisionWindow(bool startOpened = false);
+	~CollisionWindow();
 
 	void Draw() override;
 	void MathTest();

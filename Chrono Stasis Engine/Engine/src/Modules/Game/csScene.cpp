@@ -30,7 +30,7 @@ bool ModuleScene::Start()
 
 	CreateRoot(); 
 
-	//GameObject* go = App->fbx->LoadModel("Assets/BakerHouse.FBX");
+	GameObject* go = App->fbx->LoadModel("Assets/BakerHouse.FBX");
 
 	return true;
 }

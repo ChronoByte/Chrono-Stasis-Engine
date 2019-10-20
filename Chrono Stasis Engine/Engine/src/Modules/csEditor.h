@@ -16,7 +16,7 @@
 
 struct PhysBody3D;
 class ConfigWindow;
-class GeometryWindow; 
+class CollisionWindow; 
 class AboutWindow;
 class ConsoleWindow; 
 class RandomWindow; 
@@ -55,7 +55,7 @@ public:
 public:
 
 	ConfigWindow*		config = nullptr;
-	GeometryWindow*		geometryWin = nullptr; 
+	CollisionWindow*		geometryWin = nullptr; 
 	AboutWindow*		about = nullptr;
 	ConsoleWindow*		console = nullptr; 
 	RandomWindow*		randomWin = nullptr; 

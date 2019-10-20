@@ -1,8 +1,8 @@
-#include "GeometryWindow.h"
+#include "CollisionWindow.h"
 #include "csApp.h"
 #include "csWindow.h"
 
-GeometryWindow::GeometryWindow(bool startOpened) : Window(startOpened)
+CollisionWindow::CollisionWindow(bool startOpened) : Window(startOpened)
 {	
 	sphere_1 = Sphere({ 0.0f,0.0f,0.0f }, 1.0f);
 	sphere_2 = Sphere({ 0.0f,0.0f,0.0f }, 1.0f);
@@ -23,15 +23,15 @@ GeometryWindow::GeometryWindow(bool startOpened) : Window(startOpened)
 }
 
 
-GeometryWindow::~GeometryWindow() {}
+CollisionWindow::~CollisionWindow() {}
 
 
-void GeometryWindow::Draw()
+void CollisionWindow::Draw()
 {
 	MathTest();
 }
 
-void GeometryWindow::MathTest()
+void CollisionWindow::MathTest()
 {
 	ImGui::Begin("MathGeoLib Collision Tester", &active, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::Separator();

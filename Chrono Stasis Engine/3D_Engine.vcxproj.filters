@@ -288,7 +288,6 @@
     <ClInclude Include="Engine\src\Modules\csEditor.h">
       <Filter>Sources\Modules\Game</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
     <ClInclude Include="Engine\src\Structure\AboutWindow.h" />
     <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
     <ClInclude Include="Engine\src\Structure\ConsoleWindow.h" />
@@ -357,6 +356,7 @@
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentTransform.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMaterial.h" />
     <ClInclude Include="Engine\src\Structure\HierarchyWindow.h" />
+    <ClInclude Include="Engine\src\Structure\CollisionWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -517,7 +517,6 @@
     <ClCompile Include="Engine\src\Modules\csEditor.cpp">
       <Filter>Sources\Modules\Game</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\AboutWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\PerfTimer.cpp" />
     <ClCompile Include="Engine\src\Structure\ConsoleWindow.cpp" />
@@ -537,6 +536,7 @@
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentTransform.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMaterial.cpp" />
     <ClCompile Include="Engine\src\Structure\HierarchyWindow.cpp" />
+    <ClCompile Include="Engine\src\Structure\CollisionWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

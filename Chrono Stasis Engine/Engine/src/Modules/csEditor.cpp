@@ -11,7 +11,7 @@
 
 // Including windows
 #include "src/Structure/ConfigWindow.h"
-#include "src/Structure/GeometryWindow.h"
+#include "src/Structure/CollisionWindow.h"
 #include "src/Structure/AboutWindow.h"
 #include "src/Structure/ConsoleWindow.h"
 #include "src/Structure/RandomWindow.h"
@@ -23,7 +23,7 @@ ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 	name = "Editor";
 
 	config = new ConfigWindow();
-	geometryWin = new GeometryWindow();
+	geometryWin = new CollisionWindow();
 	about = new AboutWindow();	
 	console = new ConsoleWindow(true);
 	randomWin = new RandomWindow(); 
@@ -107,7 +107,7 @@ update_status ModuleEditor::Update(float dt)
 
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Game Objects"))
+		if (ImGui::BeginMenu("Game Object"))
 		{
 			if (ImGui::MenuItem("Create Empty", "")) { App->scene->CreateGameObject(nullptr, "GameObject");  }
 			if (ImGui::BeginMenu("3D Object")) 
