@@ -22,6 +22,7 @@ class ConsoleWindow;
 class RandomWindow; 
 class InspectorWindow;
 class HierarchyWindow; 
+class GeometryWindow; 
 
 class Window;
 
@@ -55,12 +56,13 @@ public:
 public:
 
 	ConfigWindow*		config = nullptr;
-	CollisionWindow*		geometryWin = nullptr; 
+	CollisionWindow*	collisionWin = nullptr; 
 	AboutWindow*		about = nullptr;
 	ConsoleWindow*		console = nullptr; 
 	RandomWindow*		randomWin = nullptr; 
 	InspectorWindow*	inspector = nullptr;
 	HierarchyWindow*	hierarchy = nullptr; 
+	GeometryWindow*		geometryWin = nullptr; 
 
 	bool show_demo_window = false;
 

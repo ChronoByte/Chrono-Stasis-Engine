@@ -17,17 +17,19 @@
 #include "src/Structure/RandomWindow.h"
 #include "src/Structure/InspectorWindow.h"
 #include "src/Structure/HierarchyWindow.h"
+#include "src/Structure/GeometryWindow.h"
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
 	name = "Editor";
 
 	config = new ConfigWindow();
-	geometryWin = new CollisionWindow();
+	collisionWin = new CollisionWindow();
 	about = new AboutWindow();	
 	console = new ConsoleWindow(true);
 	randomWin = new RandomWindow(); 
 	hierarchy = new HierarchyWindow(true);
+	geometryWin = new GeometryWindow(); 
 
 	windowManager.push_back(new InspectorWindow());
 
@@ -67,8 +69,8 @@ bool ModuleEditor::CleanUp()
 	delete config; 
 	config = nullptr; 
 
-	delete geometryWin;
-	geometryWin = nullptr; 
+	delete collisionWin;
+	collisionWin = nullptr; 
 
 	delete about;
 	about = nullptr; 
@@ -76,6 +78,23 @@ bool ModuleEditor::CleanUp()
 	delete console; 
 	console = nullptr; 
 	
+	delete randomWin; 
+	randomWin = nullptr; 
+
+	delete hierarchy;
+	hierarchy = nullptr; 
+
+	delete geometryWin; 
+	geometryWin = nullptr; 
+
+
+	// TODO: Check vector cleaning
+	/*std::vector<Window*>::const_iterator item = windowManager.cbegin();
+	for (int i = 0; i < windowManager.size(); i++)
+		windowManager.erase(item[i]);			*/
+
+	windowManager.clear(); 
+
 	return true;
 }
 
@@ -123,7 +142,7 @@ update_status ModuleEditor::Update(float dt)
 				if (ImGui::MenuItem("Hemisphere")) { App->scene->CreateObject3D(PrimitiveType::HEMISPHERE, nullptr); }
 				if (ImGui::MenuItem("Rock")) { App->scene->CreateObject3D(PrimitiveType::ROCK, nullptr); }
 				ImGui::Separator();
-				if (ImGui::MenuItem("More Options")) { /* Open new window here*/ }
+				if (ImGui::MenuItem("Creation Options", "", geometryWin->GetBool())) {}
 
 				ImGui::EndMenu(); 
 			}
@@ -137,7 +156,7 @@ update_status ModuleEditor::Update(float dt)
 
 		if (ImGui::BeginMenu("Tools"))
 		{
-			if (ImGui::MenuItem("Collision Tester", "", geometryWin->GetBool())) {}
+			if (ImGui::MenuItem("Collision Tester", "", collisionWin->GetBool())) {}
 			if (ImGui::MenuItem("Random Tester", "", randomWin->GetBool())) {}
 
 			ImGui::EndMenu();
@@ -155,8 +174,8 @@ update_status ModuleEditor::Update(float dt)
 	if (config->GetActive())
 		config->Draw();
 
-	if (geometryWin->GetActive())
-		geometryWin->Draw();
+	if (collisionWin->GetActive())
+		collisionWin->Draw();
 
 	if (about->GetActive())
 		about->Draw(); 
@@ -169,6 +188,9 @@ update_status ModuleEditor::Update(float dt)
 
 	if (hierarchy->GetActive())
 		hierarchy->Draw(); 
+
+	if (geometryWin->GetActive())
+		geometryWin->Draw();
 
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);

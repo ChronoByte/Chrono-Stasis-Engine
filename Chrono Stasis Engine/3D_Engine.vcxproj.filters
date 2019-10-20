@@ -357,6 +357,7 @@
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMaterial.h" />
     <ClInclude Include="Engine\src\Structure\HierarchyWindow.h" />
     <ClInclude Include="Engine\src\Structure\CollisionWindow.h" />
+    <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -537,6 +538,7 @@
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMaterial.cpp" />
     <ClCompile Include="Engine\src\Structure\HierarchyWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\CollisionWindow.cpp" />
+    <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
