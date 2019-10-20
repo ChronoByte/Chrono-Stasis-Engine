@@ -5,6 +5,20 @@
 
 class GameObject;
 
+enum class PrimitiveType
+{
+	CUBE = 0,
+	SPHERE, 
+	CYLINDER,
+	CONE, 
+	TORUS,
+	PLANE,
+	// ---- 
+
+	MAX
+};
+
+
 class ModuleScene : public Module
 {
 public:
@@ -21,6 +35,8 @@ public:
 	GameObject* CreateGameObject(GameObject* parent, const char* name); 
 	GameObject* CreateRoot(); 
 	GameObject* GetRoot() const; 
+
+	GameObject* CreateObject3D(PrimitiveType type, GameObject* parent); 
 	void DirectDrawing(const uint &imageId);
 
 private:

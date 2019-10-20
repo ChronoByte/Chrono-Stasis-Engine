@@ -107,7 +107,18 @@ update_status ModuleEditor::Update(float dt)
 
 			ImGui::EndMenu();
 		}
-
+		if (ImGui::BeginMenu("Game Objects"))
+		{
+			if (ImGui::MenuItem("Create Empty", "")) { App->scene->CreateGameObject(nullptr, "GameObject");  }
+			if (ImGui::BeginMenu("3D Object")) 
+			{
+				if (ImGui::MenuItem("Cube", "")) { App->scene->CreateObject3D(PrimitiveType::CUBE, nullptr); }
+				if (ImGui::MenuItem("Sphere", "")) {}
+				if (ImGui::MenuItem("Etc", "")) {}
+				ImGui::EndMenu(); 
+			}
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Configuration"))
 		{
 			config->Activate();

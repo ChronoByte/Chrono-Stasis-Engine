@@ -41,7 +41,7 @@ public:
 	void LoadMeshColors(aiMesh* mesh, int index);
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 
-	void AssignTexture(TextureInfo* texture);
+	void LoadMeshFromParShape(par_shapes_mesh* shape);
 
 	void CreateMeshBuffers(); 
 

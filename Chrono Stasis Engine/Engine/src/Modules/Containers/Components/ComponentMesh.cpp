@@ -53,41 +53,47 @@ void ComponentMesh::Draw()
 {
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
 
 	if (owner->HasComponent(ComponentType::C_MATERIAL))
 	{
 		ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(owner->FindComponent(ComponentType::C_MATERIAL));
+		glColor3f(mat->GetColor().r, mat->GetColor().g, mat->GetColor().b);
 
-		if (mat->GetTexture() != nullptr)
+		if (mat->GetTexture() != nullptr && textureCoords.buffer != nullptr) // Perhaps this conditional should be less strictive
+		{
+			// Enable Texture Coord array without a valid textureCoord buffer is boom
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY); 
+
+			// Texture Buffer
 			glBindTexture(GL_TEXTURE_2D, mat->GetTexture()->id);
 
-		// TODO: Handle Color or diferent Material types
-		else 
-			glColor3f(mat->GetColor().r, mat->GetColor().g, mat->GetColor().b); 
+			// Texture Coords Buffer
+			glBindBuffer(GL_ARRAY_BUFFER, textureCoords.id);
+			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+		}
 	}
 
-	glBindBuffer(GL_ARRAY_BUFFER, normals.id);
-	glNormalPointer(GL_FLOAT, 0, NULL);
-	
+	// Vertex Buffer
 	glBindBuffer(GL_ARRAY_BUFFER, vertex.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-
-	glBindBuffer(GL_ARRAY_BUFFER, textureCoords.id);
-	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
+	// Normals Buffer
+	glBindBuffer(GL_ARRAY_BUFFER, normals.id);
+	glNormalPointer(GL_FLOAT, 0, NULL);
+	
+	// Index Buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index.id);
 	glDrawElements(GL_TRIANGLES, index.capacity, GL_UNSIGNED_INT, (void*)0);  // Carefull with this unsigned int
 	
-	glDisableClientState(GL_NORMAL_ARRAY);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
-
+	// Reset 
 	glColor3f(1, 1, 1);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	// Disable Clients
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void ComponentMesh::DrawNormals()
@@ -269,9 +275,38 @@ void ComponentMesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 	LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
 }
 
-void ComponentMesh::AssignTexture(TextureInfo * texture)
+void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape)
 {
-	this->tex = texture; 
+	par_shapes_unweld(shape, true);
+	par_shapes_compute_normals(shape);
+
+	// Vertex Buffer
+	vertex.capacity = shape->npoints;
+	vertex.buffer = new float[vertex.capacity * 3];
+	memcpy(vertex.buffer, shape->points, sizeof(float) * vertex.capacity * 3);
+
+	// Index Buffer
+	index.capacity = shape->ntriangles * 3;
+	index.buffer = new uint[index.capacity];
+	memcpy(index.buffer, shape->triangles, sizeof(uint) * index.capacity);
+
+	// Normal Buffer
+	if(shape->normals != nullptr)
+	{
+		normals.capacity = shape->npoints * 3; 
+		normals.buffer = new float[normals.capacity];
+		memcpy(normals.buffer, shape->normals, sizeof(float) * normals.capacity);
+	}
+
+	// Texture Coords
+	if (shape->tcoords != nullptr)
+	{
+		textureCoords.capacity = shape->npoints; 
+		textureCoords.buffer = new float[textureCoords.capacity * 2];
+		memcpy(textureCoords.buffer, shape->tcoords, sizeof(float) * textureCoords.capacity *2);
+	}
+
+	CreateMeshBuffers();
 }
 
 void ComponentMesh::CreateMeshBuffers()

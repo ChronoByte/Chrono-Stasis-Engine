@@ -27,15 +27,10 @@ bool ModuleScene::Init(JSON_Object* node)
 
 bool ModuleScene::Start()
 {
-	ComponentMesh* mesh = nullptr;
-	uint texture = 0; 
 
-	
 	CreateRoot(); 
 
 	GameObject* go = App->fbx->LoadModel("Assets/BakerHouse.FBX");
-	//ComponentMaterial* tex = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
-	//tex->SetTexture(App->texture->LoadTexture("Assets/Baker_house.tga"));
 
 	return true;
 }
@@ -79,6 +74,50 @@ update_status ModuleScene::Update(float dt)
 	//DirectDrawing(imageId);
 
 	return UPDATE_CONTINUE;
+}
+
+GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent)
+{
+	if (type == PrimitiveType::MAX)
+		return nullptr;
+
+	GameObject* ret = CreateGameObject(parent, "Primitive");
+
+	par_shapes_mesh* shape = nullptr;
+	ComponentMesh* mesh = new ComponentMesh(nullptr);
+
+	switch (type)
+	{
+	case PrimitiveType::CUBE:
+
+		shape = par_shapes_create_cube(); 
+		mesh->LoadMeshFromParShape(shape); 
+		ret->AssignComponent(mesh); 
+		break;
+
+	case PrimitiveType::CYLINDER:
+
+		break;
+
+	case PrimitiveType::SPHERE:
+
+		break;
+
+	case PrimitiveType::TORUS:
+
+		break;
+
+	case PrimitiveType::PLANE:
+
+		break;
+
+	default:
+		break; 
+	}
+
+	par_shapes_free_mesh(shape);
+
+	return ret;
 }
 
 void ModuleScene::DirectDrawing(const uint &imageId)
