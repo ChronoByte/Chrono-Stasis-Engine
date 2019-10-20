@@ -30,7 +30,7 @@ bool ModuleScene::Start()
 
 	CreateRoot(); 
 
-	GameObject* go = App->fbx->LoadModel("Assets/BakerHouse.FBX");
+	//GameObject* go = App->fbx->LoadModel("Assets/BakerHouse.FBX");
 
 	return true;
 }
@@ -81,10 +81,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 	if (type == PrimitiveType::MAX)
 		return nullptr;
 
-	GameObject* ret = CreateGameObject(parent, "Primitive");
+	GameObject* go = CreateGameObject(parent, "Primitive");
+	ComponentMesh* mesh = new ComponentMesh(nullptr);
 
 	par_shapes_mesh* shape = nullptr;
-	ComponentMesh* mesh = new ComponentMesh(nullptr);
 
 	switch (type)
 	{
@@ -92,23 +92,61 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 
 		shape = par_shapes_create_cube(); 
 		mesh->LoadMeshFromParShape(shape); 
-		ret->AssignComponent(mesh); 
-		break;
-
-	case PrimitiveType::CYLINDER:
-
+		go->AssignComponent(mesh); 
 		break;
 
 	case PrimitiveType::SPHERE:
-
-		break;
-
-	case PrimitiveType::TORUS:
-
+		shape = par_shapes_create_parametric_sphere(20,20);
+		mesh->LoadMeshFromParShape(shape);
+		go->AssignComponent(mesh);
 		break;
 
 	case PrimitiveType::PLANE:
+		shape = par_shapes_create_plane(50, 50);
+		mesh->LoadMeshFromParShape(shape);
+		go->AssignComponent(mesh);
+		break;
 
+	case PrimitiveType::CYLINDER:
+		shape = par_shapes_create_cylinder(20,20);
+		mesh->LoadMeshFromParShape(shape);
+		go->AssignComponent(mesh);
+		break;
+
+	case PrimitiveType::CONE:
+		shape = par_shapes_create_cone(20, 20);
+		mesh->LoadMeshFromParShape(shape);
+		go->AssignComponent(mesh);
+		break;
+
+	case PrimitiveType::TORUS:
+		shape = par_shapes_create_torus(10, 10, 1);
+		mesh->LoadMeshFromParShape(shape);
+		go->AssignComponent(mesh);
+		break;
+
+	case PrimitiveType::KLEIN_BOTTLE:
+		shape = par_shapes_create_klein_bottle(30, 30);
+		mesh->LoadMeshFromParShape(shape);
+		go->AssignComponent(mesh);
+		break;
+
+	case PrimitiveType::TREFOIL_KNOT:
+		shape = par_shapes_create_trefoil_knot(30, 30, 3);
+		mesh->LoadMeshFromParShape(shape);
+		go->AssignComponent(mesh);
+		break;
+
+	case PrimitiveType::HEMISPHERE:
+		shape = par_shapes_create_hemisphere(10, 10);
+		mesh->LoadMeshFromParShape(shape);
+		go->AssignComponent(mesh);
+		break;
+
+	case PrimitiveType::ROCK:
+		shape = par_shapes_create_rock(8, 3);
+		mesh->LoadMeshFromParShape(shape);
+		go->AssignComponent(mesh);
 		break;
 
 	default:
@@ -117,7 +155,7 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 
 	par_shapes_free_mesh(shape);
 
-	return ret;
+	return go;
 }
 
 void ModuleScene::DirectDrawing(const uint &imageId)

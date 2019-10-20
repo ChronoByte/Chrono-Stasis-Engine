@@ -8,11 +8,15 @@ class GameObject;
 enum class PrimitiveType
 {
 	CUBE = 0,
-	SPHERE, 
-	CYLINDER,
-	CONE, 
-	TORUS,
+	SPHERE,
 	PLANE,
+	CYLINDER,
+	CONE,
+	TORUS,
+	KLEIN_BOTTLE,
+	TREFOIL_KNOT,
+	HEMISPHERE,
+	ROCK,
 	// ---- 
 
 	MAX
