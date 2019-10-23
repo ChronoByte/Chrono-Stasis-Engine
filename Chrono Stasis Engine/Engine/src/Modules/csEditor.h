@@ -41,6 +41,7 @@ public:
 	ModuleEditor(bool start_enabled = true);
 	~ModuleEditor();
 
+	bool Init(JSON_Object* node);
 	bool Start();
 	update_status Update(float dt);
 	bool CleanUp();
@@ -66,5 +67,5 @@ public:
 
 	bool show_demo_window = false;
 
-	std::vector<Window*> windowManager;
+	std::vector<Window*> windows;
 };

@@ -13,10 +13,10 @@ InspectorWindow::~InspectorWindow()
 
 void InspectorWindow::Draw()
 {
-	ImGui::SetNextWindowPos(ImVec2(App->window->width - 300.0f, 20.0f), ImGuiCond_Once);
+	//ImGui::SetNextWindowPos(ImVec2(App->window->width - 300.0f, 20.0f), ImGuiCond_Once);
 	ImGui::SetNextWindowSize(ImVec2(300.0f, 700.0f), ImGuiCond_Once);
 
-	if (ImGui::Begin("Inspector", &active, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar  | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse))
+	if (ImGui::Begin("Inspector", &active, /*ImGuiWindowFlags_NoMove*/ ImGuiWindowFlags_NoBringToFrontOnFocus  | ImGuiWindowFlags_NoScrollbar  | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse))
 	{
 		GameObject* go_selected = App->editor->hierarchy->GetSelected();
 		//GameObject* go_selected = App->scene->CreateGameObject(nullptr, "");

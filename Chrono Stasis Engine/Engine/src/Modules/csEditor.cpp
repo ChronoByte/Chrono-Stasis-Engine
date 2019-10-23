@@ -22,21 +22,25 @@
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
 	name = "Editor";
-
-	config = new ConfigWindow();
-	collisionWin = new CollisionWindow();
-	about = new AboutWindow();	
-	console = new ConsoleWindow(true);
-	randomWin = new RandomWindow(); 
-	hierarchy = new HierarchyWindow(true);
-	geometryWin = new GeometryWindow(); 
-
-	windowManager.push_back(new InspectorWindow());
-
 }
 
 ModuleEditor::~ModuleEditor()
 {
+}
+
+bool ModuleEditor::Init(JSON_Object* node)
+{
+
+	windows.push_back(inspector = new InspectorWindow(json_object_get_boolean(node, "inspector")));
+	windows.push_back(hierarchy = new HierarchyWindow(json_object_get_boolean(node, "hierarchy")));
+	windows.push_back(console = new ConsoleWindow(json_object_get_boolean(node, "console")));
+	windows.push_back(config = new ConfigWindow(json_object_get_boolean(node, "configuration")));
+	windows.push_back(about = new AboutWindow(json_object_get_boolean(node, "about")));
+	windows.push_back(geometryWin = new GeometryWindow(json_object_get_boolean(node, "geometry")));
+	windows.push_back(randomWin = new RandomWindow(json_object_get_boolean(node, "random")));
+	windows.push_back(collisionWin = new CollisionWindow(json_object_get_boolean(node, "collision")));
+
+	return true;
 }
 
 // Load assets
@@ -50,11 +54,9 @@ bool ModuleEditor::Start()
 	
 	config->Start();
 
-	windowManager[INSPECTOR]->Activate();
-
 	//START ALL WINDOWS
-	std::vector<Window*>::iterator item = windowManager.begin();
-	for (int i = 0; i < windowManager.size(); i++)
+	std::vector<Window*>::iterator item = windows.begin();
+	for (int i = 0; i < windows.size(); i++)
 		item[i]->Start();
 	
 	
@@ -66,34 +68,22 @@ bool ModuleEditor::CleanUp()
 {
 	LOG("Unloading Intro scene");
 
-	delete config; 
-	config = nullptr; 
-
-	delete collisionWin;
-	collisionWin = nullptr; 
-
-	delete about;
-	about = nullptr; 
-
-	delete console; 
-	console = nullptr; 
+	//CLEANUP ALL WINDOWS
+	std::vector<Window*>::iterator item = windows.begin();
 	
-	delete randomWin; 
+	for (int i = 0; i < windows.size(); i++) {
+		delete item[i];
+	}
+
+	windows.clear(); 
+
+	config = nullptr; 
+	collisionWin = nullptr; 
+	about = nullptr; 
+	console = nullptr; 
 	randomWin = nullptr; 
-
-	delete hierarchy;
 	hierarchy = nullptr; 
-
-	delete geometryWin; 
 	geometryWin = nullptr; 
-
-
-	// TODO: Check vector cleaning
-	/*std::vector<Window*>::const_iterator item = windowManager.cbegin();
-	for (int i = 0; i < windowManager.size(); i++)
-		windowManager.erase(item[i]);			*/
-
-	windowManager.clear(); 
 
 	return true;
 }
@@ -121,7 +111,7 @@ update_status ModuleEditor::Update(float dt)
 		{
 			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window))	{}
 			if (ImGui::MenuItem("Console", "", console->GetBool()))	{}
-			if (ImGui::MenuItem("Inspector", "", windowManager[INSPECTOR]->GetBool())) {}
+			if (ImGui::MenuItem("Inspector", "", inspector->GetBool())) {}
 			if (ImGui::MenuItem("Hierarchy", "", hierarchy->GetBool())) {}
 
 			ImGui::EndMenu();
@@ -171,43 +161,20 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::EndMainMenuBar();
 	}
 
-	if (config->GetActive())
-		config->Draw();
-
-	if (collisionWin->GetActive())
-		collisionWin->Draw();
-
-	if (about->GetActive())
-		about->Draw(); 
-
-	if (console->GetActive())
-		console->Draw(); 
-
-	if (randomWin->GetActive())
-		randomWin->Draw();
-
-	if (hierarchy->GetActive())
-		hierarchy->Draw(); 
-
-	if (geometryWin->GetActive())
-		geometryWin->Draw();
 
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
 
 	
-
-	std::vector<Window*>::iterator item = windowManager.begin();
-	for (int i = 0; i < windowManager.size(); i++)
+	//DRAW ALL WINDOWS
+	std::vector<Window*>::iterator item = windows.begin();
+	for (int i = 0; i < windows.size(); i++)
 	{
 			if (item[i]->GetActive())
 				item[i]->Draw();
 	}
 	
-
-
-
 	return ret;
 }
 
@@ -248,9 +215,4 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 
 	//App->renderer3D->PushMeshToRender(shape);
 }
-
-//void ModuleEditor::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
-//{
-//	LOG("Hit!");
-//}
 

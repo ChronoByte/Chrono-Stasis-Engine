@@ -35,6 +35,21 @@
         "Diffuse": false,
         "Specular": false,
         "Fog": false
+    },
+    "Editor":
+    {
+        "about": false,
+        "configuration": false,
+        "console": true,
+        "geometry": false,
+        "hierarchy":true,
+        "inspector":true,
+        "collision":false,
+        "random":false
+            
+
+        }
+
     }
    
 }           
