@@ -49,11 +49,6 @@ bool ModuleEditor::Start()
 	LOG("Loading Intro assets");
 	bool ret = true;
 
-	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
-	
-	config->Start();
-
 	//START ALL WINDOWS
 	std::vector<Window*>::iterator item = windows.begin();
 	for (int i = 0; i < windows.size(); i++)
@@ -109,10 +104,12 @@ update_status ModuleEditor::Update(float dt)
 		}
 		if (ImGui::BeginMenu("Windows"))
 		{
-			if (ImGui::MenuItem("Demo Window", "",  &show_demo_window))	{}
+			if (ImGui::MenuItem("Demo Window", "", &show_demo_window)) {}
+		    if (ImGui::MenuItem("Style Window", "", &show_style_window)) {}
 			if (ImGui::MenuItem("Console", "", console->GetBool()))	{}
 			if (ImGui::MenuItem("Inspector", "", inspector->GetBool())) {}
 			if (ImGui::MenuItem("Hierarchy", "", hierarchy->GetBool())) {}
+			if (ImGui::MenuItem("Configuration", "", config->GetBool())) {}
 
 			ImGui::EndMenu();
 		}
@@ -138,12 +135,7 @@ update_status ModuleEditor::Update(float dt)
 			}
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Configuration"))
-		{
-			config->Activate();
-			ImGui::EndMenu();
-		}
-
+	
 		if (ImGui::BeginMenu("Tools"))
 		{
 			if (ImGui::MenuItem("Collision Tester", "", collisionWin->GetBool())) {}
@@ -165,8 +157,13 @@ update_status ModuleEditor::Update(float dt)
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
+	if (show_style_window) {
+		ImGui::Begin("Style Editor", &show_style_window);
+		ImGui::ShowStyleEditor();
+		ImGui::End();
+	}
+		
 
-	
 	//DRAW ALL WINDOWS
 	std::vector<Window*>::iterator item = windows.begin();
 	for (int i = 0; i < windows.size(); i++)

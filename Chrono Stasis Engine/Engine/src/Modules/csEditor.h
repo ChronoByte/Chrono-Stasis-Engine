@@ -66,6 +66,7 @@ public:
 	GeometryWindow*		geometryWin = nullptr; 
 
 	bool show_demo_window = false;
+	bool show_style_window = false;
 
 	std::vector<Window*> windows;
 };
