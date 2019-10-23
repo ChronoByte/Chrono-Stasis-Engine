@@ -13,12 +13,12 @@ HierarchyWindow::~HierarchyWindow()
 
 void HierarchyWindow::Draw()
 {
-	ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Once);
-	ImGui::SetNextWindowSize(ImVec2(300.0f, App->window->GetHeight()), ImGuiCond_Once);
+	//ImGui::SetNextWindowPos(ImVec2(0, 20), ImGuiCond_Once);
+	//ImGui::SetNextWindowSize(ImVec2(300.0f, App->window->GetHeight()), ImGuiCond_Once);
 
 	GameObject* root = App->scene->GetRoot(); 
 
-	if (ImGui::Begin("Hierarchy", &active,  ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse))
+	if (ImGui::Begin("Hierarchy", &active,  ImGuiWindowFlags_MenuBar))
 	{
 		ImGui::BeginMenuBar(); 
 		if (ImGui::BeginMenu("Create"))

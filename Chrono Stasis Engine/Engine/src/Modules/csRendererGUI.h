@@ -22,7 +22,7 @@ public:
 	bool CleanUp() override;
 
 	void StyleLoader(const char* name);
-	
+	void DockLoader();
 public:
 	ColorStyles color;
 };

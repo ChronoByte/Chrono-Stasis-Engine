@@ -5,7 +5,7 @@
 #include "time.h"
 #include "csInput.h"
 #include "imgui/imgui.h"
-#include "imgui/imgui_dock.h"
+
 
 #include "ComponentMesh.h"
 
@@ -163,7 +163,7 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::End();
 	}
 		
-
+	//App->gui->DockLoader();
 	//DRAW ALL WINDOWS
 	std::vector<Window*>::iterator item = windows.begin();
 	for (int i = 0; i < windows.size(); i++)
