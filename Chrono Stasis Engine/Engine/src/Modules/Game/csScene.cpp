@@ -287,10 +287,14 @@ GameObject * ModuleScene::GetRoot() const
 
 void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)
 {
+	if (!parent->isActive())
+		return;
+
 	parent->Update(dt);
 
 	for (std::list<GameObject*>::const_iterator it = parent->childs.begin(); it != parent->childs.end(); ++it)
 	{
-		RecursiveUpdate((*it), dt); 
+		RecursiveUpdate((*it), dt);
 	}
+	
 }
