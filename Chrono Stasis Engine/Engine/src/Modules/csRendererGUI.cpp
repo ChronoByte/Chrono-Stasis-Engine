@@ -23,22 +23,21 @@ bool ModuleUI::Init(JSON_Object* node)
 
 	//Create context
 	IMGUI_CHECKVERSION();
-	if(ImGui::CreateContext() != NULL)
+	if (ImGui::CreateContext() != NULL)
 	{
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
-		
+
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable keyboard controls
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform 
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-		
+
 
 		ImGui_ImplSDL2_InitForOpenGL(App->window->window, App->renderer3D->context);
 		ImGui_ImplOpenGL3_Init();
 
 		// Setup style
-		ImGui::StyleColorsDark();
-		
+		StyleLoader(json_object_get_string(node, "style"));
 	}
 	else
 	{
@@ -97,6 +96,44 @@ void ModuleUI::StyleLoader(const char* name)
 	if (name == "BLACK") {
 		ImGui::StyleColorsDark(style);
 	}
+	else if (name = "PINKKING")
+	{
+		style->WindowPadding = ImVec2(15, 15);
+		style->WindowRounding = 5.0f;
+		style->FramePadding = ImVec2(5, 5);
+		style->FrameRounding = 1.0f;
+		style->ItemSpacing = ImVec2(12, 8);
+		style->ItemInnerSpacing = ImVec2(8, 6);
+		style->IndentSpacing = 25.0f;
+		style->ScrollbarSize = 15.0f;
+		style->ScrollbarRounding = 9.0f;
+		style->GrabMinSize = 5.0f;
+		style->GrabRounding = 3.0f;
+
+		style->Colors[ImGuiCol_WindowBg] = { 0.1f,0.1f,0.1f,1.0f };
+		style->Colors[ImGuiCol_ScrollbarBg] = { 0.05f, 0.05f,0.05f,1.0f };
+		style->Colors[ImGuiCol_TitleBg] = { 0.05f, 0.05f,0.05f,1.0f };
+		style->Colors[ImGuiCol_TitleBgActive] = { 0.3f, 0.3f,0.3f,1.0f };
+		
+		style->Colors[ImGuiCol_Tab] = { 0.7f,0.0f,0.4f,1.0f };
+		style->Colors[ImGuiCol_TabHovered] = { 1.0f,0.0f,0.5f,1.0f };
+		style->Colors[ImGuiCol_TabUnfocused] = { 0.7f,0.2f,0.5f,1.0f };
+		style->Colors[ImGuiCol_TabUnfocusedActive] = { 0.7f,0.3f,0.5f,1.0f };
+		style->Colors[ImGuiCol_TabActive] = { 1.0f,0.0f,0.5f,1.0f };
+		
+		style->Colors[ImGuiCol_Header] = { 0.9f,0.0f,0.5f,1.0f };
+		style->Colors[ImGuiCol_HeaderActive] = { 0.8f,0.2f,1.0f,1.0f };
+		style->Colors[ImGuiCol_HeaderHovered] = { 1.0f,0.0f,0.5f,1.0f };
+	
+		style->Colors[ImGuiCol_Button] = { 0.9f,0.0f,0.5f,1.0f };
+		style->Colors[ImGuiCol_ButtonActive] = { 0.8f,0.2f,1.0f,1.0f };
+		style->Colors[ImGuiCol_ButtonHovered] = { 1.0f,0.0f,0.5f,1.0f };
+	
+		style->Colors[ImGuiCol_FrameBg] = { 0.9f,0.0f,0.5f,1.0f };
+		style->Colors[ImGuiCol_FrameBgActive] = { 0.9f,0.0f,0.5f,1.0f };
+		style->Colors[ImGuiCol_FrameBgHovered] = { 0.9f,0.0f,0.5f,1.0f };
+	}
+	
 	else if (name == "ORANGE")
 	{
 		style->WindowPadding = ImVec2(15, 15);
@@ -151,6 +188,10 @@ void ModuleUI::StyleLoader(const char* name)
 		style->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
 		style->Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.92f, 0.31f, 0.16f, 0.80f);
 		style->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(0.92f, 0.31f, 0.16f, 0.80f);
+	}
+
+	else if (name = "CHRONOSTASIS") {
+		// TODO FOR NEXT ASSIGMENT
 	}
 
 }

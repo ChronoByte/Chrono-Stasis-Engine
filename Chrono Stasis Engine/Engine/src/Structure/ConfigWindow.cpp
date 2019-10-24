@@ -521,13 +521,14 @@ void ConfigWindow::GUIConfiguration()
 		ImGui::ShowStyleSelector("ImGui Style");
 		
 		static int style_idx = -1;
-		if (ImGui::Combo("Custom Style", &style_idx, "Orange\0Black\0Light\0"))
+		if (ImGui::Combo("Custom Style", &style_idx, "Pink King\0Orange\0Light\0"))
 		{
 			switch (style_idx)
 			{
-			case 0: App->gui->StyleLoader("ORANGE"); break;
-			case 1: App->gui->StyleLoader("BLACK"); break;
+			case 0: App->gui->StyleLoader("PINKKING"); break;
+			case 1: App->gui->StyleLoader("ORANGE"); break;
 			case 2: ImGui::StyleColorsLight(); break;
+
 			}
 			
 		}

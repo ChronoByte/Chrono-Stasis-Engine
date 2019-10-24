@@ -47,6 +47,10 @@
         "scene view": true,
         "collision":false,
         "random":false
+    },
+    "RendererGUI":
+    {
+        "style": "PINKKING"
     }
    
 }           
