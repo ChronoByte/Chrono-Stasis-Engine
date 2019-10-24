@@ -40,18 +40,18 @@ void ComponentMaterial::InspectorInfo()
 {
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		//if (ImGui::Checkbox("Active Component", &active)) {
+		ImGui::Checkbox("Mat", &active); // Can't repeat checkbox name (!!)
+		
+		ImGui::Text("Texture:");
+		ImGui::Image((ImTextureID*)2, ImVec2(150, 150));
 
-			ImGui::Text("Texture:");
-			ImGui::Image((ImTextureID*)2, ImVec2(150, 150));
-
-			if (ImGui::TreeNodeEx("Color", ImGuiTreeNodeFlags_DefaultOpen))
-			{
-				ImGui::ColorEdit3("", (float*)&color);
-				ImGui::TreePop();
-			}
-		//}
+		if (ImGui::TreeNodeEx("Color", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::ColorEdit3("", (float*)&color);
+			ImGui::TreePop();
+		}
+		//TODO: Set more info
 	}
-	//TODO: Set more info
+	
 	
 }

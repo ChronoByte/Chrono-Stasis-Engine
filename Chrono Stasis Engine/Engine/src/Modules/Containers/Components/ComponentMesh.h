@@ -61,7 +61,4 @@ public:
 	MeshInfo<float> faceNormals; 
 	MeshInfo<float> vertexNormals; 
 	MeshInfo<float> textureCoords;
-
-
-	const TextureInfo* tex = nullptr;
 };

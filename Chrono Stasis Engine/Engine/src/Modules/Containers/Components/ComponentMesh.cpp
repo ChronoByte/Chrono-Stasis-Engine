@@ -82,7 +82,7 @@ void ComponentMesh::Draw()
 		ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(owner->FindComponent(ComponentType::C_MATERIAL));
 		glColor3f(mat->GetColor().r, mat->GetColor().g, mat->GetColor().b);
 
-		if (mat->GetTexture() != nullptr && textureCoords.buffer != nullptr) // Perhaps this conditional should be less strictive
+		if (mat->GetTexture() != nullptr && textureCoords.buffer != nullptr && mat->isActive()) // Perhaps this conditional should be less strictive
 		{
 			// Enable Texture Coord array without a valid textureCoord buffer is boom
 			glEnableClientState(GL_TEXTURE_COORD_ARRAY); 
@@ -420,19 +420,18 @@ void ComponentMesh::CreateMeshBuffers()
 
 void ComponentMesh::InspectorInfo()
 {
-	if (ImGui::CollapsingHeader("Geometry", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		//if (ImGui::Checkbox("Active Component", &active)) {
+		ImGui::Checkbox("Active", &active);
 
-			ImGui::Text("Total Vertices:"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetVertices());
-			ImGui::Text("Total Indices:"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetIndices());
-			ImGui::Text("Total UV:"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTextureCoords());
-			ImGui::Text("Total Triangles:"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTriangles());
-		//}
+		ImGui::Text("Total Vertices:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetVertices());
+		ImGui::Text("Total Indices:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetIndices());
+		ImGui::Text("Total UV:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTextureCoords());
+		ImGui::Text("Total Triangles:"); ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTriangles());
 	}
 	//TODO: Add more info like normal checkbox, uv checkbox ...
 }

@@ -208,16 +208,12 @@ void GameObject::DrawInspectorComponents()
 	if (ImGui::InputText("name", buffer, 256, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		SetName(buffer);
 
+	std::list<Component*>::const_iterator it = components.begin();
+	for (it; it != components.end(); ++it)
+	{
+			(*it)->InspectorInfo();
 
-	if (isActive()) {
-
-		std::list<Component*>::const_iterator it = components.begin();
-		for (it; it != components.end(); ++it)
-		{
-			if ((*it)->isActive()) //Component active
-				(*it)->InspectorInfo();
-
-			ImGui::Separator();
-		}
+		ImGui::Separator();
 	}
+	
 }
