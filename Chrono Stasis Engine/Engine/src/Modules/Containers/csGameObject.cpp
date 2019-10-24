@@ -201,7 +201,7 @@ ComponentTransform * GameObject::GetTransform() const
 void GameObject::DrawInspectorComponents()
 {
 
-	ImGui::Checkbox("Game Object", &active); //GameObject active
+	ImGui::Checkbox("-", &active); //GameObject active
 	ImGui::SameLine();
 	char buffer[50]; 
 	strcpy(&buffer[0], name.c_str());

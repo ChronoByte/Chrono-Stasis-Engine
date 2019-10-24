@@ -10,27 +10,49 @@ ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 
 ComponentMesh::~ComponentMesh()
 {
+	// Delete vertex
 	if (vertex.buffer != nullptr)
 	{
 		delete[] vertex.buffer;
 		vertex.buffer = nullptr;
 	}
 	
+	// Delete Index
 	if (index.buffer != nullptr)
 	{
 		delete[] index.buffer;
 		index.buffer = nullptr;
 	}
+
+	// Delete Colors
 	if (colors.buffer != nullptr)
 	{
 		delete[] colors.buffer;
 		colors.buffer = nullptr;
 	}
+
+	// Delete Normals
 	if (normals.buffer != nullptr)
 	{
 		delete[] normals.buffer;
 		normals.buffer = nullptr;
 	}
+
+	// Delete Face Normals
+	if (faceNormals.buffer != nullptr)
+	{
+		delete[] faceNormals.buffer;
+		faceNormals.buffer = nullptr;
+	}
+
+	// Delete Vertex Normals
+	if (vertexNormals.buffer != nullptr)
+	{
+		delete[] vertexNormals.buffer;
+		vertexNormals.buffer = nullptr;
+	}
+
+	// Delete Texture Coords
 	if (textureCoords.buffer != nullptr)
 	{
 		delete[] textureCoords.buffer;
