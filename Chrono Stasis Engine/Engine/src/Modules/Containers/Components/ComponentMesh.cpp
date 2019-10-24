@@ -64,10 +64,10 @@ void ComponentMesh::Update(float dt)
 {
 	Draw(); 
 		
-	if (App->renderer3D->drawNormals)
+	if (App->renderer3D->drawNormals || drawVertexNormals)
 		DrawNormals();
 
-	if (App->renderer3D->drawVertexNormals)
+	if (App->renderer3D->drawVertexNormals || drawFaceNormals)
 		DrawVertexNormals();
 }
 
@@ -432,6 +432,10 @@ void ComponentMesh::InspectorInfo()
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTextureCoords());
 		ImGui::Text("Total Triangles:"); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTriangles());
+
+		ImGui::Checkbox("View Vertex Normals", &drawVertexNormals);
+		ImGui::SameLine(); 
+		ImGui::Checkbox("View Face Normals", &drawFaceNormals);
 	}
 	//TODO: Add more info like normal checkbox, uv checkbox ...
 }

@@ -107,6 +107,11 @@ void ModuleTextureLoader::LoadCheckeredTexture()
 	CreateTextureBuffers(testTexture); 
 }
 
+TextureInfo * ModuleTextureLoader::GetCheckersTexture() const
+{
+	return testTexture;
+}
+
 TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 {
 	TextureInfo* t = nullptr; 

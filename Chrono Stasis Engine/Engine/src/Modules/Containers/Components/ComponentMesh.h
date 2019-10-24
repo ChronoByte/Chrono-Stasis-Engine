@@ -61,4 +61,7 @@ public:
 	MeshInfo<float> faceNormals; 
 	MeshInfo<float> vertexNormals; 
 	MeshInfo<float> textureCoords;
+
+	bool drawVertexNormals = false;
+	bool drawFaceNormals = false; 
 };
