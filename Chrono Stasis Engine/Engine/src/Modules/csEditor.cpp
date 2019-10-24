@@ -18,6 +18,7 @@
 #include "src/Structure/InspectorWindow.h"
 #include "src/Structure/HierarchyWindow.h"
 #include "src/Structure/GeometryWindow.h"
+#include "src/Structure/SceneViewWindow.h"
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
@@ -39,6 +40,7 @@ bool ModuleEditor::Init(JSON_Object* node)
 	windows.push_back(geometryWin = new GeometryWindow(json_object_get_boolean(node, "geometry")));
 	windows.push_back(randomWin = new RandomWindow(json_object_get_boolean(node, "random")));
 	windows.push_back(collisionWin = new CollisionWindow(json_object_get_boolean(node, "collision")));
+	windows.push_back(sceneView = new SceneViewWindow(json_object_get_boolean(node, "scene view")));
 
 	return true;
 }
@@ -88,6 +90,8 @@ void ModuleEditor::Log(char * log) const
 	if (console != nullptr)
 		console->PushLog(log);
 }
+
+
 
 // Update
 update_status ModuleEditor::Update(float dt)
@@ -163,7 +167,7 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::End();
 	}
 		
-	//App->gui->DockLoader();
+	App->gui->DockLoader();
 	//DRAW ALL WINDOWS
 	std::vector<Window*>::iterator item = windows.begin();
 	for (int i = 0; i < windows.size(); i++)

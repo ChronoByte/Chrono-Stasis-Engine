@@ -63,7 +63,7 @@ public:
 	bool GetSpecularLight() const;
 
 	void ActiveLights(bool& enable);
-	
+
 public:
 
 	Light lights[MAX_LIGHTS];
@@ -88,4 +88,10 @@ public:
 	bool drawNormals = false; 
 	bool drawVertexNormals = false; 
 	bool drawBoundingBox = false;
+
+	GLuint frameBuffer = 0;
+	GLuint textureBuffer = 0;
+	GLuint depthStencilBuffer = 0;
+
+	bool can_resize = false;
 };

@@ -31,7 +31,9 @@ public:
 
 	bool Init(JSON_Object* node);
 	bool Start();
+	update_status PreUpdate();
 	update_status Update(float dt);
+	update_status PostUpdate();
 	bool CleanUp();
 
 	void RecursiveUpdate(GameObject* parent, float dt); 

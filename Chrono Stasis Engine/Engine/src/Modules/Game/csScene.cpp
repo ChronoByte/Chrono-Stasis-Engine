@@ -37,6 +37,12 @@ bool ModuleScene::Start()
 	return true;
 }
 
+update_status ModuleScene::PreUpdate()
+{
+	
+	return UPDATE_CONTINUE;
+}
+
 bool ModuleScene::CleanUp()
 {
 	delete root; 
@@ -46,6 +52,7 @@ bool ModuleScene::CleanUp()
 
 update_status ModuleScene::Update(float dt)
 {
+
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 		App->fbx->LoadModel("Assets/BakerHouse.FBX");
 	
@@ -75,6 +82,11 @@ update_status ModuleScene::Update(float dt)
 	RecursiveUpdate(root, dt);
 	//DirectDrawing(imageId);
 
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleScene::PostUpdate()
+{
 	return UPDATE_CONTINUE;
 }
 

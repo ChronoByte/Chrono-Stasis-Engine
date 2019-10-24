@@ -27,9 +27,9 @@ bool ModuleUI::Init(JSON_Object* node)
 	{
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
 		
-		//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable keyboard controls
-		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform 
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform 
 		io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
 		
 
@@ -61,6 +61,7 @@ update_status ModuleUI::PreUpdate(float dt)
 
 update_status ModuleUI::PostUpdate(float dt)
 {
+	
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 

@@ -39,11 +39,12 @@
     "Editor":
     {
         "about": false,
-        "configuration": false,
+        "configuration": true,
         "console": true,
         "geometry": false,
         "hierarchy":true,
         "inspector":true,
+        "scene view": true,
         "collision":false,
         "random":false
     }

@@ -23,7 +23,7 @@ class RandomWindow;
 class InspectorWindow;
 class HierarchyWindow; 
 class GeometryWindow; 
-
+class SceneViewWindow;
 class Window;
 
 enum WindowType
@@ -52,7 +52,6 @@ public:
 
 	void Log(char* log) const; 
 	
-	//void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 
 public:
 
@@ -64,6 +63,7 @@ public:
 	InspectorWindow*	inspector = nullptr;
 	HierarchyWindow*	hierarchy = nullptr; 
 	GeometryWindow*		geometryWin = nullptr; 
+	SceneViewWindow*	sceneView = nullptr;
 
 	bool show_demo_window = false;
 	bool show_style_window = false;
