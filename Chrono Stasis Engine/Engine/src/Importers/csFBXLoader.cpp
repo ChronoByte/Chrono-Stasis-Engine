@@ -75,18 +75,32 @@ update_status ModuleFBXLoader::PostUpdate(float dt)
 		{
 		case MODEL:
 		{
-			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+			//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
 
-			GameObject* go = nullptr;
-			go = App->fbx->LoadModel(App->input->file);
+			App->fbx->LoadModel(App->input->file);
 			break;
 		}
 		case TEXTURE:
 		{
-			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+			//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+			GameObject* go = App->editor->hierarchy->GetSelected();
 
-			TextureInfo* tex = nullptr;
-			tex = App->texture->LoadTexture(App->input->file);
+			if (go != nullptr && go != App->scene->GetRoot())
+			{
+				if (go->HasComponent(ComponentType::C_MATERIAL))
+				{
+					ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(go->FindComponent(ComponentType::C_MATERIAL));
+					mat->SetTexture(App->texture->LoadTexture(App->input->file));
+				}
+				else
+				{
+					ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
+					if(mat!=nullptr)
+						mat->SetTexture(App->texture->LoadTexture(App->input->file));
+				}
+			}
+			else LOG("Error applying texture: There was not a valid Game Object selected."); 
+
 			break;
 		}
 		case UNKNOWN:
