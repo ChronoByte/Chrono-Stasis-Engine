@@ -6,6 +6,8 @@
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 
+#include "src/Structure/HierarchyWindow.h"
+
 #pragma comment (lib, "Engine/Dependencies/Assimp/libx86/assimp.lib")
 
 ModuleFBXLoader::ModuleFBXLoader(bool start_enabled) : Module(start_enabled)
