@@ -104,8 +104,12 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 
 	case ComponentType::C_MATERIAL:
-		component = new ComponentMaterial(this);
-		components.push_back(component);
+		if (this->HasComponent(ComponentType::C_MESH))
+		{
+			component = new ComponentMaterial(this);
+			components.push_back(component);
+		}
+		else LOG("Error: Can not create a 'Component Material' to a Game Object without a 'Component Mesh'. ")
 		break;
 
 	case ComponentType::C_LIGHT:
@@ -197,11 +201,12 @@ ComponentTransform * GameObject::GetTransform() const
 void GameObject::DrawInspectorComponents()
 {
 
-	ImGui::Checkbox("go", &active); //GameObject active
+	ImGui::Checkbox("-", &active); //GameObject active
 	ImGui::SameLine();
-	char* NonConstName = (char*)&name; //vale la pena romper el const del name para hacer el inputText y usar std::string name? 
-	if (ImGui::InputText("name", NonConstName, 256, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
-		SetName(NonConstName);
+	char buffer[50]; 
+	strcpy(&buffer[0], name.c_str());
+	if (ImGui::InputText("name", buffer, 256, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
+		SetName(buffer);
 
 
 	if (isActive()) {

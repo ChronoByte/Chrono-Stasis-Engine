@@ -95,70 +95,119 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 	if (type == PrimitiveType::MAX)
 		return nullptr;
 
-	GameObject* go = CreateGameObject(parent, "Primitive");
-	ComponentMesh* mesh = new ComponentMesh(nullptr);
-
+	GameObject* go = nullptr;
+	ComponentMesh* mesh = nullptr;
 	par_shapes_mesh* shape = nullptr;
 
 	switch (type)
 	{
 	case PrimitiveType::CUBE:
-
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Cube");
+		mesh = new ComponentMesh(nullptr);
 		shape = par_shapes_create_cube(); 
+
+		// Load into GameObject
 		mesh->LoadMeshFromParShape(shape); 
 		go->AssignComponent(mesh); 
 		break;
 
 	case PrimitiveType::SPHERE:
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Sphere");
+		mesh = new ComponentMesh(nullptr);
 		shape = par_shapes_create_parametric_sphere(20,20);
+
+		// Load into GameObject
 		mesh->LoadMeshFromParShape(shape);
 		go->AssignComponent(mesh);
 		break;
 
 	case PrimitiveType::PLANE:
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Plane");
+		mesh = new ComponentMesh(nullptr);
 		shape = par_shapes_create_plane(50, 50);
+
+		// Load into GameObject
 		mesh->LoadMeshFromParShape(shape);
 		go->AssignComponent(mesh);
 		break;
 
 	case PrimitiveType::CYLINDER:
-		shape = par_shapes_create_cylinder(20,20);
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Cylinder");
+		mesh = new ComponentMesh(nullptr);
+		shape = par_shapes_create_cylinder(20, 20);
+
+		// Load into GameObject
 		mesh->LoadMeshFromParShape(shape);
 		go->AssignComponent(mesh);
 		break;
 
 	case PrimitiveType::CONE:
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Cone");
+		mesh = new ComponentMesh(nullptr);
 		shape = par_shapes_create_cone(20, 20);
+
+		// Load into GameObject
 		mesh->LoadMeshFromParShape(shape);
 		go->AssignComponent(mesh);
 		break;
 
 	case PrimitiveType::TORUS:
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Torus");
+		mesh = new ComponentMesh(nullptr);
 		shape = par_shapes_create_torus(10, 10, 1);
+
+		// Load into GameObject
 		mesh->LoadMeshFromParShape(shape);
 		go->AssignComponent(mesh);
 		break;
 
 	case PrimitiveType::KLEIN_BOTTLE:
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Klein Bottle");
+		mesh = new ComponentMesh(nullptr);
 		shape = par_shapes_create_klein_bottle(30, 30);
+
+		// Load into GameObject
 		mesh->LoadMeshFromParShape(shape);
 		go->AssignComponent(mesh);
 		break;
 
 	case PrimitiveType::TREFOIL_KNOT:
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Trefoil Knot");
+		mesh = new ComponentMesh(nullptr);
 		shape = par_shapes_create_trefoil_knot(30, 30, 3);
+
+		// Load into GameObject
 		mesh->LoadMeshFromParShape(shape);
 		go->AssignComponent(mesh);
 		break;
 
 	case PrimitiveType::HEMISPHERE:
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Hemisphere");
+		mesh = new ComponentMesh(nullptr);
+		shape = par_shapes_create_hemisphere(10, 10);
+
+		// Load into GameObject
 		shape = par_shapes_create_hemisphere(10, 10);
 		mesh->LoadMeshFromParShape(shape);
 		go->AssignComponent(mesh);
 		break;
 
 	case PrimitiveType::ROCK:
+		// Create Object + Component + Shape
+		go = CreateGameObject(parent, "Rock");
+		mesh = new ComponentMesh(nullptr);
 		shape = par_shapes_create_rock(8, 3);
+
+		// Load into GameObject
 		mesh->LoadMeshFromParShape(shape);
 		go->AssignComponent(mesh);
 		break;
