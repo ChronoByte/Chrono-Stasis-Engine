@@ -521,16 +521,31 @@ void ConfigWindow::GUIConfiguration()
 		ImGui::ShowStyleSelector("ImGui Style");
 		
 		static int style_idx = -1;
-		if (ImGui::Combo("Custom Style", &style_idx, "Pink King\0Orange\0Light\0"))
+		if (ImGui::Combo("library Style", &style_idx, "Unreal Engine\0Cherry\0Ocean\0Pink King\0Orange\0Default\0"))
 		{
 			switch (style_idx)
 			{
-			case 0: App->gui->StyleLoader("PINKKING"); break;
-			case 1: App->gui->StyleLoader("ORANGE"); break;
-			case 2: ImGui::StyleColorsLight(); break;
-
+			case 0: App->gui->StyleLoader("UNREAL"); break;
+			case 1: App->gui->StyleLoader("CHERRY"); break;
+			case 2: App->gui->StyleLoader("OCEAN"); break;
+			case 3: App->gui->StyleLoader("PINKKING"); break;
+			case 4: App->gui->StyleLoader("ORANGE"); break;
+			case 5: App->gui->StyleLoader("DEFAULT"); break;
+			
 			}
 			
+		}
+
+		static int style_idx2 = -1;
+		if (ImGui::Combo("Library Size", &style_idx2, "Set 1\0Default\0"))
+		{
+			switch (style_idx2)
+			{
+			case 0: App->gui->SizeLoader("SET1"); break;
+			case 1: App->gui->SizeLoader("DEFAULT"); break;
+
+			}
+
 		}
 
 		if (ImGui::SliderFloat("FrameRounding", &style.FrameRounding, 0.0f, 12.0f))

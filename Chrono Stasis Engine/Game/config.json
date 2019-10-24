@@ -4,8 +4,8 @@
 	{
       "Engine Name": "a que me cago en tu puta madre?",
       "Organization Name": "tu puta madre en patinete",
-      "Version": "0.0.3",
-      "Max FPS": 30,
+      "Version": "0.1.5",
+      "Max FPS": 60,
       "VSYNC": true
     },
     "Window": 
@@ -50,7 +50,8 @@
     },
     "RendererGUI":
     {
-        "style": "PINKKING"
+        "style": "UNREAL",
+        "size": "DEFAULT"
     }
    
 }           

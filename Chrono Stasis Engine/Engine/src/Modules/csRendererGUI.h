@@ -21,7 +21,8 @@ public:
 	update_status PostUpdate(float dt) override;
 	bool CleanUp() override;
 
-	void StyleLoader(const char* name);
+	void StyleLoader(const std::string name);
+	void SizeLoader(const std::string name);
 	void DockLoader();
 public:
 	ColorStyles color;
