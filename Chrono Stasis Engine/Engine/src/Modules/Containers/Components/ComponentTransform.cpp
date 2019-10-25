@@ -128,6 +128,8 @@ void ComponentTransform::InspectorInfo()
 
 			if (ImGui::InputFloat3("Scale", (float*)&scale, 2))
 				SetScale(scale);
+
+			ImGui::Checkbox("View Vertex Normals", &App->renderer3D->drawBoundingBox);
 		//}
 	}
 	// TODO: More info like bounding box..
