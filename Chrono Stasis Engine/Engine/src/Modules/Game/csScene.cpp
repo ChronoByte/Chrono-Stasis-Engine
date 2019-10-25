@@ -5,6 +5,7 @@
 #include "csTextureLoader.h"
 
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include "csGameObject.h"
 
@@ -98,6 +99,7 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 	GameObject* go = nullptr;
 	ComponentMesh* mesh = nullptr;
 	par_shapes_mesh* shape = nullptr;
+	BoundingBox boxParShape;
 
 	switch (type)
 	{
@@ -108,8 +110,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 		shape = par_shapes_create_cube(); 
 
 		// Load into GameObject
-		mesh->LoadMeshFromParShape(shape); 
+		mesh->LoadMeshFromParShape(shape, &boxParShape); 
 		go->AssignComponent(mesh); 
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	case PrimitiveType::SPHERE:
@@ -119,8 +123,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 		shape = par_shapes_create_parametric_sphere(20,20);
 
 		// Load into GameObject
-		mesh->LoadMeshFromParShape(shape);
+		mesh->LoadMeshFromParShape(shape, &boxParShape);
 		go->AssignComponent(mesh);
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	case PrimitiveType::PLANE:
@@ -130,8 +136,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 		shape = par_shapes_create_plane(50, 50);
 
 		// Load into GameObject
-		mesh->LoadMeshFromParShape(shape);
+		mesh->LoadMeshFromParShape(shape, &boxParShape);
 		go->AssignComponent(mesh);
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	case PrimitiveType::CYLINDER:
@@ -141,8 +149,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 		shape = par_shapes_create_cylinder(20, 20);
 
 		// Load into GameObject
-		mesh->LoadMeshFromParShape(shape);
+		mesh->LoadMeshFromParShape(shape, &boxParShape);
 		go->AssignComponent(mesh);
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	case PrimitiveType::CONE:
@@ -152,8 +162,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 		shape = par_shapes_create_cone(20, 20);
 
 		// Load into GameObject
-		mesh->LoadMeshFromParShape(shape);
+		mesh->LoadMeshFromParShape(shape, &boxParShape);
 		go->AssignComponent(mesh);
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	case PrimitiveType::TORUS:
@@ -163,8 +175,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 		shape = par_shapes_create_torus(10, 10, 1);
 
 		// Load into GameObject
-		mesh->LoadMeshFromParShape(shape);
+		mesh->LoadMeshFromParShape(shape, &boxParShape);
 		go->AssignComponent(mesh);
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	case PrimitiveType::KLEIN_BOTTLE:
@@ -174,8 +188,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 		shape = par_shapes_create_klein_bottle(30, 30);
 
 		// Load into GameObject
-		mesh->LoadMeshFromParShape(shape);
+		mesh->LoadMeshFromParShape(shape, &boxParShape);
 		go->AssignComponent(mesh);
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	case PrimitiveType::TREFOIL_KNOT:
@@ -185,8 +201,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 		shape = par_shapes_create_trefoil_knot(30, 30, 3);
 
 		// Load into GameObject
-		mesh->LoadMeshFromParShape(shape);
+		mesh->LoadMeshFromParShape(shape, &boxParShape);
 		go->AssignComponent(mesh);
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	case PrimitiveType::HEMISPHERE:
@@ -197,8 +215,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 
 		// Load into GameObject
 		shape = par_shapes_create_hemisphere(10, 10);
-		mesh->LoadMeshFromParShape(shape);
+		mesh->LoadMeshFromParShape(shape, &boxParShape);
 		go->AssignComponent(mesh);
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	case PrimitiveType::ROCK:
@@ -208,8 +228,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 		shape = par_shapes_create_rock(8, 3);
 
 		// Load into GameObject
-		mesh->LoadMeshFromParShape(shape);
+		mesh->LoadMeshFromParShape(shape, &boxParShape);
 		go->AssignComponent(mesh);
+		boxParShape.box = AABB(boxParShape.min, boxParShape.max);
+		go->GetTransform()->SetBoundingBox(boxParShape.box);
 		break;
 
 	default:

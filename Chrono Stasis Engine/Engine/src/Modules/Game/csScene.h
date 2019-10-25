@@ -4,6 +4,7 @@
 #include "csGlobals.h"
 
 class GameObject;
+class BoundingBox;
 
 enum class PrimitiveType
 {
@@ -48,4 +49,5 @@ public:
 private:
 	//vars
 	GameObject* root = nullptr; 
+	
 };

@@ -6,11 +6,12 @@
 // TO DO: Add forward declaration so it doesnt
 // have to include par_shapes
 #include "par/par_shapes.h"
-
+#include "MathGeoLib/include/Math/float3.h"
 //struct par_shapes_mesh; 
 
 class aiMesh; 
 class TextureInfo; 
+struct BoundingBox;
 
 template<typename T>
 struct MeshInfo
@@ -41,7 +42,7 @@ public:
 	void LoadMeshColors(aiMesh* mesh, int index);
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 
-	void LoadMeshFromParShape(par_shapes_mesh* shape);
+	void LoadMeshFromParShape(par_shapes_mesh* shape, BoundingBox* shapeBB);
 
 	void CreateMeshBuffers(); 
 
@@ -64,4 +65,6 @@ public:
 
 	bool drawVertexNormals = false;
 	bool drawFaceNormals = false; 
+
+	
 };

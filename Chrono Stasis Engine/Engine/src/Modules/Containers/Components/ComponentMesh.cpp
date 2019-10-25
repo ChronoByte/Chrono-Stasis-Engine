@@ -297,10 +297,17 @@ void ComponentMesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 	//LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
 }
 
-void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape)
+void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape, BoundingBox* shapeBB)
 {
 	par_shapes_unweld(shape, true);
 	par_shapes_compute_normals(shape);
+
+	
+	if (shape->npoints > 0)
+	{
+		shapeBB->min = float3(shape->points[0], shape->points[1], shape->points[2]);
+		shapeBB->max = float3(shape->points[0], shape->points[1], shape->points[2]);
+	}
 
 	// Vertex Buffer
 	vertex.capacity = shape->npoints;
@@ -333,6 +340,17 @@ void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape)
 
 	// Face Normals
 	LoadMeshFaceNormals(); 
+
+	
+	//Bounding Box
+	for (uint i = 0; i < shape->npoints; i += 3)
+	{
+		float3 vec(shape->points[i], shape->points[i + 1], shape->points[i + 2]);
+
+		shapeBB->min = shapeBB->min.Min(vec);
+		shapeBB->max = shapeBB->max.Max(vec);
+	}
+
 
 	CreateMeshBuffers();
 }
@@ -417,6 +435,7 @@ void ComponentMesh::CreateMeshBuffers()
 	}
 	else LOG("There's no data to create Colors buffer");
 }
+
 
 void ComponentMesh::InspectorInfo()
 {

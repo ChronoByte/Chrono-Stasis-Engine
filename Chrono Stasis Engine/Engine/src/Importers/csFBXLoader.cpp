@@ -179,7 +179,7 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 
 		newGo->GetTransform()->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
 		newGo->GetTransform()->SetBoundingBox(bounding_box.box);
-
+		
 		//-----------------------------------
 		
 		
