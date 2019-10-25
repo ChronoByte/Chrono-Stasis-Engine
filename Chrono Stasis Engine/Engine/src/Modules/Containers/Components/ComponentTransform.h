@@ -47,4 +47,5 @@ private:
 	float3   scale = float3::zero;
 
 	AABB bounding_box;
+	bool drawBoundingBox = false;
 };

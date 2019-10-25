@@ -12,7 +12,7 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Update(float dt)
 {
-	if (App->renderer3D->drawBoundingBox)
+	if (App->renderer3D->drawBoundingBox || drawBoundingBox)
 		 DrawBoundingBox(); 
 
 }
@@ -129,7 +129,7 @@ void ComponentTransform::InspectorInfo()
 			if (ImGui::InputFloat3("Scale", (float*)&scale, 2))
 				SetScale(scale);
 
-			ImGui::Checkbox("View Vertex Normals", &App->renderer3D->drawBoundingBox);
+			ImGui::Checkbox("View Bounding Box", &drawBoundingBox);
 		//}
 	}
 	// TODO: More info like bounding box..
