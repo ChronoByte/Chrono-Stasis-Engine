@@ -62,8 +62,8 @@ public:
 	SDL_Surface* iconEngine = nullptr;
 
 	//------TODO: JSON LOADER-------//
-	int width = SCREEN_WIDTH * SCREEN_SIZE;
-	int height = SCREEN_HEIGHT * SCREEN_SIZE;
+	int width;
+	int height;
 
 	uint size = SCREEN_SIZE;
 

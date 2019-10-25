@@ -43,8 +43,10 @@ bool ModuleWindow::Init(JSON_Object* node)
 		iconEngine = SDL_LoadBMP("icon1.bmp");
 
 		//Create window
-		int width = SCREEN_WIDTH * SCREEN_SIZE;
-		int height = SCREEN_HEIGHT * SCREEN_SIZE;
+		width *= size;
+		height *= size;
+		//int w = SCREEN_WIDTH * SCREEN_SIZE;
+		//int h = SCREEN_HEIGHT * SCREEN_SIZE;
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
