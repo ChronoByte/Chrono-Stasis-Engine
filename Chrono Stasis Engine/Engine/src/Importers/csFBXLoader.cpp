@@ -57,7 +57,9 @@ update_status ModuleFBXLoader::Update(float dt)
 			type = FileType::MODEL;
 		}
 
-		if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") || !extension.compare(".TGA") || !extension.compare(".dds"))
+		if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") || 
+			!extension.compare(".TGA") || !extension.compare(".dds") || 
+			!extension.compare(".jpg") || !extension.compare(".JPG"))
 		{
 			type = FileType::TEXTURE;
 		}
@@ -144,12 +146,16 @@ void ModuleFBXLoader::FBXModelImport(const char* fbx_name)
 
 GameObject* ModuleFBXLoader::LoadModel(const char* path)
 {
-	newGo = App->scene->CreateGameObject(nullptr, path);
 
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		std::string name;
+		App->fs->GetNameFile(path, name);
+		newGo = App->scene->CreateGameObject(nullptr, name.c_str());
+
+		LOG("-----------------------------")
 		LOG("Loading FBX Model with path: %s", path);
 		SetBoundingBox(scene);
 		
@@ -177,12 +183,17 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		//-----------------------------------
 		
 		
-		
+		LOG("-----------------------------");
+
 		aiReleaseImport(scene);
 
 		return newGo;
 	}
-
+	else
+	{
+		LOG("Error: FBX format not valid.");
+		return nullptr;
+	}
 }
 
 void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
@@ -203,10 +214,13 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 		aiString fileName;
 		material->GetTexture(aiTextureType_DIFFUSE, 0, &fileName);
 
-		std::string newPath = filePath + fileName.C_Str(); 
-		ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
-		myMaterial->SetTexture(App->texture->LoadTexture(newPath.c_str()));	
-
+		if (strcmp(fileName.C_Str(), "") != 0) 
+		{
+			std::string newPath = filePath + fileName.C_Str(); 
+			ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
+			myMaterial->SetTexture(App->texture->LoadTexture(newPath.c_str()));	
+		}
+		else LOG("FBX does not have a embedded Texture");
 		// TODO: Get the path correctly. 
 		// TODO: Save created textures, so no need to load multiple times same texture
 		// TODO: Ugly Code 

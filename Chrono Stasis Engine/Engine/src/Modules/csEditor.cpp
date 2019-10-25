@@ -32,10 +32,10 @@ ModuleEditor::~ModuleEditor()
 bool ModuleEditor::Init(JSON_Object* node)
 {
 
+	windows.push_back(config = new ConfigWindow(json_object_get_boolean(node, "configuration")));
 	windows.push_back(inspector = new InspectorWindow(json_object_get_boolean(node, "inspector")));
 	windows.push_back(hierarchy = new HierarchyWindow(json_object_get_boolean(node, "hierarchy")));
 	windows.push_back(console = new ConsoleWindow(json_object_get_boolean(node, "console")));
-	windows.push_back(config = new ConfigWindow(json_object_get_boolean(node, "configuration")));
 	windows.push_back(about = new AboutWindow(json_object_get_boolean(node, "about")));
 	windows.push_back(geometryWin = new GeometryWindow(json_object_get_boolean(node, "geometry")));
 	windows.push_back(randomWin = new RandomWindow(json_object_get_boolean(node, "random")));

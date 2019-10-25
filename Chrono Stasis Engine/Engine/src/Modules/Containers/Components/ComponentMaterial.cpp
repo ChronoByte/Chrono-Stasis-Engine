@@ -41,11 +41,14 @@ void ComponentMaterial::InspectorInfo()
 {
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::Checkbox("Mat", &active); // Can't repeat checkbox name (!!)
+		ImGui::Checkbox("Active Material", &active); // Can't repeat checkbox name (!!)
 		
 		ImGui::Text("Texture:");
 		if (texture != nullptr)
+		{
 			ImGui::Image((ImTextureID*)texture->id, ImVec2(150, 150));
+			ImGui::Text("Texture size: %ix%i", texture->width, texture->height);
+		}
 
 		ImGui::Checkbox("Checkers Texture", &checkers);
 
