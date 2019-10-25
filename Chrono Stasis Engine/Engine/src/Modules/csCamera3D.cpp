@@ -10,16 +10,28 @@ ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 
 	CalculateViewMatrix();
 
-	X = vec3(1.0f, 0.0f, 0.0f);
-	Y = vec3(0.0f, 1.0f, 0.0f);
-	Z = vec3(0.0f, 0.0f, 1.0f);
-
-	Position = vec3(0.0f, 5.0f, 10.0f);
-	Reference = vec3(0.0f, 0.0f, 0.0f);
 }
 
 ModuleCamera3D::~ModuleCamera3D()
 {}
+
+bool ModuleCamera3D::Init(JSON_Object* node)
+{
+	X = vec3(json_object_dotget_number(node, "X.x"), json_object_dotget_number(node, "X.y"), json_object_dotget_number(node, "X.z"));
+	Y = vec3(json_object_dotget_number(node, "Y.x"), json_object_dotget_number(node, "Y.y"), json_object_dotget_number(node, "Y.z"));
+	Z = vec3(json_object_dotget_number(node, "Z.x"), json_object_dotget_number(node, "Z.y"), json_object_dotget_number(node, "Z.z"));
+	
+	Position = vec3(json_object_dotget_number(node, "position.x"), json_object_dotget_number(node, "position.y"), json_object_dotget_number(node, "position.z"));
+	Reference = vec3(json_object_dotget_number(node, "reference.x"), json_object_dotget_number(node, "reference.y"), json_object_dotget_number(node, "reference.z"));
+	LookAt(Reference);
+	
+	cameraSpeed = json_object_get_number(node, "cameraSpeed");
+    mouseSensitivity = json_object_get_number(node, "mouseSensitivity");
+	wheelSensitivity = json_object_get_number(node, "wheelSensitivity");
+	zoomSpeed = json_object_get_number(node, "zoomSpeed");
+
+	return true;
+}
 
 // -----------------------------------------------------------------
 bool ModuleCamera3D::Start()
@@ -45,8 +57,8 @@ update_status ModuleCamera3D::Update(float dt)
 	// Now we can make this movememnt frame rate independant!
 
 	vec3 newPos(0,0,0);
-	float speed = 5.f * dt;
-	float zoom_speed = 10.f;
+	float speed = cameraSpeed * dt;
+	
 
 	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 		speed = 20.0f * dt;
@@ -61,8 +73,8 @@ update_status ModuleCamera3D::Update(float dt)
 	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
 
 	// ZOOM IN / ZOOM OUT (MOUSE WHEEL)
-	if (App->input->GetMouseZ() > 0) newPos -= Z * speed * zoom_speed;
-	if (App->input->GetMouseZ() < 0) newPos += Z * speed * zoom_speed;
+	if (App->input->GetMouseZ() > 0) newPos -= Z * speed * zoomSpeed;
+	if (App->input->GetMouseZ() < 0) newPos += Z * speed * zoomSpeed;
 
 	// FOCUS ON OBJECT (F)
 	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) FocusAtObject();
@@ -70,96 +82,39 @@ update_status ModuleCamera3D::Update(float dt)
 	Position += newPos;
 	Reference += newPos;
 
-	// Mouse motion ----------------
+	// ROTATION & ORBITATION (RIGHT CLICK / RIGHT CLICK + LALT)
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 
-	//---------------STATIC ROTATION---------------//
-	if(App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
-	{
-		int dx = -App->input->GetMouseXMotion();
-		int dy = -App->input->GetMouseYMotion();
-
-		float Sensitivity = 0.25f;
-
-		
-		if(dx != 0)
-		{
-			float DeltaX = (float)dx * Sensitivity;
-
-			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+		if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) {
+			orbit = true;
+			Position = Reference + DistanceFromOrthonormalBasis();
 		}
 
-		if(dy != 0)
-		{
-			float DeltaY = (float)dy * Sensitivity;
-
-			Y = rotate(Y, DeltaY, X);
-			Z = rotate(Z, DeltaY, X);
-
-			if(Y.y < 0.0f)
-			{
-				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = cross(Z, X);
-			}
+		else {
+			orbit = false;
+			Reference = Position - DistanceFromOrthonormalBasis();
 		}
-
-		
+		 
 	}
-	//---------------ORBIT ROTATION---------------//
-	 if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-	{
 
-		int dx = -App->input->GetMouseXMotion();
-		int dy = -App->input->GetMouseYMotion();
-
-		float Sensitivity = 0.25f;
-
-		Position -= Reference;
-
-		if (dx != 0)
-		{
-			float DeltaX = (float)dx * Sensitivity;
-
-			X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-			Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		}
-
-		if (dy != 0)
-		{
-			float DeltaY = (float)dy * Sensitivity;
-
-			Y = rotate(Y, DeltaY, X);
-			Z = rotate(Z, DeltaY, X);
-
-			if (Y.y < 0.0f)
-			{
-				Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-				Y = cross(Z, X);
-			}
-		}
-
-		Position = Reference + Z * length(Position);
-	}
 	//--------------- PANNING MOVEMENT ---------------//
 	else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 	{
 		int dx = -App->input->GetMouseXMotion();
 		int dy = App->input->GetMouseYMotion();
 
-		float Sensitivity = 0.01f;
 		
 		if (dx != 0 || dy != 0)
 		{
-			float DeltaX = (float)dx * Sensitivity;
-			float DeltaY = (float)dy * Sensitivity;
+			float DeltaX = (float)dx * wheelSensitivity;
+			float DeltaY = (float)dy * wheelSensitivity;
 
 			newPos += X * DeltaX;
 			newPos += Y * DeltaY;
 
 			Position += newPos;
 			Reference += newPos;
+
 		}
 	}
 
@@ -234,6 +189,44 @@ void ModuleCamera3D::FocusAtObject()
 
 
 
+}
+
+vec3 ModuleCamera3D::DistanceFromOrthonormalBasis()
+{
+	int dx = -App->input->GetMouseXMotion();
+	int dy = -App->input->GetMouseYMotion();
+	
+	vec3 direction;
+	if(orbit) direction = Position - Reference;
+	else  direction = Reference - Position;
+
+	
+	if (dx != 0)
+	{
+		float DeltaX = (float)dx * mouseSensitivity;
+
+		X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+		Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+		Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
+	}
+
+	if (dy != 0)
+	{
+		float DeltaY = (float)dy * mouseSensitivity;
+
+		Y = rotate(Y, DeltaY, X);
+		Z = rotate(Z, DeltaY, X);
+
+		if (Y.y < 0.0f)
+		{
+			Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+			Y = cross(Z, X);
+		}
+	}
+
+	
+	 return Z * length(direction);
+	
 }
 
 // -----------------------------------------------------------------
