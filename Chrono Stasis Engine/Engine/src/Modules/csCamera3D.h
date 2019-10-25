@@ -38,6 +38,8 @@ public:
 	float wheelSensitivity = 0;
 	float zoomSpeed = 0;
 
+	bool cameraControls = false;
+
 private:
 
 	mat4x4 ViewMatrix, ViewMatrixInverse;

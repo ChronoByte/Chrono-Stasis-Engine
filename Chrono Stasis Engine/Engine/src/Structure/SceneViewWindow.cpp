@@ -19,6 +19,11 @@ void SceneViewWindow::Draw()
 	ImVec2 current_viewport_size = ImGui::GetContentRegionAvail();
 	ImGui::Image((ImTextureID)App->renderer3D->textureBuffer, { (float)App->window->width, (float)App->window->height }, { 0,1 }, { 1,0 });
 	//ImGui::Image((ImTextureID)App->renderer3D->textureBuffer, ImVec2(current_viewport_size.x, current_viewport_size.y), { 0,1 }, { 1,0 });
+
+	if (ImGui::IsWindowHovered())
+		App->camera->cameraControls = true;
+	else 
+		App->camera->cameraControls = false;
 	
 
 	ImGui::End();
