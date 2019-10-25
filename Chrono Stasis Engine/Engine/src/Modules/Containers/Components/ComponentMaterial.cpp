@@ -1,8 +1,10 @@
 #include "ComponentMaterial.h"
+#include "csApp.h"
 
 ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 {
 	type = ComponentType::C_MATERIAL;
+	checkersTex = App->texture->testTexture;
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -21,7 +23,7 @@ Color ComponentMaterial::GetColor() const
 
 const TextureInfo* ComponentMaterial::GetTexture() const
 {
-	return texture;
+	return checkers ? checkersTex : texture;
 }
 
 void ComponentMaterial::SetTexture(TextureInfo* texture)
@@ -31,7 +33,6 @@ void ComponentMaterial::SetTexture(TextureInfo* texture)
 
 void ComponentMaterial::SetMaterial(TextureInfo* texture, float r, float g, float b, float a)
 {
-	
 	SetTexture(texture);
 	SetColor(r, g, b, a);
 }
@@ -40,18 +41,22 @@ void ComponentMaterial::InspectorInfo()
 {
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::Checkbox("Mat", &active); // Can't repeat checkbox name (!!)
+		ImGui::Checkbox("Active Material", &active); // Can't repeat checkbox name (!!)
 		
 		ImGui::Text("Texture:");
-		ImGui::Image((ImTextureID*)3, ImVec2(150, 150));
+		if (texture != nullptr)
+		{
+			ImGui::Image((ImTextureID*)texture->id, ImVec2(150, 150));
+			ImGui::Text("Texture size: %ix%i", texture->width, texture->height);
+		}
+
+		ImGui::Checkbox("Checkers Texture", &checkers);
 
 		if (ImGui::TreeNodeEx("Color", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			ImGui::ColorEdit3("", (float*)&color);
 			ImGui::TreePop();
 		}
-		//TODO: Set more info
 	}
-	
-	
+	//TODO: Set more info
 }

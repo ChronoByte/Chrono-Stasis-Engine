@@ -107,6 +107,11 @@ void ModuleTextureLoader::LoadCheckeredTexture()
 	CreateTextureBuffers(testTexture); 
 }
 
+TextureInfo * ModuleTextureLoader::GetCheckersTexture() const
+{
+	return testTexture;
+}
+
 TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 {
 	TextureInfo* t = nullptr; 
@@ -114,7 +119,7 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 
 	ilGenImages(1, &imageID);
 	ilBindImage(imageID);
-	LOG("Loading texture with path: %s", tex_file); 
+	LOG("Loading texture at: %s", tex_file); 
 	if ((bool)ilLoadImage(tex_file))
 	{
 		//Checking image origin

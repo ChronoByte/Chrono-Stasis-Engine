@@ -64,10 +64,10 @@ void ComponentMesh::Update(float dt)
 {
 	Draw(); 
 		
-	if (App->renderer3D->drawNormals)
+	if (App->renderer3D->drawNormals || drawVertexNormals)
 		DrawNormals();
 
-	if (App->renderer3D->drawVertexNormals)
+	if (App->renderer3D->drawVertexNormals || drawFaceNormals)
 		DrawVertexNormals();
 }
 
@@ -154,7 +154,7 @@ void ComponentMesh::LoadMeshVertices(aiMesh* mesh)
 	vertex.buffer = new float[vertex.capacity * 3];
 	memcpy(vertex.buffer, mesh->mVertices, sizeof(float) * vertex.capacity * 3);
 
-	LOG("New mesh loaded with %d vertices", vertex.capacity);
+	//LOG("New mesh loaded with %d vertices", vertex.capacity);
 }
 
 void ComponentMesh::LoadMeshIndices(aiMesh* mesh)
@@ -170,7 +170,7 @@ void ComponentMesh::LoadMeshIndices(aiMesh* mesh)
 	
 		else memcpy(&index.buffer[i * 3], mesh->mFaces[i].mIndices, 3 * sizeof(uint));
 	}
-	LOG("New mesh loaded with %d indices", index.capacity);
+	//LOG("New mesh loaded with %d indices", index.capacity);
 
 	// ---------- Load Face Normals  ----------
 
@@ -182,7 +182,7 @@ void ComponentMesh::LoadMeshNormals(aiMesh* mesh)
 	normals.capacity = mesh->mNumVertices * 3;
 	normals.buffer = new float[normals.capacity];
 	memcpy(normals.buffer, mesh->mNormals, sizeof(float) * normals.capacity);
-	LOG("New mesh loaded with %d normals", normals.capacity);
+	//LOG("New mesh loaded with %d normals", normals.capacity);
 
 
 	// ---------- Load Vertex Normals  ----------
@@ -271,7 +271,7 @@ void ComponentMesh::LoadMeshVertexNormals()
 		memcpy(&vertexNormals.buffer[i + 5], new float(vertex.buffer[j + 2] + normals.buffer[j + 2] * normalSize), sizeof(float));
 		j += 3;
 	}
-	LOG("New mesh loaded with %d Vertex Normals", vertexNormals.capacity);
+	//LOG("New mesh loaded with %d Vertex Normals", vertexNormals.capacity);
 }
 
 void ComponentMesh::LoadMeshColors(aiMesh* mesh, int index)
@@ -279,7 +279,7 @@ void ComponentMesh::LoadMeshColors(aiMesh* mesh, int index)
 	colors.capacity = mesh->mNumVertices;
 	colors.buffer = new float[colors.capacity * 4]; // (r,g,b,a) for each vertex
 	memcpy(colors.buffer, mesh->mColors[index], sizeof(float) * colors.capacity * 4);
-	LOG("New mesh loaded with %d colors", colors.capacity);
+	//LOG("New mesh loaded with %d colors", colors.capacity);
 }
 
 void ComponentMesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
@@ -294,7 +294,7 @@ void ComponentMesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 		memcpy(&textureCoords.buffer[j + 1], &mesh->mTextureCoords[index][i].y, sizeof(float));
 		j += 2; 
 	}
-	LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
+	//LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
 }
 
 void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape)
@@ -420,7 +420,7 @@ void ComponentMesh::CreateMeshBuffers()
 
 void ComponentMesh::InspectorInfo()
 {
-	if (ImGui::CollapsingHeader("Mesh", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("Active Mesh", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::Checkbox("Active", &active);
 
@@ -432,6 +432,10 @@ void ComponentMesh::InspectorInfo()
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTextureCoords());
 		ImGui::Text("Total Triangles:"); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTriangles());
+
+		ImGui::Checkbox("View Vertex Normals", &drawVertexNormals);
+		ImGui::SameLine(); 
+		ImGui::Checkbox("View Face Normals", &drawFaceNormals);
 	}
 	//TODO: Add more info like normal checkbox, uv checkbox ...
 }

@@ -29,6 +29,7 @@ public:
 
 public:
 	void LoadCheckeredTexture();
+	TextureInfo* GetCheckersTexture() const; 
 	TextureInfo* LoadTexture(const char* tex_file);
 	void CreateTextureBuffers(TextureInfo* tex);
 	void StorageTextureData(TextureInfo* tex);

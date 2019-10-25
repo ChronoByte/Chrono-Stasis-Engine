@@ -98,9 +98,6 @@ Component * GameObject::CreateComponent(ComponentType type)
 
 	case ComponentType::C_TRANSFORM:
 		LOG("Transform Component Is already created for each Game Object.");
-		/*component = new ComponentTransform(this);
-		transform = dynamic_cast<ComponentTransform*>(component); 
-		components.push_back(component);*/
 		break;
 
 	case ComponentType::C_MATERIAL:
@@ -203,7 +200,7 @@ void GameObject::DrawInspectorComponents()
 
 	ImGui::Checkbox("-", &active); //GameObject active
 	ImGui::SameLine();
-	char buffer[50]; 
+	char buffer[256]; 
 	strcpy(&buffer[0], name.c_str());
 	if (ImGui::InputText("name", buffer, 256, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		SetName(buffer);

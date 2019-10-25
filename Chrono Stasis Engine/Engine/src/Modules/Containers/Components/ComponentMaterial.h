@@ -32,5 +32,7 @@ public:
 private:
 	Color color;
 	TextureInfo* texture = nullptr; 
-	
+	TextureInfo* checkersTex = nullptr; 
+
+	bool checkers = false; 
 };

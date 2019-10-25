@@ -6,6 +6,8 @@
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 
+#include "src/Structure/HierarchyWindow.h"
+
 #pragma comment (lib, "Engine/Dependencies/Assimp/libx86/assimp.lib")
 
 ModuleFBXLoader::ModuleFBXLoader(bool start_enabled) : Module(start_enabled)
@@ -55,7 +57,9 @@ update_status ModuleFBXLoader::Update(float dt)
 			type = FileType::MODEL;
 		}
 
-		if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") || !extension.compare(".TGA") || !extension.compare(".dds"))
+		if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") || 
+			!extension.compare(".TGA") || !extension.compare(".dds") || 
+			!extension.compare(".jpg") || !extension.compare(".JPG"))
 		{
 			type = FileType::TEXTURE;
 		}
@@ -75,18 +79,32 @@ update_status ModuleFBXLoader::PostUpdate(float dt)
 		{
 		case MODEL:
 		{
-			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+			//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
 
-			GameObject* go = nullptr;
-			go = App->fbx->LoadModel(App->input->file);
+			App->fbx->LoadModel(App->input->file);
 			break;
 		}
 		case TEXTURE:
 		{
-			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+			//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+			GameObject* go = App->editor->hierarchy->GetSelected();
 
-			TextureInfo* tex = nullptr;
-			tex = App->texture->LoadTexture(App->input->file);
+			if (go != nullptr && go != App->scene->GetRoot())
+			{
+				if (go->HasComponent(ComponentType::C_MATERIAL))
+				{
+					ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(go->FindComponent(ComponentType::C_MATERIAL));
+					mat->SetTexture(App->texture->LoadTexture(App->input->file));
+				}
+				else
+				{
+					ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
+					if(mat!=nullptr)
+						mat->SetTexture(App->texture->LoadTexture(App->input->file));
+				}
+			}
+			else LOG("Error applying texture: There was not a valid Game Object selected."); 
+
 			break;
 		}
 		case UNKNOWN:
@@ -128,12 +146,16 @@ void ModuleFBXLoader::FBXModelImport(const char* fbx_name)
 
 GameObject* ModuleFBXLoader::LoadModel(const char* path)
 {
-	newGo = App->scene->CreateGameObject(nullptr, path);
 
 	const aiScene* scene = aiImportFile(path, aiProcessPreset_TargetRealtime_MaxQuality);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
+		std::string name;
+		App->fs->GetNameFile(path, name);
+		newGo = App->scene->CreateGameObject(nullptr, name.c_str());
+
+		LOG("-----------------------------")
 		LOG("Loading FBX Model with path: %s", path);
 		SetBoundingBox(scene);
 		
@@ -161,12 +183,17 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		//-----------------------------------
 		
 		
-		
+		LOG("-----------------------------");
+
 		aiReleaseImport(scene);
 
 		return newGo;
 	}
-
+	else
+	{
+		LOG("Error: FBX format not valid.");
+		return nullptr;
+	}
 }
 
 void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
@@ -187,10 +214,13 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 		aiString fileName;
 		material->GetTexture(aiTextureType_DIFFUSE, 0, &fileName);
 
-		std::string newPath = filePath + fileName.C_Str(); 
-		ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
-		myMaterial->SetTexture(App->texture->LoadTexture(newPath.c_str()));	
-
+		if (strcmp(fileName.C_Str(), "") != 0) 
+		{
+			std::string newPath = filePath + fileName.C_Str(); 
+			ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
+			myMaterial->SetTexture(App->texture->LoadTexture(newPath.c_str()));	
+		}
+		else LOG("FBX does not have a embedded Texture");
 		// TODO: Get the path correctly. 
 		// TODO: Save created textures, so no need to load multiple times same texture
 		// TODO: Ugly Code 
