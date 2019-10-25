@@ -182,7 +182,7 @@ void ModuleCamera3D::FocusAtObject()
 		vec3 direction = Position - object;
 		direction = normalize(direction) * 10;
 	
-		Position.Set(direction.x, direction.y, direction.z);
+		Position.Set(center.x + direction.x,center.y + direction.y,center.z + direction.z);
 		LookAt(vec3(center.x,center.y,center.z));
 
 		/*float3 center = box->Centroid();
@@ -197,8 +197,6 @@ void ModuleCamera3D::FocusAtObject()
 		LookAt(vec3(center.x, center.y, center.z));*/
 
 	}
-
-
 
 }
 
