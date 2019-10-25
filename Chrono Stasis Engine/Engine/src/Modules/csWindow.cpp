@@ -40,6 +40,7 @@ bool ModuleWindow::Init(JSON_Object* node)
 
 		brightness = json_object_get_number(node, "Brightness");
 
+		iconEngine = SDL_LoadBMP("icon1.bmp");
 
 		//Create window
 		int width = SCREEN_WIDTH * SCREEN_SIZE;
@@ -76,7 +77,7 @@ bool ModuleWindow::Init(JSON_Object* node)
 
 
 		window = SDL_CreateWindow(App->engine_title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
-
+		SDL_SetWindowIcon(window, iconEngine);
 		if(window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -102,6 +103,9 @@ bool ModuleWindow::CleanUp()
 	{
 		SDL_DestroyWindow(window);
 	}
+
+	if (iconEngine != NULL)
+		SDL_FreeSurface(iconEngine);
 
 	//Quit SDL subsystems
 	SDL_Quit();

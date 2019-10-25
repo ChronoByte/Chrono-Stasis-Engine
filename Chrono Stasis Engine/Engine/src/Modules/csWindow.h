@@ -59,6 +59,8 @@ public:
 	//The surface contained by the window
 	SDL_Surface* screen_surface = nullptr;
 
+	SDL_Surface* iconEngine = nullptr;
+
 	//------TODO: JSON LOADER-------//
 	int width = SCREEN_WIDTH * SCREEN_SIZE;
 	int height = SCREEN_HEIGHT * SCREEN_SIZE;
