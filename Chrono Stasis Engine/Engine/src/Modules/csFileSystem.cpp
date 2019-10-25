@@ -48,19 +48,20 @@ bool ModuleFileSystem::Start()
 	App->fs->GenerateDirectory(MATERIAL_DIR);
 
 
-	//EXIST FILE TEST
-	bool test1 = false;
-	test1 = FileExist("test.txt");
-	LOG("FILESYSTEM: txt: %d", test1);
+	////WRITING FILE TEST
+	//char* text = "Testing PhysFS";
+	//WriteFile("TestFile.txt", text, strlen(text));
 
-	//WRITING FILE TEST
-	char* text = "Tonto quien lo lea (te avise...)";
-	WriteFile("No lo leas.txt", text, strlen(text));
+	////EXIST FILE TEST
+	//bool test1 = false;
+	//test1 = FileExist("TestFile.txt");
+	//LOG("FILESYSTEM: txt: %d", test1);
 
-	//READING FILE TEST
-	char* text2 = new char[20];
-	ReadFile("No lo leas.txt", text2);
-	LOG("%s", text2);
+	////READING FILE TEST
+	//char* text2 = new char[20];
+	//ReadFile("TestFile.txt", text2);
+	//LOG("%s", text2);
+
 	return true;
 }
 
