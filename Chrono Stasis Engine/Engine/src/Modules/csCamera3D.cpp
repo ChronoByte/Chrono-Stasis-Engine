@@ -176,7 +176,16 @@ void ModuleCamera3D::FocusAtObject()
 	{
 		const AABB* box = &go_selected->GetTransform()->GetBoundingBox();
 
-		float3 center = box->Centroid();
+		float3 center = box->CenterPoint();
+		vec3 object = vec3(center.x, center.y, center.z);
+
+		vec3 direction = Position - object;
+		direction = normalize(direction) * 10;
+	
+		Position.Set(direction.x, direction.y, direction.z);
+		LookAt(vec3(center.x,center.y,center.z));
+
+		/*float3 center = box->Centroid();
 		float3 size = box->Size();
 
 		float dirX = center.x;
@@ -185,7 +194,7 @@ void ModuleCamera3D::FocusAtObject()
 
 		Position.Set(dirX, dirY, dirZ);
 		
-		LookAt(vec3(center.x, center.y, center.z));
+		LookAt(vec3(center.x, center.y, center.z));*/
 
 	}
 
