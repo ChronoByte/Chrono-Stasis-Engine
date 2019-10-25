@@ -81,6 +81,7 @@ bool ModuleEditor::CleanUp()
 	randomWin = nullptr; 
 	hierarchy = nullptr; 
 	geometryWin = nullptr; 
+	sceneView = nullptr;
 
 	return true;
 }
@@ -103,6 +104,8 @@ update_status ModuleEditor::Update(float dt)
 	{
 		if (ImGui::BeginMenu("File"))
 		{
+			if (ImGui::MenuItem("Save")) App->Save();
+			if (ImGui::MenuItem("Load")) App->Load();
 			if (ImGui::MenuItem("Close", "Ctrl+W")) { App->to_close_app = true; }
 			ImGui::EndMenu();
 		}

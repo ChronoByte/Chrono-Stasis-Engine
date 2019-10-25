@@ -139,8 +139,20 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
-	// Framerate calculations --
+	if (want_to_load == true) 
+	{
+		LoadNow();
+		want_to_load = false;
+	}
 
+	if (want_to_save == true) 
+	{
+		SaveNow();
+		want_to_save = false;
+	}
+
+
+	// Framerate calculations --
 	if (last_sec_frame_time.Read() > 1000) // When every sec is reached, frame counter is reset
 	{
 		last_sec_frame_time.Start();
@@ -379,4 +391,88 @@ bool Application::GetVSYNC() const
 void Application::SendToLink(const char * link) const
 {
 	ShellExecuteA(NULL, "open", link, NULL, NULL, SW_SHOWNORMAL);
+}
+
+// ---------------------------------------
+
+void Application::Save()
+{
+	want_to_save = true;
+}
+
+void Application::Load()
+{
+	want_to_load = true;
+}
+
+bool Application::LoadNow()
+{
+	LOG("LOADING CONFIG -----------------------")
+
+	bool ret = false;
+
+	JSON_Value* config_file = nullptr;
+	config_file = json_parse_file("config.json");
+
+	if (config_file != nullptr) {
+		LOG("config.json loaded correctly...");
+		bool ret = true;
+
+		for (std::list<Module*>::iterator it = list_modules.begin(); it != list_modules.end() && ret == true; it++)
+		{
+			JSON_Object* config_node = json_object_get_object(json_value_get_object(config_file), (*it)->name.c_str());
+			ret = (*it)->Load(config_node);
+
+		}
+		json_value_free(config_file);
+	}
+	else {
+		LOG("Error loading config.json file");
+		
+	}
+
+
+
+	return ret;
+}
+
+bool Application::SaveNow()
+{
+
+	bool ret = false;
+
+	LOG("SAVING CONFIG -----------------------")
+
+	JSON_Value* config_file;
+	JSON_Object* config;
+	JSON_Object* config_node;
+
+	config_file = json_parse_file("config.json");
+
+	if (config_file != nullptr)
+	{
+		ret = true;
+
+		config = json_value_get_object(config_file);
+		config_node = json_object_get_object(config, "Application");
+
+		// Application settings
+		
+		json_object_set_string(config_node, "Engine Name", App->GetTitle());
+		json_object_set_string(config_node, "Organization Name", App->GetOrganization());
+		json_object_set_string(config_node, "Version", App->GetVersion());
+		json_object_set_number(config_node, "Max FPS", App->GetFPS());
+		json_object_set_boolean(config_node, "VSYNC", App->GetVSYNC());
+		
+		LOG("config.json saved correctly...");
+		for (std::list<Module*>::iterator it = list_modules.begin(); it != list_modules.end() && ret == true; it++)
+		{
+			config_node = json_object_get_object(config, (*it)->name.c_str());
+			ret = (*it)->Save(config_node);
+	
+		}
+		json_serialize_to_file(config_file, "config.json");
+	}
+
+	return ret;
 }

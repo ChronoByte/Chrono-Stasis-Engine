@@ -70,4 +70,14 @@ public:
 			CleanUp(); 
 		}
 	}
+
+	virtual bool Load(const JSON_Object* config = nullptr)
+	{
+		return true;
+	}
+
+	virtual bool Save(JSON_Object* config = nullptr) const
+	{
+		return true;
+	}
 };

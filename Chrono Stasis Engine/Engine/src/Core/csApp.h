@@ -65,6 +65,9 @@ private:
 	std::vector<float> chart_memory;
 	std::vector<float> chart_ram;
 	std::vector<float> chart_ms_capped;
+
+	bool				want_to_save = false;
+	bool				want_to_load = false;
 	
 public:
 
@@ -102,6 +105,9 @@ public:
 
 	void SendToLink(const char* link) const;
 
+	void Save();
+	void Load();
+
 public:
 
 	std::string engine_title; //Remminder for me: std::string var
@@ -117,6 +123,8 @@ private:
 	void PrepareUpdate();
 	void FinishUpdate();
 
+	bool LoadNow();
+	bool SaveNow();
 };
 
 extern Application* App; 

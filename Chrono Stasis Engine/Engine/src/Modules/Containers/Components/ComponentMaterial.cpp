@@ -43,7 +43,7 @@ void ComponentMaterial::InspectorInfo()
 		ImGui::Checkbox("Mat", &active); // Can't repeat checkbox name (!!)
 		
 		ImGui::Text("Texture:");
-		ImGui::Image((ImTextureID*)2, ImVec2(150, 150));
+		ImGui::Image((ImTextureID*)3, ImVec2(150, 150));
 
 		if (ImGui::TreeNodeEx("Color", ImGuiTreeNodeFlags_DefaultOpen))
 		{
