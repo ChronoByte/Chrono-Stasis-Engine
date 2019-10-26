@@ -29,10 +29,11 @@ bool ConfigWindow::Start()
 	brightness = App->window->GetBrightness();
 	fullscreen = App->window->GetFullscreenWindow();
 	resizable = App->window->GetResizableWindow();
+	App->window->SetResizable(resizable);
 	borderless = App->window->GetBorderlessWindow();
 	fulldekstop = App->window->GetFullDesktopWindow();
 	maximized = App->window->GetMaximized();
-
+	App->window->SetMaximized(maximized);
 	depth_test = App->renderer3D->GetDepthTest();
 	cull_face = App->renderer3D->GetCullFace();
 	lighting = App->renderer3D->GetLighting();
@@ -230,14 +231,14 @@ void ConfigWindow::WindowConfiguration()
 
 	if (ImGui::CollapsingHeader("Window"))
 	{
-		if (ImGui::InputInt("Width", &window_width, 100))
+		if (ImGui::InputInt("Width", &window_width,100, 100, ImGuiInputTextFlags_EnterReturnsTrue))
 			App->window->SetWindowSize(window_width, window_height);
 
 		
-		if (ImGui::InputInt("Height", &window_height, 100))
+		if (ImGui::InputInt("Height", &window_height,100, 100, ImGuiInputTextFlags_EnterReturnsTrue))
 			App->window->SetWindowSize(window_width, window_height);
 
-		if (ImGui::InputInt("Size", &window_size, 1))
+		if (ImGui::InputInt("Size", &window_size, 1 ,1, ImGuiInputTextFlags_EnterReturnsTrue))
 			App->window->SetSize(window_size, window_width, window_height);
 	
 		if (ImGui::Checkbox("Fullscreen", &fullscreen))

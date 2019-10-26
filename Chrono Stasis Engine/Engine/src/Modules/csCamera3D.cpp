@@ -65,42 +65,47 @@ update_status ModuleCamera3D::Update(float dt)
 		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
 			speed = 20.0f * dt;
 
-		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-		if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) newPos.y -= speed;
 
-		// FPS-LIKE MOVEMENT (AWSD)
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+		//------ROTATION (RIGHT CLICK) + FPS-LIKE MOVEMENT (RIGHT CLICK + AWSD)-----//
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 
-		// ZOOM IN / ZOOM OUT (MOUSE WHEEL)
+			if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
+			if (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT) newPos.y -= speed;
+
+			// FPS-LIKE MOVEMENT (RIGHT CLICK + AWSD)
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
+
+			// ROTATION MOVEMENT (RIGHT CLICK)
+			orbit = false;
+			Reference = Position - DistanceFromOrthonormalBasis();
+		}
+
+		//--------------ZOOM IN / ZOOM OUT (MOUSE WHEEL)-------------//
 		if (App->input->GetMouseZ() > 0) newPos -= Z * speed * zoomSpeed;
 		if (App->input->GetMouseZ() < 0) newPos += Z * speed * zoomSpeed;
-
-		// FOCUS ON OBJECT (F)
-		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN) FocusAtObject();
 
 		Position += newPos;
 		Reference += newPos;
 
-		// ROTATION & ORBITATION (RIGHT CLICK / RIGHT CLICK + LALT)
-		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
+		//----------ORBITATION MOVEMENT (LEFT CLICK + LALT)---------//
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
 
 			if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) {
 				orbit = true;
 				Position = Reference + DistanceFromOrthonormalBasis();
 			}
 
-			else {
-				orbit = false;
-				Reference = Position - DistanceFromOrthonormalBasis();
-			}
-
 		}
 
+		//---------------------FOCUS ON OBJECT (F)-------------------//
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)  FocusAtObject(); 
+
+
 		//--------------- PANNING MOVEMENT ---------------//
-		else if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
+		if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE))
 		{
 			int dx = -App->input->GetMouseXMotion();
 			int dy = App->input->GetMouseYMotion();

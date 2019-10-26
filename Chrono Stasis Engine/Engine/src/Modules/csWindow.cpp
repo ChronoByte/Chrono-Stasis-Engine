@@ -53,32 +53,37 @@ bool ModuleWindow::Init(JSON_Object* node)
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if(fullscreen == true)
+		// Generates Windows Size bugs!
+
+
+		/*if(fullscreen == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
-		}
+		}*/
 
-		if(resizable == true)
+		/*if(resizable == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
-		}
+		}*/
 
-		if(borderless == true)
+		/*if(borderless == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
-		}
+		}*/
 
-		if(fullscreen_desktop == true)
+	/*	if(fullscreen_desktop == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-		}
-		if (maximized == true)
+		}*/
+
+		/*if (maximized == true)
 		{
 			flags |= SDL_WINDOW_MAXIMIZED;
-		}
+		}*/
 
 
 		window = SDL_CreateWindow(App->engine_title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+
 		SDL_SetWindowIcon(window, iconEngine);
 		if(window == NULL)
 		{
