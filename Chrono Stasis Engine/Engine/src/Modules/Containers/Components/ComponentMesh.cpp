@@ -213,17 +213,17 @@ void ComponentMesh::LoadMeshFaceNormals()
 		float v3y = vertex.buffer[(index.buffer[j + 2] * 3) + 1];
 		float v3z = vertex.buffer[(index.buffer[j + 2] * 3) + 2];
 
-		float* xMid = new float(v1x + v2x + v3x);
-		float* yMid = new float(v1y + v2y + v3y);
-		float* zMid = new float(v1z + v2z + v3z);
+		float xMid = v1x + v2x + v3x;
+		float yMid = v1y + v2y + v3y;
+		float zMid = v1z + v2z + v3z;
 
-		*xMid /= 3;
-		*yMid /= 3;
-		*zMid /= 3;
+		xMid /= 3;
+		yMid /= 3;
+		zMid /= 3;
 
-		memcpy(&faceNormals.buffer[i], xMid, sizeof(float));
-		memcpy(&faceNormals.buffer[i + 1], yMid, sizeof(float));
-		memcpy(&faceNormals.buffer[i + 2], zMid, sizeof(float));
+		faceNormals.buffer[i] = xMid;
+		faceNormals.buffer[i + 1] = yMid;
+		faceNormals.buffer[i + 2] = zMid; 
 
 		// ---------------
 		// v2
@@ -240,13 +240,14 @@ void ComponentMesh::LoadMeshFaceNormals()
 		float normalZ = (u.x * v.y) - (u.y * v.x);
 
 		float module = sqrt(normalX * normalX + normalY * normalY + normalZ * normalZ);
-		float* xNormal = new float(*xMid + (normalX / module) * normalSize);
-		float* yNormal = new float(*yMid + (normalY / module) * normalSize);
-		float* zNormal = new float(*zMid + (normalZ / module) * normalSize);
+		float xNormal = xMid + (normalX / module) * normalSize;
+		float yNormal = yMid + (normalY / module) * normalSize;
+		float zNormal = zMid + (normalZ / module) * normalSize;
 
-		memcpy(&faceNormals.buffer[i + 3], xNormal, sizeof(float));
-		memcpy(&faceNormals.buffer[i + 4], yNormal, sizeof(float));
-		memcpy(&faceNormals.buffer[i + 5], zNormal, sizeof(float));
+		faceNormals.buffer[i + 3] = xNormal;
+		faceNormals.buffer[i + 4] = yNormal;
+		faceNormals.buffer[i + 5] = zNormal; 
+
 		j += 3;
 	}
 }
@@ -266,9 +267,9 @@ void ComponentMesh::LoadMeshVertexNormals()
 		memcpy(&vertexNormals.buffer[i + 2], &vertex.buffer[j + 2], sizeof(float));
 
 		// v2
-		memcpy(&vertexNormals.buffer[i + 3], new float(vertex.buffer[j] + normals.buffer[j] * normalSize), sizeof(float));
-		memcpy(&vertexNormals.buffer[i + 4], new float(vertex.buffer[j + 1] + normals.buffer[j + 1] * normalSize), sizeof(float));
-		memcpy(&vertexNormals.buffer[i + 5], new float(vertex.buffer[j + 2] + normals.buffer[j + 2] * normalSize), sizeof(float));
+		vertexNormals.buffer[i + 3] = (vertex.buffer[j] + normals.buffer[j] * normalSize);
+		vertexNormals.buffer[i + 4] = (vertex.buffer[j + 1] + normals.buffer[j + 1] * normalSize);
+		vertexNormals.buffer[i + 5] = (vertex.buffer[j + 2] + normals.buffer[j + 2] * normalSize);
 		j += 3;
 	}
 	//LOG("New mesh loaded with %d Vertex Normals", vertexNormals.capacity);

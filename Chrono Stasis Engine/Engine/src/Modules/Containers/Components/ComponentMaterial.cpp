@@ -48,6 +48,7 @@ void ComponentMaterial::InspectorInfo()
 		{
 			ImGui::Image((ImTextureID*)texture->id, ImVec2(150, 150));
 			ImGui::Text("Texture size: %ix%i", texture->width, texture->height);
+			ImGui::Text("Texture Path: %s", texture->path.c_str());
 		}
 
 		ImGui::Checkbox("Checkers Texture", &checkers);

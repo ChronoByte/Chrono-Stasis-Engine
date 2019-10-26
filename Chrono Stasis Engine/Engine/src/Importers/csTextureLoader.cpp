@@ -103,6 +103,7 @@ void ModuleTextureLoader::LoadCheckeredTexture()
 	testTexture->image = &checkImage[0][0][0];
 	testTexture->width = checker_width; 
 	testTexture->height = checker_height;
+	testTexture->path = "Checkers Texture"; 
 
 	CreateTextureBuffers(testTexture); 
 }
@@ -134,6 +135,7 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 		if (ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
 			StorageTextureData(t);
 			CreateTextureBuffers(t);
+			t->path = tex_file; 
 		}
 		else
 			LOG("Image could not be converted, error: %s", iluErrorString(ilGetError()));
@@ -170,7 +172,7 @@ void ModuleTextureLoader::StorageTextureData(TextureInfo* tex)
 	tex->image = ilGetData();
 	tex->width = ilGetInteger(IL_IMAGE_WIDTH);
 	tex->height = ilGetInteger(IL_IMAGE_HEIGHT);
-	
+
 	//TODO: fill with more texture data
 
 }

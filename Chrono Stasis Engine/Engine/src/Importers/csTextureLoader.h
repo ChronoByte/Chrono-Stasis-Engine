@@ -9,6 +9,7 @@ struct TextureInfo
 	GLuint id = 0;
 	int width = 0;
 	int height = 0;
+	std::string path;
 };
 
 class ModuleTextureLoader : public Module
