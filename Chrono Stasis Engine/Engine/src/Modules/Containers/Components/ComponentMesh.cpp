@@ -477,5 +477,5 @@ const uint ComponentMesh::GetTextureCoords() const
 
 const uint ComponentMesh::GetTriangles() const
 {
-	return 0;
+	return index.capacity / 3;
 }

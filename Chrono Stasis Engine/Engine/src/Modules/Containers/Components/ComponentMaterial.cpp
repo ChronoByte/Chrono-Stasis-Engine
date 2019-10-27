@@ -54,7 +54,11 @@ void ComponentMaterial::InspectorInfo()
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texture->height);
 			ImGui::Text("Path: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", texture->path.c_str());
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
+			ImGui::TextWrapped(texture->path.c_str());
+			ImGui::PopStyleColor(); 
+
+			//ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", texture->path.c_str());
 		}
 
 		ImGui::Checkbox("Checkers Texture", &checkers);
