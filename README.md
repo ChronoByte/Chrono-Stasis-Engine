@@ -56,29 +56,71 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Our Organization: [ChronoByte](https://github.com/ChronoByte)
 
 ## Unity-Like Camera Controls
-* **WASD:** fps-like movement and free look around
+* **Mouse Right + WASD:** fps-like movement and free look around
 * **Mouse Right:** Move Camera with static position
 * **Mouse Left + Alt:** Move Camera around object (Orbit)
 * **Mouse wheel:** Move Camera Zoom in and Zoom out
-* **F**: Center the Camera on an object
+* **F**: Center the Camera on an object when is selected
 * **SHIFT:** Duplicates movement speed.
 
 ## Updates & Changelog
 
-* 0.3.0
+* 0.2.9
+     * Fix Bugs from loading file directories with different path slashes (//, /, \)
+     * Fix Bugs from loading different texture extensions according to its coordinates origin
+     * Fix Bugs from Bounding Box not detected
+     * Fix Bugs from par_shapes objects creation
+     * Loading several fbx with diffuse texture in DDS format
+* 0.2.8
+     * Implemented Bounding Box with AABB from MathGeoLib to improve focus Camera functionality
+     * Fix memory leaks from Face Normals and improved its calculations
+     * Added libraries and dependencies inicialization logs in console window
+* 0.2.7
+     * Improved GameObject creation with par_shapes
+     * Implemented Bounding Box with AABB from MathGeoLib to improve focus Camera functionality
+* 0.2.6
+     * FrameBuffer into gameplay scene window to generate a texture from its renderer
+     * Implemented Docking on GUI windows and framebuffer scene
+     * Solved bugs from framebuffer scene resizing
+     * Save functionality only with Application data in serialized config.json file
+* 0.2.5
+     * Added icon.exe
+     * Implemented Camera Orbitation movement & solved bugs related with it
+     * Implemented Camera Panning movement
+     * Implemented Camera Zoom movement 
+     * Focus Camera on GameObject selected functionality (F)
+     * Improved Camera rotation movement code & solved bugs related with it
+* 0.2.4
+     * Matching and linking System with GameObject children from parent
+     * Creation and Assignment of components from model loader to create a GameObject
+     * Developed Tree node to list all GameObjects created and loaded
+* 0.2.3
+     * Developed Mesh Component to display info in inspector window
+     * Developed Transform Component to display info in inspector window
+     * Developed Material Component to display info in inspector window
+     * Added Hire checkbox option to Enable / Disable GameObject visualization
+* 0.2.2
+     * Implemented Ambient Color option to modify lighting render at runtime
+     * Implemented Diffuse Color option to modify lighting render at runtime
+     * Fix bugs related with lighting color enabling / disabling
+* 0.2.1
+     * Implemented Custom theme and sizing style system from Imgui code
+     * Added different hand-made themes into system
+     * Added different hand-made sizes into system
+* 0.2.0
      * Added Basic GameObject  Structure 
      * Reestructured Model Importer 
      * Added Inspector Window
      * Component Design Pattern 
         > Transform, Material, Mesh
 
-* 0.2.5
+* 0.1.9
     * Implemented DevIL 
      * Texture Loader
-     * Drag & Drop funcionality (to import DDS textures).
+     * Drag & Drop funcionality (to import DDS/PNG textures).
 
 
-* 0.2.0
+* 0.1.8
     * Implemented Assimp  
     * FBX Model Loader
        > Draw vertices, indices, normals.
@@ -86,7 +128,7 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 
 
 * 0.1.7
-     * Add ImGui::Dock 
+     * Add ImGui::Dock (changed later) 
      * 3D Geometry Creation
        > Vertex Buffers, Index Buffers, Par shapes
      
