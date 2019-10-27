@@ -17,21 +17,23 @@ ModuleFileSystem::~ModuleFileSystem()
 bool ModuleFileSystem::Init(JSON_Object* node)
 {
 	bool ret = false;
-	LOG("FILESYSTEM: Initializing PhysFS library...");
+	LOG(" --- Creating File System Module ---");
 
+	LOG("Initializing PhysFS library"); 
 	char* app_path = SDL_GetBasePath();
 	
 	if (PHYSFS_init(app_path) != 0)
 	{
 		ret = true;
-		LOG("FILESYSTEM: PhysFS successfully initialized...");
+		LOG("PhysFS successfully initialized.");
+		LOG("PhysFS version: v%i.%i.%i", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH);
 	}
 	else
 		LOG("FILESYSTEM: error while initaliazing PHYSFS: %s", PHYSFS_getLastError());
 
 	SDL_free(app_path);
 
-	LOG("FILESYSTEM: Setting Up directories");
+	LOG("Setting Up directories");
 	AddPath(".");
 	AddPath("../Game");
 
