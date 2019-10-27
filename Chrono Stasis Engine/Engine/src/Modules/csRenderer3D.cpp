@@ -91,6 +91,10 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		{
 			LOG("OpenGL Initialized Correctly.");
 			LOG("OpenGL Version: v%s", glGetString(GL_VERSION));
+
+			SDL_version compiled;
+			SDL_VERSION(&compiled);
+			LOG("SDL Version: v%d.%d.%d", compiled.major, compiled.minor, compiled.patch);
 		}
 
 		GLfloat LightModelAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
