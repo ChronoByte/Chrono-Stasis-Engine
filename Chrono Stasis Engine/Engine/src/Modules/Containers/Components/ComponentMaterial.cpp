@@ -47,8 +47,14 @@ void ComponentMaterial::InspectorInfo()
 		if (texture != nullptr)
 		{
 			ImGui::Image((ImTextureID*)texture->id, ImVec2(150, 150));
-			ImGui::Text("Size: %ix%i", texture->width, texture->height);
-			ImGui::Text("Path: %s", texture->path.c_str());
+			ImGui::Text("Size: ");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i x", texture->width);
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texture->height);
+			ImGui::Text("Path: ");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", texture->path.c_str());
 		}
 
 		ImGui::Checkbox("Checkers Texture", &checkers);
