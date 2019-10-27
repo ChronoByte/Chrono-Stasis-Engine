@@ -65,6 +65,8 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 
 ## Updates & Changelog
 
+* 0.3.0
+     * Generate a stable & operative release Build for First Assignment
 * 0.2.9
      * Fix Bugs from loading file directories with different path slashes (//, /, \)
      * Fix Bugs from loading different texture extensions according to its coordinates origin
