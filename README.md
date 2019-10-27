@@ -10,13 +10,22 @@ That is to say, is an illusion where that person perceives an instance of time a
 Metaphorically for us (software engineers and game developers), we live in a chronostasis loop measuring and observing the behavior and time performance in each frame at all the time until the game ends. In addition, we decide to make Chrono Stasis as compound word because it contains the acronym of our names: **C**hrono (Carlos) & **S**tasis (Sebas).
 
 ## Features
-* Configuration & Model Windows (App, Hardware, renderer,...)
-* Load / Save editor configuration with JSON Parser
-* Geometry Creation (Cube, Sphere, ...)
-* GameObject and Component Design Pattern 
-* Model and Texture Loader with Drag & Drop functionality
-* Geometry Editors (Hierarchy, Inspector)
-* Camera Controlling (Zoom in, zoom out, orbitation,..)
+* Geometry Creation using par_shapes (Cube, Sphere, Cilinder,...)
+* FBX Importer with Drag and Drop functionality
+* Texture Importer with Drag and drop functionality
+* Load and Save editor data from serialized JSON file
+* Camera Unity-like controls (Rotation, Orbitation, FPS Movement, Padding, Zoom)
+* Focus Camera on GameObject when is selected
+* Game Object and Component Design Pattern
+* Transform, Mesh and Material Components generated when model is loaded
+* Inspector window to display all GameObject info from its Components
+* Hierarchy window to list in a tree node all GameObjects created or loaded from model importation
+* Reading logs from Dependencies & Libraries in the console
+* Editor Custom Theme and Size style system in Configuration window
+* Bounding Box
+* Docking for model windows and Scene
+* Framebuffer to renders the world scene as a texture
+* Editor Windows (Console, Configuration, About)
 
 ## Innovation 
 * Free costumization of **ambient color, diffuse color and specular color on lighting render** at runtime. You can find it and use it in configuration window at renderer section.
