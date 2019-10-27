@@ -33,7 +33,7 @@ bool ModuleScene::Start()
 
 	CreateRoot(); 
 
-	GameObject* go = App->fbx->LoadModel("Assets/BakerHouse.FBX");
+	GameObject* go = App->fbx->LoadModel("Assets/BakerHouse/BakerHouse.FBX");
 
 	return true;
 }
@@ -55,7 +55,7 @@ update_status ModuleScene::Update(float dt)
 {
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-		App->fbx->LoadModel("Assets/BakerHouse.FBX");
+		App->fbx->LoadModel("Assets/BakerHouse/BakerHouse.FBX");
 	
 
 	if (App->renderer3D->GetDebugMode())
