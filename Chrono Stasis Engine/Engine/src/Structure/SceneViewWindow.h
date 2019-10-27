@@ -16,7 +16,7 @@ public:
 	~SceneViewWindow();
 
 	void Draw() override;
-
+	
 private:
 	
 

@@ -56,25 +56,25 @@ bool ModuleWindow::Init(JSON_Object* node)
 		// Generates Windows Size bugs!
 
 
-		/*if(fullscreen == true)
+		if(fullscreen == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
-		}*/
+		}
 
-		/*if(resizable == true)
+		if(resizable == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
-		}*/
+		}
 
-		/*if(borderless == true)
+		if(borderless == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
-		}*/
+		}
 
-	/*	if(fullscreen_desktop == true)
+		if(fullscreen_desktop == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-		}*/
+		}
 
 		/*if (maximized == true)
 		{
@@ -85,6 +85,7 @@ bool ModuleWindow::Init(JSON_Object* node)
 		window = SDL_CreateWindow(App->engine_title.data(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		SDL_SetWindowIcon(window, iconEngine);
+
 		if(window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());

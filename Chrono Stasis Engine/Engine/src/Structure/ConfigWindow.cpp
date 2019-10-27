@@ -29,7 +29,6 @@ bool ConfigWindow::Start()
 	brightness = App->window->GetBrightness();
 	fullscreen = App->window->GetFullscreenWindow();
 	resizable = App->window->GetResizableWindow();
-	App->window->SetResizable(resizable);
 	borderless = App->window->GetBorderlessWindow();
 	fulldekstop = App->window->GetFullDesktopWindow();
 	maximized = App->window->GetMaximized();
@@ -269,12 +268,6 @@ void ConfigWindow::WindowConfiguration()
 		ImGui::Text("Refresh rate:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(0.f, 1.f, 0.f, 1.f), "%u", refresh_rate);
-
-		if (ImGui::Checkbox("Delete App :) ", &deletion))
-			delete App;
-		
-		if (ImGui::IsItemHovered())
-			ImGui::SetTooltip("Pulsa la checkbox para que reviente el programa :) ");
 	}
 }
 

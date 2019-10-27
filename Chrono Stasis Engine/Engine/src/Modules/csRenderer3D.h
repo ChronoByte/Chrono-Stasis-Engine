@@ -93,5 +93,4 @@ public:
 	GLuint textureBuffer = 0;
 	GLuint depthStencilBuffer = 0;
 
-	bool can_resize = false;
 };

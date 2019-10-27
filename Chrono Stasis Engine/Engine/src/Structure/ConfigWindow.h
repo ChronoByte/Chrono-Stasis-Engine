@@ -64,8 +64,6 @@ private:
 
 	float brightness = 0.0f;
 
-	bool deletion = false;
-
 	int total_memory = 0;
 	int memory_usage = 0;
 	int dedicated_memory = 0;
