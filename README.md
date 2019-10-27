@@ -18,8 +18,11 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Geometry Editors (Hierarchy, Inspector)
 * Camera Controlling (Zoom in, zoom out, orbitation,..)
 
-## Innovation System
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eleifend velit id sodales viverra. Maecenas interdum lorem dolor, congue lobortis mi molestie tincidunt. Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+## Innovation 
+* Free costumization of **ambient color, diffuse color and specular color on lighting render** at runtime. You can find it and use it in configuration window at renderer section.
+* Free costumization of **Material Color** into GameObject material section. You can find it and use it in inspector window at material component section.
+* Free customization of **GUI theme and size styles**. You can find it and use it in configuration window at GUI section.
+
 
 ## Installation
 * Go to our github release page: [Click Here!](https://github.com/ChronoByte/Chrono-Stasis-Engine/releases)
