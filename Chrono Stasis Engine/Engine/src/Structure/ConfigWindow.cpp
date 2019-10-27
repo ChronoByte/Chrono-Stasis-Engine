@@ -294,6 +294,7 @@ void ConfigWindow::HardwareConfiguration()
 		ImGui::Text("PCG version: %s", PCG_VERSION);
 		ImGui::Text("PHYSFS version: %i.%i.%i", PHYSFS_VER_MAJOR, PHYSFS_VER_MINOR, PHYSFS_VER_PATCH);
 		ImGui::Text("DevIL version: %i.%i.%i", 1, 8, 0);
+		ImGui::Text("Assimp version: %i.%i.%i", 3, 1, 1);
 		ImGui::Separator();
 		//------- CPU --------//
 		ImGui::Text("CPU:"); ImGui::SameLine();

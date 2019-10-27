@@ -181,6 +181,9 @@ void ModuleCamera3D::FocusAtObject()
 	{
 		const AABB* box = &go_selected->GetTransform()->GetBoundingBox();
 
+		if (box->Size().IsZero())
+			return; 
+
 		float3 center = box->CenterPoint();
 		vec3 object = vec3(center.x, center.y, center.z);
 

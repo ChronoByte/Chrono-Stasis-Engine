@@ -118,19 +118,18 @@ void ComponentTransform::InspectorInfo()
 {
 	if (ImGui::CollapsingHeader("Local Transformation", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		//if (ImGui::Checkbox("Active Component", &active)) {
+		if (ImGui::InputFloat3("Position", (float*)&position, 2))
+			SetPosition(position);
 
-			if (ImGui::InputFloat3("Position", (float*)&position, 2))
-				SetPosition(position);
+		if (ImGui::InputFloat3("Rotation", (float*)&rotation_euler, 2))
+			SetRotationEuler(rotation_euler);
 
-			if (ImGui::InputFloat3("Rotation", (float*)&rotation_euler, 2))
-				SetRotationEuler(rotation_euler);
+		if (ImGui::InputFloat3("Scale", (float*)&scale, 2))
+			SetScale(scale);
 
-			if (ImGui::InputFloat3("Scale", (float*)&scale, 2))
-				SetScale(scale);
-
+		if(!bounding_box.Size().IsZero())
 			ImGui::Checkbox("View Bounding Box", &drawBoundingBox);
-		//}
+
 	}
 	// TODO: More info like bounding box..
 }

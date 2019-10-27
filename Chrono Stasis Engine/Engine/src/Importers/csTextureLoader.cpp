@@ -20,9 +20,12 @@ ModuleTextureLoader::~ModuleTextureLoader()
 
 bool ModuleTextureLoader::Init(JSON_Object* node)
 {
+	LOG(" --- Creating Texture Importerer ---");
+	LOG("Initializing DevIL library.");
 	bool ret = true;
 	ILuint devilError = 0;
 
+	LOG("Initializing IL");
 	ilInit();
 	devilError = ilGetError();
 	if (devilError != IL_NO_ERROR)
@@ -31,6 +34,7 @@ bool ModuleTextureLoader::Init(JSON_Object* node)
 		ret = false;
 	}
 
+	LOG("Initializing ILU");
 	iluInit();
 	devilError = ilGetError();
 	if (devilError != IL_NO_ERROR)
@@ -39,6 +43,7 @@ bool ModuleTextureLoader::Init(JSON_Object* node)
 		ret = false;
 	}
 
+	LOG("Initializing ILUT");
 	ilutRenderer(ILUT_OPENGL);
 	devilError = ilGetError();
 	if (devilError != IL_NO_ERROR)
@@ -46,6 +51,12 @@ bool ModuleTextureLoader::Init(JSON_Object* node)
 		LOG("TEXTURE LOADER: Error initializing ILUT. Error: %s", iluErrorString(devilError));
 		ret = false;
 	}
+	else
+	{
+		LOG("DevIL Library Initialized correctly.");
+		LOG("DevIL Version v%i.%i.%i", 1, 8, 0);
+	}
+
 
 	ilEnable(IL_ORIGIN_SET);
 	ilOriginFunc(IL_ORIGIN_LOWER_LEFT); // Setting as default origin to load images in upper left mode
@@ -103,6 +114,7 @@ void ModuleTextureLoader::LoadCheckeredTexture()
 	testTexture->image = &checkImage[0][0][0];
 	testTexture->width = checker_width; 
 	testTexture->height = checker_height;
+	testTexture->path = "Checkers Texture"; 
 
 	CreateTextureBuffers(testTexture); 
 }
@@ -134,6 +146,7 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 		if (ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
 			StorageTextureData(t);
 			CreateTextureBuffers(t);
+			t->path = tex_file; 
 		}
 		else
 			LOG("Image could not be converted, error: %s", iluErrorString(ilGetError()));
@@ -170,7 +183,7 @@ void ModuleTextureLoader::StorageTextureData(TextureInfo* tex)
 	tex->image = ilGetData();
 	tex->width = ilGetInteger(IL_IMAGE_WIDTH);
 	tex->height = ilGetInteger(IL_IMAGE_HEIGHT);
-	
+
 	//TODO: fill with more texture data
 
 }

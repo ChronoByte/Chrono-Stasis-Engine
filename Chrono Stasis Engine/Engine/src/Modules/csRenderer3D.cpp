@@ -22,7 +22,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init(JSON_Object* node)
 {
-	LOG("Creating 3D Renderer context");
+	LOG(" --- Creating 3D Renderer context ---");
 	bool ret = true;
 	
 	//Create context
@@ -44,7 +44,9 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 
 	if(ret == true)
 	{
-		
+		LOG("Glew Initialized Correctly.");
+		LOG("Glew Version: v%s", glewGetString(GLEW_VERSION));
+
 		if(App->GetVSYNC() && SDL_GL_SetSwapInterval(1) < 0)
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
 
@@ -85,7 +87,16 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 			LOG("Error initializing OpenGL! %s\n", glewGetErrorString(error));
 			ret = false;
 		}
-		
+		else
+		{
+			LOG("OpenGL Initialized Correctly.");
+			LOG("OpenGL Version: v%s", glGetString(GL_VERSION));
+
+			SDL_version compiled;
+			SDL_VERSION(&compiled);
+			LOG("SDL Version: v%d.%d.%d", compiled.major, compiled.minor, compiled.patch);
+		}
+
 		GLfloat LightModelAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 		
@@ -125,9 +136,6 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		(color_material) ? glEnable(GL_COLOR_MATERIAL) : glDisable(GL_COLOR_MATERIAL);
 		(texture_2D) ? glEnable(GL_TEXTURE_2D) : glDisable(GL_TEXTURE_2D);
 		(fog) ? glEnable(GL_FOG) : glDisable(GL_FOG);
-
-		
-		
 	}
 
 	// Projection matrix for

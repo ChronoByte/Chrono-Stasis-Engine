@@ -23,16 +23,20 @@ ModuleFBXLoader::~ModuleFBXLoader()
 bool ModuleFBXLoader::Init(JSON_Object* node)
 {
 
+	LOG(" --- Creating FBX Importerer --- ");
+	LOG("Initializing Assimp Library.");
+	struct aiLogStream stream;
+	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
+	aiAttachLogStream(&stream);
+
+	LOG("Assimp Library Loaded Correctly.");
+	LOG("Assimp Version: v%i.%i.%i", 3, 1, 1);
 	return true;
 }
 
 
 bool ModuleFBXLoader::Start()
 {
-	
-	struct aiLogStream stream;
-	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
-	aiAttachLogStream(&stream);
 	return true;
 }
 
@@ -155,8 +159,9 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		App->fs->GetNameFile(path, name);
 		newGo = App->scene->CreateGameObject(nullptr, name.c_str());
 
-		LOG("-----------------------------")
-		LOG("Loading FBX Model with path: %s", path);
+		LOG("----------- Loading FBX Model: %s -----------", name.c_str());
+		LOG("Path: %s", path);
+
 		SetBoundingBox(scene);
 		
 		filePath = App->fs->GetDirectoryPath(path); 
@@ -183,8 +188,7 @@ GameObject* ModuleFBXLoader::LoadModel(const char* path)
 		//-----------------------------------
 		
 		
-		LOG("-----------------------------");
-
+		LOG("----------- Ended Loading FBX Model: %s -----------", name.c_str());
 		aiReleaseImport(scene);
 
 		return newGo;

@@ -103,6 +103,12 @@ void AboutWindow::SoftwareUsed()
 	if (ImGui::IsItemClicked())
 		App->SendToLink("http://openil.sourceforge.net/");
 
+	ImGui::Text("  Assimp v%i.%i.%i", 3, 1, 1);
+	if (ImGui::IsItemHovered())
+		ImGui::SetMouseCursor(ImGuiMouseCursor_::ImGuiMouseCursor_Hand);
+	if (ImGui::IsItemClicked())
+		App->SendToLink("http://www.assimp.org/");
+
 	ImGui::NewLine();
 }
 

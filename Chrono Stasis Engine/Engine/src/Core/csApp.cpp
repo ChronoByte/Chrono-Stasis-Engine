@@ -97,6 +97,8 @@ bool Application::Init()
 		// Call Init() in all modules
 		std::list<Module*>::const_iterator item = list_modules.begin();
 
+		LOG("-------------- Application Init --------------");
+
 		while (item != list_modules.end() && ret == UPDATE_CONTINUE)
 		{
 			if ((*item)->IsEnabled()) 
@@ -108,7 +110,7 @@ bool Application::Init()
 		}
 
 		// After all Init calls we call Start() in all modules
-		LOG("Application Start --------------");
+		LOG("-------------- Application Start --------------");
 		item = list_modules.begin();
 
 		while (item != list_modules.end() && ret == UPDATE_CONTINUE)

@@ -42,6 +42,8 @@ bool ModuleEditor::Init(JSON_Object* node)
 	windows.push_back(collisionWin = new CollisionWindow(json_object_get_boolean(node, "collision")));
 	windows.push_back(sceneView = new SceneViewWindow(json_object_get_boolean(node, "scene view")));
 
+	LOG("-------------- Application Init --------------");	// This is stuffed here so it logs into the console, which was not created previously
+
 	return true;
 }
 
