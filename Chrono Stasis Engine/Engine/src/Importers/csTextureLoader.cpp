@@ -141,17 +141,18 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 		if (img_info.Origin != IL_ORIGIN_LOWER_LEFT) 
 			iluFlipImage();
 
-		t = new TextureInfo;
-
 		if (ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
+			// If its converted properly, create the data
+			t = new TextureInfo;
+
 			StorageTextureData(t);
 			CreateTextureBuffers(t);
 			t->path = tex_file; 
+
+			textures.push_back(t);
 		}
 		else
-			LOG("Image could not be converted, error: %s", iluErrorString(ilGetError()));
-		
-		textures.push_back(t);
+			LOG("Image could not be converted, error: %s", iluErrorString(ilGetError()));		
 	}
 	else 
 		LOG("Error loading texture at %s, error: %s", tex_file, iluErrorString(ilGetError()));
@@ -159,6 +160,20 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 
 	ilDeleteImages(1, &imageID);
 	return t;
+}
+
+// Finds texture in our vector of loaded textures
+TextureInfo * ModuleTextureLoader::FindLoadedTextureWithPath(const char * path) const
+{
+	for (uint i = 0; i < textures.size(); ++i)
+	{
+		if (strcmp(path, textures[i]->path.c_str()) == 0)
+		{
+			return textures[i]; 
+		}
+	}
+
+	return nullptr;
 }
 
 void ModuleTextureLoader::CreateTextureBuffers(TextureInfo* tex)

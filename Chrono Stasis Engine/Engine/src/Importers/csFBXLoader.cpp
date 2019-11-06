@@ -222,7 +222,19 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 		{
 			std::string newPath = filePath + fileName.C_Str(); 
 			ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
-			myMaterial->SetTexture(App->texture->LoadTexture(newPath.c_str()));	
+
+			// Try to find the texture in our vector of loaded textures so its not loaded twice 
+			TextureInfo* texture = App->texture->FindLoadedTextureWithPath(newPath.c_str());
+			if (texture != nullptr)
+			{
+				myMaterial->SetTexture(texture);
+				LOG("Assigning texture already loaded in memory: %s", newPath.c_str());
+			}
+			else
+			{
+				myMaterial->SetTexture(App->texture->LoadTexture(newPath.c_str()));
+			}
+
 		}
 		else LOG("FBX does not have a embedded Texture");
 		// TODO: Get the path correctly. 
