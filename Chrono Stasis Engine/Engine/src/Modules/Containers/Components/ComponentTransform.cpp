@@ -15,6 +15,14 @@ void ComponentTransform::Update(float dt)
 	if (App->renderer3D->drawBoundingBox || drawBoundingBox)
 		 DrawBoundingBox(); 
 
+
+	local_matrix = float4x4::FromTRS(position, rotation_quat, scale);
+
+	// If its a child (not a parent and its not the root)
+	if (GetOwner()->GetParent() != nullptr && GetOwner()->GetParent() != App->scene->GetRoot())
+		global_matrix = GetOwner()->GetParent()->GetTransform()->global_matrix * local_matrix;
+	else if(GetOwner() != App->scene->GetRoot())
+		global_matrix = local_matrix; 
 }
 
 void ComponentTransform::DrawBoundingBox()
@@ -48,14 +56,12 @@ const void ComponentTransform::SetLocalTransform(const float4x4& local)
 
 const float4x4 ComponentTransform::GetGlobalTransform() const
 {
-	
 	return global_matrix;
 }
 
 const void ComponentTransform::SetPosition(const float3& pos)
 {
 	this->position = pos;
-
 }
 
 const void ComponentTransform::SetRotationEuler(const float3& euler)
@@ -106,7 +112,6 @@ void ComponentTransform::SetupTransform(const float3& position, const float3& sc
 	SetPosition(position);
 	SetScale(scale);
 	SetRotationQuat(rotation); // euler setting up too!
-	
 }
 
 const void ComponentTransform::SetBoundingBox(const AABB& bb)

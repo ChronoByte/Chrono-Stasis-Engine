@@ -36,7 +36,7 @@ public:
 
 	void InspectorInfo();
 
-private:
+public:
 
 	float4x4 local_matrix = float4x4::identity;
 	float4x4 global_matrix = float4x4::identity;

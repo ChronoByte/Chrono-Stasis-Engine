@@ -2,6 +2,7 @@
 #include "Assimp/include/scene.h"
 #include "csApp.h"
 #include "ComponentMaterial.h"
+#include "ComponentTransform.h"
 
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 {
@@ -104,6 +105,16 @@ void ComponentMesh::Draw()
 	glBindBuffer(GL_ARRAY_BUFFER, normals.id);
 	glNormalPointer(GL_FLOAT, 0, NULL);
 	
+	glPushMatrix(); 
+	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform())); 
+	LOG("______");
+	LOG("Game Object: %s", GetOwner()->GetName());
+	LOG("%.2f, %.2f, %.2f, %.2f", GetOwner()->GetTransform()->global_matrix[0], GetOwner()->GetTransform()->global_matrix[1], GetOwner()->GetTransform()->global_matrix[2], GetOwner()->GetTransform()->global_matrix[3]);
+	LOG("%.2f, %.2f, %.2f, %.2f", GetOwner()->GetTransform()->global_matrix[4], GetOwner()->GetTransform()->global_matrix[5], GetOwner()->GetTransform()->global_matrix[6], GetOwner()->GetTransform()->global_matrix[7]);
+	LOG("%.2f, %.2f, %.2f, %.2f", GetOwner()->GetTransform()->global_matrix[8], GetOwner()->GetTransform()->global_matrix[9], GetOwner()->GetTransform()->global_matrix[10], GetOwner()->GetTransform()->global_matrix[11]);
+	LOG("%.2f, %.2f, %.2f, %.2f", GetOwner()->GetTransform()->global_matrix[12], GetOwner()->GetTransform()->global_matrix[13], GetOwner()->GetTransform()->global_matrix[14], GetOwner()->GetTransform()->global_matrix[15]);
+	LOG("______");
+
 	// Index Buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index.id);
 	glDrawElements(GL_TRIANGLES, index.capacity, GL_UNSIGNED_INT, (void*)0);  // Carefull with this unsigned int
@@ -112,6 +123,7 @@ void ComponentMesh::Draw()
 	glColor3f(1, 1, 1);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+	glPopMatrix(); 
 	// Disable Clients
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
