@@ -23,6 +23,18 @@ void ComponentTransform::Update(float dt)
 		global_matrix = GetOwner()->GetParent()->GetTransform()->global_matrix * local_matrix;
 	else if(GetOwner() != App->scene->GetRoot())
 		global_matrix = local_matrix; 
+
+
+	LOG("______");
+	LOG("Global Transform - Game Object: %s", GetOwner()->GetName());
+	for (uint i = 0; i < 16; i += 4)
+	{
+		LOG("%.2f - %.2f - %.2f - %.2f", GetGlobalTransform().Transposed()[i],
+			GetGlobalTransform().Transposed()[i + 1],
+			GetGlobalTransform().Transposed()[i + 2],
+			GetGlobalTransform().Transposed()[i + 3]
+		);
+	}
 }
 
 void ComponentTransform::DrawBoundingBox()

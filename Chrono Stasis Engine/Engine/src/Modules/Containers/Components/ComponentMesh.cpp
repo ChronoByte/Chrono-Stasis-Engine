@@ -106,14 +106,7 @@ void ComponentMesh::Draw()
 	glNormalPointer(GL_FLOAT, 0, NULL);
 	
 	glPushMatrix(); 
-	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform())); 
-	LOG("______");
-	LOG("Game Object: %s", GetOwner()->GetName());
-	LOG("%.2f, %.2f, %.2f, %.2f", GetOwner()->GetTransform()->global_matrix[0], GetOwner()->GetTransform()->global_matrix[1], GetOwner()->GetTransform()->global_matrix[2], GetOwner()->GetTransform()->global_matrix[3]);
-	LOG("%.2f, %.2f, %.2f, %.2f", GetOwner()->GetTransform()->global_matrix[4], GetOwner()->GetTransform()->global_matrix[5], GetOwner()->GetTransform()->global_matrix[6], GetOwner()->GetTransform()->global_matrix[7]);
-	LOG("%.2f, %.2f, %.2f, %.2f", GetOwner()->GetTransform()->global_matrix[8], GetOwner()->GetTransform()->global_matrix[9], GetOwner()->GetTransform()->global_matrix[10], GetOwner()->GetTransform()->global_matrix[11]);
-	LOG("%.2f, %.2f, %.2f, %.2f", GetOwner()->GetTransform()->global_matrix[12], GetOwner()->GetTransform()->global_matrix[13], GetOwner()->GetTransform()->global_matrix[14], GetOwner()->GetTransform()->global_matrix[15]);
-	LOG("______");
+	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform().Transposed())); 
 
 	// Index Buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index.id);
