@@ -7,6 +7,13 @@
 ModuleFileSystem::ModuleFileSystem()
 {
 	name = "FileSystem";
+
+	directories.assign(ASSETS_FOLDER);
+	directories.assign(LIBRARY_FOLDER);
+	directories.assign(SETTINGS_FOLDER);
+	directories.assign(MESHES_FOLDER);
+	directories.assign(TEXTURES_FOLDER);
+	directories.assign(FBX_FOLDER);
 }
 
 ModuleFileSystem::~ModuleFileSystem()
@@ -33,11 +40,23 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 
 	SDL_free(app_path);
 
-	LOG("Setting Up directories");
-	AddPath(".");
-	AddPath("../Game");
+	if (PHYSFS_setWriteDir(".") == 0)
+		LOG("FILESYSTEM: error while creating write dir: %s\n", PHYSFS_getLastError());
 
-	PHYSFS_setWriteDir(".");
+	
+	AddPath(".");
+	//AddPath("../Game");
+	
+	LOG("Generate directories");
+	for (uint i = 0; i < directories.size(); ++i)
+		GenerateDirectory(directories.at(i));
+	
+	LOG("Mounting Pathes");
+	AddPath(ASSETS_FOLDER);
+	AddPath(LIBRARY_FOLDER);
+	AddPath(SETTINGS_FOLDER);
+	
+
 
 	return ret;
 }
@@ -45,9 +64,9 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 bool ModuleFileSystem::Start()
 {
 
-	App->fs->GenerateDirectory(LIBRARY_DIR);
-	App->fs->GenerateDirectory(MESH_DIR);
-	App->fs->GenerateDirectory(MATERIAL_DIR);
+	/*GenerateDirectory(LIBRARY_FOLDER);
+	App->fs->GenerateDirectory(MESHES_FOLDER);
+	App->fs->GenerateDirectory(TEXTURES_FOLDER);*/
 
 
 	////WRITING FILE TEST
@@ -73,9 +92,12 @@ bool ModuleFileSystem::CleanUp()
 
 	LOG("FILESYSTEM: Deinitializing PHYSFS...");
 
-	App->fs->DeleteDirectory(MATERIAL_DIR);
-	App->fs->DeleteDirectory(MESH_DIR);
-	App->fs->DeleteDirectory(LIBRARY_DIR);
+	for (uint i = 0; i < directories.size(); ++i)
+		DeleteDirectory(directories.at(i));
+    
+   /* DeleteDirectory(TEXTURES_FOLDER);
+	DeleteDirectory(MESHES_FOLDER);
+	DeleteDirectory(LIBRARY_FOLDER);*/
 
 	if (PHYSFS_deinit() != 0)
 	{

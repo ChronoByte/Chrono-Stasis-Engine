@@ -25,6 +25,27 @@ typedef unsigned __int32 uint32;
 typedef unsigned __int64 uint64;
 typedef unsigned char uchar;
 
+// Deletes a buffer
+#define RELEASE( x ) \
+    {                        \
+    if( x != NULL )        \
+	    {                      \
+      delete x;            \
+	  x = NULL;              \
+	    }                      \
+    }
+
+// Deletes an array of buffers
+#define RELEASE_ARRAY( x ) \
+    {                              \
+    if( x != NULL )              \
+	    {                            \
+      delete[] x;                \
+	  x = NULL;                    \
+	    }                            \
+                              \
+}
+
 enum update_status
 {
 	UPDATE_CONTINUE = 1,
@@ -43,3 +64,18 @@ enum update_status
 #define VSYNC true
 #define TITLE "Chrono Stasis Engine"
 #define ORGANIZATION "ChronoByte"
+
+// Files PATHS ---------------
+#define PATHS_AMOUNT 6
+#define ASSETS_FOLDER "Assets/"
+#define LIBRARY_FOLDER "Library/"
+#define SETTINGS_FOLDER "Settings/"
+#define MESHES_FOLDER "Library/Meshes/"
+#define TEXTURES_FOLDER "Library/Textures/"
+#define FBX_FOLDER "Library/Scenes/"
+
+// Own format files --------------
+#define MESH_EXTENSION ".chronoMesh"
+#define TEXTURES_EXTENSION ".dds"
+#define SCENES_EXTENSION ".chronoScene"
+#define META_EXTENSION ".meta"

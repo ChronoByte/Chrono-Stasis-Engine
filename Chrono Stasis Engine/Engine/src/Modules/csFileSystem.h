@@ -2,10 +2,10 @@
 
 #include "csGlobals.h"
 #include "csModule.h"
-
-#define LIBRARY_DIR "Library"
-#define MESH_DIR "/Library/Meshes"
-#define MATERIAL_DIR "/Library/Materials"
+#include <array>
+//#define LIBRARY_DIR "Library"
+//#define MESH_DIR "/Library/Meshes"
+//#define MATERIAL_DIR "/Library/Materials"
 
 struct PHYSFS_File;
 
@@ -38,5 +38,6 @@ public:
 	std::string GetDirectoryPath(const char* file); 
 
 private:
+	std::array<const char*, PATHS_AMOUNT> directories;
 
 };

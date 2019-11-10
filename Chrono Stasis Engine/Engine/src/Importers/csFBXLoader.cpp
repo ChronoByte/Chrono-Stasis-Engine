@@ -406,7 +406,7 @@ bool ModuleFBXLoader::SaveMeshData(const char* fbx_name, ComponentMesh* mesh_dat
 	memset(ptr, *mesh_data->normals.buffer, bytes.at(2));
 
 
-	std::string new_path(MESH_DIR);
+	std::string new_path(MESHES_FOLDER);
 	new_path.append("/"); new_path.append(output_file.data()); new_path.append(".meta");
 
 	App->fs->WriteFile(new_path.c_str(), buffer, mesh_bytes);
