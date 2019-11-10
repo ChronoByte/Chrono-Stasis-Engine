@@ -36,7 +36,9 @@ public:
 	void GetExtensionFile(const char* file, std::string& extension);
 	void GetNameFile(const char* file, std::string& name);
 	std::string GetDirectoryPath(const char* file); 
-
+	std::string NormalizeSlashSymbol(const char* path);
+	std::string GetFullPath(const char* path, const char* folder = nullptr, const char* extension = nullptr);
+	void SplitPath(const char* full_path, std::string* path, std::string* filename, std::string* extension);
 private:
 	std::array<const char*, PATHS_AMOUNT> directories;
 

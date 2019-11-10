@@ -29,7 +29,7 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 	LOG("Initializing PhysFS library"); 
 	char* app_path = SDL_GetBasePath();
 	
-	if (PHYSFS_init(app_path) != 0)
+	if (PHYSFS_init(NormalizeSlashSymbol(app_path).c_str()) != 0)
 	{
 		ret = true;
 		LOG("PhysFS successfully initialized.");
@@ -291,4 +291,67 @@ std::string ModuleFileSystem::GetDirectoryPath(const char * file)	// Gets direct
 		path = path.erase(ext_pos + 1);
 
 	return path;
+}
+
+std::string ModuleFileSystem::NormalizeSlashSymbol(const char* path)
+{
+	std::string str = path;
+
+	for (int i = 0; i < str.length(); i++)
+	{
+		if (str[i] == '\\')
+			str[i] = '/';
+	}
+
+	return str.c_str();
+}
+
+std::string ModuleFileSystem::GetFullPath(const char* path, const char* folder, const char* extension)
+{
+	std::string full_path = path;
+	std::string directory;
+
+	
+	if (folder != nullptr || extension != nullptr)
+		SplitPath(path, &directory, &full_path, nullptr);
+
+	if (folder != nullptr)
+		full_path = folder + full_path;
+	else
+		full_path = directory + full_path;
+	if (extension != nullptr)
+		full_path += extension;
+
+	return full_path.c_str();
+}
+
+void ModuleFileSystem::SplitPath(const char* full_path, std::string* path, std::string* filename, std::string* extension)
+{
+	std::string str = NormalizeSlashSymbol(full_path);
+	uint pos_slash = str.find_last_of('/');
+	uint pos_dot = str.find_last_of('.');
+
+	if (path != nullptr)
+	{
+		if (pos_slash < str.length())
+			*path = str.substr(0, pos_slash + 1);
+		else
+			path->clear();
+	}
+
+	if (filename != nullptr)
+	{
+		if (pos_slash < str.length())
+			*filename = str.substr(pos_slash + 1, pos_dot - pos_slash - 1);
+		else
+			*filename = str.substr(0, pos_dot);
+	}
+
+	if (extension != nullptr)
+	{
+		if (pos_dot < str.length())
+			*extension = str.substr(pos_dot + 1);
+		else
+			extension->clear();
+	}
 }
