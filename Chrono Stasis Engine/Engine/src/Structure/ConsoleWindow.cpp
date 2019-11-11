@@ -31,6 +31,14 @@ void ConsoleWindow::Draw()
 	if (ImGui::Button("Push Warning"))
 		PushLog("Here we are pushing a warning to the console");
 
+	ImGui::SameLine();
+	if (ImGui::Button("Push Success"))
+		PushLog("Here we are pushing a success to the console");
+	
+	ImGui::SameLine();
+	if (ImGui::Button("Push Separator"))
+		PushLog("[-----------------------------------------------------------]");
+
 	const float footer_height_to_reserve = ImGui::GetStyle().ItemSpacing.y + ImGui::GetFrameHeightWithSpacing(); // 1 separator, 1 input text
 	ImGui::BeginChild("ScrollingRegion", ImVec2(0, -footer_height_to_reserve), true, ImGuiWindowFlags_HorizontalScrollbar);
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(4, 1)); // Tighten spacing
@@ -52,7 +60,6 @@ void ConsoleWindow::Draw()
 
 	if (ImGui::Button("Go To Bottom")) 
 		scrolltobottom = true;
-
 
 	ImGui::End();
 }
