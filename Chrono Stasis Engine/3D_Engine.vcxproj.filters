@@ -394,6 +394,7 @@
     <ClInclude Include="Engine\Dependencies\rapidjson\stream.h" />
     <ClInclude Include="Engine\Dependencies\rapidjson\stringbuffer.h" />
     <ClInclude Include="Engine\Dependencies\rapidjson\writer.h" />
+    <ClInclude Include="Engine\src\Tools\JSONManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -576,6 +577,7 @@
     <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\SceneViewWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\PseudoRandom.cpp" />
+    <ClCompile Include="Engine\src\Tools\JSONManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

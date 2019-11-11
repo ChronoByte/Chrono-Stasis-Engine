@@ -15,6 +15,7 @@
 #include "csScene.h"
 #include "csFileSystem.h"
 
+#include "JSONManager.h"
 #include <list>
 #include <vector>
 
@@ -36,6 +37,7 @@ public:
 	ModuleScene*			scene = nullptr;
 	ModuleFileSystem*		fs = nullptr;
 
+	JSONManager*            json = nullptr;
 private:
 
 	std::list<Module*> list_modules;

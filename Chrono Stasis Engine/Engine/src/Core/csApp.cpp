@@ -24,6 +24,7 @@ Application::Application()
 	scene		= new ModuleScene();
 	fs			= new ModuleFileSystem();
 
+	json		= new JSONManager();
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -38,7 +39,7 @@ Application::Application()
 	AddModule(fbx);
 	AddModule(texture);
 	AddModule(fs);
-
+	
 	// Game Scenes 
 	AddModule(scene);
 	

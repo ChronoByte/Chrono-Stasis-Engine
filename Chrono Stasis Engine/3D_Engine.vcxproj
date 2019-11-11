@@ -277,6 +277,7 @@
     <ClInclude Include="Engine\src\Structure\RandomWindow.h" />
     <ClInclude Include="Engine\src\Structure\SceneViewWindow.h" />
     <ClInclude Include="Engine\src\Structure\Window.h" />
+    <ClInclude Include="Engine\src\Tools\JSONManager.h" />
     <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
     <ClInclude Include="Engine\src\Tools\Timer.h" />
   </ItemGroup>
@@ -313,6 +314,7 @@
     <ClCompile Include="Engine\src\Structure\InspectorWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\SceneViewWindow.cpp" />
+    <ClCompile Include="Engine\src\Tools\JSONManager.cpp" />
     <ClCompile Include="Engine\src\Tools\log.cpp" />
     <ClCompile Include="Engine\src\Core\csMain.cpp" />
     <ClCompile Include="Engine\src\Modules\csCamera3D.cpp" />
