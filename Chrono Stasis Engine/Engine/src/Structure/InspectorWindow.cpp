@@ -2,6 +2,8 @@
 #include "csApp.h"
 #include "HierarchyWindow.h"
 #include "csGameObject.h"
+#include "csComponent.h"
+
 
 InspectorWindow::InspectorWindow(bool startOpened) : Window(startOpened)
 {
@@ -27,9 +29,9 @@ void InspectorWindow::Draw()
 			{
 				if (ImGui::BeginMenu("Add Component"))
 				{
-					if (ImGui::MenuItem("Add Material")) {}
+					if (ImGui::MenuItem("Add Material")) { go_selected->CreateComponent(ComponentType::C_MATERIAL); }
 
-					if (ImGui::MenuItem("Add Geometry")) {}
+					if (ImGui::MenuItem("Add Mesh")) { go_selected->CreateComponent(ComponentType::C_MESH); }
 
 					if (ImGui::MenuItem("Add Camera")) {}
 
