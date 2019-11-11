@@ -25,7 +25,7 @@ void ComponentTransform::Update(float dt)
 		global_matrix = local_matrix; 
 
 
-	LOG("______");
+	/*LOG("______");
 	LOG("Global Transform - Game Object: %s", GetOwner()->GetName());
 	for (uint i = 0; i < 16; i += 4)
 	{
@@ -34,7 +34,7 @@ void ComponentTransform::Update(float dt)
 			GetGlobalTransform().Transposed()[i + 2],
 			GetGlobalTransform().Transposed()[i + 3]
 		);
-	}
+	}*/
 }
 
 void ComponentTransform::DrawBoundingBox()

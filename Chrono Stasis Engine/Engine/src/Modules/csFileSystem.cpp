@@ -8,12 +8,8 @@ ModuleFileSystem::ModuleFileSystem()
 {
 	name = "FileSystem";
 
-	directories.assign(ASSETS_FOLDER);
-	directories.assign(LIBRARY_FOLDER);
-	directories.assign(SETTINGS_FOLDER);
-	directories.assign(MESHES_FOLDER);
-	directories.assign(TEXTURES_FOLDER);
-	directories.assign(FBX_FOLDER);
+	
+	
 }
 
 ModuleFileSystem::~ModuleFileSystem()
