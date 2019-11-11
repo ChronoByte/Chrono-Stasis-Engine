@@ -12,63 +12,91 @@ enum JSONValueType {
 
 	OBJECT_VALUE,
 	ARRAY_VALUE,
-	BOOLEAN_VALUE,
+	STRING_VALUE,
 	NUMBER_VALUE,
+	FALSE_VALUE,
+	TRUE_VALUE,
 };
 
-struct RAPIDJSON_Array
-{
+struct RJSON_Value {
 public:
-	RAPIDJSON_Array(rapidjson::Document::AllocatorType* allocator);
-	virtual ~RAPIDJSON_Array();
+	RJSON_Value(rapidjson::Document::AllocatorType* allocator) : allocator(allocator)
+	{
+		value = new rapidjson::Value(rapidjson::kObjectType);
+	}
+	virtual ~RJSON_Value();
 
-	void AddArray(const char* name, RAPIDJSON_Array* value);
-	RAPIDJSON_Array* CreateArray();
-	RAPIDJSON_Array* GetArray(const char* name);
-	void SetArray(const char* name, RAPIDJSON_Array* value);
-	rapidjson::Value* GetArrayValue();
+	void TransformTo(JSONValueType type);
+
+	//RJSON_Value* CreateValue(JSONValueType type);
+	RJSON_Value* CreateValue();
+	void AddValue(const char* name, RJSON_Value* value);
+	RJSON_Value* GetValue(const char* name);
+	void SetValue(const char* name, RJSON_Value* value);
+	rapidjson::Value* GetJSONValue();
 
 private:
-	rapidjson::Value* value = nullptr;
 	rapidjson::Document::AllocatorType* allocator = nullptr;
-	std::vector<RAPIDJSON_Array*> values;
+	rapidjson::Value* value = nullptr;
+	std::vector<RJSON_Value*> values;
 };
 
-struct RAPIDJSON_Object
+/*
+struct RJSON_Object : public RJSON_Value
 {
 public:
 
-	RAPIDJSON_Object(rapidjson::Document::AllocatorType* allocator);
-	virtual ~RAPIDJSON_Object();
+	RJSON_Object(rapidjson::Document::AllocatorType* allocator);
+	virtual ~RJSON_Object();
 
-	//void ToArray();
-	void AddObject(const char* name, RAPIDJSON_Object* value);
-	RAPIDJSON_Object* CreateObject();
-	RAPIDJSON_Object* GetObj(const char* name);
-	void SetObject(const char* name, RAPIDJSON_Object* value);
+	void AddObject(const char* name, RJSON_Object* value);
+	RJSON_Object* CreateObject();
+	RJSON_Object* GetObj(const char* name);
+	void SetObject(const char* name, RJSON_Object* value);
 	rapidjson::Value* GetObjectValue();
 
 private:
 
 	rapidjson::Value* value = nullptr;
 	rapidjson::Document::AllocatorType* allocator = nullptr;
-	std::vector<RAPIDJSON_Object*> values;
+	std::vector<RJSON_Object*> values;
 };
 
-struct RAPIDJSON_FILE
+struct RJSON_Array : public RJSON_Value
 {
 public:
-	RAPIDJSON_FILE(rapidjson::FileWriteStream* os, FILE* fp);
-	RAPIDJSON_FILE(rapidjson::FileReadStream* is, FILE* fp);
+	RJSON_Array(rapidjson::Document::AllocatorType* allocator);
+	virtual ~RJSON_Array();
+
+	void AddArray(const char* name, RJSON_Array* value);
+	RJSON_Array* CreateArray();
+	RJSON_Array* GetArray(const char* name);
+	void SetArray(const char* name, RJSON_Array* value);
+	rapidjson::Value* GetArrayValue();
+
+private:
+	rapidjson::Value* value = nullptr;
+	rapidjson::Document::AllocatorType* allocator = nullptr;
+	std::vector<RJSON_Array*> values;
+};
+*/  
+
+struct RJSON_File
+{
+public:
+	RJSON_File(rapidjson::FileWriteStream* os, FILE* fp);
+	RJSON_File(rapidjson::FileReadStream* is, FILE* fp);
 	
-	virtual ~RAPIDJSON_FILE();
+	virtual ~RJSON_File();
 
 	bool WriteFile();
-	RAPIDJSON_Object* PushValue();
-	void AddValue(const char* name, RAPIDJSON_Object* value);
-	RAPIDJSON_Object* GetValue(const char* name);
-	void SetValue(const char* name, RAPIDJSON_Object* value);
+	
+	RJSON_Value* CreateValue();
+	void AddValue(const char* name, RJSON_Value* value);
+	RJSON_Value* GetValue(const char* name);
+	void SetValue(const char* name, RJSON_Value* value);
 	void CloseFile();
+
 
 private:
 
@@ -77,8 +105,9 @@ private:
 	rapidjson::FileWriteStream* os = nullptr;
 	rapidjson::FileReadStream* is = nullptr;
 	rapidjson::Document::AllocatorType* allocator = nullptr;
-	std::vector<RAPIDJSON_Object*> values;
+	std::vector<RJSON_Value*> values;
 };
+
 
 class Serializer
 {
@@ -86,9 +115,7 @@ public:
 	Serializer();
 	virtual ~Serializer();
 
-	//void CreateValue(JSONValueType value);
-
-	RAPIDJSON_FILE* JSONRead(const char* path);
-	RAPIDJSON_FILE* JSONWrite(const char* path);
-	void JSONClose(RAPIDJSON_FILE* file);
+	RJSON_File* JSONRead(const char* path);
+	RJSON_File* JSONWrite(const char* path);
+	void JSONClose(RJSON_File* file);
 };
