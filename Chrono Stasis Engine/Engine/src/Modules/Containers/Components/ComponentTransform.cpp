@@ -17,7 +17,7 @@ void ComponentTransform::Update(float dt)
 
 	if (toRecalculateTransform) 
 	{
-		RecursiveCalcTransform(owner); 
+		CalculateTransformRecursively(); 
 		toRecalculateTransform = false; 
 	}
 
@@ -76,25 +76,22 @@ const float4x4 ComponentTransform::GetGlobalTransform() const
 	return global_matrix;
 }
 
-void ComponentTransform::RecursiveCalcTransform(GameObject* owner)
+void ComponentTransform::CalculateTransformRecursively()
 {
-	if (owner->GetParent() == nullptr) // Root is trying to acces here // TODO: Handle root locking
-		return; 
+	GameObject* parent = owner->GetParent();
+
+	// TODO: Handle root locking
+	if (parent == nullptr) 	// Root is trying to acces here 
+		return;
 
 	LOG("Recalculating Transform from: %s", owner->GetName());
 
-	ComponentTransform* currTransform = owner->GetTransform(); 
-
-	currTransform->local_matrix = float4x4::FromTRS(currTransform->position, currTransform->rotation_quat, currTransform->scale);
-
-	if (owner->GetParent() == App->scene->GetRoot())
-		currTransform->global_matrix = currTransform->local_matrix;
-	else
-		currTransform->global_matrix = owner->GetParent()->GetTransform()->GetGlobalTransform() * currTransform->local_matrix;
+	local_matrix = float4x4::FromTRS(position, rotation_quat, scale);
+	global_matrix = parent->GetTransform()->GetGlobalTransform() * local_matrix;
 
 	for (std::list<GameObject*>::const_iterator it = owner->childs.begin(); it != owner->childs.end(); ++it)
 	{
-		RecursiveCalcTransform((*it));
+		(*it)->GetTransform()->CalculateTransformRecursively();
 	}
 }
 

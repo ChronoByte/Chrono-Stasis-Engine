@@ -18,7 +18,7 @@ public:
 	const float4x4 GetLocalTransform() const;
 	const void SetLocalTransform(const float4x4& local);
 	const float4x4 GetGlobalTransform() const;
-	void RecursiveCalcTransform(GameObject* parent);
+	void CalculateTransformRecursively();
 
 	const void SetPosition(const float3& pos);
 	const void SetRotationEuler(const float3& euler);
