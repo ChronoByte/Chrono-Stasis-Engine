@@ -79,9 +79,7 @@ update_status ModuleScene::Update(float dt)
 		glEnd();
 	}
 
-	//root->Update(dt); 
 	RecursiveUpdate(root, dt);
-	//DirectDrawing(imageId);
 
 	return UPDATE_CONTINUE;
 }
@@ -243,111 +241,6 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 	return go;
 }
 
-void ModuleScene::DirectDrawing(const uint &imageId)
-{
-	glBindTexture(GL_TEXTURE_2D, imageId);
-	glBegin(GL_TRIANGLES);
-	//glColor4f(255, 0, 128, 255);
-
-	// Face 1
-	glVertex3f(0.f, 0.f, 0.f);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(0.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glTexCoord2f(0.0f, 1.0f);
-
-	glVertex3f(0.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(0.f, 1.f, 1.f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glTexCoord2f(0.0f, 1.0f);
-
-	// Face 2
-	glVertex3f(0.f, 0.f, 1.f);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(1.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(0.f, 1.f, 1.f);
-	glTexCoord2f(0.0f, 1.0f);
-
-	glVertex3f(1.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(1.f, 1.f, 1.f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(0.f, 1.f, 1.f);
-	glTexCoord2f(0.0f, 1.0f);
-
-
-	// Face 3
-	glVertex3f(1.f, 0.f, 1.f);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glTexCoord2f(1.0f, 1.0f);
-
-	glVertex3f(1.f, 0.f, 1.f);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(1.f, 1.f, 1.f);
-	glTexCoord2f(0.0f, 1.0f);
-
-	// Face 4
-	glVertex3f(1.f, 0.f, 0.f);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glTexCoord2f(0.0f, 1.0f);
-
-	glVertex3f(0.f, 0.f, 0.f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glTexCoord2f(0.0f, 0.0f);
-
-	// Face 5
-	glVertex3f(0.f, 1.f, 0.f);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(0.f, 1.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glTexCoord2f(0.0f, 1.0f);
-
-	glVertex3f(1.f, 1.f, 1.f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(1.f, 1.f, 0.f);
-	glTexCoord2f(0.0f, 1.0f);
-	glVertex3f(0.f, 1.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f);
-
-
-	// Face 6
-	glVertex3f(0.f, 0.f, 0.f);
-	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glTexCoord2f(0.0f, 1.0f);
-	glVertex3f(0.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f);
-
-	glVertex3f(1.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(0.f, 0.f, 1.f);
-	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(1.f, 0.f, 0.f);
-	glTexCoord2f(0.0f, 1.0f);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glEnd();
-}
-
-
-
 GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name)
 {
 	if (parent == nullptr)
@@ -377,9 +270,14 @@ void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)
 
 	parent->Update(dt);
 
-	for (std::list<GameObject*>::const_iterator it = parent->childs.begin(); it != parent->childs.end(); ++it)
+	for (std::list<GameObject*>::iterator it = parent->childs.begin(); it != parent->childs.end(); ++it)
 	{
-		RecursiveUpdate((*it), dt);
+		if ((*it)->to_delete)
+		{
+			delete (*it);
+			it = parent->childs.erase(it);
+		}
+		else RecursiveUpdate((*it), dt);
 	}
 	
 }

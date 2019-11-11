@@ -24,7 +24,7 @@ public:
 	Component() {}
 	Component(GameObject* parent) : owner(parent) {}
 
-	~Component(){}
+	virtual ~Component(){}
 
 	virtual void Update(float dt){}
 	

@@ -52,6 +52,7 @@ private:
 
 public:
 
+	bool to_delete = false; 
 	std::string name; 
 	std::list<Component*> components; 
 	std::list<GameObject*> childs; 

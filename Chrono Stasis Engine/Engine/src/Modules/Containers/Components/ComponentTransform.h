@@ -11,7 +11,7 @@ class ComponentTransform : public Component
 public:
 
 	ComponentTransform(GameObject* parent);
-	virtual ~ComponentTransform();
+	~ComponentTransform();
 
 	void Update(float dt) override;
 	void DrawBoundingBox();

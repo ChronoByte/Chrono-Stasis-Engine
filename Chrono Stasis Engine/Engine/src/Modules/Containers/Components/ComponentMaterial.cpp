@@ -10,6 +10,7 @@ ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 
 ComponentMaterial::~ComponentMaterial()
 {
+	LOG("Deleting component material from %s", owner->GetName());
 }
 
 void ComponentMaterial::SetColor(float r, float g, float b, float a)
