@@ -15,17 +15,22 @@ void ComponentTransform::Update(float dt)
 	if (App->renderer3D->drawBoundingBox || drawBoundingBox)
 		 DrawBoundingBox(); 
 
+	if (toRecalculateTransform) 
+	{
+		RecursiveCalcTransform(owner); 
+		toRecalculateTransform = false; 
+	}
 
-	local_matrix = float4x4::FromTRS(position, rotation_quat, scale);
+	//local_matrix = float4x4::FromTRS(position, rotation_quat, scale);
 
-	// If its a child (not a parent and its not the root)
-	if (GetOwner()->GetParent() != nullptr && GetOwner()->GetParent() != App->scene->GetRoot())
-		global_matrix = GetOwner()->GetParent()->GetTransform()->global_matrix * local_matrix;
-	else if(GetOwner() != App->scene->GetRoot())
-		global_matrix = local_matrix; 
+	//// If its a child (not a parent and its not the root)
+	//if (GetOwner()->GetParent() != nullptr && GetOwner()->GetParent() != App->scene->GetRoot())
+	//	global_matrix = GetOwner()->GetParent()->GetTransform()->global_matrix * local_matrix;
+	//else if(GetOwner() != App->scene->GetRoot())
+	//	global_matrix = local_matrix; 
 
 
-	LOG("______");
+	/*LOG("______");
 	LOG("Global Transform - Game Object: %s", GetOwner()->GetName());
 	for (uint i = 0; i < 16; i += 4)
 	{
@@ -34,7 +39,7 @@ void ComponentTransform::Update(float dt)
 			GetGlobalTransform().Transposed()[i + 2],
 			GetGlobalTransform().Transposed()[i + 3]
 		);
-	}
+	}*/
 }
 
 void ComponentTransform::DrawBoundingBox()
@@ -69,6 +74,28 @@ const void ComponentTransform::SetLocalTransform(const float4x4& local)
 const float4x4 ComponentTransform::GetGlobalTransform() const
 {
 	return global_matrix;
+}
+
+void ComponentTransform::RecursiveCalcTransform(GameObject* owner)
+{
+	if (owner->GetParent() == nullptr) // Root is trying to acces here // TODO: Handle root locking
+		return; 
+
+	LOG("Recalculating Transform from: %s", owner->GetName());
+
+	ComponentTransform* currTransform = owner->GetTransform(); 
+
+	currTransform->local_matrix = float4x4::FromTRS(currTransform->position, currTransform->rotation_quat, currTransform->scale);
+
+	if (owner->GetParent() == App->scene->GetRoot())
+		currTransform->global_matrix = currTransform->local_matrix;
+	else
+		currTransform->global_matrix = owner->GetParent()->GetTransform()->GetGlobalTransform() * currTransform->local_matrix;
+
+	for (std::list<GameObject*>::const_iterator it = owner->childs.begin(); it != owner->childs.end(); ++it)
+	{
+		RecursiveCalcTransform((*it));
+	}
 }
 
 const void ComponentTransform::SetPosition(const float3& pos)
@@ -133,20 +160,29 @@ const void ComponentTransform::SetBoundingBox(const AABB& bb)
 
 void ComponentTransform::InspectorInfo()
 {
+
 	if (ImGui::CollapsingHeader("Local Transformation", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (ImGui::InputFloat3("Position", (float*)&position, 2))
+		{
 			SetPosition(position);
+			toRecalculateTransform = true; 
+		}
 
 		if (ImGui::InputFloat3("Rotation", (float*)&rotation_euler, 2))
+		{ 
 			SetRotationEuler(rotation_euler);
+			toRecalculateTransform = true;
+		}
 
 		if (ImGui::InputFloat3("Scale", (float*)&scale, 2))
+		{
 			SetScale(scale);
+			toRecalculateTransform = true;
+		}
 
 		if(!bounding_box.Size().IsZero())
 			ImGui::Checkbox("View Bounding Box", &drawBoundingBox);
-
 	}
 	// TODO: More info like bounding box..
 }

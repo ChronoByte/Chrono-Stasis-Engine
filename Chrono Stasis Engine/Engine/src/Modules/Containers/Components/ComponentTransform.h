@@ -18,6 +18,7 @@ public:
 	const float4x4 GetLocalTransform() const;
 	const void SetLocalTransform(const float4x4& local);
 	const float4x4 GetGlobalTransform() const;
+	void RecursiveCalcTransform(GameObject* parent);
 
 	const void SetPosition(const float3& pos);
 	const void SetRotationEuler(const float3& euler);
@@ -48,4 +49,6 @@ public:
 
 	AABB bounding_box;
 	bool drawBoundingBox = false;
+
+	bool toRecalculateTransform = false; 
 };
