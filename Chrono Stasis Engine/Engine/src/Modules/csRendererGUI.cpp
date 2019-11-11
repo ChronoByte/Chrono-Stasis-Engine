@@ -41,7 +41,7 @@ bool ModuleUI::Init(JSON_Object* node)
 		// Setup style
 		StyleLoader(json_object_get_string(node, "style"));
 		SizeLoader(json_object_get_string(node, "size"));
-		LOG("ImGui Library Initialized correctly"); 
+		LOG("ImGui Library Initialized Successfully"); 
 		LOG("ImGui Version: v%s", ImGui::GetVersion());
 	}
 	else

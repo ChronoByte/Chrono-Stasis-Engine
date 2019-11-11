@@ -80,8 +80,7 @@ void ComponentTransform::CalculateTransformRecursively()
 {
 	GameObject* parent = owner->GetParent();
 
-	// TODO: Handle root locking
-	if (parent == nullptr) 	// Root is trying to acces here 
+	if (parent == nullptr) 	// Root is trying to acces here // TODO: Handle root locking
 		return;
 
 	LOG("Recalculating Transform from: %s", owner->GetName());

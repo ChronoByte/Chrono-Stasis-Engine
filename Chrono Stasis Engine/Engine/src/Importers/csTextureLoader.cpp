@@ -53,7 +53,7 @@ bool ModuleTextureLoader::Init(JSON_Object* node)
 	}
 	else
 	{
-		LOG("DevIL Library Initialized correctly.");
+		LOG("DevIL Library Initialized successfully.");
 		LOG("DevIL Version v%i.%i.%i", 1, 8, 0);
 	}
 

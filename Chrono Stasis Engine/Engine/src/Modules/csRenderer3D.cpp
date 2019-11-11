@@ -44,7 +44,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 
 	if(ret == true)
 	{
-		LOG("Glew Initialized Correctly.");
+		LOG("Glew Initialized Successfully.");
 		LOG("Glew Version: v%s", glewGetString(GLEW_VERSION));
 
 		if(App->GetVSYNC() && SDL_GL_SetSwapInterval(1) < 0)
@@ -89,7 +89,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		}
 		else
 		{
-			LOG("OpenGL Initialized Correctly.");
+			LOG("OpenGL Initialized Successfully.");
 			LOG("OpenGL Version: v%s", glGetString(GL_VERSION));
 
 			SDL_version compiled;

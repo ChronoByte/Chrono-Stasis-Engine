@@ -67,6 +67,7 @@ void ConsoleWindow::PrintAllLogs()
 		bool pop_color = false;
 		if (strstr(item, "error") || strstr(item, "Error")) { ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.4f, 0.4f, 1.0f)); pop_color = true; }
 		if (strstr(item, "warning") || strstr(item, "Warning")) { ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f)); pop_color = true; }
+		if (strstr(item, "success") || strstr(item, "Success")) { ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); pop_color = true; }
 		ImGui::TextUnformatted(item);
 		if (pop_color)
 			ImGui::PopStyleColor();

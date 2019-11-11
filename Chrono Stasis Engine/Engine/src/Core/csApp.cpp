@@ -418,7 +418,7 @@ bool Application::LoadNow()
 	config_file = json_parse_file("config.json");
 
 	if (config_file != nullptr) {
-		LOG("config.json loaded correctly...");
+		LOG("config.json loaded successfully...");
 		bool ret = true;
 
 		for (std::list<Module*>::iterator it = list_modules.begin(); it != list_modules.end() && ret == true; it++)
@@ -467,7 +467,7 @@ bool Application::SaveNow()
 		json_object_set_number(config_node, "Max FPS", App->GetFPS());
 		json_object_set_boolean(config_node, "VSYNC", App->GetVSYNC());
 		
-		LOG("config.json saved correctly...");
+		LOG("config.json saved successfully...");
 		for (std::list<Module*>::iterator it = list_modules.begin(); it != list_modules.end() && ret == true; it++)
 		{
 			config_node = json_object_get_object(config, (*it)->name.c_str());

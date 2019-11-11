@@ -29,7 +29,7 @@ bool ModuleFBXLoader::Init(JSON_Object* node)
 	stream = aiGetPredefinedLogStream(aiDefaultLogStream_DEBUGGER, nullptr);
 	aiAttachLogStream(&stream);
 
-	LOG("Assimp Library Loaded Correctly.");
+	LOG("Assimp Library Loaded Successfully.");
 	LOG("Assimp Version: v%i.%i.%i", 3, 1, 1);
 	return true;
 }
