@@ -5,6 +5,7 @@ ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 {
 	type = ComponentType::C_MATERIAL;
 	checkersTex = App->texture->testTexture;
+	name = "Material"; 
 }
 
 ComponentMaterial::~ComponentMaterial()

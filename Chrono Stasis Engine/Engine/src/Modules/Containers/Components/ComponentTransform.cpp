@@ -3,7 +3,8 @@
 
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 {
-	type = ComponentType::C_TRANSFORM; 
+	type = ComponentType::C_TRANSFORM;
+	name = "Transform";
 }
 
 ComponentTransform::~ComponentTransform()

@@ -85,7 +85,10 @@ void GameObject::SetName(const char * name)
 Component * GameObject::CreateComponent(ComponentType type)
 {
 	if (HasComponent(type))
+	{
+		LOG("Error adding component: Game Object %s already has this component", GetName()); 
 		return nullptr; 
+	}
 
 	Component* component = nullptr;
 
@@ -106,7 +109,7 @@ Component * GameObject::CreateComponent(ComponentType type)
 			component = new ComponentMaterial(this);
 			components.push_back(component);
 		}
-		else LOG("Error: Can not create a 'Component Material' to a Game Object without a 'Component Mesh'. ")
+		else LOG("Error adding component: Can not create a 'Component Material' to a Game Object without a 'Component Mesh'. ")
 		break;
 
 	case ComponentType::C_LIGHT:

@@ -7,6 +7,7 @@
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 {
 	type = ComponentType::C_MESH; 
+	name = "Mesh"; 
 }
 
 ComponentMesh::~ComponentMesh()

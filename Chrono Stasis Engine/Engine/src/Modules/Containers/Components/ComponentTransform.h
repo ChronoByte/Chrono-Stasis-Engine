@@ -45,7 +45,7 @@ public:
 	float3   position = float3::zero;
 	float3   rotation_euler = float3::zero;
 	Quat     rotation_quat = Quat::identity;
-	float3   scale = float3::zero;
+	float3   scale = float3(1.f,1.f,1.f);
 
 	AABB bounding_box;
 	bool drawBoundingBox = false;
