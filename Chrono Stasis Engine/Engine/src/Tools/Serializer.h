@@ -6,8 +6,9 @@
 #include "rapidjson/filereadstream.h"
 #include "rapidjson/prettywriter.h"
 #include <vector>
-
-
+#include "csGlobals.h"
+#include "MathGeoLib/include/Math/float3.h"
+#include "MathGeoLib/include/Math/Quat.h"
 struct RJSON_Value {
 
 public:
@@ -24,6 +25,13 @@ public:
 
 	rapidjson::Value* GetJSONValue() const;
 
+	void SetInt(const char* name, int value);
+	void SetUint(const char* name, uint value);
+	void SetFloat(const char* name, float value);
+	void SetString(const char* name, const char* value);
+	void SetBoolean(const char* name, bool value);
+	void SetVector3(const char* name, float3 vec);
+	void SetQuaternion(const char* name, Quat quat);
 private:
 	rapidjson::Document::AllocatorType* allocator = nullptr;
 	rapidjson::Value* value = nullptr;

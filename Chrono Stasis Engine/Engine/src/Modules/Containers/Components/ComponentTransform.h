@@ -37,6 +37,10 @@ public:
 
 	void InspectorInfo();
 
+	// Parser
+	void Save(RJSON_Value* component) const;
+	void Load(RJSON_Value* component);
+
 public:
 
 	float4x4 local_matrix = float4x4::identity;

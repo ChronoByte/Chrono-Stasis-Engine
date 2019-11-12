@@ -191,6 +191,11 @@ bool GameObject::isActive() const
 	return active;
 }
 
+bool GameObject::isStatic() const
+{
+	return staticGO;
+}
+
 GameObject * GameObject::GetParent() const
 {
 	return parent;
@@ -211,6 +216,11 @@ ComponentTransform * GameObject::GetTransform() const
 	return transform;
 }
 
+uint GameObject::GetUUID() const
+{
+	return UUID;
+}
+
 void GameObject::DrawInspectorComponents()
 {
 
@@ -229,4 +239,26 @@ void GameObject::DrawInspectorComponents()
 		ImGui::Separator();
 	}
 	
+}
+
+void GameObject::Save(RJSON_Value* gos)
+{
+	RJSON_Value* gameObject = gos->CreateValue(rapidjson::kObjectType);
+
+	gameObject->SetUint("UUID", GetUUID());
+	gameObject->SetUint("Parent UUID", GetParent()->GetUUID());
+	gameObject->SetString("Name", GetName());
+	gameObject->SetBoolean("Active", isActive());
+	gameObject->SetBoolean("Static", isStatic());
+
+	RJSON_Value* comps = gameObject->CreateValue(rapidjson::kArrayType);
+
+	for (auto& comp : components) // Serialize each GameObject Component
+			comp->Save(comps);
+
+	gameObject->AddValue("Components", *comps);
+	gos->AddValue("", *gameObject);
+
+	for (auto& child : childs) // Serialize GameObject Children
+		child->Save(gos);
 }

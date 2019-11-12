@@ -487,3 +487,11 @@ const uint ComponentMesh::GetTriangles() const
 {
 	return index.capacity / 3;
 }
+
+void ComponentMesh::Save(RJSON_Value* component) const
+{
+}
+
+void ComponentMesh::Load(RJSON_Value* component)
+{
+}

@@ -185,3 +185,18 @@ void ComponentTransform::InspectorInfo()
 	// TODO: More info like bounding box..
 }
 
+void ComponentTransform::Save(RJSON_Value* component) const
+{
+	RJSON_Value* transform = component->CreateValue(rapidjson::kObjectType);
+
+	transform->SetVector3("Position", GetPosition());
+	transform->SetVector3("Rotation", GetRotationEuler());
+	transform->SetVector3("Scale", GetScale());
+
+	component->AddValue("Transformation", *transform);
+}
+
+void ComponentTransform::Load(RJSON_Value* component)
+{
+}
+

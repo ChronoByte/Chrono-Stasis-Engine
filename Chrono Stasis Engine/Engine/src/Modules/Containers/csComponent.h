@@ -5,6 +5,8 @@
 #include "csGameObject.h"
 #include "imgui/imgui.h"
 
+struct RJSON_Value;
+
 enum class ComponentType
 {
 	C_NONE = 0,
@@ -40,6 +42,10 @@ public:
 	ComponentType GetType() const { return type;  }
 	const char* GetName() const { return name.c_str(); }
 	GameObject* GetOwner() const { return owner; }
+
+	// Parser
+	virtual void Save(RJSON_Value* component) const {}
+	virtual void Load(RJSON_Value* component) {}
 
 protected:
 

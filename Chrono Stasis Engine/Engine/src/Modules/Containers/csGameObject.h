@@ -2,10 +2,11 @@
 
 #include <string>
 #include <list>
-
+#include "csGlobals.h"
 class Component; 
 class ComponentTransform; 
 enum class ComponentType; 
+struct RJSON_Value;
 
 class GameObject
 {
@@ -34,22 +35,27 @@ public:
 	void RemoveComponent(Component* component);
 
 	// Gets
+	uint GetUUID() const;
 	bool isActive() const;
+	bool isStatic() const;
 	GameObject* GetParent() const;
 	const char* GetName() const;
 	std::list<GameObject*> GetChilds() const; 
 	ComponentTransform* GetTransform() const; 
-
 	// Inspector Panel 
 	void DrawInspectorComponents();
+
+	//Parser
+	void Save(RJSON_Value* go);
 
 
 private: 
 
+	uint UUID = 0;
 	bool active = true; 
+	bool staticGO = false;
 	GameObject* parent = nullptr; 
 	ComponentTransform* transform = nullptr; 
-
 public:
 
 	bool to_delete = false; 

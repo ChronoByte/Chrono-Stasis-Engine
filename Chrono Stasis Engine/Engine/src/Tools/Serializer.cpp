@@ -234,3 +234,68 @@ rapidjson::Value* RJSON_Value::GetJSONValue() const
 	return value;
 }
 
+// ---------------- JSON SETS ----------------- //
+void RJSON_Value::SetInt(const char* name, int value)
+{
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	this->value->AddMember(index, value, *allocator);
+}
+
+void RJSON_Value::SetUint(const char* name, uint value)
+{
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	this->value->AddMember(index, value, *allocator);
+}
+
+void RJSON_Value::SetFloat(const char* name, float value)
+{
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	this->value->AddMember(index, value, *allocator);
+}
+
+void RJSON_Value::SetString(const char* name, const char* value)
+{
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	std::string str2 = value;
+	rapidjson::Value val(str2.c_str(), str2.size(), *allocator);
+	this->value->AddMember(index, val, *allocator);
+}
+
+void RJSON_Value::SetBoolean(const char* name, bool value)
+{
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+	this->value->AddMember(index, value, *allocator);
+}
+
+void RJSON_Value::SetVector3(const char* name, float3 vec)
+{
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+
+	rapidjson::Value a(rapidjson::kArrayType);
+	a.PushBack(vec.x, *allocator);
+	a.PushBack(vec.y, *allocator);
+	a.PushBack(vec.z, *allocator);
+
+	this->value->AddMember(index, a, *allocator);
+}
+
+void RJSON_Value::SetQuaternion(const char* name, Quat quat)
+{
+	std::string str = name;
+	rapidjson::Value index(str.c_str(), str.size(), *allocator);
+
+	rapidjson::Value a(rapidjson::kArrayType);
+	a.PushBack(quat.x, *allocator);
+	a.PushBack(quat.y, *allocator);
+	a.PushBack(quat.z, *allocator);
+	a.PushBack(quat.w, *allocator);
+
+	this->value->AddMember(index, a, *allocator);
+
+}

@@ -12,6 +12,7 @@
 class aiMesh; 
 class TextureInfo; 
 struct BoundingBox;
+struct RJSON_Value;
 
 template<typename T>
 struct MeshInfo
@@ -52,6 +53,10 @@ public:
 	const uint GetVertices() const;
 	const uint GetTextureCoords() const;
 	const uint GetTriangles() const;
+
+	// Parser
+	void Save(RJSON_Value* component) const;
+	void Load(RJSON_Value* component);
 
 public: 
 

@@ -73,3 +73,11 @@ void ComponentMaterial::InspectorInfo()
 	}
 	//TODO: Set more info
 }
+
+void ComponentMaterial::Save(RJSON_Value* component) const
+{
+}
+
+void ComponentMaterial::Load(RJSON_Value* component)
+{
+}
