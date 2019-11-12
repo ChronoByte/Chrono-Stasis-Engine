@@ -270,14 +270,18 @@ void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)
 
 	parent->Update(dt);
 
-	for (std::list<GameObject*>::iterator it = parent->childs.begin(); it != parent->childs.end(); ++it)
+	std::list<GameObject*>::iterator it = parent->childs.begin();
+	while (it != parent->childs.end())
 	{
 		if ((*it)->to_delete)
 		{
 			delete (*it);
 			it = parent->childs.erase(it);
 		}
-		else RecursiveUpdate((*it), dt);
+		else
+		{
+			RecursiveUpdate((*it), dt);
+			it++;
+		}
 	}
-	
 }
