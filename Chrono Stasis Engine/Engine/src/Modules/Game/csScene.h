@@ -44,7 +44,6 @@ public:
 	GameObject* GetRoot() const; 
 
 	GameObject* CreateObject3D(PrimitiveType type, GameObject* parent); 
-	void DirectDrawing(const uint &imageId);
 
 private:
 	//vars

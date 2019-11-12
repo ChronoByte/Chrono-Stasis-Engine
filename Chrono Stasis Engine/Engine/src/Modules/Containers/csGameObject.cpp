@@ -1,5 +1,7 @@
 #include "csGameObject.h"
 #include "csGlobals.h"
+#include "csApp.h"
+#include "src/Structure/HierarchyWindow.h"
 
 // -----------
 #include "csComponent.h"
@@ -24,9 +26,11 @@ GameObject::GameObject(GameObject * parent)
 GameObject::~GameObject()
 {
 	LOG("Deleting %s", name.c_str());
-	parent = nullptr; 
 
-	std::list<GameObject*>::const_iterator it = childs.begin(); 
+	if (App->editor->hierarchy->GetSelected() == this)
+		App->editor->hierarchy->CleanSelected(); 
+
+	std::list<GameObject*>::iterator it = childs.begin(); 
 
 	for (it; it != childs.end(); ++it)
 	{
@@ -34,6 +38,15 @@ GameObject::~GameObject()
 	}
 
 	childs.clear(); 
+
+	std::list<Component*>::iterator iter = components.begin();
+
+	for (iter; iter != components.end(); ++iter)
+	{
+		delete (*iter);
+	}
+
+	components.clear();
 
 }
 

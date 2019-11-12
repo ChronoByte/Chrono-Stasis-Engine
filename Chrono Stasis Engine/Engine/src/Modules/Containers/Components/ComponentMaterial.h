@@ -18,7 +18,7 @@ class ComponentMaterial : public Component
 {
 public:
 	ComponentMaterial(GameObject* parent);
-	virtual ~ComponentMaterial();
+	~ComponentMaterial();
 
 	void SetColor(float r, float g, float b, float a);
 	Color GetColor() const;

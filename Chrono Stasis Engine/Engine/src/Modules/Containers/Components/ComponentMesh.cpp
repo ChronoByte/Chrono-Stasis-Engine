@@ -12,6 +12,8 @@ ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 
 ComponentMesh::~ComponentMesh()
 {
+	LOG("Deleting component mesh from %s", owner->GetName());
+
 	// Delete vertex
 	if (vertex.buffer != nullptr)
 	{

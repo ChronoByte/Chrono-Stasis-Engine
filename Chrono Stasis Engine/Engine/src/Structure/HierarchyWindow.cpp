@@ -61,7 +61,7 @@ void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 		{
 			if (ImGui::MenuItem("Delete"))
 			{
-				// TODO deleting
+				parent->to_delete = true; 
 				ImGui::CloseCurrentPopup();
 			}
 
@@ -74,16 +74,16 @@ void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 			}
 			if (ImGui::BeginMenu("3D Object"))
 			{
-				if (ImGui::MenuItem("Cube")) { App->scene->CreateObject3D(PrimitiveType::CUBE, nullptr); ImGui::CloseCurrentPopup(); }
-				if (ImGui::MenuItem("Sphere")) { App->scene->CreateObject3D(PrimitiveType::SPHERE, nullptr); ImGui::CloseCurrentPopup(); }
-				if (ImGui::MenuItem("Plane")) { App->scene->CreateObject3D(PrimitiveType::PLANE, nullptr); ImGui::CloseCurrentPopup(); }
-				if (ImGui::MenuItem("Cylinder")) { App->scene->CreateObject3D(PrimitiveType::CYLINDER, nullptr); ImGui::CloseCurrentPopup(); }
-				if (ImGui::MenuItem("Cone")) { App->scene->CreateObject3D(PrimitiveType::CONE, nullptr); ImGui::CloseCurrentPopup(); }
-				if (ImGui::MenuItem("Torus")) { App->scene->CreateObject3D(PrimitiveType::TORUS, nullptr); ImGui::CloseCurrentPopup(); }
-				if (ImGui::MenuItem("Klein Bottle")) { App->scene->CreateObject3D(PrimitiveType::KLEIN_BOTTLE, nullptr); ImGui::CloseCurrentPopup();}
-				if (ImGui::MenuItem("Trefoil Knot")) { App->scene->CreateObject3D(PrimitiveType::TREFOIL_KNOT, nullptr); ImGui::CloseCurrentPopup(); }
-				if (ImGui::MenuItem("Hemisphere")) { App->scene->CreateObject3D(PrimitiveType::HEMISPHERE, nullptr); ImGui::CloseCurrentPopup(); }
-				if (ImGui::MenuItem("Rock")) { App->scene->CreateObject3D(PrimitiveType::ROCK, nullptr); ImGui::CloseCurrentPopup(); }
+				if (ImGui::MenuItem("Cube")) { App->scene->CreateObject3D(PrimitiveType::CUBE, parent); ImGui::CloseCurrentPopup(); }
+				if (ImGui::MenuItem("Sphere")) { App->scene->CreateObject3D(PrimitiveType::SPHERE, parent); ImGui::CloseCurrentPopup(); }
+				if (ImGui::MenuItem("Plane")) { App->scene->CreateObject3D(PrimitiveType::PLANE, parent); ImGui::CloseCurrentPopup(); }
+				if (ImGui::MenuItem("Cylinder")) { App->scene->CreateObject3D(PrimitiveType::CYLINDER, parent); ImGui::CloseCurrentPopup(); }
+				if (ImGui::MenuItem("Cone")) { App->scene->CreateObject3D(PrimitiveType::CONE, parent); ImGui::CloseCurrentPopup(); }
+				if (ImGui::MenuItem("Torus")) { App->scene->CreateObject3D(PrimitiveType::TORUS, parent); ImGui::CloseCurrentPopup(); }
+				if (ImGui::MenuItem("Klein Bottle")) { App->scene->CreateObject3D(PrimitiveType::KLEIN_BOTTLE, parent); ImGui::CloseCurrentPopup();}
+				if (ImGui::MenuItem("Trefoil Knot")) { App->scene->CreateObject3D(PrimitiveType::TREFOIL_KNOT, parent); ImGui::CloseCurrentPopup(); }
+				if (ImGui::MenuItem("Hemisphere")) { App->scene->CreateObject3D(PrimitiveType::HEMISPHERE, parent); ImGui::CloseCurrentPopup(); }
+				if (ImGui::MenuItem("Rock")) { App->scene->CreateObject3D(PrimitiveType::ROCK, parent); ImGui::CloseCurrentPopup(); }
 				ImGui::EndMenu();
 			}
 			ImGui::EndPopup();
@@ -108,6 +108,11 @@ void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 GameObject* HierarchyWindow::GetSelected() const
 {
 	return selectedGo;
+}
+
+void HierarchyWindow::CleanSelected()
+{
+	selectedGo = nullptr; 
 }
 
 

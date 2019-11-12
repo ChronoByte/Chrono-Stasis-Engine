@@ -7,8 +7,9 @@ ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 	name = "Transform";
 }
 
-ComponentTransform::~ComponentTransform()
+ComponentTransform::~ComponentTransform() 
 {
+	LOG("Deleting component transform from %s", owner->GetName());
 }
 
 void ComponentTransform::Update(float dt)

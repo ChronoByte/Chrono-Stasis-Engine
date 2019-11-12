@@ -20,6 +20,7 @@ public:
 	void CreateRecursiveTreeNodes(GameObject* parent); 
 
 	GameObject* GetSelected() const;
+	void CleanSelected(); 
 
 private:
 	GameObject* selectedGo = nullptr;
