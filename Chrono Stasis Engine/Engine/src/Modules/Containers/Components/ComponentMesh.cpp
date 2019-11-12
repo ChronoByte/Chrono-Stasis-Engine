@@ -490,6 +490,14 @@ const uint ComponentMesh::GetTriangles() const
 
 void ComponentMesh::Save(RJSON_Value* component) const
 {
+	RJSON_Value* mesh = component->CreateValue(rapidjson::kObjectType);
+
+	mesh->SetUint("UUID", UUID);
+	component->AddValue("Geometry", *mesh);
+
+	//TODO: MAKE MESH RESOURCE
+		//mesh->SetString("FBX", );
+		//mesh->SetString("Name Mesh",);
 }
 
 void ComponentMesh::Load(RJSON_Value* component)

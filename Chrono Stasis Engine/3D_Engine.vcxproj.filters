@@ -395,6 +395,7 @@
     <ClInclude Include="Engine\Dependencies\rapidjson\stringbuffer.h" />
     <ClInclude Include="Engine\Dependencies\rapidjson\writer.h" />
     <ClInclude Include="Engine\src\Tools\Serializer.h" />
+    <ClInclude Include="Engine\src\Tools\PseudoRandom.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">

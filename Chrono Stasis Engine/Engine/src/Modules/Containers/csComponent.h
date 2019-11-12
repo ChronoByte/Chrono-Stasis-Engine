@@ -4,6 +4,7 @@
 
 #include "csGameObject.h"
 #include "imgui/imgui.h"
+#include "PseudoRandom.h"
 
 struct RJSON_Value;
 
@@ -24,7 +25,7 @@ class Component
 
 public:
 	Component() {}
-	Component(GameObject* parent) : owner(parent) {}
+	Component(GameObject* parent) : owner(parent) { UUID = (uint)GenerateUUID; }
 
 	virtual ~Component(){}
 
@@ -53,5 +54,5 @@ protected:
 	GameObject* owner = nullptr; 
 	bool active = true; 
 	std::string name; 
-
+	uint UUID = 0;
 };
