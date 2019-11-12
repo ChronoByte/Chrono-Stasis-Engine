@@ -2,7 +2,10 @@
 
 #include <string>
 #include <list>
+#include <vector>
+
 #include "csGlobals.h"
+
 class Component; 
 class ComponentTransform; 
 enum class ComponentType; 
@@ -33,6 +36,7 @@ public:
 	bool HasComponent(ComponentType type); 
 	Component* FindComponent(ComponentType type); 
 	void RemoveComponent(Component* component);
+	void FindComponentsInAllChilds(ComponentType type, std::vector<Component*>& compsfound);
 
 	// Gets
 	uint GetUUID() const;

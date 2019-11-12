@@ -112,14 +112,38 @@ void ComponentTransform::UpdateBoundingBox()
 	ComponentMesh* mesh = (ComponentMesh*)owner->FindComponent(ComponentType::C_MESH);
 
 	// TODO: Case on parents: where they have no mesh but still need to be focused and probably have a bbox
-	if (mesh == nullptr)
-		return; 
+	if (mesh != nullptr)
+	{
+		boundingBox.obb = mesh->GetAABB(); 
+		boundingBox.obb.Transform(global_matrix); 
 
-	boundingBox.obb = mesh->GetAABB(); 
-	boundingBox.obb.Transform(global_matrix); 
+		boundingBox.aabb.SetNegativeInfinity(); 
+		boundingBox.aabb.Enclose(boundingBox.obb);
+	}
+	else
+	{
+		LOG("Updating Parent BB");
+		std::vector<Component*> meshesVector;
 
-	boundingBox.aabb.SetNegativeInfinity(); 
-	boundingBox.aabb.Enclose(boundingBox.obb);
+		owner->FindComponentsInAllChilds(ComponentType::C_MESH, meshesVector);
+		boundingBox.aabb.SetNegativeInfinity();
+
+		float4x4 globalTransf = float4x4::identity; 
+
+		for (uint i = 0; i < meshesVector.size(); ++i)
+		{
+			ComponentMesh* mesh = (ComponentMesh*)meshesVector[i];
+			boundingBox.obb = mesh->GetAABB();
+			boundingBox.obb.Transform(mesh->GetOwner()->GetTransform()->GetGlobalTransform());
+			boundingBox.aabb.Enclose(boundingBox.obb);
+		}
+
+		/*boundingBox.obb = boundingBox.aabb;
+		boundingBox.obb.Transform(globalTransf);
+
+		boundingBox.aabb.SetNegativeInfinity();
+		boundingBox.aabb.Enclose(boundingBox.obb);*/
+	}
 }
 
 const void ComponentTransform::SetPosition(const float3& pos)
@@ -187,19 +211,19 @@ void ComponentTransform::InspectorInfo()
 
 	if (ImGui::CollapsingHeader("Local Transformation", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		if (ImGui::InputFloat3("Position", (float*)&position, 2))
+		if (ImGui::DragFloat3("Position", (float*)&position, 0.5f))
 		{
 			SetPosition(position);
 			toRecalculateTransform = true; 
 		}
 
-		if (ImGui::InputFloat3("Rotation", (float*)&rotation_euler, 2))
+		if (ImGui::DragFloat3("Rotation", (float*)&rotation_euler, 0.5f))
 		{ 
 			SetRotationEuler(rotation_euler);
 			toRecalculateTransform = true;
 		}
 
-		if (ImGui::InputFloat3("Scale", (float*)&scale, 2))
+		if (ImGui::DragFloat3("Scale", (float*)&scale, 0.5f))
 		{
 			SetScale(scale);
 			toRecalculateTransform = true;

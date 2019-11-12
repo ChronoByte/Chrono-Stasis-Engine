@@ -186,6 +186,19 @@ void GameObject::RemoveComponent(Component * component)
 	components.remove(component);
 }
 
+void GameObject::FindComponentsInAllChilds(ComponentType type, std::vector<Component*>& compsfound)
+{
+	std::list<GameObject*>::iterator it = childs.begin();
+	for (it; it != childs.end(); ++it)
+	{
+		Component* found = (*it)->FindComponent(type);
+		if (found != nullptr)
+			compsfound.push_back(found); 
+
+		(*it)->FindComponentsInAllChilds(type, compsfound);
+	}
+}
+
 bool GameObject::isActive() const
 {
 	return active;
