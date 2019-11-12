@@ -2,13 +2,7 @@
 #include "csGlobals.h"
 
 
-Serializer::Serializer()
-{
-}
 
-Serializer::~Serializer()
-{
-}
 
 RJSON_File* Serializer::JSONRead(const char* path)
 {
@@ -60,10 +54,9 @@ RJSON_File::RJSON_File(rapidjson::FileReadStream* is, FILE* fp) : is(is), fp(fp)
 
 RJSON_File::~RJSON_File()
 {
-	int size = values.size();
-	for (int i = 0; i < size; i++)
+	for (auto& value : values)
 	{
-		RELEASE(values[i]);
+		RELEASE(value);
 	}
 	values.clear();
 
@@ -81,7 +74,7 @@ bool RJSON_File::WriteFile()
 	{
 		rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(*os);
 		ret = document->Accept(writer);
-
+		
 		return ret;
 	}
 	else
@@ -97,21 +90,20 @@ RJSON_Value* RJSON_File::CreateValue(rapidjson::Type type)
 	
 }
 
-void RJSON_File::AddValue(const char* name, RJSON_Value* newValue)
+void RJSON_File::AddValue(const char* name, const RJSON_Value& newValue)
 {
 	std::string str = name;
 	rapidjson::Value genetic(str.c_str(), str.size(), *allocator);
-	document->AddMember(genetic, *newValue->GetJSONValue(), *allocator);
+	document->AddMember(genetic, *newValue.GetJSONValue(), *allocator);
 }
 
 RJSON_Value* RJSON_File::GetValue(const char* name)
 {
 	if (document->IsObject() && document->HasMember(name))
 	{
-		rapidjson::Value& value = document->operator[](name);
 		RJSON_Value* ret = new RJSON_Value(allocator);
+		ret->GetJSONValue()->CopyFrom(document->operator[](name), *allocator, false);
 		values.push_back(ret);
-		ret->GetJSONValue()->CopyFrom(value, *allocator, false);
 
 		return ret;
 	}
@@ -119,10 +111,10 @@ RJSON_Value* RJSON_File::GetValue(const char* name)
 	return nullptr;
 }
 
-void RJSON_File::SetValue(const char* name, RJSON_Value* newValue)
+void RJSON_File::SetValue(const char* name, RJSON_Value& newValue)
 {
 	if (this->document->HasMember(name))
-		this->document->operator[](name) = *newValue->GetJSONValue(); 
+		this->document->operator[](name) = *newValue.GetJSONValue(); 
 	else
 		this->AddValue(name, newValue); 
 
@@ -143,17 +135,23 @@ RJSON_Value::RJSON_Value(rapidjson::Document::AllocatorType* allocator, rapidjso
 	value = new rapidjson::Value(type);
 }
 
-
 RJSON_Value::~RJSON_Value()
 {
-	int size = values.size();
-	for (int i = 0; i < size; i++)
+	
+	for (auto& value : values)
 	{
-		RELEASE(values[i]);
+		RELEASE(value);
 	}
 	values.clear();
 
 	RELEASE(value);
+}
+
+RJSON_Value* RJSON_Value::CreateValue(rapidjson::Type type)
+{
+	RJSON_Value* ret = new RJSON_Value(allocator,type);
+	values.push_back(ret);
+	return ret;
 }
 
 void RJSON_Value::TransformTo(rapidjson::Type type)
@@ -188,58 +186,34 @@ void RJSON_Value::TransformTo(rapidjson::Type type)
 	}
 }
 
-//RJSON_Value* RJSON_Value::CreateValue(JSONValueType type)
-//{
-//	RJSON_Value* value = nullptr;
-//	
-//		switch (type) {
-//	
-//			case JSONValueType::OBJECT_VALUE:
-//				value = new RJSON_Object(allocator);
-//				values.push_back(value);
-//				break;
-//	
-//			case JSONValueType::ARRAY_VALUE:
-//				value = new RJSON_Array(allocator);
-//				values.push_back(value);
-//				break;
-//	
-//			default:
-//				break;
-//	
-//		}
-//
-//}
 
-RJSON_Value* RJSON_Value::CreateValue(rapidjson::Type type)
+void RJSON_Value::AddValue(const char* name,const RJSON_Value& newValue)
 {
-	RJSON_Value* ret = new RJSON_Value(allocator,type);
-	values.push_back(ret);
-	return ret;
-}
 
-void RJSON_Value::AddValue(const char* name, RJSON_Value* newValue)
-{
-	if (this->value->GetType() == rapidjson::kObjectType)
+	switch (this->value->GetType())
 	{
-		std::string str = name;
-		rapidjson::Value generic(str.c_str(), str.size(), *allocator);
-		this->value->AddMember(generic, *newValue->value, *allocator);
+		case rapidjson::kObjectType:
+		{
+			std::string str = name;
+			rapidjson::Value generic(str.c_str(), str.size(), *allocator);
+			this->value->AddMember(generic, *newValue.value, *allocator);
+			break;
+		}
+		case rapidjson::kArrayType:
+			this->value->PushBack(*newValue.value, *allocator);
+			break;
 	}
-	else if (this->value->GetType() == rapidjson::kArrayType)
-	{
-		this->value->PushBack(*newValue->value, *allocator);
-	}
+
+
 }
 
 RJSON_Value* RJSON_Value::GetValue(const char* name)
 {
 	if (value->IsObject() && value->HasMember(name))
 	{
-		rapidjson::Value& trueValue = value->operator[](name);
 		RJSON_Value* ret = new RJSON_Value(allocator);
+		ret->value->CopyFrom(value->operator[](name), *allocator, false);
 		values.push_back(ret);
-		ret->value->CopyFrom(trueValue, *allocator, false);
 
 		return ret;
 	}
@@ -247,152 +221,16 @@ RJSON_Value* RJSON_Value::GetValue(const char* name)
 	return nullptr;
 }
 
-void RJSON_Value::SetValue(const char* name, RJSON_Value* newValue)
+void RJSON_Value::SetValue(const char* name, RJSON_Value& newValue)
 {
 	if (this->value->HasMember(name))
-		this->value->operator[](name) = *newValue->value; //If it exists modify it
+		this->value->operator[](name) = *newValue.value; //If it exists modify it
 	else
 		this->AddValue(name, newValue); //if not, set a new one
 }
 
-rapidjson::Value* RJSON_Value::GetJSONValue()
-{
-	return nullptr;
-}
-
-
-/*
-// ---------------- JSON VALUE: OBJECT  ----------------- //
-RJSON_Object::RJSON_Object(rapidjson::Document::AllocatorType* alloc) : RJSON_Value(alloc)
-{
-	value = new rapidjson::Value(rapidjson::kObjectType);
-	allocator = alloc;
-}
-
-RJSON_Object::~RJSON_Object()
-{
-	int size = values.size();
-	for (int i = 0; i < size; i++)
-	{
-		RELEASE(values[i]);
-	}
-	values.clear();
-
-	RELEASE(value);
-}
-
-
-RJSON_Object* RJSON_Object::CreateObject()
-{
-	RJSON_Object* ret = new RJSON_Object(allocator);
-	values.push_back(ret);
-	return ret;
-}
-
-RJSON_Object* RJSON_Object::GetObj(const char* name)
-{
-	if (value->IsObject() && value->HasMember(name))
-	{
-		rapidjson::Value& trueValue = value->operator[](name);
-		RJSON_Object* ret = new RJSON_Object(allocator);
-		values.push_back(ret);
-		ret->value->CopyFrom(trueValue, *allocator, false);
-
-		return ret;
-	}
-
-	return nullptr;
-}
-
-void RJSON_Object::SetObject(const char* name, RJSON_Object* newValue)
-{
-	if (this->value->HasMember(name))
-		this->value->operator[](name) = *newValue->value; //If it exists modify it
-	else
-		this->AddObject(name, newValue); //if not, set a new one
-}
-
-void RJSON_Object::AddObject(const char* name, RJSON_Object* newValue)
-{
-	if (this->value->GetType() == rapidjson::kObjectType)
-	{
-		std::string str = name;
-		rapidjson::Value generic(str.c_str(), str.size(), *allocator);
-		this->value->AddMember(generic, *newValue->value, *allocator);
-	}
-	else if (this->value->GetType() == rapidjson::kArrayType)
-	{
-		this->value->PushBack(*newValue->value, *allocator);
-	}
-}
-
-rapidjson::Value* RJSON_Object::GetObjectValue()
-{
-	return value; //Private variable to access
-}
-
-
-// ---------------- JSON VALUE: ARRAY  ----------------- //
-RJSON_Array::RJSON_Array(rapidjson::Document::AllocatorType* alloc) : RJSON_Value(alloc)
-{
-	this->value = new rapidjson::Value(rapidjson::kArrayType);
-	//this->allocator = alloc;
-}
-
-RJSON_Array::~RJSON_Array()
-{
-	int size = values.size();
-	for (int i = 0; i < size; i++)
-	{
-		RELEASE(values[i]);
-	}
-	values.clear();
-
-	RELEASE(value);
-}
-
-void RJSON_Array::AddArray(const char* name, RJSON_Array* newValue)
-{
-	if (this->value->GetType() == rapidjson::kArrayType)
-	{
-		this->value->PushBack(*newValue->value, *allocator);
-	}
-}
-
-RJSON_Array* RJSON_Array::CreateArray()
-{
-	RJSON_Array* ret = new RJSON_Array(allocator);
-	values.push_back(ret);
-	return ret;
-}
-
-RJSON_Array* RJSON_Array::GetArray(const char* name)
-{
-	if (value->IsArray() && value->HasMember(name))
-	{
-		rapidjson::Value& trueValue = value->operator[](name);
-		RJSON_Array* ret = new RJSON_Array(allocator);
-		values.push_back(ret);
-		ret->value->CopyFrom(trueValue, *allocator, false);
-
-		return ret;
-	}
-	return nullptr;
-}
-
-void RJSON_Array::SetArray(const char* name, RJSON_Array* newValue)
-{
-	if (this->value->HasMember(name))
-		this->value->operator[](name) = *newValue->value; //If it exists modify it
-	else
-		this->AddArray(name, newValue); //if not, set a new one
-}
-
-rapidjson::Value* RJSON_Array::GetArrayValue()
+rapidjson::Value* RJSON_Value::GetJSONValue() const
 {
 	return value;
 }
-
-*/
-
 
