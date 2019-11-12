@@ -24,6 +24,7 @@ class InspectorWindow;
 class HierarchyWindow; 
 class GeometryWindow; 
 class SceneViewWindow;
+class FileBrowserWindow;
 class Window;
 
 enum WindowType
@@ -64,6 +65,7 @@ public:
 	HierarchyWindow*	hierarchy = nullptr; 
 	GeometryWindow*		geometryWin = nullptr; 
 	SceneViewWindow*	sceneView = nullptr;
+	FileBrowserWindow* browser = nullptr;
 
 	bool show_demo_window = false;
 	bool show_style_window = false;

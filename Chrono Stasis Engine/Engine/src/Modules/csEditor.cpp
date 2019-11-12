@@ -19,6 +19,7 @@
 #include "src/Structure/HierarchyWindow.h"
 #include "src/Structure/GeometryWindow.h"
 #include "src/Structure/SceneViewWindow.h"
+#include "src/Structure/FileBrowserWindow.h"
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
@@ -41,7 +42,7 @@ bool ModuleEditor::Init(JSON_Object* node)
 	windows.push_back(randomWin = new RandomWindow(json_object_get_boolean(node, "random")));
 	windows.push_back(collisionWin = new CollisionWindow(json_object_get_boolean(node, "collision")));
 	windows.push_back(sceneView = new SceneViewWindow(json_object_get_boolean(node, "scene view")));
-
+	windows.push_back(browser = new FileBrowserWindow(false)); //TODO: parse into json
 	LOG("-------------- Application Init --------------");	// This is stuffed here so it logs into the console, which was not created previously
 
 	return true;
@@ -107,8 +108,12 @@ update_status ModuleEditor::Update(float dt)
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("Save")) App->Save();
-			if (ImGui::MenuItem("Load")) App->Load();
+			/*if (ImGui::MenuItem("Save")) App->Save();
+			if (ImGui::MenuItem("Load")) App->Load();*/
+			if (ImGui::MenuItem("New Scene")) { browser->OpenBrowser(BrowserState::NEW_SCENE); }
+			if (ImGui::MenuItem("Save Scene")) { browser->OpenBrowser(BrowserState::SAVE_SCENE); }
+			if (ImGui::MenuItem("Save Scene As")) { browser->OpenBrowser(BrowserState::SAVE_SCENE_AS); }
+			if (ImGui::MenuItem("Load Scene")) { browser->OpenBrowser(BrowserState::LOAD_SCENE); }
 			if (ImGui::MenuItem("Close", "Ctrl+W")) { App->to_close_app = true; }
 			ImGui::EndMenu();
 		}
