@@ -11,13 +11,6 @@
 class ComponentMesh; 
 class GameObject; 
 
-struct BoundingBox
-{
-	AABB box;
-	float3 min;
-	float3 max;
-
-};
 enum FileType
 {
 	NONE = -1,
@@ -65,7 +58,7 @@ public:
 	void NodePath(aiNode* node, const aiScene* scene);
 
 	GameObject* LoadFBXData(const char* fbx_name);
-	void UpdateBoundingBox(aiMesh* mesh, float3* min, float3* max);
+	void GrowBoundingBox(aiMesh* mesh, float3* min, float3* max);
 	void SetBoundingBox(const aiScene* scene);
 	bool SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data);
 	bool LoadMeshData();
@@ -76,6 +69,4 @@ private:
 	FileType type = FileType::NONE;
 
 	std::string filePath;
-	BoundingBox bounding_box;
-
 };

@@ -1,10 +1,12 @@
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
 #include "csApp.h"
 
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 {
 	type = ComponentType::C_TRANSFORM;
 	name = "Transform";
+	toRecalculateTransform = true; 
 }
 
 ComponentTransform::~ComponentTransform() 
@@ -46,20 +48,27 @@ void ComponentTransform::Update(float dt)
 
 void ComponentTransform::DrawBoundingBox()
 {
-	for (uint i = 0; i < 12; i++)
+
+	for (uint i = 0; i < boundingBox.aabb.NumEdges(); ++i)
 	{
 		glBegin(GL_LINES);
-		glLineWidth(1.0f);
+		glLineWidth(2.0f);
 
-		glColor3f(0, 1, 0);
+		// Draw AABB
+		glColor3f(0, 1, 1);
 
-		glVertex3f(bounding_box.Edge(i).a.x, bounding_box.Edge(i).a.y, bounding_box.Edge(i).a.z);
-		glVertex3f(bounding_box.Edge(i).b.x, bounding_box.Edge(i).b.y, bounding_box.Edge(i).b.z);
+		glVertex3f(boundingBox.aabb.Edge(i).a.x, boundingBox.aabb.Edge(i).a.y, boundingBox.aabb.Edge(i).a.z);
+		glVertex3f(boundingBox.aabb.Edge(i).b.x, boundingBox.aabb.Edge(i).b.y, boundingBox.aabb.Edge(i).b.z);
 
+		// Draw OBB
+		glColor3f(1, 1, 1);
+
+		glVertex3f(boundingBox.obb.Edge(i).a.x, boundingBox.obb.Edge(i).a.y, boundingBox.obb.Edge(i).a.z);
+		glVertex3f(boundingBox.obb.Edge(i).b.x, boundingBox.obb.Edge(i).b.y, boundingBox.obb.Edge(i).b.z);
+	
 		glColor3f(1, 1, 1);
 		glEnd();
 	}
-
 }
 
 
@@ -90,10 +99,27 @@ void ComponentTransform::CalculateTransformRecursively()
 	local_matrix = float4x4::FromTRS(position, rotation_quat, scale);
 	global_matrix = parent->GetTransform()->GetGlobalTransform() * local_matrix;
 
+	UpdateBoundingBox();
+
 	for (std::list<GameObject*>::const_iterator it = owner->childs.begin(); it != owner->childs.end(); ++it)
 	{
 		(*it)->GetTransform()->CalculateTransformRecursively();
 	}
+}
+
+void ComponentTransform::UpdateBoundingBox()
+{
+	ComponentMesh* mesh = (ComponentMesh*)owner->FindComponent(ComponentType::C_MESH);
+
+	// TODO: Case on parents: where they have no mesh but still need to be focused and probably have a bbox
+	if (mesh == nullptr)
+		return; 
+
+	boundingBox.obb = mesh->GetAABB(); 
+	boundingBox.obb.Transform(global_matrix); 
+
+	boundingBox.aabb.SetNegativeInfinity(); 
+	boundingBox.aabb.Enclose(boundingBox.obb);
 }
 
 const void ComponentTransform::SetPosition(const float3& pos)
@@ -141,7 +167,7 @@ const float3 ComponentTransform::GetScale() const
 
 const AABB ComponentTransform::GetBoundingBox() const
 {
-	return bounding_box;
+	return boundingBox.aabb;
 }
 
 void ComponentTransform::SetupTransform(const float3& position, const float3& scale, const Quat& rotation)
@@ -153,7 +179,7 @@ void ComponentTransform::SetupTransform(const float3& position, const float3& sc
 
 const void ComponentTransform::SetBoundingBox(const AABB& bb)
 {
-	this->bounding_box = bb;
+	this->boundingBox.aabb = bb;
 }
 
 void ComponentTransform::InspectorInfo()
@@ -179,7 +205,7 @@ void ComponentTransform::InspectorInfo()
 			toRecalculateTransform = true;
 		}
 
-		if(!bounding_box.Size().IsZero())
+		if(!boundingBox.aabb.Size().IsZero())
 			ImGui::Checkbox("View Bounding Box", &drawBoundingBox);
 	}
 	// TODO: More info like bounding box..

@@ -6,6 +6,13 @@
 #include "MathGeoLib\include\MathBuildConfig.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
+struct BoundingBox {
+
+	AABB aabb;
+	OBB obb;
+
+};
+
 class ComponentTransform : public Component
 {
 public:
@@ -18,7 +25,9 @@ public:
 	const float4x4 GetLocalTransform() const;
 	const void SetLocalTransform(const float4x4& local);
 	const float4x4 GetGlobalTransform() const;
+
 	void CalculateTransformRecursively();
+	void UpdateBoundingBox();
 
 	const void SetPosition(const float3& pos);
 	const void SetRotationEuler(const float3& euler);
@@ -51,8 +60,8 @@ public:
 	Quat     rotation_quat = Quat::identity;
 	float3   scale = float3(1.f,1.f,1.f);
 
-	AABB bounding_box;
-	bool drawBoundingBox = false;
+	BoundingBox boundingBox; 
+	bool drawBoundingBox = true;
 
 	bool toRecalculateTransform = false; 
 };

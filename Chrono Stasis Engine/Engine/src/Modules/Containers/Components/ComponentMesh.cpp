@@ -306,17 +306,10 @@ void ComponentMesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 	//LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
 }
 
-void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape, BoundingBox* shapeBB)
+void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape)
 {
 	par_shapes_unweld(shape, true);
 	par_shapes_compute_normals(shape);
-
-	
-	if (shape->npoints > 0)
-	{
-		shapeBB->min = float3(shape->points[0], shape->points[1], shape->points[2]);
-		shapeBB->max = float3(shape->points[0], shape->points[1], shape->points[2]);
-	}
 
 	// Vertex Buffer
 	vertex.capacity = shape->npoints;
@@ -349,17 +342,6 @@ void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape, BoundingBox* s
 
 	// Face Normals
 	LoadMeshFaceNormals(); 
-
-	
-	//Bounding Box
-	for (uint i = 0; i < shape->npoints; i += 3)
-	{
-		float3 vec(shape->points[i], shape->points[i + 1], shape->points[i + 2]);
-
-		shapeBB->min = shapeBB->min.Min(vec);
-		shapeBB->max = shapeBB->max.Max(vec);
-	}
-
 
 	CreateMeshBuffers();
 }
@@ -486,6 +468,14 @@ const uint ComponentMesh::GetTextureCoords() const
 const uint ComponentMesh::GetTriangles() const
 {
 	return index.capacity / 3;
+}
+
+AABB ComponentMesh::GetAABB() const
+{
+	AABB aabb;
+	aabb.SetNegativeInfinity();
+	aabb.Enclose((float3*)vertex.buffer, vertex.capacity);
+	return aabb;
 }
 
 void ComponentMesh::Save(RJSON_Value* component) const

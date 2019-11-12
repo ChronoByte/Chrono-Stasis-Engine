@@ -43,7 +43,7 @@ public:
 	void LoadMeshColors(aiMesh* mesh, int index);
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 
-	void LoadMeshFromParShape(par_shapes_mesh* shape, BoundingBox* shapeBB);
+	void LoadMeshFromParShape(par_shapes_mesh* shape);
 
 	void CreateMeshBuffers(); 
 
@@ -53,7 +53,7 @@ public:
 	const uint GetVertices() const;
 	const uint GetTextureCoords() const;
 	const uint GetTriangles() const;
-
+	AABB GetAABB() const; 
 	// Parser
 	void Save(RJSON_Value* component) const;
 	void Load(RJSON_Value* component);
