@@ -396,6 +396,7 @@
     <ClInclude Include="Engine\Dependencies\rapidjson\writer.h" />
     <ClInclude Include="Engine\src\Tools\Serializer.h" />
     <ClInclude Include="Engine\src\Tools\PseudoRandom.h" />
+    <ClInclude Include="Engine\src\Importers\csSceneSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -579,6 +580,7 @@
     <ClCompile Include="Engine\src\Structure\SceneViewWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\PseudoRandom.cpp" />
     <ClCompile Include="Engine\src\Tools\Serializer.cpp" />
+    <ClCompile Include="Engine\src\Importers\csSceneSerializer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

@@ -16,12 +16,15 @@
 #include "csFileSystem.h"
 
 #include "Serializer.h"
+#include "csSceneSerializer.h"
+
 #include <list>
 #include <vector>
 
 #define MAX_FRAMES_LOGGED 100
 #define MAX_MEMORY_LOGGED 100
 #define MAX_RAM_LOGGED 100
+
 
 class Application
 {
@@ -38,6 +41,7 @@ public:
 	ModuleFileSystem*		fs = nullptr;
 
 	Serializer*            json = nullptr;
+	ModuleSceneSerializer* serialization = nullptr;
 private:
 
 	std::list<Module*> list_modules;
