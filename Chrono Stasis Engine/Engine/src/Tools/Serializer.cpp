@@ -89,6 +89,14 @@ bool RJSON_File::WriteFile()
 }
 
 
+RJSON_Value* RJSON_File::CreateValue(rapidjson::Type type)
+{
+	RJSON_Value* ret = new RJSON_Value(allocator, type);
+	values.push_back(ret);
+	return ret;
+	
+}
+
 void RJSON_File::AddValue(const char* name, RJSON_Value* newValue)
 {
 	std::string str = name;
@@ -123,9 +131,18 @@ void RJSON_File::SetValue(const char* name, RJSON_Value* newValue)
 void RJSON_File::CloseFile()
 {
 	fclose(fp);
+	RELEASE(document);
+	RELEASE(allocator);
+	RELEASE(is);
+	RELEASE(os);
 }
 
 // ---------------- JSON VALUE ----------------- //
+RJSON_Value::RJSON_Value(rapidjson::Document::AllocatorType* allocator, rapidjson::Type type) : allocator(allocator)
+{
+	value = new rapidjson::Value(type);
+}
+
 
 RJSON_Value::~RJSON_Value()
 {
@@ -139,30 +156,32 @@ RJSON_Value::~RJSON_Value()
 	RELEASE(value);
 }
 
-void RJSON_Value::TransformTo(JSONValueType type)
+void RJSON_Value::TransformTo(rapidjson::Type type)
 {
-	switch (type) 
+	switch (type)
 	{
-		case JSONValueType::OBJECT_VALUE:
+	case rapidjson::Type::kObjectType:
+			RELEASE(this->value);
+			this->value = new rapidjson::Value(rapidjson::kObjectType);
 			break;
-		case JSONValueType::ARRAY_VALUE:
-			RELEASE(value);
-			value = new rapidjson::Value(rapidjson::kArrayType);
+	case rapidjson::Type::kArrayType:
+			RELEASE(this->value);
+			this->value = new rapidjson::Value(rapidjson::kArrayType);
 			break;
-		case JSONValueType::STRING_VALUE:
-			RELEASE(value);
-			value = new rapidjson::Value(rapidjson::kStringType);
+	case rapidjson::Type::kStringType:
+			RELEASE(this->value);
+			this->value = new rapidjson::Value(rapidjson::kStringType);
 			break;
-		case JSONValueType::NUMBER_VALUE:
-			RELEASE(value);
-			value = new rapidjson::Value(rapidjson::kNumberType);
+		case rapidjson::Type::kNumberType:
+			RELEASE(this->value);
+			this->value = new rapidjson::Value(rapidjson::kNumberType);
 			break;
-		case JSONValueType::TRUE_VALUE:
-			RELEASE(value);
+		case rapidjson::Type::kTrueType:
+			RELEASE(this->value);
 			value = new rapidjson::Value(rapidjson::kTrueType);
 			break;
-		case JSONValueType::FALSE_VALUE:
-			RELEASE(value);
+		case rapidjson::Type::kFalseType:
+			RELEASE(this->value);
 			value = new rapidjson::Value(rapidjson::kFalseType);
 			break;
 
@@ -192,9 +211,9 @@ void RJSON_Value::TransformTo(JSONValueType type)
 //
 //}
 
-RJSON_Value* RJSON_Value::CreateValue()
+RJSON_Value* RJSON_Value::CreateValue(rapidjson::Type type)
 {
-	RJSON_Value* ret = new RJSON_Value(allocator);
+	RJSON_Value* ret = new RJSON_Value(allocator,type);
 	values.push_back(ret);
 	return ret;
 }

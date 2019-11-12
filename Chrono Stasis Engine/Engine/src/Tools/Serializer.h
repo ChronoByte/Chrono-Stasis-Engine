@@ -20,16 +20,13 @@ enum JSONValueType {
 
 struct RJSON_Value {
 public:
-	RJSON_Value(rapidjson::Document::AllocatorType* allocator) : allocator(allocator)
-	{
-		value = new rapidjson::Value(rapidjson::kObjectType);
-	}
+	RJSON_Value(rapidjson::Document::AllocatorType* allocator, rapidjson::Type type = rapidjson::kObjectType);
 	virtual ~RJSON_Value();
 
-	void TransformTo(JSONValueType type);
+	void TransformTo(rapidjson::Type type);
 
 	//RJSON_Value* CreateValue(JSONValueType type);
-	RJSON_Value* CreateValue();
+	RJSON_Value* CreateValue(rapidjson::Type type = rapidjson::kObjectType);
 	void AddValue(const char* name, RJSON_Value* value);
 	RJSON_Value* GetValue(const char* name);
 	void SetValue(const char* name, RJSON_Value* value);
@@ -86,12 +83,12 @@ struct RJSON_File
 public:
 	RJSON_File(rapidjson::FileWriteStream* os, FILE* fp);
 	RJSON_File(rapidjson::FileReadStream* is, FILE* fp);
-	
+
 	virtual ~RJSON_File();
 
 	bool WriteFile();
-	
-	RJSON_Value* CreateValue();
+
+	RJSON_Value* CreateValue(rapidjson::Type type = rapidjson::kObjectType);
 	void AddValue(const char* name, RJSON_Value* value);
 	RJSON_Value* GetValue(const char* name);
 	void SetValue(const char* name, RJSON_Value* value);
