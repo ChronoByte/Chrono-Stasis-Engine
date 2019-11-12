@@ -40,6 +40,6 @@ public:
 	std::string GetFullPath(const char* path, const char* folder = nullptr, const char* extension = nullptr);
 	void SplitPath(const char* full_path, std::string* path, std::string* filename, std::string* extension);
 private:
-	std::array<const char*, PATHS_AMOUNT> directories = {ASSETS_FOLDER,LIBRARY_FOLDER,SETTINGS_FOLDER,MESHES_FOLDER,TEXTURES_FOLDER,FBX_FOLDER};
+	std::array<const char*, PATHS_AMOUNT> directories = {ASSETS_FOLDER,LIBRARY_FOLDER,SETTINGS_FOLDER,MESHES_FOLDER,TEXTURES_FOLDER,SCENES_FOLDER};
 
 };

@@ -72,7 +72,7 @@ enum update_status
 #define SETTINGS_FOLDER "Settings/"
 #define MESHES_FOLDER "Library/Meshes/"
 #define TEXTURES_FOLDER "Library/Textures/"
-#define FBX_FOLDER "Library/Scenes/"
+#define SCENES_FOLDER "Library/Scenes/"
 
 // Own format files --------------
 #define MESH_EXTENSION ".chronoMesh"
