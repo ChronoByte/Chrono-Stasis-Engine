@@ -95,6 +95,61 @@ void ModuleEditor::Log(char * log) const
 		console->PushLog(log);
 }
 
+void ModuleEditor::ExitWindow()
+{
+	ImGui::SetNextWindowSize(ImVec2(500, 250));
+	ImGui::SetNextWindowPos(ImVec2(App->window->GetWidth() / 2 - 250, App->window->GetHeight() / 2 - 250));
+
+	ImGui::Begin("Exit Window", &show_exit_window, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse |ImGuiWindowFlags_NoMove );
+	
+	ImGui::Separator();
+	ImGui::Separator();
+	ImGui::SetCursorPosY(50);
+	ImGui::SetCursorPosX(67);
+	if (ImGui::Button("Exit", ImVec2(150, 50)))
+	{
+		App->to_close_app = true;
+	}
+	ImGui::SameLine();
+	ImGui::SetCursorPosX(282);
+	if (ImGui::Button("Cancel", ImVec2(150,50)))
+	{
+		show_exit_window = false;
+	}
+	
+	ImGui::SetCursorPosY(120);
+	ImGui::Separator();
+	ImGui::Separator();
+	ImGui::SetCursorPosX(80);
+	ImGui::SetCursorPosY(140);
+	ImGui::Text("We recommend to save your changes if you didnt...");
+	ImGui::Spacing();
+	ImGui::Spacing();
+	ImGui::SetCursorPosX(80);
+	
+	ImGui::TextColored(ImVec4(1.0f,0,0,1.0f),"Your changes will be lost if you don't save them.");
+	ImGui::Spacing();
+	ImGui::SetCursorPosY(200);
+	ImGui::SetCursorPosX(35);
+	if (ImGui::Button("Save", ImVec2(120, 30)))
+	{
+		
+	}
+	ImGui::SameLine();
+	ImGui::SetCursorPosX(190);
+	if (ImGui::Button("Don't Save", ImVec2(120, 30)))
+	{
+		App->to_close_app = true;
+	}
+	ImGui::SameLine();
+	ImGui::SetCursorPosX(345);
+	if (ImGui::Button("Cancel Exit", ImVec2(120, 30)))
+	{
+		show_exit_window = false;
+	}
+	ImGui::End();
+}
+
 
 
 // Update
@@ -114,7 +169,8 @@ update_status ModuleEditor::Update(float dt)
 			if (ImGui::MenuItem("Save Scene")) { browser->OpenBrowser(BrowserState::SAVE_SCENE); }
 			if (ImGui::MenuItem("Save Scene As")) { browser->OpenBrowser(BrowserState::SAVE_SCENE_AS); }
 			if (ImGui::MenuItem("Load Scene")) { browser->OpenBrowser(BrowserState::LOAD_SCENE); }
-			if (ImGui::MenuItem("Close", "Ctrl+W")) { App->to_close_app = true; }
+			if (ImGui::MenuItem("Close", "Ctrl+W", &show_exit_window)) {}
+			
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Windows"))
@@ -168,6 +224,8 @@ update_status ModuleEditor::Update(float dt)
 		ImGui::EndMainMenuBar();
 	}
 
+	if (show_exit_window)
+		ExitWindow();
 
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);

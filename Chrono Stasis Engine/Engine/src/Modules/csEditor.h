@@ -53,7 +53,7 @@ public:
 	void CreateCube(const vec3& position, const uint& length = 1u, const uint& width = 1u, const uint& height = 1u);
 
 	void Log(char* log) const; 
-	
+	void ExitWindow();
 
 public:
 
@@ -70,7 +70,7 @@ public:
 
 	bool show_demo_window = false;
 	bool show_style_window = false;
-
+	bool show_exit_window = false;
 	
 	TextureInfo* iconFolder = nullptr;
 
