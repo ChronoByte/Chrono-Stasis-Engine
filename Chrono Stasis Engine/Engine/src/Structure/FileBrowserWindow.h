@@ -4,7 +4,7 @@
 #include "imgui/imgui.h"
 #include "Window.h"
 #include <string>
-
+#include <list>
 enum BrowserState
 {
 	NONE_SCENE = 0,
@@ -13,6 +13,19 @@ enum BrowserState
 	SAVE_SCENE_AS,
 	LOAD_SCENE,
 	NEW_SCENE
+};
+
+struct StorageUnit
+{
+	enum storageType
+	{
+		NONE = 0,
+		FOLDER,
+		FILE
+	};
+	std::string name = "";
+	storageType type;
+	bool selected = false;
 };
 
 class FileBrowserWindow : public Window
@@ -31,7 +44,12 @@ public:
 	void NewScene();
 	void SaveSceneAs();
 
+	void ClearStorage();
+
 private:
 	std::string name="";
 	std::string current_path = "";
+	std::string extension = "";
+
+	std::list<StorageUnit*> storage;
 };

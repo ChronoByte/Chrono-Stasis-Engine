@@ -252,12 +252,16 @@ bool ModuleFileSystem::DeleteDirectory(const char* file_dir_name)
 
 void ModuleFileSystem::GetExtensionFile(const char* file, std::string& extension)
 {
-	extension = file;
+	std::string ref = file;
+	//extension = file;
+	
+	uint position = ref.find_last_of(".");
 
-	uint position = extension.find_last_of(".");
-
-	if (position != std::string::npos)
+	if (position != std::string::npos) 
+	{
+		extension = file;
 		extension = extension.substr(position);
+	}
 
 
 }
@@ -350,4 +354,38 @@ void ModuleFileSystem::SplitPath(const char* full_path, std::string* path, std::
 		else
 			extension->clear();
 	}
+}
+
+void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension)
+{
+
+	char** scannedFiles = PHYSFS_enumerateFiles(path);
+	
+	for (char** i = scannedFiles; *i != NULL; i++) {
+
+		std::string currentPath = std::string(path) + *i; //TODO: check if it has "/"
+		std::string fileName;
+		std::string fileExtension;
+
+		GetNameFile(currentPath.c_str(), fileName);
+		GetExtensionFile(currentPath.c_str(), fileExtension);
+
+		if (fileExtension.length() > 0) //if is not a folder, add dot and extension 
+			fileName += fileExtension;
+
+		if (!PHYSFS_isDirectory(currentPath.c_str()) && (fileExtension == desiredExtension) || PHYSFS_isDirectory(currentPath.c_str()))
+		{
+			StorageUnit* newResource = new StorageUnit();
+			newResource->name = fileName;
+
+			if (PHYSFS_isDirectory(currentPath.c_str()))
+				newResource->type = StorageUnit::FOLDER;
+			else
+				newResource->type = StorageUnit::FILE;
+
+			storage.push_back(newResource);
+		}
+	}
+
+
 }

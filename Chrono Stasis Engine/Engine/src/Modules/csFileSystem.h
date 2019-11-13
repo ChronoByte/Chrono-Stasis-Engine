@@ -3,6 +3,7 @@
 #include "csGlobals.h"
 #include "csModule.h"
 #include <array>
+#include "../Structure/FileBrowserWindow.h"
 //#define LIBRARY_DIR "Library"
 //#define MESH_DIR "/Library/Meshes"
 //#define MATERIAL_DIR "/Library/Materials"
@@ -39,6 +40,8 @@ public:
 	std::string NormalizeSlashSymbol(const char* path);
 	std::string GetFullPath(const char* path, const char* folder = nullptr, const char* extension = nullptr);
 	void SplitPath(const char* full_path, std::string* path, std::string* filename, std::string* extension);
+
+	void GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension);
 private:
 	std::array<const char*, PATHS_AMOUNT> directories = {ASSETS_FOLDER,LIBRARY_FOLDER,SETTINGS_FOLDER,MESHES_FOLDER,TEXTURES_FOLDER,SCENES_FOLDER};
 
