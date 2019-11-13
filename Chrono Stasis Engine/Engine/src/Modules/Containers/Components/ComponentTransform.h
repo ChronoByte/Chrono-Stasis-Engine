@@ -28,6 +28,8 @@ public:
 
 	void CalculateTransformRecursively();
 	void UpdateBoundingBox();
+	void UpdateParentBoundingBox();
+	void ForceParentBoundingBox();
 
 	const void SetPosition(const float3& pos);
 	const void SetRotationEuler(const float3& euler);

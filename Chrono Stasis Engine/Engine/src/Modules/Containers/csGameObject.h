@@ -29,6 +29,7 @@ public:
 	void RemoveChild(GameObject* child); 
 	void SetParent(GameObject* parent); 
 	void SetName(const char* name); 
+	GameObject* FindGreaterParent();
 
 	// Components 
 	Component* CreateComponent(ComponentType type);

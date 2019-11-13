@@ -95,6 +95,24 @@ void GameObject::SetName(const char * name)
 	this->name = name;
 }
 
+GameObject * GameObject::FindGreaterParent()
+{
+	if (this == App->scene->GetRoot())
+	{
+		LOG("Warning: You are trying to access to a higher parent being the Root")
+		return this;
+	}
+
+	GameObject* ret = this; 
+
+	while (ret->GetParent() != App->scene->GetRoot())
+	{
+		ret = ret->GetParent();
+	}
+
+	return ret; 
+}
+
 Component * GameObject::CreateComponent(ComponentType type)
 {
 	if (HasComponent(type))

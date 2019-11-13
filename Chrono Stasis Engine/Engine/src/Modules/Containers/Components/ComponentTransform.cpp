@@ -23,27 +23,10 @@ void ComponentTransform::Update(float dt)
 	{
 		CalculateTransformRecursively(); 
 		toRecalculateTransform = false; 
+
+		if (App->renderer3D->drawBoundingBox || drawBoundingBox)
+			ForceParentBoundingBox();
 	}
-
-	//local_matrix = float4x4::FromTRS(position, rotation_quat, scale);
-
-	//// If its a child (not a parent and its not the root)
-	//if (GetOwner()->GetParent() != nullptr && GetOwner()->GetParent() != App->scene->GetRoot())
-	//	global_matrix = GetOwner()->GetParent()->GetTransform()->global_matrix * local_matrix;
-	//else if(GetOwner() != App->scene->GetRoot())
-	//	global_matrix = local_matrix; 
-
-
-	/*LOG("______");
-	LOG("Global Transform - Game Object: %s", GetOwner()->GetName());
-	for (uint i = 0; i < 16; i += 4)
-	{
-		LOG("%.2f - %.2f - %.2f - %.2f", GetGlobalTransform().Transposed()[i],
-			GetGlobalTransform().Transposed()[i + 1],
-			GetGlobalTransform().Transposed()[i + 2],
-			GetGlobalTransform().Transposed()[i + 3]
-		);
-	}*/
 }
 
 void ComponentTransform::DrawBoundingBox()
@@ -111,38 +94,53 @@ void ComponentTransform::UpdateBoundingBox()
 {
 	ComponentMesh* mesh = (ComponentMesh*)owner->FindComponent(ComponentType::C_MESH);
 
-	// TODO: Case on parents: where they have no mesh but still need to be focused and probably have a bbox
-	if (mesh != nullptr)
-	{
-		boundingBox.obb = mesh->GetAABB(); 
-		boundingBox.obb.Transform(global_matrix); 
+	// No mesh - no bbox
+	if (mesh == nullptr)
+		return; 
 
-		boundingBox.aabb.SetNegativeInfinity(); 
+	boundingBox.obb = mesh->GetAABB(); 
+	boundingBox.obb.Transform(global_matrix); 
+
+	boundingBox.aabb.SetNegativeInfinity(); 
+	boundingBox.aabb.Enclose(boundingBox.obb);
+}
+
+void ComponentTransform::UpdateParentBoundingBox()
+{
+	std::vector<Component*> meshesVector;
+
+	owner->FindComponentsInAllChilds(ComponentType::C_MESH, meshesVector);
+	boundingBox.aabb.SetNegativeInfinity();
+
+
+	for (uint i = 0; i < meshesVector.size(); ++i)
+	{
+		ComponentMesh* mesh = (ComponentMesh*)meshesVector[i];
+		boundingBox.obb = mesh->GetAABB();
+		boundingBox.obb.Transform(mesh->GetOwner()->GetTransform()->GetGlobalTransform());
 		boundingBox.aabb.Enclose(boundingBox.obb);
 	}
-	else
+
+	boundingBox.obb.SetNegativeInfinity(); 
+
+	//boundingBox.obb = boundingBox.aabb;
+	//boundingBox.obb.Transform(global_matrix);
+
+	//boundingBox.aabb.SetNegativeInfinity();
+	//boundingBox.aabb.Enclose(boundingBox.obb);
+}
+
+void ComponentTransform::ForceParentBoundingBox()
+{
+	if (owner == App->scene->GetRoot())
+		return;
+
+	GameObject* greaterParent = owner->FindGreaterParent();
+
+	if (!greaterParent->HasComponent(ComponentType::C_MESH))
 	{
-		LOG("Updating Parent BB");
-		std::vector<Component*> meshesVector;
-
-		owner->FindComponentsInAllChilds(ComponentType::C_MESH, meshesVector);
-		boundingBox.aabb.SetNegativeInfinity();
-
-		float4x4 globalTransf = float4x4::identity; 
-
-		for (uint i = 0; i < meshesVector.size(); ++i)
-		{
-			ComponentMesh* mesh = (ComponentMesh*)meshesVector[i];
-			boundingBox.obb = mesh->GetAABB();
-			boundingBox.obb.Transform(mesh->GetOwner()->GetTransform()->GetGlobalTransform());
-			boundingBox.aabb.Enclose(boundingBox.obb);
-		}
-
-		/*boundingBox.obb = boundingBox.aabb;
-		boundingBox.obb.Transform(globalTransf);
-
-		boundingBox.aabb.SetNegativeInfinity();
-		boundingBox.aabb.Enclose(boundingBox.obb);*/
+		greaterParent->GetTransform()->UpdateParentBoundingBox();
+		LOG("Forcing parent to Update BBox: ---- %s", greaterParent->GetName());
 	}
 }
 
