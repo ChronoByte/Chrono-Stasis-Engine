@@ -35,7 +35,14 @@ void FileBrowserWindow::Draw()
 		{
 		case StorageUnit::FOLDER:
 			//ImGui::Text((*unit)->name.c_str());
-			ImGui::Selectable((*unit)->name.c_str());
+			ImGui::PushStyleColor(ImGuiCol_Button, { 1.0f,1.0f,1.0f,0.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.8f,0.37f,0.0f,0.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.95f,0.5f,0.0f,0.0f });
+			ImGui::ImageButton((ImTextureID)(App->editor->iconFolder->id), { 24, 24 });
+			ImGui::PopStyleColor(3);
+			ImGui::SameLine();
+			ImGui::SetCursorPos({ ImGui::GetCursorPosX() - 2, ImGui::GetCursorPosY() + 8 });
+			ImGui::Selectable((*unit)->name.c_str(), false, 0, {ImGui::GetWindowWidth(),24});
 			break;
 		case StorageUnit::FILE:
 			//ImGui::Text((*unit)->name.c_str());

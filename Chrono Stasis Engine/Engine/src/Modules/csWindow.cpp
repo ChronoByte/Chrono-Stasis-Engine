@@ -40,7 +40,7 @@ bool ModuleWindow::Init(JSON_Object* node)
 
 		brightness = json_object_get_number(node, "Brightness");
 
-		iconEngine = SDL_LoadBMP("Assets/Icon/icon1.bmp");
+		iconEngine = SDL_LoadBMP("Assets/Icons/icon1.bmp");
 
 		//Create window
 		width *= size;

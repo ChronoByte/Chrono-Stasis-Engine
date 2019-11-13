@@ -59,7 +59,7 @@ bool ModuleEditor::Start()
 	for (int i = 0; i < windows.size(); i++)
 		item[i]->Start();
 	
-	
+	iconFolder = App->texture->LoadTextureIcon("Assets/Icons/folder.png");
 	return ret;
 }
 

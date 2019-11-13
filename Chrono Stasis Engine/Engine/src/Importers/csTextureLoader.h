@@ -36,8 +36,9 @@ public:
 	void CreateTextureBuffers(TextureInfo* tex);
 	void StorageTextureData(TextureInfo* tex);
 	void DeleteTextures();
-
+	TextureInfo* LoadTextureIcon(const char* path);
 public:
 	TextureInfo* testTexture = nullptr;
 	std::vector<TextureInfo*> textures;
+	std::list<TextureInfo*> icons;
 };

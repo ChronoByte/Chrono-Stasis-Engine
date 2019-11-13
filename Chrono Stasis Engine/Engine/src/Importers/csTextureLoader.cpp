@@ -212,4 +212,43 @@ void ModuleTextureLoader::DeleteTextures()
 	textures.clear();
 }
 
+TextureInfo* ModuleTextureLoader::LoadTextureIcon(const char* path)
+{
+	TextureInfo* icon = nullptr;
+	uint imageID = 0;
+
+	ilGenImages(1, &imageID);
+	ilBindImage(imageID);
+	LOG("Loading texture at: %s", path);
+	if ((bool)ilLoadImage(path))
+	{
+		//Checking image origin
+		ILinfo img_info;
+		iluGetImageInfo(&img_info);
+
+		//if (img_info.Origin != IL_ORIGIN_LOWER_LEFT)
+			iluFlipImage();
+
+		if (ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE)) {
+			// If its converted properly, create the data
+			icon = new TextureInfo;
+
+			StorageTextureData(icon);
+			CreateTextureBuffers(icon);
+			icon->path = path;
+
+			icons.push_back(icon);
+		}
+		else
+			LOG("Image could not be converted, error: %s", iluErrorString(ilGetError()));
+	}
+	else
+		LOG("Error loading texture at %s, error: %s", path, iluErrorString(ilGetError()));
+
+
+	ilDeleteImages(1, &imageID);
+	return icon;
+
+}
+
 

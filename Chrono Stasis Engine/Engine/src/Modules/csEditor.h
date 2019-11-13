@@ -26,6 +26,7 @@ class GeometryWindow;
 class SceneViewWindow;
 class FileBrowserWindow;
 class Window;
+struct TextureInfo;
 
 enum WindowType
 {
@@ -69,6 +70,9 @@ public:
 
 	bool show_demo_window = false;
 	bool show_style_window = false;
+
+	
+	TextureInfo* iconFolder = nullptr;
 
 	std::vector<Window*> windows;
 };
