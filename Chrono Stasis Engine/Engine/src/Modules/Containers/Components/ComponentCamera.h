@@ -14,6 +14,8 @@ public:
 	~ComponentCamera();
 
 	void Update(float dt) override;
+
+	void UpdateTransform();
 	
 	void DrawFrustum(); 
 	void InspectorInfo();

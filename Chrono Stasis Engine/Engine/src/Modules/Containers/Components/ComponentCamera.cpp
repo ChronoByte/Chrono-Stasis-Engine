@@ -23,8 +23,22 @@ ComponentCamera::~ComponentCamera()
 
 void ComponentCamera::Update(float dt)
 {
+
+	UpdateTransform();
 	DrawFrustum();
 
+}
+
+void ComponentCamera::UpdateTransform()
+{
+	float3 pos = float3::zero;
+	float3x3 rotation = float3x3::zero;
+	float3 size = float3::zero;
+
+	owner->GetTransform()->GetGlobalTransform().Decompose(pos, rotation, size);
+	frustum.pos = pos;
+	frustum.up = rotation.Col(1);
+	frustum.front = rotation.Col(2);
 }
 
 void ComponentCamera::DrawFrustum()
