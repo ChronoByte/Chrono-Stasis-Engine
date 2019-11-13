@@ -51,5 +51,7 @@ private:
 	std::string current_path = "";
 	std::string extension = "";
 
+	std::string scene = "";
+
 	std::list<StorageUnit*> storage;
 };

@@ -75,7 +75,7 @@ enum update_status
 #define SCENES_FOLDER "Library/Scenes/"
 
 // Own format files --------------
-#define MESH_EXTENSION ".chronoMesh"
+#define MESH_EXTENSION ".mesh"
 #define TEXTURES_EXTENSION ".dds"
-#define SCENES_EXTENSION ".chronoScene"
+#define SCENES_EXTENSION ".scene"
 #define META_EXTENSION ".meta"

@@ -12,7 +12,8 @@ FileBrowserWindow::~FileBrowserWindow()
 void FileBrowserWindow::Draw()
 {
 	ImGui::SetNextWindowSize(ImVec2(400,500));
-	ImGui::Begin(this->name.c_str(), &active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse);
+	ImGui::Begin((std::string("Scene Browser:") + this->name).c_str(), &active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse);
+	static char text[120];
 
 	ImGui::BeginMenuBar();
 	if (ImGui::ArrowButton("Back", ImGuiDir_Left))
@@ -51,9 +52,48 @@ void FileBrowserWindow::Draw()
 				App->fs->GetStorageResources(current_path.c_str(), storage, extension.c_str());
 				break;
 			}
+			if ((*unit)->type == StorageUnit::FILE)
+			{
+
+			}
 		}
 
 	}
+	ImGui::SetCursorPosY(ImGui::GetWindowHeight() - 75);
+	ImGui::Separator();
+	ImGui::SetCursorPosY(ImGui::GetWindowHeight() - 65);
+	ImGui::SetCursorPosX(20);
+	ImGui::PushItemWidth(ImGui::GetWindowWidth() - 90);
+	ImGui::Text("Name: ");
+	ImGui::SameLine();
+	if (ImGui::InputText("", text, 120, ImGuiInputTextFlags_AutoSelectAll)) 
+	{
+		scene = text;
+		scene += SCENES_EXTENSION;
+	}
+
+	ImGui::PopItemWidth();
+	ImGui::SetCursorPosY(ImGui::GetWindowHeight() - 35);
+	ImGui::SetCursorPosX(170);
+	if (ImGui::Button(name.c_str(), { 100, 25 }))
+	{
+		if (name == "Save")
+		{
+			LOG("Scene &s Saved successfully", scene.c_str());
+		}
+	
+		else if (name == "Load") 
+		{
+			LOG("Scene %s Loaded successfully", scene.c_str());
+		}
+	}
+
+
+	ImGui::SameLine();
+
+	if (ImGui::Button("Cancel", { 100, 25 }))
+		this->SwitchActive();
+	
 	ImGui::End();
 }
 
@@ -80,7 +120,7 @@ void FileBrowserWindow::OpenBrowser(const BrowserState& state)
 
 void FileBrowserWindow::SaveScene(const char* path, const char* extension)
 {
-	this->name = std::string("Scene Browser: Save");
+	this->name = std::string("Save");
 	this->current_path = path;
 	this->extension = extension;
 
@@ -90,7 +130,7 @@ void FileBrowserWindow::SaveScene(const char* path, const char* extension)
 
 void FileBrowserWindow::LoadScene(const char* path, const char* extension)
 {
-	this->name = std::string("Scene Browser: Load");
+	this->name = std::string("Load");
 	this->current_path = path;
 	this->extension = extension;
 
