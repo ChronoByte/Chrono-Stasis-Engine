@@ -2,6 +2,7 @@
 #include "csApp.h"
 #include "csEditor.h"
 #include "csGameObject.h"
+#include "csComponent.h"
 
 HierarchyWindow::HierarchyWindow(bool startOpened) : Window(startOpened)
 {
@@ -86,6 +87,7 @@ void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 				if (ImGui::MenuItem("Rock")) { App->scene->CreateObject3D(PrimitiveType::ROCK, parent); ImGui::CloseCurrentPopup(); }
 				ImGui::EndMenu();
 			}
+			if (ImGui::MenuItem("Camera", "")){	GameObject* go = App->scene->CreateGameObject(parent, "Camera"); go->CreateComponent(ComponentType::C_CAMERA);}
 			ImGui::EndPopup();
 		}
 

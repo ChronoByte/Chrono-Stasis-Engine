@@ -148,6 +148,9 @@ update_status ModuleEditor::Update(float dt)
 
 				ImGui::EndMenu(); 
 			}
+			if (ImGui::MenuItem("Camera", "")) { GameObject* go = App->scene->CreateGameObject(nullptr, "Camera"); go->CreateComponent(ComponentType::C_CAMERA); }
+
+
 			ImGui::EndMenu();
 		}
 	

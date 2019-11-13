@@ -33,7 +33,7 @@ void InspectorWindow::Draw()
 
 					if (ImGui::MenuItem("Add Mesh")) { go_selected->CreateComponent(ComponentType::C_MESH); }
 
-					if (ImGui::MenuItem("Add Camera")) {}
+					if (ImGui::MenuItem("Add Camera")) { go_selected->CreateComponent(ComponentType::C_CAMERA); }
 
 
 					ImGui::EndMenu();

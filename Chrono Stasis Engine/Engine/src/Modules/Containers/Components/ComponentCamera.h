@@ -1,0 +1,57 @@
+#pragma once
+
+#include "csComponent.h"
+#include "csGlobals.h"
+
+#include "MathGeoLib\include\MathBuildConfig.h"
+#include "MathGeoLib\include\MathGeoLib.h"
+
+class ComponentCamera : public Component
+{
+public:
+
+	ComponentCamera(GameObject* parent);
+	~ComponentCamera();
+
+	void Update(float dt) override;
+	
+	void DrawFrustum(); 
+	void InspectorInfo();
+
+	// --------------------------------------------
+	// ------------- Sets ------------------
+	// Pos
+	void SetPos(const float3& pos); 
+	// Vectors
+	void SetFrontVector(const float3& front); 
+	void SetUpVector(const float3& up); 
+	// Planes
+	void SetFarPlaneDistance(const float& distance); 
+	void SetNearPlaneDistance(const float& distance); 
+	// FoV
+	void SetHorizontalFOV(const float& fov); 
+	void SetVerticalFOV(const float& fov); 
+	
+	// ------------- Gets ------------------
+	// Pos
+	float3 GetPos() const; 
+	// Vectors
+	float3 GetFrontVector() const;
+	float3 GetUpVector() const;
+	// Planes
+	float GetFarPlaneDistance() const;
+	float GetNearPlaneDistance() const;
+	// FoV
+	float GetHorizontalFOV() const;
+	float GetVerticalFOV() const;
+	// --------------------------------------------
+
+
+	// Parser
+	void Save(RJSON_Value* component) const;
+	void Load(RJSON_Value* component);
+
+public:
+
+	Frustum frustum;
+};
