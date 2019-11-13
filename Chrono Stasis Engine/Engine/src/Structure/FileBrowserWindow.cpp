@@ -17,6 +17,9 @@ void FileBrowserWindow::Draw()
 	ImGui::BeginMenuBar();
 	if (ImGui::ArrowButton("Back", ImGuiDir_Left))
 	{
+		if (current_path.compare(ASSETS_FOLDER) != 0) 
+			current_path.pop_back(); //delete "/"
+		
 		current_path = current_path.substr(0, current_path.find_last_of("/")+1);
 		ClearStorage();
 		App->fs->GetStorageResources(current_path.c_str(),storage, extension.c_str());
@@ -30,11 +33,24 @@ void FileBrowserWindow::Draw()
 		switch ((*unit)->type)
 		{
 		case StorageUnit::FOLDER:
-			ImGui::Text((*unit)->name.c_str());
+			//ImGui::Text((*unit)->name.c_str());
+			ImGui::Selectable((*unit)->name.c_str());
 			break;
 		case StorageUnit::FILE:
-			ImGui::Text((*unit)->name.c_str());
+			//ImGui::Text((*unit)->name.c_str());
+			ImGui::Selectable((*unit)->name.c_str());
 			break;
+		}
+
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+		{
+			if ((*unit)->type == StorageUnit::FOLDER)
+			{
+				current_path += (*unit)->name + "/";
+				ClearStorage();
+				App->fs->GetStorageResources(current_path.c_str(), storage, extension.c_str());
+				break;
+			}
 		}
 
 	}
