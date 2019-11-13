@@ -8,6 +8,7 @@
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
 
 GameObject::GameObject()
 {
@@ -142,6 +143,11 @@ Component * GameObject::CreateComponent(ComponentType type)
 		}
 		else LOG("Error adding component: Can not create a 'Component Material' to a Game Object without a 'Component Mesh'. ")
 		break;
+
+	case ComponentType::C_CAMERA:
+		component = new ComponentCamera(this); 
+		components.push_back(component);
+		break; 
 
 	case ComponentType::C_LIGHT:
 

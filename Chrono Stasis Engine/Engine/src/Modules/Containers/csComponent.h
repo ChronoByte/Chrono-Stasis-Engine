@@ -15,6 +15,7 @@ enum class ComponentType
 	C_TRANSFORM,
 	C_MESH,
 	C_MATERIAL,
+	C_CAMERA,
 	C_LIGHT,
 
 	C_MAX

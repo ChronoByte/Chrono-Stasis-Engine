@@ -398,6 +398,7 @@
     <ClInclude Include="Engine\src\Tools\PseudoRandom.h" />
     <ClInclude Include="Engine\src\Importers\csSceneSerializer.h" />
     <ClInclude Include="Engine\src\Structure\FileBrowserWindow.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -583,6 +584,7 @@
     <ClCompile Include="Engine\src\Tools\Serializer.cpp" />
     <ClCompile Include="Engine\src\Importers\csSceneSerializer.cpp" />
     <ClCompile Include="Engine\src\Structure\FileBrowserWindow.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
