@@ -30,7 +30,8 @@ void Serializer::JSONClose(RJSON_File* file)
 {
 	if (file != nullptr)
 		file->CloseFile();
-
+	
+	//delete file;
 	RELEASE(file);
 	file = nullptr;
 }
@@ -61,7 +62,7 @@ RJSON_File::~RJSON_File()
 	values.clear();
 
 	RELEASE(document);
-	RELEASE(allocator);
+	//RELEASE(allocator); //PETA EL PROGRAMA POR DE-ALLOCATING 
 	RELEASE(is);
 	RELEASE(os);
 }
@@ -123,10 +124,7 @@ void RJSON_File::SetValue(const char* name, RJSON_Value& newValue)
 void RJSON_File::CloseFile()
 {
 	fclose(fp);
-	RELEASE(document);
-	RELEASE(allocator);
-	RELEASE(is);
-	RELEASE(os);
+	
 }
 
 // ---------------- JSON VALUE ----------------- //

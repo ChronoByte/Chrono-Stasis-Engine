@@ -59,13 +59,18 @@ void FileBrowserWindow::Draw()
 				App->fs->GetStorageResources(current_path.c_str(), storage, extension.c_str());
 				break;
 			}
+		}
+
+		if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(0))
+		{
 			if ((*unit)->type == StorageUnit::FILE)
 			{
-
+				App->serialization->current_scene = (*unit)->name; // TO LOAD
 			}
 		}
 
 	}
+
 	ImGui::SetCursorPosY(ImGui::GetWindowHeight() - 75);
 	ImGui::Separator();
 	ImGui::SetCursorPosY(ImGui::GetWindowHeight() - 65);
@@ -75,8 +80,8 @@ void FileBrowserWindow::Draw()
 	ImGui::SameLine();
 	if (ImGui::InputText("", text, 120, ImGuiInputTextFlags_AutoSelectAll)) 
 	{
-		scene = text;
-		scene += SCENES_EXTENSION;
+		App->serialization->current_scene = text; // TO SAVE AS NEW
+		//scene += SCENES_EXTENSION;
 	}
 
 	ImGui::PopItemWidth();
@@ -84,15 +89,7 @@ void FileBrowserWindow::Draw()
 	ImGui::SetCursorPosX(170);
 	if (ImGui::Button(name.c_str(), { 100, 25 }))
 	{
-		if (name == "Save")
-		{
-			LOG("Scene &s Saved successfully", scene.c_str());
-		}
-	
-		else if (name == "Load") 
-		{
-			LOG("Scene %s Loaded successfully", scene.c_str());
-		}
+		serialization = true;
 	}
 
 
@@ -101,6 +98,28 @@ void FileBrowserWindow::Draw()
 	if (ImGui::Button("Cancel", { 100, 25 }))
 		this->SwitchActive();
 	
+	if (serialization)
+	{
+
+		if (name == "Save")
+		{
+			App->serialization->scene_to_serialize = current_path + App->serialization->current_scene;
+			App->serialization->SaveScene(App->serialization->scene_to_serialize.c_str(), "ASSET");
+			LOG("Scene &s Saved successfully", App->serialization->current_scene.c_str());
+		}
+	
+		else if (name == "Load") 
+		{
+			App->serialization->scene_to_serialize = current_path + App->serialization->current_scene;
+			App->serialization->LoadScene(App->serialization->scene_to_serialize.c_str(), "ASSET");
+			LOG("Scene %s Loaded successfully", App->serialization->current_scene.c_str());
+		}
+
+		serialization = false;
+		this->SwitchActive();
+
+	}
+
 	ImGui::End();
 }
 

@@ -84,7 +84,7 @@ bool Application::Init()
 	JSON_Object* config;
 	JSON_Object* config_node;
 
-	config_file = json_parse_file("config.json");
+	config_file = json_parse_file("Settings/config.json");
 
 	if (config_file)
 	{

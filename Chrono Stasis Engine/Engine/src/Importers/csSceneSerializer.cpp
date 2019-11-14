@@ -40,11 +40,21 @@ bool ModuleSceneSerializer::CleanUp()
 	return true;
 }
 
-bool ModuleSceneSerializer::Save(const char* scene_path)
+bool ModuleSceneSerializer::SaveScene(const char* scene_path, std::string dir)
 {
-	std::string dir = SCENES_FOLDER;
+
 	std::string extension = SCENES_EXTENSION;
-	std::string path = dir + scene_path + extension;
+	std::string directory = SCENES_FOLDER;
+	std::string path;
+
+	if(!dir.compare("ASSET"))
+		path = scene_path + extension;
+
+	if (!dir.compare("LIBRARY")) 
+	{
+		App->fs->GetNameFile(scene_path, path);
+		path = directory + path + extension;
+	}
 
 	RJSON_File* scene = App->json->JSONWrite(path.c_str());
 
@@ -62,10 +72,11 @@ bool ModuleSceneSerializer::Save(const char* scene_path)
 	}
 
 	App->json->JSONClose(scene);
+	LOG("Scene &s Serialized successfully", App->serialization->current_scene.c_str());
 	return true;
 }
 
-bool ModuleSceneSerializer::Load(const char* scene_path)
+bool ModuleSceneSerializer::LoadScene(const char* scene_path, std::string dir)
 {
 	return true;
 }
