@@ -67,8 +67,11 @@ ComponentMesh::~ComponentMesh()
 
 void ComponentMesh::Update(float dt)
 {
-	if(App->scene->testCamera == nullptr || App->scene->testCamera->CheckAABBInsideFrustum(GetOBBTransformed()))
+	if (App->scene->testCamera == nullptr || !App->scene->testCamera->isCulling()
+		|| App->scene->testCamera->CheckAABBInsideFrustum(GetOBBTransformed()))
+	{
 		Draw(); 
+	}
 		
 	if (App->renderer3D->drawNormals || drawVertexNormals)
 		DrawNormals();

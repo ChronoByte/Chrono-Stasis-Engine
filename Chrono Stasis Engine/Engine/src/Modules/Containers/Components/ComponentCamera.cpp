@@ -7,19 +7,7 @@ ComponentCamera::ComponentCamera(GameObject* parent) : Component(parent)
 	type = ComponentType::C_CAMERA;
 	name = "Camera";
 
-	frustum.type = FrustumType::PerspectiveFrustum;
-	ComponentTransform* transform = owner->GetTransform();
-	frustum.pos = transform->GetGlobalPosition();
-	frustum.front = transform->GetGlobalRotationQuat() * float3(0, 0, 1.f);
-	frustum.up = transform->GetGlobalRotationQuat() * float3(0, 1, 0);
-
-	frustum.nearPlaneDistance = 1.f;
-	frustum.farPlaneDistance = 25.f;
-
-	frustum.verticalFov = 60.f * DEGTORAD;
-	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * (float)(App->window->width / App->window->height));
-	aspectRatio = tanf(frustum.verticalFov * 0.5f) / tanf(frustum.horizontalFov * 0.5f);
-	App->scene->testCamera = this; 
+	SetInitially();
 }
 
 ComponentCamera::~ComponentCamera()
@@ -66,32 +54,36 @@ void ComponentCamera::InspectorInfo()
 
 	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		//const char* ratios[] = { "16:9", "1:1", "4:3", "21:9" };
-		//static const char* currentRatio = ratios[0];            // Here our selection is a single pointer stored outside the object.
-		//if (ImGui::BeginCombo("Aspect Ratios", currentRatio))   // The second parameter is the label previewed before opening the combo.
-		//{
-		//	for (int i = 0; i < (int)(sizeof(ratios) / sizeof(*ratios)); i++)
-		//	{
-		//		bool is_selected = (currentRatio == ratios[i]);
+		ImGui::Text("Preview");
 
-		//		if (ImGui::Selectable(ratios[i], is_selected))
-		//			currentRatio = ratios[i];
+		// Here we could have the texture in miniature 
 
-		//		if (is_selected)
-		//			ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
-		//	}
-		//	ImGui::EndCombo();
-		//}
-
-		ImGui::DragFloat("Vertical Field Of View", &frustum.verticalFov, 0.1f);
-		ImGui::DragFloat("Horizontal Field Of View", &frustum.horizontalFov, 0.1f);
 		ImGui::Separator(); 
-		ImGui::DragFloat("Near Plane Distance", &frustum.nearPlaneDistance, 0.1f);
-		ImGui::DragFloat("Far Plane Distance", &frustum.farPlaneDistance, 0.1f);
+	
+		ImGui::Checkbox("Frustum Culling", &culling);
+		
+		// ------- FOV --------- 
+
+		ImGui::Text("FOV Axis");
+
+		static int selected = 0; 
+		ImGui::RadioButton("Vertical", &selected, 0); ImGui::SameLine();
+		ImGui::RadioButton("Horizontal", &selected, 1);
+		float verticalFOV = frustum.verticalFov * RADTODEG; 
+		float horizontalFOV = frustum.horizontalFov * RADTODEG; 
+
+		if (ImGui::DragFloat("Field Of View", (selected == 0) ? &verticalFOV : &horizontalFOV, 0.1f, 0.1f, 179.5f))
+			UpdateRatio(selected == 0, verticalFOV * DEGTORAD, horizontalFOV * DEGTORAD);
+		
+		// ------- Planes --------- 
+
 		ImGui::Separator(); 
-		ImGui::DragFloat("Aspect ratio", &aspectRatio, 0.1f);
+		ImGui::DragFloat("Near Plane Distance", &frustum.nearPlaneDistance, 0.1f, 0.1f, frustum.farPlaneDistance);
+		ImGui::DragFloat("Far Plane Distance", &frustum.farPlaneDistance, 0.1f, frustum.nearPlaneDistance, 1000.f);
+		ImGui::Separator(); 
 
-
+		// ---------------------
+		// TODO: Add more customization 
 	}
 }
 
@@ -114,6 +106,41 @@ bool ComponentCamera::CheckAABBInsideFrustum(const OBB & myAabb)
 
 	return true;
 }
+
+void ComponentCamera::SetInitially()
+{
+	frustum.type = FrustumType::PerspectiveFrustum;
+	ComponentTransform* transform = owner->GetTransform();
+	frustum.pos = transform->GetGlobalPosition();
+	frustum.front = transform->GetGlobalRotationQuat() * float3(0, 0, 1.f);
+	frustum.up = transform->GetGlobalRotationQuat() * float3(0, 1, 0);
+
+	frustum.nearPlaneDistance = 1.f;
+	frustum.farPlaneDistance = 25.f;
+
+	frustum.verticalFov = 60.f * DEGTORAD;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * ((float)App->window->width / (float)App->window->height));
+	aspectRatio = tanf(frustum.verticalFov * 0.5f) / tanf(frustum.horizontalFov * 0.5f);
+	App->scene->testCamera = this;
+}
+
+void ComponentCamera::UpdateRatio(bool axisVertical, float verticalFOV, float horizontalFOV)
+{
+	if (axisVertical)
+	{
+		frustum.verticalFov = verticalFOV;
+		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * ((float)App->window->width / (float)App->window->height));
+	}
+	else
+	{
+		frustum.horizontalFov = horizontalFOV;
+		frustum.verticalFov = 2.f * atanf(tanf(frustum.horizontalFov * 0.5f) * ((float)App->window->height / (float)App->window->width));
+	}
+}
+
+
+// ---------------------- Sets -----------------------------
+
 
 void ComponentCamera::SetPos(const float3 & pos)
 {
@@ -150,6 +177,8 @@ void ComponentCamera::SetVerticalFOV(const float & fov)
 	frustum.verticalFov = fov; 
 }
 
+// ---------------------- Gets -----------------------------
+
 float3 ComponentCamera::GetPos() const
 {
 	return frustum.pos;
@@ -183,6 +212,22 @@ float ComponentCamera::GetHorizontalFOV() const
 float ComponentCamera::GetVerticalFOV() const
 {
 	return frustum.verticalFov;
+}
+
+float4x4 ComponentCamera::GetViewMatrix() const
+{
+	float4x4 viewMatrix = frustum.ViewMatrix();
+	return viewMatrix.Transposed();
+}
+
+float4x4 ComponentCamera::GetProjectionMatrix() const
+{
+	return frustum.ProjectionMatrix().Transposed();
+}
+
+bool ComponentCamera::isCulling() const
+{
+	return culling;
 }
 
 void ComponentCamera::Save(RJSON_Value* component) const

@@ -22,8 +22,12 @@ public:
 	void InspectorInfo();
 
 	bool CheckAABBInsideFrustum(const OBB& myAbb);
+	void SetInitially();
+	void UpdateRatio(bool axisVertical, float verticalFOV, float horizontalFOV = 0.f);
+
 	// --------------------------------------------
 	// ------------- Sets ------------------
+
 	// Pos
 	void SetPos(const float3& pos); 
 	// Vectors
@@ -48,7 +52,13 @@ public:
 	// FoV
 	float GetHorizontalFOV() const;
 	float GetVerticalFOV() const;
+	// Matrix
+	float4x4 GetViewMatrix() const; 
+	float4x4 GetProjectionMatrix() const; 
+	// Culling
+	bool isCulling() const; 
 	// --------------------------------------------
+
 
 
 	// Parser
@@ -59,4 +69,5 @@ private:
 
 	float aspectRatio = 0.0f;
 	Frustum frustum;
+	bool culling = true; 
 };
