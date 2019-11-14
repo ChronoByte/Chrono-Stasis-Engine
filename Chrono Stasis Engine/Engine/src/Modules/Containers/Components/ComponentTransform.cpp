@@ -82,6 +82,8 @@ void ComponentTransform::CalculateTransformRecursively()
 	local_matrix = float4x4::FromTRS(position, rotation_quat, scale);
 	global_matrix = parent->GetTransform()->GetGlobalTransform() * local_matrix;
 
+	global_matrix.Decompose(globalPosition, globalRotation_quat, globalScale);
+
 	UpdateBoundingBox();
 
 	for (std::list<GameObject*>::const_iterator it = owner->childs.begin(); it != owner->childs.end(); ++it)
@@ -98,8 +100,7 @@ void ComponentTransform::UpdateBoundingBox()
 	if (mesh == nullptr)
 		return; 
 
-	boundingBox.obb = mesh->GetAABB(); 
-	boundingBox.obb.Transform(global_matrix); 
+	boundingBox.obb = mesh->GetOBBTransformed(); 
 
 	boundingBox.aabb.SetNegativeInfinity(); 
 	boundingBox.aabb.Enclose(boundingBox.obb);
@@ -185,6 +186,26 @@ const Quat ComponentTransform::GetRotationQuat() const
 const float3 ComponentTransform::GetScale() const
 {
 	return scale;
+}
+
+const float3 ComponentTransform::GetGlobalPosition() const
+{
+	return globalPosition;
+}
+
+const float3 ComponentTransform::GetGlobalRotationEuler() const
+{
+	return globalRotation_euler;
+}
+
+const Quat ComponentTransform::GetGlobalRotationQuat() const
+{
+	return globalRotation_quat;
+}
+
+const float3 ComponentTransform::GetGlobalScale() const
+{
+	return globalScale;
 }
 
 const AABB ComponentTransform::GetBoundingBox() const

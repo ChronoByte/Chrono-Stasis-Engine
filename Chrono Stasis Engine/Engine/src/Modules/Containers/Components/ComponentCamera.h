@@ -6,6 +6,7 @@
 #include "MathGeoLib\include\MathBuildConfig.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
+
 class ComponentCamera : public Component
 {
 public:
@@ -20,6 +21,7 @@ public:
 	void DrawFrustum(); 
 	void InspectorInfo();
 
+	bool CheckAABBInsideFrustum(const OBB& myAbb);
 	// --------------------------------------------
 	// ------------- Sets ------------------
 	// Pos
@@ -53,7 +55,8 @@ public:
 	void Save(RJSON_Value* component) const;
 	void Load(RJSON_Value* component);
 
-public:
+private:
 
+	float aspectRatio = 0.0f;
 	Frustum frustum;
 };

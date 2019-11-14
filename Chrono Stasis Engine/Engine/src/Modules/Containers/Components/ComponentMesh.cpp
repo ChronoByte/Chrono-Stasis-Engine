@@ -3,6 +3,7 @@
 #include "csApp.h"
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
+#include "ComponentCamera.h"
 
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 {
@@ -66,7 +67,8 @@ ComponentMesh::~ComponentMesh()
 
 void ComponentMesh::Update(float dt)
 {
-	Draw(); 
+	if(App->scene->testCamera == nullptr || App->scene->testCamera->CheckAABBInsideFrustum(GetOBBTransformed()))
+		Draw(); 
 		
 	if (App->renderer3D->drawNormals || drawVertexNormals)
 		DrawNormals();
@@ -476,6 +478,13 @@ AABB ComponentMesh::GetAABB() const
 	aabb.SetNegativeInfinity();
 	aabb.Enclose((float3*)vertex.buffer, vertex.capacity);
 	return aabb;
+}
+
+OBB ComponentMesh::GetOBBTransformed() const
+{
+	OBB obb = GetAABB(); 
+	obb.Transform(owner->GetTransform()->GetGlobalTransform());
+	return obb;
 }
 
 void ComponentMesh::Save(RJSON_Value* component) const

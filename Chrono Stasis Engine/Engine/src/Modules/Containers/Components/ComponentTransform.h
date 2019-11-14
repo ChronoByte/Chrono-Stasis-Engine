@@ -40,6 +40,11 @@ public:
 	const float3 GetRotationEuler() const;
 	const Quat GetRotationQuat() const;
 	const float3 GetScale() const;
+	
+	const float3 GetGlobalPosition() const; 
+	const float3 GetGlobalRotationEuler() const;
+	const Quat GetGlobalRotationQuat() const;
+	const float3 GetGlobalScale() const;
 
 	void SetupTransform(const float3& position, const float3& scale, const Quat& rotation);
 
@@ -57,13 +62,20 @@ public:
 	float4x4 local_matrix = float4x4::identity;
 	float4x4 global_matrix = float4x4::identity;
 
+	BoundingBox boundingBox;
+	bool drawBoundingBox = true;
+
+	bool toRecalculateTransform = false;
+
+private: 
+
 	float3   position = float3::zero;
 	float3   rotation_euler = float3::zero;
 	Quat     rotation_quat = Quat::identity;
 	float3   scale = float3(1.f,1.f,1.f);
-
-	BoundingBox boundingBox; 
-	bool drawBoundingBox = true;
-
-	bool toRecalculateTransform = false; 
+	
+	float3   globalPosition = float3::zero;
+	float3   globalRotation_euler = float3::zero;
+	Quat     globalRotation_quat = Quat::identity;
+	float3   globalScale = float3(1.f,1.f,1.f);
 };

@@ -6,14 +6,20 @@ ComponentCamera::ComponentCamera(GameObject* parent) : Component(parent)
 {
 	type = ComponentType::C_CAMERA;
 	name = "Camera";
+
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = parent->GetTransform()->GetPosition(); 
-	frustum.front = float3(0, 0, 1.f);
-	frustum.up = float3(0, 1, 0);
+	ComponentTransform* transform = owner->GetTransform();
+	frustum.pos = transform->GetGlobalPosition();
+	frustum.front = transform->GetGlobalRotationQuat() * float3(0, 0, 1.f);
+	frustum.up = transform->GetGlobalRotationQuat() * float3(0, 1, 0);
+
 	frustum.nearPlaneDistance = 1.f;
 	frustum.farPlaneDistance = 25.f;
-	frustum.horizontalFov = 60.f;
-	frustum.verticalFov = 60.f;
+
+	frustum.verticalFov = 60.f * DEGTORAD;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * (float)(App->window->width / App->window->height));
+	aspectRatio = tanf(frustum.verticalFov * 0.5f) / tanf(frustum.horizontalFov * 0.5f);
+	App->scene->testCamera = this; 
 }
 
 ComponentCamera::~ComponentCamera()
@@ -31,14 +37,11 @@ void ComponentCamera::Update(float dt)
 
 void ComponentCamera::UpdateTransform()
 {
-	float3 pos = float3::zero;
-	float3x3 rotation = float3x3::zero;
-	float3 size = float3::zero;
+	ComponentTransform* transform = owner->GetTransform();
 
-	owner->GetTransform()->GetGlobalTransform().Decompose(pos, rotation, size);
-	frustum.pos = pos;
-	frustum.up = rotation.Col(1);
-	frustum.front = rotation.Col(2);
+	frustum.pos = transform->GetGlobalPosition();
+	frustum.up = transform->GetGlobalRotationQuat() * float3(0.f,1.f,0.f); // Up - y
+	frustum.front = transform->GetGlobalRotationQuat() * float3(0.f,0.f,1.f); // Front - z
 }
 
 void ComponentCamera::DrawFrustum()
@@ -63,16 +66,53 @@ void ComponentCamera::InspectorInfo()
 
 	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		//const char* ratios[] = { "16:9", "1:1", "4:3", "21:9" };
+		//static const char* currentRatio = ratios[0];            // Here our selection is a single pointer stored outside the object.
+		//if (ImGui::BeginCombo("Aspect Ratios", currentRatio))   // The second parameter is the label previewed before opening the combo.
+		//{
+		//	for (int i = 0; i < (int)(sizeof(ratios) / sizeof(*ratios)); i++)
+		//	{
+		//		bool is_selected = (currentRatio == ratios[i]);
 
-		/*ImGui::DragFloat("Horizontal Field Of View1", &frustum.horizontalFov, 0.1f);
-		ImGui::DragFloat("Vertical Field Of View1", &frustum.verticalFov, 0.1f);*/
+		//		if (ImGui::Selectable(ratios[i], is_selected))
+		//			currentRatio = ratios[i];
+
+		//		if (is_selected)
+		//			ImGui::SetItemDefaultFocus();   // Set the initial focus when opening the combo (scrolling + for keyboard navigation support in the upcoming navigation branch)
+		//	}
+		//	ImGui::EndCombo();
+		//}
+
+		ImGui::DragFloat("Vertical Field Of View", &frustum.verticalFov, 0.1f);
+		ImGui::DragFloat("Horizontal Field Of View", &frustum.horizontalFov, 0.1f);
 		ImGui::Separator(); 
 		ImGui::DragFloat("Near Plane Distance", &frustum.nearPlaneDistance, 0.1f);
 		ImGui::DragFloat("Far Plane Distance", &frustum.farPlaneDistance, 0.1f);
 		ImGui::Separator(); 
+		ImGui::DragFloat("Aspect ratio", &aspectRatio, 0.1f);
 
 
 	}
+}
+
+bool ComponentCamera::CheckAABBInsideFrustum(const OBB & myAabb)
+{
+	float3 pointsAABB[8];
+	myAabb.GetCornerPoints(pointsAABB);
+
+	for (uint plane = 0; plane < 6; ++plane)
+	{
+		int pointsIn = 8;
+		for (uint point = 0; point < 8; ++point)
+		{
+			if (frustum.GetPlane(plane).IsOnPositiveSide(pointsAABB[point]))
+				pointsIn--;
+		}
+		if (pointsIn == 0)
+			return false; 
+	}
+
+	return true;
 }
 
 void ComponentCamera::SetPos(const float3 & pos)

@@ -54,6 +54,7 @@ public:
 	const uint GetTextureCoords() const;
 	const uint GetTriangles() const;
 	AABB GetAABB() const; 
+	OBB GetOBBTransformed() const; 
 	// Parser
 	void Save(RJSON_Value* component) const;
 	void Load(RJSON_Value* component);

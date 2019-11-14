@@ -23,6 +23,7 @@ enum class PrimitiveType
 	MAX
 };
 
+class ComponentCamera; 
 
 class ModuleScene : public Module
 {
@@ -44,6 +45,9 @@ public:
 	GameObject* GetRoot() const; 
 
 	GameObject* CreateObject3D(PrimitiveType type, GameObject* parent); 
+
+public: 
+	ComponentCamera* testCamera = nullptr; 
 
 private:
 	//vars
