@@ -48,5 +48,5 @@ public:
 private:
 	//vars
 	GameObject* root = nullptr; 
-	
+
 };

@@ -3,6 +3,8 @@
 #include "csModule.h"
 #include "csGlobals.h"
 
+
+
 class ModuleSceneSerializer : public Module
 {
 public:
@@ -17,9 +19,13 @@ public:
 	bool CleanUp();
 
 	// Parser
-	bool Save(const char* scene_path);
-	bool Load(const char* scene_path);
+	bool SaveScene(const char* scene_path, std::string dir);
+	bool LoadScene(const char* scene_path, std::string dir);
 
 private:
 	//vars
+	std::string directory;
+public:
+	std::string current_scene;
+	std::string scene_to_serialize;
 };

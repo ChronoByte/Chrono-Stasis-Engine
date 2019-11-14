@@ -52,6 +52,6 @@ private:
 	std::string extension = "";
 
 	std::string scene = "";
-
+	bool serialization = false;
 	std::list<StorageUnit*> storage;
 };
