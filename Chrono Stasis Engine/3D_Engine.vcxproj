@@ -273,6 +273,7 @@
     <ClInclude Include="Engine\src\Structure\ConfigWindow.h" />
     <ClInclude Include="Engine\src\Structure\ConsoleWindow.h" />
     <ClInclude Include="Engine\src\Structure\CollisionWindow.h" />
+    <ClInclude Include="Engine\src\Structure\GameViewWindow.h" />
     <ClInclude Include="Engine\src\Structure\FileBrowserWindow.h" />
     <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
     <ClInclude Include="Engine\src\Structure\HierarchyWindow.h" />
@@ -315,6 +316,7 @@
     <ClCompile Include="Engine\src\Structure\ConfigWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ConsoleWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\CollisionWindow.cpp" />
+    <ClCompile Include="Engine\src\Structure\GameViewWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\FileBrowserWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\HierarchyWindow.cpp" />

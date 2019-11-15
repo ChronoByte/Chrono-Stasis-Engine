@@ -19,6 +19,7 @@
 #include "src/Structure/HierarchyWindow.h"
 #include "src/Structure/GeometryWindow.h"
 #include "src/Structure/SceneViewWindow.h"
+#include "src/Structure/GameViewWindow.h"
 #include "src/Structure/FileBrowserWindow.h"
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
@@ -42,6 +43,7 @@ bool ModuleEditor::Init(JSON_Object* node)
 	windows.push_back(randomWin = new RandomWindow(json_object_get_boolean(node, "random")));
 	windows.push_back(collisionWin = new CollisionWindow(json_object_get_boolean(node, "collision")));
 	windows.push_back(sceneView = new SceneViewWindow(json_object_get_boolean(node, "scene view")));
+	windows.push_back(gameView = new GameViewWindow(json_object_get_boolean(node, "game view")));
 	windows.push_back(browser = new FileBrowserWindow(false)); //TODO: parse into json
 	LOG("-------------- Application Init --------------");	// This is stuffed here so it logs into the console, which was not created previously
 
@@ -181,6 +183,7 @@ update_status ModuleEditor::Update(float dt)
 			if (ImGui::MenuItem("Inspector", "", inspector->GetBool())) {}
 			if (ImGui::MenuItem("Hierarchy", "", hierarchy->GetBool())) {}
 			if (ImGui::MenuItem("Configuration", "", config->GetBool())) {}
+			if (ImGui::MenuItem("Game View", "", gameView->GetBool())) {}
 
 			ImGui::EndMenu();
 		}

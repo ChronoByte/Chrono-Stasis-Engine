@@ -24,6 +24,7 @@ class InspectorWindow;
 class HierarchyWindow; 
 class GeometryWindow; 
 class SceneViewWindow;
+class GameViewWindow; 
 class FileBrowserWindow;
 class Window;
 struct TextureInfo;
@@ -66,7 +67,8 @@ public:
 	HierarchyWindow*	hierarchy = nullptr; 
 	GeometryWindow*		geometryWin = nullptr; 
 	SceneViewWindow*	sceneView = nullptr;
-	FileBrowserWindow* browser = nullptr;
+	GameViewWindow*		gameView = nullptr;
+	FileBrowserWindow*	browser = nullptr;
 
 	bool show_demo_window = false;
 	bool show_style_window = false;
