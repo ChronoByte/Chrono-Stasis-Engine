@@ -46,7 +46,7 @@ public:
 	GameObject* GetRoot() const; 
 
 	GameObject* CreateObject3D(PrimitiveType type, GameObject* parent); 
-
+	GameObject* CreateCamera(GameObject* parent, const char* name); 
 
 	// ------------ Camera -----------
 	void SetMainCamera(ComponentCamera* camera);

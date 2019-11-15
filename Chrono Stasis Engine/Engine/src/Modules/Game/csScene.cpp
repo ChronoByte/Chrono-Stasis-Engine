@@ -223,6 +223,13 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 	return go;
 }
 
+GameObject * ModuleScene::CreateCamera(GameObject * parent, const char * name)
+{
+	GameObject* go = CreateGameObject(parent, name); 
+	go->CreateComponent(ComponentType::C_CAMERA); 
+	return go;
+}
+
 void ModuleScene::SetMainCamera(ComponentCamera * camera)
 {
 	if (camera == nullptr)
