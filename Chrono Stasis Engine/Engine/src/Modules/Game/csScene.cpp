@@ -7,7 +7,11 @@
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
+#include "ComponentCamera.h"
+
 #include "csGameObject.h"
+
+#include "src/Structure/GameViewWindow.h"
 
 #include "GLEW/include/GL/glew.h"
 
@@ -217,6 +221,34 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 	par_shapes_free_mesh(shape);
 
 	return go;
+}
+
+void ModuleScene::SetMainCamera(ComponentCamera * camera)
+{
+	if (camera == nullptr)
+		return; 
+
+	if (mainCamera != nullptr)
+		mainCamera->isMainCamera = false;
+
+	mainCamera = camera; 
+	mainCamera->isMainCamera = true; 
+
+	App->editor->gameView->SetActive(true); 
+}
+
+void ModuleScene::ClearCamera()
+{
+	if (mainCamera != nullptr)
+		mainCamera->isMainCamera = false; 
+
+	mainCamera = nullptr; 
+	App->editor->gameView->SetActive(false);
+}
+
+ComponentCamera * ModuleScene::GetMainCamera() const
+{
+	return mainCamera;
 }
 
 GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name)

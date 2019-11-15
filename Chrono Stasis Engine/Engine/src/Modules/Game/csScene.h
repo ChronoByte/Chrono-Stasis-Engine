@@ -38,6 +38,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	// --------- Game Objects ---------
 	void RecursiveUpdate(GameObject* parent, float dt); 
 
 	GameObject* CreateGameObject(GameObject* parent, const char* name); 
@@ -46,8 +47,15 @@ public:
 
 	GameObject* CreateObject3D(PrimitiveType type, GameObject* parent); 
 
+
+	// ------------ Camera -----------
+	void SetMainCamera(ComponentCamera* camera);
+	void ClearCamera(); 
+	ComponentCamera* GetMainCamera() const; 
+
+
 public: 
-	ComponentCamera* testCamera = nullptr; 
+	ComponentCamera* mainCamera = nullptr; 
 
 private:
 	//vars

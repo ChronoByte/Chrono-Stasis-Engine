@@ -65,6 +65,10 @@ public:
 	void Save(RJSON_Value* component) const;
 	void Load(RJSON_Value* component);
 
+public: 
+
+	bool isMainCamera = false; 
+
 private:
 
 	float aspectRatio = 0.0f;

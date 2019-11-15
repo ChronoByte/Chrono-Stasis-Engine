@@ -67,12 +67,9 @@ ComponentMesh::~ComponentMesh()
 
 void ComponentMesh::Update(float dt)
 {
-	if (App->scene->testCamera == nullptr || !App->scene->testCamera->isCulling()
-		|| App->scene->testCamera->CheckAABBInsideFrustum(GetOBBTransformed()))
-	{
-		Draw(); 
-	}
-		
+
+	Draw(); 
+
 	if (App->renderer3D->drawNormals || drawVertexNormals)
 		DrawNormals();
 
@@ -82,6 +79,9 @@ void ComponentMesh::Update(float dt)
 
 void ComponentMesh::Draw()
 {
+	if(App->scene->mainCamera != nullptr && App->scene->mainCamera->isCulling() 
+		&& !App->scene->mainCamera->CheckAABBInsideFrustum(GetOBBTransformed()))
+		return; 
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);

@@ -12,7 +12,11 @@ ComponentCamera::ComponentCamera(GameObject* parent) : Component(parent)
 
 ComponentCamera::~ComponentCamera()
 {
-	LOG("Deleting component transform from %s", owner->GetName());
+	LOG("Deleting component %s from %s", GetName(), owner->GetName());
+
+	if(App->scene->GetMainCamera() == this)
+		App->scene->ClearCamera();
+
 }
 
 void ComponentCamera::Update(float dt)
@@ -61,7 +65,18 @@ void ComponentCamera::InspectorInfo()
 		ImGui::Separator(); 
 	
 		ImGui::Checkbox("Frustum Culling", &culling);
-		
+		if (ImGui::Checkbox("Set as Main Camera", &isMainCamera))
+		{
+			if (isMainCamera)
+			{
+				App->scene->SetMainCamera(this);
+			}
+			else
+			{
+				App->scene->ClearCamera();
+			}
+		}
+
 		// ------- FOV --------- 
 
 		ImGui::Text("FOV Axis");
@@ -121,7 +136,9 @@ void ComponentCamera::SetInitially()
 	frustum.verticalFov = 60.f * DEGTORAD;
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * ((float)App->window->width / (float)App->window->height));
 	aspectRatio = tanf(frustum.verticalFov * 0.5f) / tanf(frustum.horizontalFov * 0.5f);
-	App->scene->testCamera = this;
+
+	App->scene->SetMainCamera(this); 
+	isMainCamera = true; 
 }
 
 void ComponentCamera::UpdateRatio(bool axisVertical, float verticalFOV, float horizontalFOV)
