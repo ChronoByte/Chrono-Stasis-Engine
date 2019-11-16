@@ -37,6 +37,8 @@ public:
 	void StorageTextureData(TextureInfo* tex);
 	void DeleteTextures();
 	TextureInfo* LoadTextureIcon(const char* path);
+
+	bool Import(const char* path, std::string& library_file);
 public:
 	TextureInfo* testTexture = nullptr;
 	std::vector<TextureInfo*> textures;

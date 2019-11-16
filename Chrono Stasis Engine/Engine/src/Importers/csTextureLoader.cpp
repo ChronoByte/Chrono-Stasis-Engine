@@ -251,4 +251,9 @@ TextureInfo* ModuleTextureLoader::LoadTextureIcon(const char* path)
 
 }
 
+bool ModuleTextureLoader::Import(const char* path, std::string& library_file)
+{
+	return false;
+}
+
 
