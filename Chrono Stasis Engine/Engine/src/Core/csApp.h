@@ -18,6 +18,8 @@
 #include "Serializer.h"
 #include "csSceneSerializer.h"
 
+#include "csResources.h"
+
 #include <list>
 #include <vector>
 
@@ -40,8 +42,10 @@ public:
 	ModuleScene*			scene = nullptr;
 	ModuleFileSystem*		fs = nullptr;
 
-	Serializer*            json = nullptr;
-	ModuleSceneSerializer* serialization = nullptr;
+	Serializer*				json = nullptr;
+	ModuleSceneSerializer*	serialization = nullptr;
+
+	ModuleResources*		resources = nullptr;	
 private:
 
 	std::list<Module*> list_modules;

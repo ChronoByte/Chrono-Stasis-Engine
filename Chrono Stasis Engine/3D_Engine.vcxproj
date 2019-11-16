@@ -56,7 +56,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>GLEW_STATIC;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Engine\src\Modules\Containers;$(SolutionDir)\Engine\src\Modules\Containers\Components;$(SolutionDir)\Engine\src\Importers;$(SolutionDir)\Engine\src\Modules\Game;$(SolutionDir)\Engine\Dependencies;$(SolutionDir)\Engine\src\Core;$(SolutionDir)\Engine\src\Modules;$(SolutionDir)\Engine\src\Helpers;$(SolutionDir)\Engine\src\Tools;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\Engine\src\Resources;$(SolutionDir)\Engine\src\Modules\Containers;$(SolutionDir)\Engine\src\Modules\Containers\Components;$(SolutionDir)\Engine\src\Importers;$(SolutionDir)\Engine\src\Modules\Game;$(SolutionDir)\Engine\Dependencies;$(SolutionDir)\Engine\src\Core;$(SolutionDir)\Engine\src\Modules;$(SolutionDir)\Engine\src\Helpers;$(SolutionDir)\Engine\src\Tools;$(SolutionDir)\Engine</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -206,6 +206,7 @@
     <ClInclude Include="Engine\src\Modules\csModule.h" />
     <ClInclude Include="Engine\src\Modules\csInput.h" />
     <ClInclude Include="Engine\src\Modules\csEditor.h" />
+    <ClInclude Include="Engine\src\Modules\csResources.h" />
     <ClInclude Include="Engine\src\Modules\csWindow.h" />
     <ClInclude Include="Engine\Dependencies\MathGeoLib\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="Engine\Dependencies\MathGeoLib\include\Geometry\AABB.h" />
@@ -269,6 +270,8 @@
     <ClInclude Include="Engine\Dependencies\pcg\pcg C\include\pcg_variants.h" />
     <ClInclude Include="Engine\src\Helpers\Primitive.h" />
     <ClInclude Include="Engine\src\Modules\Game\csScene.h" />
+    <ClInclude Include="Engine\src\Resources\Resource.h" />
+    <ClInclude Include="Engine\src\Resources\ResourceTexture.h" />
     <ClInclude Include="Engine\src\Structure\AboutWindow.h" />
     <ClInclude Include="Engine\src\Structure\ConfigWindow.h" />
     <ClInclude Include="Engine\src\Structure\ConsoleWindow.h" />
@@ -311,7 +314,10 @@
     <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_sdl.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\src\Helpers\Light.cpp" />
+    <ClCompile Include="Engine\src\Modules\csResources.cpp" />
     <ClCompile Include="Engine\src\Modules\Game\csScene.cpp" />
+    <ClCompile Include="Engine\src\Resources\Resource.cpp" />
+    <ClCompile Include="Engine\src\Resources\ResourceTexture.cpp" />
     <ClCompile Include="Engine\src\Structure\AboutWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ConfigWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ConsoleWindow.cpp" />

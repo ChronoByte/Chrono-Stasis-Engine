@@ -27,6 +27,8 @@ Application::Application()
 	json		= new Serializer();
 	serialization = new ModuleSceneSerializer();
 
+	resources	= new ModuleResources();
+
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
 	// They will CleanUp() in reverse order
@@ -42,6 +44,7 @@ Application::Application()
 	AddModule(texture);
 	AddModule(fs);
 	AddModule(serialization);
+	AddModule(resources);
 
 	// Game Scenes 
 	AddModule(scene);
@@ -73,6 +76,9 @@ Application::~Application()
 	texture     = nullptr;
 	scene		= nullptr;
 	fs			= nullptr;
+	serialization = nullptr;
+	json = nullptr;
+	resources = nullptr;
 	
 }
 
