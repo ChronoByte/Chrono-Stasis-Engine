@@ -2,6 +2,7 @@
 
 #include "csModule.h"
 #include "csGlobals.h"
+#include "PseudoRandom.h"
 
 struct TextureInfo
 {
@@ -38,7 +39,7 @@ public:
 	void DeleteTextures();
 	TextureInfo* LoadTextureIcon(const char* path);
 
-	bool Import(const char* path, std::string& library_file);
+	bool Import(const char* path, std::string& library_file, UID& uuid);
 public:
 	TextureInfo* testTexture = nullptr;
 	std::vector<TextureInfo*> textures;

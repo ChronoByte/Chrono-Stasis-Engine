@@ -3,9 +3,11 @@
 #include "Psapi.h"
 #include "mmgr/mmgr.h"
 #include "JSON/parson.h"
+#include "PseudoRandom.h"
 
 Application::Application()
 {
+	
 	// TODO: Load with JSON
 	//engine_title = TITLE;
 	//organization_name = ORGANIZATION;
@@ -85,6 +87,8 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = false;
+
+	InitSeedEntropy();
 
 	JSON_Value* config_file;
 	JSON_Object* config;

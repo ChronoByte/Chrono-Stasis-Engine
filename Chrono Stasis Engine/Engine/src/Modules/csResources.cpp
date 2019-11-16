@@ -29,10 +29,10 @@ uint ModuleResources::ImportFile(const char* assets_file, Resource::Type type)
 {
 	uint ret = 0;
 	bool import_ok = false; 
-	std::string written_file;
-
+	std::string written_file; // Own format file
+	UID uuid = 0; 
 	switch (type) {
-		case Resource::R_TEXTURE: import_ok = App->texture->Import(assets_file, written_file); break;
+		case Resource::R_TEXTURE: import_ok = App->texture->Import(assets_file, written_file, uuid); break;
 		case Resource::R_MESH: import_ok = false; break;
 		case Resource::R_SCENE: import_ok = false; break;
 	}

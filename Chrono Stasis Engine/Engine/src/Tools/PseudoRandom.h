@@ -8,4 +8,5 @@
 
 
 void InitSeedRNG();
-uint GenerateUUID();
+void InitSeedEntropy();
+UID GenerateUUID();

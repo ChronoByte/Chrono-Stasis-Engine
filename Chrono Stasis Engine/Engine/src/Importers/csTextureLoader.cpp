@@ -251,9 +251,56 @@ TextureInfo* ModuleTextureLoader::LoadTextureIcon(const char* path)
 
 }
 
-bool ModuleTextureLoader::Import(const char* path, std::string& library_file)
+bool ModuleTextureLoader::Import(const char* path, std::string& library_file, UID& uuid)
 {
-	return false;
+	bool ret = false;
+
+	uint imageID = 0;
+
+	ilGenImages(1, &imageID);
+	ilBindImage(imageID);
+
+	char* buffer = nullptr;
+	uint size = App->fs->ReadFile(path, buffer); //fill buffer from texture file data
+
+	if((bool)ilLoadL(IL_TYPE_UNKNOWN, (const void*)buffer, size)) //Load image data from Lumps (Memory)
+	{
+		LOG("Texture file [%s] loading from memory successfully", path);
+		ret = true;
+
+		ilSetInteger(IL_DXTC_FORMAT, IL_DXT5); // Set compression format (DXT5)
+
+		ILuint size;
+		size = ilSaveL(IL_DDS, NULL, 0); // Get size from DDS buffer
+
+		if (size > 0) 
+		{
+			ILubyte* data;
+			data = new ILubyte[size];
+
+			if (ilSaveL(IL_DDS, data, size) > 0) // Saving image data to DDS buffer
+			{
+				//Generate UUID 
+				if (uuid == 0u)
+					uuid = GenerateUUID();
+
+				//Create Own format Texture file
+				std::string output_file(TEXTURES_FOLDER + std::to_string(uuid) + TEXTURES_EXTENSION);
+				App->fs->WriteFile(output_file.c_str(), (char*)data, size);
+				library_file = output_file; 
+			}
+			RELEASE_ARRAY(data);
+		}
+	}
+	else {
+		LOG("Texture file [&s] loading from memory failed - IL error: %s", path, iluErrorString(ilGetError()));
+		ret = false;
+	}
+
+	ilDeleteImages(1, &imageID);
+	RELEASE_ARRAY(buffer);
+
+	return ret;
 }
 
 
