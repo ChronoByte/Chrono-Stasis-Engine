@@ -3,6 +3,8 @@
 #include "csGlobals.h"
 #include "glm/glmath.h"
 
+class ComponentCamera;
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -39,6 +41,9 @@ public:
 	float zoomSpeed = 0;
 
 	bool cameraControls = false;
+
+public: 
+	ComponentCamera* fakeCamera = nullptr;
 
 private:
 

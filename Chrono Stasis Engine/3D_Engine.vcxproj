@@ -206,6 +206,7 @@
     <ClInclude Include="Engine\src\Modules\csModule.h" />
     <ClInclude Include="Engine\src\Modules\csInput.h" />
     <ClInclude Include="Engine\src\Modules\csEditor.h" />
+    <ClInclude Include="Engine\src\Modules\csViewport.h" />
     <ClInclude Include="Engine\src\Modules\csWindow.h" />
     <ClInclude Include="Engine\Dependencies\MathGeoLib\include\Algorithm\Random\LCG.h" />
     <ClInclude Include="Engine\Dependencies\MathGeoLib\include\Geometry\AABB.h" />
@@ -311,6 +312,7 @@
     <ClCompile Include="Engine\Dependencies\imgui\imgui_impl_sdl.cpp" />
     <ClCompile Include="Engine\Dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Engine\src\Helpers\Light.cpp" />
+    <ClCompile Include="Engine\src\Modules\csViewport.cpp" />
     <ClCompile Include="Engine\src\Modules\Game\csScene.cpp" />
     <ClCompile Include="Engine\src\Structure\AboutWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ConfigWindow.cpp" />

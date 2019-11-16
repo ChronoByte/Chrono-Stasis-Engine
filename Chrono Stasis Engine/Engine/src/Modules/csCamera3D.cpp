@@ -2,6 +2,8 @@
 #include "csApp.h"
 #include "../Structure/HierarchyWindow.h"
 #include "ComponentTransform.h"
+#include "ComponentCamera.h"
+
 #include "csCamera3D.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
@@ -29,6 +31,8 @@ bool ModuleCamera3D::Init(JSON_Object* node)
     mouseSensitivity = json_object_get_number(node, "mouseSensitivity");
 	wheelSensitivity = json_object_get_number(node, "wheelSensitivity");
 	zoomSpeed = json_object_get_number(node, "zoomSpeed");
+
+	fakeCamera = new ComponentCamera(nullptr);
 
 	return true;
 }

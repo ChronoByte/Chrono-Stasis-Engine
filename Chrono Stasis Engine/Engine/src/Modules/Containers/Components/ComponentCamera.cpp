@@ -7,7 +7,22 @@ ComponentCamera::ComponentCamera(GameObject* parent) : Component(parent)
 	type = ComponentType::C_CAMERA;
 	name = "Camera";
 
-	SetInitially();
+	if(parent != nullptr)
+		SetInitially();
+	else
+	{
+		frustum.type = FrustumType::PerspectiveFrustum;
+		frustum.pos = float3(0.0f,0.0f,10.0f);
+		frustum.front = float3(0, 0, 1.f);
+		frustum.up = float3(0, 1, 0);
+
+		frustum.nearPlaneDistance = 1.f;
+		frustum.farPlaneDistance = 300.f;
+
+		frustum.verticalFov = 60.f * DEGTORAD;
+		frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * ((float)App->window->width / (float)App->window->height));
+		aspectRatio = tanf(frustum.verticalFov * 0.5f) / tanf(frustum.horizontalFov * 0.5f);
+	}
 }
 
 ComponentCamera::~ComponentCamera()

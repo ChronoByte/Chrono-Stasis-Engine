@@ -5,7 +5,7 @@
 #include "Light.h"
 
 #define MAX_LIGHTS 8
-class Mesh; 
+class Viewport; 
 
 class ModuleRenderer3D : public Module
 {
@@ -19,7 +19,9 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	void OnResize(int width, int height);
+	void PrepareDraw(Viewport* viewport); 
+	void Draw(Viewport* viewport); 
+	void OnResize(int width, int height, Viewport* viewport = nullptr);
 
 	void DrawOriginAxis();
 
@@ -89,8 +91,5 @@ public:
 	bool drawVertexNormals = false; 
 	bool drawBoundingBox = false;
 
-	GLuint frameBuffer = 0;
-	GLuint textureBuffer = 0;
-	GLuint depthStencilBuffer = 0;
-
+	Viewport* mainViewport = nullptr; 
 };

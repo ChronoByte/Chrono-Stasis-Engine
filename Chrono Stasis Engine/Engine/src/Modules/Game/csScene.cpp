@@ -10,6 +10,7 @@
 #include "ComponentCamera.h"
 
 #include "csGameObject.h"
+#include "csViewport.h"
 
 #include "src/Structure/GameViewWindow.h"
 
@@ -18,6 +19,7 @@
 ModuleScene::ModuleScene(bool start_enabled) : Module(start_enabled)
 {
 	name = "Scene"; 
+	sceneViewport = new Viewport(); 
 }
 
 ModuleScene::~ModuleScene()
@@ -44,7 +46,8 @@ bool ModuleScene::Start()
 
 update_status ModuleScene::PreUpdate()
 {
-	
+	//if(sceneViewport->camera != nullptr)
+		//sceneViewport->PreUpdate(); 
 	return UPDATE_CONTINUE;
 }
 
@@ -57,6 +60,9 @@ bool ModuleScene::CleanUp()
 
 update_status ModuleScene::Update(float dt)
 {
+
+	/*if (sceneViewport->camera != nullptr)
+		sceneViewport->Update();*/
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 		App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
@@ -239,6 +245,8 @@ void ModuleScene::SetMainCamera(ComponentCamera * camera)
 		mainCamera->isMainCamera = false;
 
 	mainCamera = camera; 
+	sceneViewport->camera = mainCamera; 
+	App->renderer3D->OnResize(App->window->width, App->window->height, sceneViewport); 
 	mainCamera->isMainCamera = true; 
 
 	App->editor->gameView->SetActive(true); 
@@ -250,6 +258,7 @@ void ModuleScene::ClearCamera()
 		mainCamera->isMainCamera = false; 
 
 	mainCamera = nullptr; 
+	sceneViewport->camera = nullptr;
 	App->editor->gameView->SetActive(false);
 }
 

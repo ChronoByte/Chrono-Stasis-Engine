@@ -5,6 +5,7 @@
 
 class GameObject;
 class BoundingBox;
+class Viewport; 
 
 enum class PrimitiveType
 {
@@ -56,9 +57,9 @@ public:
 
 public: 
 	ComponentCamera* mainCamera = nullptr; 
+	Viewport* sceneViewport = nullptr; 
 
 private:
 	//vars
 	GameObject* root = nullptr; 
-
 };

@@ -2,7 +2,8 @@
 #include "csApp.h"
 #include "csRenderer3D.h"
 #include "src/Structure/SceneViewWindow.h"
-#include "ComponentMesh.h"
+#include "csViewport.h"
+#include "ComponentCamera.h"
 
 #include "glew/include/GL/glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -13,11 +14,14 @@
 ModuleRenderer3D::ModuleRenderer3D(bool start_enabled) : Module(start_enabled)
 {
 	name = "Renderer3D";
+	mainViewport = new Viewport(); 
 }
 
 // Destructor
 ModuleRenderer3D::~ModuleRenderer3D()
-{}
+{
+	delete mainViewport; 
+}
 
 // Called before render is available
 bool ModuleRenderer3D::Init(JSON_Object* node)
@@ -138,6 +142,7 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 		(fog) ? glEnable(GL_FOG) : glDisable(GL_FOG);
 	}
 
+	mainViewport->camera = App->camera->fakeCamera; 
 	// Projection matrix for
 	OnResize(App->window->width, App->window->height);
 	
@@ -151,21 +156,23 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, mainViewport->frameBuffer);
 	glViewport(0, 0, App->window->width, App->window->height);
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
+	glLoadMatrixf((GLfloat*)&App->camera->fakeCamera->GetViewMatrix());
+
+	//PrepareDraw(mainViewport); 
 
 	// light 0 on cam pos
-	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	/*lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
 
 
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
-		lights[i].Render();
+		lights[i].Render();*/
 	
 	if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		ToggleDebugMode();
@@ -178,11 +185,18 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 update_status ModuleRenderer3D::Update(float dt)
 {
-	
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, App->renderer3D->textureBuffer);
+	LOG("Main viewport texture buffer = % i", mainViewport->textureBuffer);
+	LOG("Main viewport framebuffer = %i", mainViewport->frameBuffer); 
+	Draw(mainViewport); 
+	if(App->scene->sceneViewport->camera != nullptr)
+		Draw(App->scene->sceneViewport);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	/*glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, mainViewport->textureBuffer);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);*/
 
 	return UPDATE_CONTINUE;
 }
@@ -200,26 +214,56 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
-	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteFramebuffers(1, &mainViewport->frameBuffer);
 	SDL_GL_DeleteContext(context);
 
 	return true;
 }
 
 
-void ModuleRenderer3D::OnResize(int width, int height)
+void ModuleRenderer3D::PrepareDraw(Viewport * viewport)
 {
-	
-	glDeleteFramebuffers(1, &frameBuffer);
-	glDeleteTextures(1, &textureBuffer);
-	glDeleteRenderbuffers(1, &depthStencilBuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
 
-	glGenFramebuffers(1, &frameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, viewport->frameBuffer);
+	glViewport(0, 0, App->window->width, App->window->height);
 
-	glGenTextures(1, &textureBuffer);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
 
-	glBindTexture(GL_TEXTURE_2D, textureBuffer);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf((GLfloat*)&viewport->camera->GetViewMatrix());
+}
+
+void ModuleRenderer3D::Draw(Viewport * viewport)
+{
+	// Update
+	glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf((GLfloat*)&viewport->camera->GetViewMatrix());
+
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, viewport->textureBuffer);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void ModuleRenderer3D::OnResize(int width, int height, Viewport* viewport)
+{
+	if (viewport == nullptr)
+		viewport = mainViewport; 
+
+	glDeleteFramebuffers(1, &viewport->frameBuffer);
+	glDeleteTextures(1, &viewport->textureBuffer);
+	glDeleteRenderbuffers(1, &viewport->depthStencilBuffer);
+
+	glGenFramebuffers(1, &viewport->frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, viewport->frameBuffer);
+
+	glGenTextures(1, &viewport->textureBuffer);
+
+	glBindTexture(GL_TEXTURE_2D, viewport->textureBuffer);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, App->window->width, App->window->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
@@ -227,12 +271,13 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 	
-	glGenRenderbuffers(1, &depthStencilBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilBuffer);
+	glGenRenderbuffers(1, &viewport->depthStencilBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, viewport->depthStencilBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->window->width, App->window->height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthStencilBuffer);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, viewport->depthStencilBuffer);
 
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureBuffer, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, viewport->textureBuffer, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, App->scene->sceneViewport->textureBuffer, 0);
 
 	// Set the list of draw buffers.
 	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
@@ -247,7 +292,11 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	ProjectionMatrix = perspective(60.0f, (float)width / (float)height, 0.125f, 512.0f);
+	ProjectionMatrix = perspective(viewport->camera->GetVerticalFOV(),
+		(float)width / (float)height, 
+		viewport->camera->GetNearPlaneDistance(),
+		viewport->camera->GetFarPlaneDistance());
+
 	glLoadMatrixf(&ProjectionMatrix);
 
 	glMatrixMode(GL_MODELVIEW);
