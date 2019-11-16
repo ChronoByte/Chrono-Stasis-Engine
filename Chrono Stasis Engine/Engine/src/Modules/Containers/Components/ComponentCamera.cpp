@@ -134,7 +134,7 @@ void ComponentCamera::SetInitially()
 	}
 	else
 	{
-		frustum.pos = float3(0.f, 0.f, 0.f);
+		frustum.pos = float3(0.f, 5.f, -5.f);
 		frustum.front = float3(0.f, 0.f, 1.f);
 		frustum.up = float3(0.f, 1.f, 0.f);
 	}
@@ -169,16 +169,6 @@ void ComponentCamera::LookAt(const float3 & lookatPos)
 	float3x3 dirMat = float3x3::LookAt(frustum.front, lookAt.Normalized(), frustum.up, float3::unitY);
 	frustum.front = dirMat.MulDir(frustum.front).Normalized();
 	frustum.up = dirMat.MulDir(frustum.up).Normalized();
-
-	// ------------------ 2nd option
-
-	/*Z = normalize(Position - Reference);
-	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
-	Y = cross(Z, X);*/
-
-	// real 
-	/*frustum.front = (frustum.pos - lookatPos).Normalized();
-	frustum.up = float3::unitX.Cross(frustum.front); */
 
 }
 

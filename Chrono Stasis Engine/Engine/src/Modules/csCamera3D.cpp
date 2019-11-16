@@ -185,15 +185,15 @@ void ModuleCamera3D::FocusAtObject()
 
 		float3 center = box->CenterPoint();
 		vec3 object = vec3(center.x, center.y, center.z);
+		//vec3 direction = Position - object;
 
-		vec3 direction = Position - object;
-		direction = normalize(direction) * 10;
+		float3 direction = fakeCamera->frustum.pos - center;
+		direction = direction.Normalized() * 10;
 
 		Position.Set(center.x + direction.x, center.y + direction.y, center.z + direction.z);
 		LookAt(vec3(center.x, center.y, center.z));
 
-		float3 dir = float3(direction.x, direction.y, direction.z); 
-		fakeCamera->frustum.pos = float3(center.x + dir.x, center.y + dir.y, center.z + dir.z);
+		fakeCamera->frustum.pos = float3(center.x + direction.x, center.y + direction.y, center.z + direction.z);
 		fakeCamera->LookAt(center);
 
 		/*float3 center = box->Centroid();
@@ -254,10 +254,13 @@ float3 ModuleCamera3D::DistanceFromOrthonormalBasis()
 		}
 		if (fakeCamera->frustum.up.y < 0.0f)
 		{
-			float3 xAxis = fakeCamera->frustum.WorldRight();
-			fakeCamera->frustum.front = float3(0.0f, fakeCamera->frustum.front.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-			fakeCamera->frustum.up = fakeCamera->frustum.front.Cross(xAxis);
+			float3 toLook = float3(0.0f, fakeCamera->frustum.front.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+			/*fakeCamera->frustum.up = fakeCamera->frustum.front.Cross(xAxis);
+			float3 lookAt = lookatPos - frustum.pos;*/
 
+			float3x3 dirMat = float3x3::LookAt(fakeCamera->frustum.front, toLook.Normalized(), fakeCamera->frustum.up, float3::unitY);
+			fakeCamera->frustum.front = dirMat.MulDir(fakeCamera->frustum.front).Normalized();
+			fakeCamera->frustum.up = dirMat.MulDir(fakeCamera->frustum.up).Normalized();
 		}
 	}
 
