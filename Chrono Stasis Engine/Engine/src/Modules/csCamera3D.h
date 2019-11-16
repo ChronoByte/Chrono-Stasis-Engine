@@ -3,6 +3,8 @@
 #include "csGlobals.h"
 #include "glm/glmath.h"
 
+class ComponentCamera; 
+
 class ModuleCamera3D : public Module
 {
 public:
@@ -14,12 +16,11 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
-	void Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference = false);
 	void LookAt(const vec3 &Spot);
 	void Move(const vec3 &Movement);
 	void FocusAtObject();
-	vec3 DistanceFromOrthonormalBasis();
-	float* GetViewMatrix();
+	float3 DistanceFromOrthonormalBasis();
+	float4x4 GetViewMatrix();
 
 private:
 
@@ -33,12 +34,16 @@ public:
 	vec3 Position = { 0.0f,0.0f,10.0f };
 	vec3 Reference = { 0.0f,0.0f,0.0f };
 
+	float3 reference = float3::zero; 
+
 	float cameraSpeed = 0;
 	float mouseSensitivity = 0;
 	float wheelSensitivity = 0;
 	float zoomSpeed = 0;
 
 	bool cameraControls = false;
+
+	ComponentCamera* fakeCamera = nullptr; 
 
 private:
 

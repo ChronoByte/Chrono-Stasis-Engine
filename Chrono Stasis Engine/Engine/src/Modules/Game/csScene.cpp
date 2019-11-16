@@ -32,9 +32,6 @@ bool ModuleScene::Init(JSON_Object* node)
 
 bool ModuleScene::Start()
 {
-	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
-
 	CreateRoot(); 
 
 	GameObject* go = App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
