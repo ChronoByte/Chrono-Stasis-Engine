@@ -9,9 +9,6 @@
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 {
 	name = "Camera3D";
-
-	CalculateViewMatrix();
-
 }
 
 ModuleCamera3D::~ModuleCamera3D()
@@ -19,23 +16,21 @@ ModuleCamera3D::~ModuleCamera3D()
 
 bool ModuleCamera3D::Init(JSON_Object* node)
 {
-	X = vec3(json_object_dotget_number(node, "X.x"), json_object_dotget_number(node, "X.y"), json_object_dotget_number(node, "X.z"));
-	Y = vec3(json_object_dotget_number(node, "Y.x"), json_object_dotget_number(node, "Y.y"), json_object_dotget_number(node, "Y.z"));
-	Z = vec3(json_object_dotget_number(node, "Z.x"), json_object_dotget_number(node, "Z.y"), json_object_dotget_number(node, "Z.z"));
 
-	Position = vec3(json_object_dotget_number(node, "position.x"), json_object_dotget_number(node, "position.y"), json_object_dotget_number(node, "position.z"));
-	Reference = vec3(json_object_dotget_number(node, "reference.x"), json_object_dotget_number(node, "reference.y"), json_object_dotget_number(node, "reference.z"));
-	LookAt(Reference);
+	fakeCamera = new ComponentCamera(nullptr);
+
+	fakeCamera->frustum.up = float3(json_object_dotget_number(node, "Up.x"), json_object_dotget_number(node, "Up.y"), json_object_dotget_number(node, "Up.z"));
+	fakeCamera->frustum.front = float3(json_object_dotget_number(node, "Front.x"), json_object_dotget_number(node, "Front.y"), json_object_dotget_number(node, "Front.z"));
+
+	fakeCamera->frustum.pos = float3(json_object_dotget_number(node, "position.x"), json_object_dotget_number(node, "position.y"), json_object_dotget_number(node, "position.z"));
+	reference = float3(json_object_dotget_number(node, "reference.x"), json_object_dotget_number(node, "reference.y"), json_object_dotget_number(node, "reference.z"));
+	LookAt(reference);
 
 	cameraSpeed = json_object_get_number(node, "cameraSpeed");
 	mouseSensitivity = json_object_get_number(node, "mouseSensitivity");
-	mouseSensitivity = 0.005f;
 	wheelSensitivity = json_object_get_number(node, "wheelSensitivity");
 	zoomSpeed = json_object_get_number(node, "zoomSpeed");
 
-	reference = float3::zero;
-	fakeCamera = new ComponentCamera(nullptr);
-	fakeCamera->LookAt(reference); 
 	return true;
 }
 
@@ -87,16 +82,12 @@ update_status ModuleCamera3D::Update(float dt)
 
 			// ROTATION MOVEMENT (RIGHT CLICK)
 			orbit = false;
-			//Reference = Position - DistanceFromOrthonormalBasis();
 			reference = fakeCamera->frustum.pos - DistanceFromOrthonormalBasis();
 		}
 
 		//--------------ZOOM IN / ZOOM OUT (MOUSE WHEEL)-------------//
 		if (App->input->GetMouseZ() > 0) newPos += fakeCamera->frustum.front * speed * zoomSpeed;
 		if (App->input->GetMouseZ() < 0) newPos -= fakeCamera->frustum.front * speed * zoomSpeed;
-
-		/*Position += newPos;
-		Reference += newPos;*/
 
 		fakeCamera->frustum.pos += newPos;
 		reference += newPos; 
@@ -106,7 +97,6 @@ update_status ModuleCamera3D::Update(float dt)
 
 			if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) {
 				orbit = true;
-				//Position = Reference + DistanceFromOrthonormalBasis();
 				fakeCamera->frustum.pos = reference + DistanceFromOrthonormalBasis(); 
 			}
 
@@ -128,12 +118,6 @@ update_status ModuleCamera3D::Update(float dt)
 				float DeltaX = (float)dx * wheelSensitivity;
 				float DeltaY = (float)dy * wheelSensitivity;
 
-				/*newPos += X * DeltaX;
-				newPos += Y * DeltaY;
-
-				Position += newPos;
-				Reference += newPos;*/
-
 				newPos += fakeCamera->frustum.WorldRight() * DeltaX; 
 				newPos += fakeCamera->frustum.up * DeltaY; 
 
@@ -142,12 +126,6 @@ update_status ModuleCamera3D::Update(float dt)
 
 			}
 		}
-		//LOG("Reference.x = %f, Reference.y = %f, Reference.z = %f", reference.x, reference.y, reference.z);
-		LOG("Front.x = %f, Front.y = %f, Front.z = %f", fakeCamera->frustum.front.x, fakeCamera->frustum.front.y, fakeCamera->frustum.front.z);
-		//LOG("Pos.x = %f, Pos.y = %f, Pos.z = %f", fakeCamera->frustum.pos.x, fakeCamera->frustum.pos.y, fakeCamera->frustum.pos.z);
-		LOG("Up.x = %f, Up.y = %f, Up.z = %f", fakeCamera->frustum.up.x, fakeCamera->frustum.up.y, fakeCamera->frustum.up.z);
-		// Recalculate matrix -------------
-		CalculateViewMatrix();
 	}
 
 	return UPDATE_CONTINUE;
@@ -155,26 +133,14 @@ update_status ModuleCamera3D::Update(float dt)
 
 // -----------------------------------------------------------------
 // -----------------------------------------------------------------
-void ModuleCamera3D::LookAt(const vec3 &Spot)
+void ModuleCamera3D::LookAt(const float3& Spot)
 {
-	Reference = Spot;
-
-	Z = normalize(Position - Reference);
-	X = normalize(cross(vec3(0.0f, 1.0f, 0.0f), Z));
-	Y = cross(Z, X);
-
-	CalculateViewMatrix();
+	reference = Spot;
+	fakeCamera->LookAt(Spot); 
 }
 
 
 // -----------------------------------------------------------------
-void ModuleCamera3D::Move(const vec3 &Movement)
-{
-	Position += Movement;
-	Reference += Movement;
-
-	CalculateViewMatrix();
-}
 
 void ModuleCamera3D::FocusAtObject()
 {
@@ -188,18 +154,13 @@ void ModuleCamera3D::FocusAtObject()
 			return;
 
 		float3 center = box->CenterPoint();
-		vec3 object = vec3(center.x, center.y, center.z);
-		//vec3 direction = Position - object;
 
 		float3 direction = fakeCamera->frustum.pos - center;
 		direction = direction.Normalized() * 10;
 
-		Position.Set(center.x + direction.x, center.y + direction.y, center.z + direction.z);
-		LookAt(vec3(center.x, center.y, center.z));
-
 		fakeCamera->frustum.pos = float3(center.x + direction.x, center.y + direction.y, center.z + direction.z);
-		fakeCamera->LookAt(center);
-		reference = center; 
+		LookAt(center); 
+
 		/*float3 center = box->Centroid();
 		float3 size = box->Size();
 
@@ -220,9 +181,6 @@ float3 ModuleCamera3D::DistanceFromOrthonormalBasis()
 	int dx = -App->input->GetMouseXMotion();
 	int dy = -App->input->GetMouseYMotion();
 
-	//vec3 direction;
-	//if(orbit) direction = Position - Reference;
-	//else  direction = Reference - Position;
 	float3 direction;
 	if (orbit) 
 		direction = fakeCamera->frustum.pos - reference;
@@ -233,10 +191,6 @@ float3 ModuleCamera3D::DistanceFromOrthonormalBasis()
 	{
 		float DeltaX = (float)dx * mouseSensitivity;
 
-		X = rotate(X, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		Y = rotate(Y, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-		Z = rotate(Z, DeltaX, vec3(0.0f, 1.0f, 0.0f));
-
 		fakeCamera->frustum.front = *(float3*)&(float4x4::RotateAxisAngle(float3::unitY, DeltaX) * float4(fakeCamera->frustum.front, 1.0f));
 		fakeCamera->frustum.up = *(float3*)&(float4x4::RotateAxisAngle(float3::unitY, DeltaX) * float4(fakeCamera->frustum.up, 1.0f));
 	}
@@ -245,50 +199,19 @@ float3 ModuleCamera3D::DistanceFromOrthonormalBasis()
 	{
 		float DeltaY = (float)dy * mouseSensitivity;
 
-
-		Y = rotate(Y, DeltaY, X);
-		Z = rotate(Z, DeltaY, X);
-
 		float3 xAxis = fakeCamera->frustum.WorldRight(); 
 		fakeCamera->frustum.front = *(float3*)&(float4x4::RotateAxisAngle(xAxis, DeltaY) * float4(fakeCamera->frustum.front, 1.0f));
 		fakeCamera->frustum.up = *(float3*)&(float4x4::RotateAxisAngle(xAxis, DeltaY) * float4(fakeCamera->frustum.up, 1.0f));
 
-		if (Y.y < 0.0f)
-		{
-			Z = vec3(0.0f, Z.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-			Y = cross(Z, X);
-		}
 		if (fakeCamera->frustum.up.y < 0.0f)
 		{
 			float3 xAxis = fakeCamera->frustum.WorldRight();
 			fakeCamera->frustum.front = float3(0.0f, fakeCamera->frustum.front.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-			//fakeCamera->frustum.up = fakeCamera->frustum.front.Cross(fakeCamera->frustum.WorldRight()).Normalized();
 			fakeCamera->frustum.up = fakeCamera->frustum.front.Cross(-xAxis).Normalized(); // This right here, this is live
-			LOG("Error Care");
-			/*if (fakeCamera->frustum.front.y > 0.0f) 
-			{
-				LOG("Front . Y > 0");
-				fakeCamera->frustum.front = float3(0.0f, 1.0f, 0.0f);
-			}
-			else
-			{
-				fakeCamera->frustum.front = float3(0.0f, -1.0f, 0.0f);
-				LOG("Front . Y < 0");
-			}*/
-
-			/*float3 toLook = float3(fakeCamera->frustum.front.x, fakeCamera->frustum.front.y > 0.0f ? 1.0f : -1.0f, fakeCamera->frustum.front.z);
-
-			float3x3 dirMat = float3x3::LookAt(fakeCamera->frustum.front, toLook.Normalized(), fakeCamera->frustum.up, float3::unitY);
-
-			fakeCamera->frustum.front = dirMat.MulDir(fakeCamera->frustum.front).Normalized();
-			fakeCamera->frustum.up = dirMat.MulDir(fakeCamera->frustum.up).Normalized();*/
-
 		}
 	}
 
 	return -fakeCamera->frustum.front * direction.Length();
-	//return Z * length(direction);
-
 }
 
 // -----------------------------------------------------------------
@@ -297,9 +220,3 @@ float4x4 ModuleCamera3D::GetViewMatrix()
 	return fakeCamera->GetViewMatrix();
 }
 
-// -----------------------------------------------------------------
-void ModuleCamera3D::CalculateViewMatrix()
-{
-	ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
-	ViewMatrixInverse = inverse(ViewMatrix);
-}
