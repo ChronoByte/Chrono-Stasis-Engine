@@ -25,6 +25,7 @@ public:
 	void SetInitially();
 	void UpdateRatio(bool axisVertical, float verticalFOV, float horizontalFOV = 0.f);
 
+	void LookAt(const float3& position);
 	// --------------------------------------------
 	// ------------- Sets ------------------
 
@@ -68,10 +69,10 @@ public:
 public: 
 
 	bool isMainCamera = false; 
+	Frustum frustum;
 
 private:
 
 	float aspectRatio = 0.0f;
-	Frustum frustum;
 	bool culling = true; 
 };

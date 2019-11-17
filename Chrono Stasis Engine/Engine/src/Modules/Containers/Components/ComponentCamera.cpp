@@ -125,20 +125,28 @@ bool ComponentCamera::CheckAABBInsideFrustum(const OBB & myAabb)
 void ComponentCamera::SetInitially()
 {
 	frustum.type = FrustumType::PerspectiveFrustum;
-	ComponentTransform* transform = owner->GetTransform();
-	frustum.pos = transform->GetGlobalPosition();
-	frustum.front = transform->GetGlobalRotationQuat() * float3(0, 0, 1.f);
-	frustum.up = transform->GetGlobalRotationQuat() * float3(0, 1, 0);
+
+	if (owner != nullptr) 
+	{
+		UpdateTransform();
+		App->scene->SetMainCamera(this);
+		isMainCamera = true;
+	}
+	else
+	{
+		frustum.pos = float3(1.f, 6.f, 10.f);
+		frustum.front = float3(0.f, 0.f, 1.f);
+		frustum.up = float3(0.f, 1.f, 0.f);
+	}
 
 	frustum.nearPlaneDistance = 1.f;
-	frustum.farPlaneDistance = 25.f;
+	frustum.farPlaneDistance = 500.f;
 
 	frustum.verticalFov = 60.f * DEGTORAD;
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * ((float)App->window->width / (float)App->window->height));
 	aspectRatio = tanf(frustum.verticalFov * 0.5f) / tanf(frustum.horizontalFov * 0.5f);
 
-	App->scene->SetMainCamera(this); 
-	isMainCamera = true; 
+
 }
 
 void ComponentCamera::UpdateRatio(bool axisVertical, float verticalFOV, float horizontalFOV)
@@ -153,6 +161,15 @@ void ComponentCamera::UpdateRatio(bool axisVertical, float verticalFOV, float ho
 		frustum.horizontalFov = horizontalFOV;
 		frustum.verticalFov = 2.f * atanf(tanf(frustum.horizontalFov * 0.5f) * ((float)App->window->height / (float)App->window->width));
 	}
+}
+
+void ComponentCamera::LookAt(const float3 & lookatPos)
+{
+	float3 lookAt = lookatPos - frustum.pos;
+	float3x3 dirMat = float3x3::LookAt(frustum.front, lookAt.Normalized(), frustum.up, float3::unitY);
+	frustum.front = dirMat.MulDir(frustum.front).Normalized();
+	frustum.up = dirMat.MulDir(frustum.up).Normalized();
+
 }
 
 
