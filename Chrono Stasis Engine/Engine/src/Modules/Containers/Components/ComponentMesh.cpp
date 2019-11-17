@@ -139,8 +139,12 @@ void ComponentMesh::DrawNormals()
 	glBindBuffer(GL_ARRAY_BUFFER, faceNormals.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
+	glPushMatrix();
+	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform().Transposed()));
+
 	glDrawArrays(GL_LINES, 0, faceNormals.capacity);
 
+	glPopMatrix();
 
 	glColor3f(1.f, 1.f, 1.f);
 	glDisableClientState(GL_VERTEX_ARRAY);
@@ -154,7 +158,12 @@ void ComponentMesh::DrawVertexNormals()
 	glBindBuffer(GL_ARRAY_BUFFER, vertexNormals.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
+	glPushMatrix();
+	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform().Transposed()));
+	
 	glDrawArrays(GL_LINES, 0, vertexNormals.capacity);
+
+	glPopMatrix();
 
 	
 	glColor3f(1.f, 1.f, 1.f);
