@@ -134,7 +134,7 @@ void ComponentCamera::SetInitially()
 	}
 	else
 	{
-		frustum.pos = float3(0.f, 5.f, -5.f);
+		frustum.pos = float3(1.f, 6.f, 10.f);
 		frustum.front = float3(0.f, 0.f, 1.f);
 		frustum.up = float3(0.f, 1.f, 0.f);
 	}
