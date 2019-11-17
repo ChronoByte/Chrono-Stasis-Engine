@@ -142,9 +142,9 @@ update_status ModuleCamera3D::Update(float dt)
 
 			}
 		}
-		LOG("Reference.x = %f, Reference.y = %f, Reference.z = %f", reference.x, reference.y, reference.z);
+		//LOG("Reference.x = %f, Reference.y = %f, Reference.z = %f", reference.x, reference.y, reference.z);
 		LOG("Front.x = %f, Front.y = %f, Front.z = %f", fakeCamera->frustum.front.x, fakeCamera->frustum.front.y, fakeCamera->frustum.front.z);
-		LOG("Pos.x = %f, Pos.y = %f, Pos.z = %f", fakeCamera->frustum.pos.x, fakeCamera->frustum.pos.y, fakeCamera->frustum.pos.z);
+		//LOG("Pos.x = %f, Pos.y = %f, Pos.z = %f", fakeCamera->frustum.pos.x, fakeCamera->frustum.pos.y, fakeCamera->frustum.pos.z);
 		LOG("Up.x = %f, Up.y = %f, Up.z = %f", fakeCamera->frustum.up.x, fakeCamera->frustum.up.y, fakeCamera->frustum.up.z);
 		// Recalculate matrix -------------
 		CalculateViewMatrix();
@@ -260,8 +260,11 @@ float3 ModuleCamera3D::DistanceFromOrthonormalBasis()
 		}
 		if (fakeCamera->frustum.up.y < 0.0f)
 		{
-
 			float3 xAxis = fakeCamera->frustum.WorldRight();
+			fakeCamera->frustum.front = float3(0.0f, fakeCamera->frustum.front.y > 0.0f ? 1.0f : -1.0f, 0.0f);
+			//fakeCamera->frustum.up = fakeCamera->frustum.front.Cross(fakeCamera->frustum.WorldRight()).Normalized();
+			fakeCamera->frustum.up = fakeCamera->frustum.front.Cross(-xAxis).Normalized(); // This right here, this is live
+			LOG("Error Care");
 			/*if (fakeCamera->frustum.front.y > 0.0f) 
 			{
 				LOG("Front . Y > 0");
@@ -272,18 +275,13 @@ float3 ModuleCamera3D::DistanceFromOrthonormalBasis()
 				fakeCamera->frustum.front = float3(0.0f, -1.0f, 0.0f);
 				LOG("Front . Y < 0");
 			}*/
-				
-			//fakeCamera->frustum.front = float3(0.0f, fakeCamera->frustum.front.y > 0.0f ? 1.0f : -1.0f, 0.0f);
-			//fakeCamera->frustum.up = fakeCamera->frustum.front.Cross(fakeCamera->frustum.WorldRight()).Normalized();
-			//fakeCamera->frustum.up = fakeCamera->frustum.front.Cross(xAxis).Normalized();
 
-
-			float3 toLook = float3(fakeCamera->frustum.front.x, -fakeCamera->frustum.front.y > 0.0f ? 1.0f : -1.0f, fakeCamera->frustum.front.z);
+			/*float3 toLook = float3(fakeCamera->frustum.front.x, fakeCamera->frustum.front.y > 0.0f ? 1.0f : -1.0f, fakeCamera->frustum.front.z);
 
 			float3x3 dirMat = float3x3::LookAt(fakeCamera->frustum.front, toLook.Normalized(), fakeCamera->frustum.up, float3::unitY);
 
 			fakeCamera->frustum.front = dirMat.MulDir(fakeCamera->frustum.front).Normalized();
-			fakeCamera->frustum.up = dirMat.MulDir(fakeCamera->frustum.up).Normalized();
+			fakeCamera->frustum.up = dirMat.MulDir(fakeCamera->frustum.up).Normalized();*/
 
 		}
 	}
