@@ -70,10 +70,10 @@ void ComponentMesh::Update(float dt)
 
 	Draw(); 
 
-	if (App->renderer3D->drawNormals || drawVertexNormals)
+	if (App->renderer3D->drawNormals || drawFaceNormals)
 		DrawNormals();
 
-	if (App->renderer3D->drawVertexNormals || drawFaceNormals)
+	if (App->renderer3D->drawVertexNormals || drawVertexNormals)
 		DrawVertexNormals();
 }
 
@@ -139,7 +139,13 @@ void ComponentMesh::DrawNormals()
 	glBindBuffer(GL_ARRAY_BUFFER, faceNormals.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
+
+	glPushMatrix();
+	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform().Transposed()));
+
 	glDrawArrays(GL_LINES, 0, faceNormals.capacity);
+
+	glPopMatrix();
 
 
 	glColor3f(1.f, 1.f, 1.f);
@@ -154,7 +160,13 @@ void ComponentMesh::DrawVertexNormals()
 	glBindBuffer(GL_ARRAY_BUFFER, vertexNormals.id);
 	glVertexPointer(3, GL_FLOAT, 0, NULL);
 
+
+	glPushMatrix();
+	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform().Transposed()));
+	
 	glDrawArrays(GL_LINES, 0, vertexNormals.capacity);
+
+	glPopMatrix();
 
 	
 	glColor3f(1.f, 1.f, 1.f);
@@ -186,8 +198,8 @@ void ComponentMesh::LoadMeshIndices(aiMesh* mesh)
 	//LOG("New mesh loaded with %d indices", index.capacity);
 
 	// ---------- Load Face Normals  ----------
-
-	LoadMeshFaceNormals();
+	if(mesh->HasFaces())
+		LoadMeshFaceNormals();
 }
 
 void ComponentMesh::LoadMeshNormals(aiMesh* mesh)
