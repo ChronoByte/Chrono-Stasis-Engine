@@ -70,9 +70,14 @@ enum update_status
 #define ASSETS_FOLDER "Assets/"
 #define LIBRARY_FOLDER "Library/"
 #define SETTINGS_FOLDER "Settings/"
-#define MESHES_FOLDER "Library/Meshes/"
-#define TEXTURES_FOLDER "Library/Textures/"
-#define SCENES_FOLDER "Library/Scenes/"
+
+#define A_MODELS_FOLDER "Assets/Models/"
+#define A_SCENES_FOLDER "Assets/Scenes/"
+#define A_TEXTURES_FOLDER "Assets/Textures/"
+
+#define L_MESHES_FOLDER "Library/Meshes/"
+#define L_TEXTURES_FOLDER "Library/Textures/"
+#define L_SCENES_FOLDER "Library/Scenes/"
 
 // Own format files --------------
 #define MESH_EXTENSION ".mesh"

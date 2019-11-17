@@ -285,7 +285,7 @@ bool ModuleTextureLoader::Import(const char* path, std::string& library_file, UI
 					uuid = GenerateUUID();
 
 				//Create Own format Texture file
-				std::string output_file(TEXTURES_FOLDER + std::to_string(uuid) + TEXTURES_EXTENSION);
+				std::string output_file(L_TEXTURES_FOLDER + std::to_string(uuid) + TEXTURES_EXTENSION);
 				App->fs->WriteFile(output_file.c_str(), (char*)data, size);
 				library_file = output_file; 
 			}

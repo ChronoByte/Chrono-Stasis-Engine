@@ -22,7 +22,7 @@ public:
 
 	uint ImportFile(const char* file, Resource::Type type);
 	Resource* CreateNewResource(Resource::Type type, uint force_uid = 0);
-
+	void CreateNewMeta(Resource* resource, const char* file);
 	//uint Find(const char* file) const;
 	//uint GenerateNewUID();
 	//Resource* GetResource(uint uid);

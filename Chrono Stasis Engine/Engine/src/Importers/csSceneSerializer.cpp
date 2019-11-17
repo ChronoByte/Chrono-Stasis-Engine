@@ -44,7 +44,7 @@ bool ModuleSceneSerializer::SaveScene(const char* scene_path, std::string dir)
 {
 
 	std::string extension = SCENES_EXTENSION;
-	std::string directory = SCENES_FOLDER;
+	std::string directory = A_SCENES_FOLDER;
 	std::string path;
 
 	if(!dir.compare("ASSET"))

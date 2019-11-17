@@ -1,6 +1,6 @@
 #include "csApp.h"
 #include "csFileSystem.h"
-
+#include <fstream> 
 #include "PhysFS\include\physfs.h"
 #pragma comment( lib, "Engine/Dependencies/PhysFS/libx86/physfs.lib" )
 
@@ -59,7 +59,12 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 
 bool ModuleFileSystem::Start()
 {
+	assets = new Folder();
+	assets->name = ASSETS_FOLDER;
 
+	LOG("FILESYSTEM: Scanning Assets");
+	PushFilesRecursively(assets->name.c_str());
+	LogAssetsInfo(assets);
 	/*GenerateDirectory(LIBRARY_FOLDER);
 	App->fs->GenerateDirectory(MESHES_FOLDER);
 	App->fs->GenerateDirectory(TEXTURES_FOLDER);*/
@@ -80,6 +85,12 @@ bool ModuleFileSystem::Start()
 	//LOG("%s", text2);
 
 	return true;
+}
+
+update_status ModuleFileSystem::Update(float dt)
+{
+	//TODO: Check if new file was added or moified in Assets Folder
+	return UPDATE_CONTINUE;
 }
 
 bool ModuleFileSystem::CleanUp()
@@ -389,3 +400,165 @@ void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUn
 
 
 }
+
+bool ModuleFileSystem::CopyToAssets(const char* src_file_path)
+{
+	bool ret = false;
+
+	// Opening file for reading
+	std::ifstream output_file(src_file_path, std::ifstream::binary);
+
+	if (output_file)
+	{
+		ret = true;
+
+		output_file.seekg(0, output_file.end);
+		int length = output_file.tellg();
+		output_file.seekg(0, output_file.beg);
+
+		// Reading file
+		char* buffer = new char[length];
+		output_file.read(buffer, length);
+
+		if (buffer != nullptr)
+		{
+			output_file.close();
+
+			// Getting file name
+			std::string file_name;
+			GetNameFile(src_file_path, file_name);
+			
+
+			// Getting file extension
+			std::string extension;
+			GetExtensionFile(src_file_path, extension);
+
+			//Getting full name
+			std::string full_file_name = file_name + extension;
+		
+
+			// Checking if file already exists in assets
+			std::vector<File> files;
+			assets->GetFilesRecursively(files);
+
+			bool file_exists = false;
+			bool new_file = false;
+			for (uint i = 0; i < files.size(); i++)
+			{
+				if (!files[i].name.compare(full_file_name))
+				{
+					file_exists = true;
+					LOG("Copying a file that already exists in assets directory");
+					break;
+				}
+			
+			}
+
+			if (!file_exists)
+			{
+				bool accepted_file = false;
+				std::string new_path;
+
+				if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+				{
+					accepted_file = true;
+					new_path = A_MODELS_FOLDER;
+				}
+				else if(!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
+					    !extension.compare(".TGA") || !extension.compare(".dds") ||
+					    !extension.compare(".jpg") || !extension.compare(".JPG"))
+				{
+					accepted_file = true;
+					new_path = A_TEXTURES_FOLDER;
+				}
+
+				if (accepted_file)
+				{
+					WriteFile((new_path + full_file_name).c_str(), buffer, length);
+				
+				}
+			}
+
+		}
+		else
+		{
+		output_file.close();
+		ret = false;
+		}
+	delete[] buffer;
+	}
+
+	return ret;
+}
+
+void ModuleFileSystem::PushFilesRecursively(const char* folder_name)
+{
+	std::string tmp_folder(folder_name);
+
+	char** scannedFiles = PHYSFS_enumerateFiles(tmp_folder.c_str());
+
+	if (scannedFiles)
+	{
+		for (char** i = scannedFiles; *i != nullptr; i++)
+		{
+			if(PHYSFS_isDirectory((tmp_folder + *i).c_str()))
+			{
+				std::string folder_path(tmp_folder);
+				folder_path += *i; // ex: Assets/Models
+
+				Folder new_folder;
+				new_folder.name = *i; // ex: Models
+
+				assets->AddFolder(new_folder);
+				//assets->folders.push_back(new_folder);
+				PushFilesRecursively((folder_path + "/").c_str());
+			}
+			else
+			{
+				File new_file;
+				new_file.name = *i;
+				new_file.lastModTime = PHYSFS_getLastModTime((tmp_folder + *i).c_str());
+				new_file.path = tmp_folder; //not file path
+
+				if (!tmp_folder.compare(ASSETS_FOLDER))
+					assets->files.push_back(new_file);
+				else
+					assets->folders.at(assets->index-1).files.push_back(new_file);
+					
+			}
+		}
+	}
+	PHYSFS_freeList(scannedFiles);
+
+}
+
+void ModuleFileSystem::LogAssetsInfo(Folder* root)
+{
+	for (uint i = 0u; i < root->files.size(); i++)
+		LOG("FILE: [%s] exists in folder [%s]", root->files[i].name.c_str(), root->name.c_str());
+
+	for (uint j = 0u; j < root->folders.size(); j++) {
+		LOG("FOLDER: [%s] exists", root->folders[j].name.c_str());
+		LogAssetsInfo(&root->folders[j]);
+	}
+
+}
+
+
+
+
+
+int ModuleFileSystem::GetLastModTime(const char* path) const
+{
+	PHYSFS_Stat stat;
+	if (PHYSFS_stat(path, &stat) != 0)
+	{
+		return stat.modtime;
+	}
+
+	return 0;
+}
+
+
+
+

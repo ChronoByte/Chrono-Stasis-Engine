@@ -120,6 +120,13 @@ update_status ModuleInput::PreUpdate(float dt)
 				//std::string extension;
 				file = e.drop.file;
 				dropped = true;
+
+				if (file != nullptr)
+					App->fs->CopyToAssets(file);
+
+
+
+
 				//App->fs->GetExtensionFile(file, extension);
 			
 				//if (!extension.compare(".fbx") || !extension.compare(".FBX"))

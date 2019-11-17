@@ -284,6 +284,7 @@
     <ClInclude Include="Engine\src\Structure\RandomWindow.h" />
     <ClInclude Include="Engine\src\Structure\SceneViewWindow.h" />
     <ClInclude Include="Engine\src\Structure\Window.h" />
+    <ClInclude Include="Engine\src\Tools\FileManager.h" />
     <ClInclude Include="Engine\src\Tools\PseudoRandom.h" />
     <ClInclude Include="Engine\src\Tools\Serializer.h" />
     <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
