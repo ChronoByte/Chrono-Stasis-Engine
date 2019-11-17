@@ -22,6 +22,7 @@ public:
 	uint GetUID() const;
 	const char* GetFile() const;
 	const char* GetImportedFile() const;
+	const char* GetExportedFile() const;
 	bool IsLoadedToMemory() const;
 	bool LoadToMemory();
 	uint CountReferences() const;

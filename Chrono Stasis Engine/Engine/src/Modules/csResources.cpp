@@ -25,25 +25,27 @@ bool ModuleResources::CleanUp()
 	return true;
 }
 
-uint ModuleResources::ImportFile(const char* assets_file, Resource::Type type)
+uint ModuleResources::ImportFile(const char* assets_file, Resource::Type type, UID uuid_to_force)
 {
 	uint ret = 0;
 	bool import_ok = false; 
 	std::string written_file; // Own format file
-	UID uuid = 0; 
+	//UID uuid = 0; 
 	switch (type) {
-		case Resource::R_TEXTURE: import_ok = App->texture->Import(assets_file, written_file, uuid); break; // Create Own format file
+		case Resource::R_TEXTURE: import_ok = App->texture->Import(assets_file, written_file, uuid_to_force); break; // Create Own format file
 		case Resource::R_MESH: import_ok = false; break;
 		case Resource::R_SCENE: import_ok = false; break;
 	}
 
 	// Create Resource
 	if (import_ok == true) { 
-		Resource* res = CreateNewResource(type);
+		Resource* res = CreateNewResource(type, uuid_to_force);
+		res->uid = uuid_to_force;
 		res->file = assets_file;
 		res->exported_file = written_file;
 		ret = res->uid;
-		
+		LOG("Resource file created successfully from: [%s]", assets_file);
+
 		//Create .meta file
 		CreateNewMeta(res, assets_file); 
 	}
@@ -52,20 +54,28 @@ uint ModuleResources::ImportFile(const char* assets_file, Resource::Type type)
 	return ret;
 }
 
-Resource* ModuleResources::CreateNewResource(Resource::Type type, uint force_uid)
+Resource* ModuleResources::CreateNewResource(Resource::Type type, UID force_uid)
 {
 	Resource* ret = nullptr;
-	uint uid = GenerateUUID(); //Temporal
+
+	if(force_uid == 0)
+		force_uid = GenerateUUID();
+	else {
+		if (FindUID(force_uid) != nullptr)
+			return FindUID(force_uid);
+	}
 
 	switch (type) {
-		case Resource::R_TEXTURE: ret = (Resource*) new ResourceTexture(uid,type); break;
+		case Resource::R_TEXTURE: ret = (Resource*) new ResourceTexture(force_uid,type); break;
 		case Resource::R_MESH: ret = false; break;
 		case Resource::R_SCENE: ret = false; break;
 		
 	}
 
 	if (ret != nullptr)
-		resources[uid] = ret;
+		resources[force_uid] = ret;
+		
+	
 
 	return ret;
 }
@@ -94,7 +104,7 @@ void ModuleResources::CreateNewMeta(Resource* resource, const char* file)
 	serialized_string = json_serialize_to_string_pretty(json_file);
 	puts(serialized_string);
 
-	std::string meta_file = resource->imported_file;
+	std::string meta_file = resource->file;
 	meta_file.append(META_EXTENSION);
 
 	json_serialize_to_file(json_file, meta_file.c_str());
@@ -102,6 +112,40 @@ void ModuleResources::CreateNewMeta(Resource* resource, const char* file)
 	json_free_serialized_string(serialized_string);
 	json_value_free(json_file);
 
+	LOG(".META File exported successfully at [%s]", meta_file);
 
 
+}
+
+Resource* ModuleResources::GetResource(UID uid)
+{
+	std::map <UID, Resource* >::iterator it = resources.find(uid);
+
+	if (resources.find(uid) != resources.end())
+	{
+		return resources[uid];
+	}
+
+	return nullptr;
+}
+
+Resource* ModuleResources::FindUID(UID uid)
+{
+	std::map<UID, Resource*>::iterator it = resources.find(uid);
+	if (it != resources.end())
+		return it->second;
+	return nullptr;
+}
+
+bool ModuleResources::DeleteResourceFromUID(UID uid)
+{
+	if (resources.find(uid) != resources.end())
+	{
+		Resource* res = resources[uid];
+		resources.erase(uid);
+		RELEASE(res);
+
+		return true;
+	}
+	return false;
 }

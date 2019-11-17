@@ -65,6 +65,11 @@ bool ModuleFileSystem::Start()
 	LOG("FILESYSTEM: Scanning Assets");
 	PushFilesRecursively(assets->name.c_str());
 	LogAssetsInfo(assets);
+
+	LOG("FILESYSTEM: Importing Assets");
+	ImportFilesRecursively(assets);
+
+
 	/*GenerateDirectory(LIBRARY_FOLDER);
 	App->fs->GenerateDirectory(MESHES_FOLDER);
 	App->fs->GenerateDirectory(TEXTURES_FOLDER);*/
@@ -90,6 +95,28 @@ bool ModuleFileSystem::Start()
 update_status ModuleFileSystem::Update(float dt)
 {
 	//TODO: Check if new file was added or moified in Assets Folder
+
+	//Delete .META files just for swagg
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) 
+	{
+		LOG("FILESYSTEM: Deleting .META files");
+		DeleteMetaFiles(assets);
+	}
+
+	//Delete Own Format files & Resources just for swagg
+	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	{
+		LOG("FILESYSTEM: Deleting Own Format files & Resources");
+		DeleteOwnFormatFiles(assets);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
+	{
+		LOG("FILESYSTEM: Checking files to Update");
+		ImportFilesRecursively(assets);
+	}
+
+
 	return UPDATE_CONTINUE;
 }
 
@@ -208,25 +235,30 @@ bool ModuleFileSystem::WriteFile(const char* file_name, char* buffer, uint32 siz
 	return ret;
 }
 
-bool ModuleFileSystem::ReadFile(const char* file_name, char* buffer)
+uint ModuleFileSystem::ReadFile(const char* file_name, char** buffer)
 {
-	bool ret = false;
-
-	PHYSFS_File* file = OpenFileRead(file_name);
-
-	if (file && PHYSFS_readBytes(file, buffer, PHYSFS_fileLength(file)) != -1)
-	{
-		ret = true;
-		LOG("FILESYSTEM: Success on read file [%s]", file_name);
-	}
-		
-	else
-		LOG("FILESYSTEM: Could not read file [%s]: %s", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
 	
+	PHYSFS_File* file = OpenFileRead(file_name);
+	uint size = 0u;
+
+	if (file != nullptr)
+	{
+		size = PHYSFS_fileLength(file);
+
+		*buffer = new char[size];
+
+		if (PHYSFS_readBytes(file, *buffer, size) == -1)
+		{
+			size = 0u;
+			LOG("FILESYSTEM: Could not read file [%s]: %s", file_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+		}
+		else
+			LOG("FILESYSTEM: Success on read file [%s]", file_name);
+	}
 
 	CloseFile(file, file_name);
 
-	return ret;
+	return size;
 }
 
 
@@ -540,6 +572,183 @@ void ModuleFileSystem::LogAssetsInfo(Folder* root)
 	for (uint j = 0u; j < root->folders.size(); j++) {
 		LOG("FOLDER: [%s] exists", root->folders[j].name.c_str());
 		LogAssetsInfo(&root->folders[j]);
+	}
+
+}
+
+void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
+{
+
+	SearchLibraryFolders();
+
+	for (uint i = 0u; i < root->files.size(); i++) {
+		
+		std::string file_name = root->files[i].name;
+		std::string file_path = root->files[i].path;
+		file_path += file_name;
+
+		std::string meta_file = file_path + META_EXTENSION;
+
+		if (!PHYSFS_exists(meta_file.c_str()))
+		{
+			std::string extension;
+			GetExtensionFile(file_name.c_str(), extension);
+
+			if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+			{
+				UID ret;
+				ret = App->resources->ImportFile(file_path.c_str(), Resource::R_SCENE);
+			}
+
+			else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
+					 !extension.compare(".TGA") || !extension.compare(".dds") ||
+					 !extension.compare(".jpg") || !extension.compare(".JPG"))
+			{
+				UID ret;
+				ret = App->resources->ImportFile(file_path.c_str(), Resource::R_TEXTURE);
+			}
+
+			else
+			{
+				LOG("Unsupported file format");
+			}
+
+		}
+		else 
+		{
+			LOG("File was imported previously");
+
+			JSON_Value* json_file = nullptr;
+			JSON_Object* root_obj = nullptr;
+
+
+			json_file = json_parse_file(meta_file.c_str());
+			root_obj = json_value_get_object(json_file);
+
+			UID exported_uuid = json_object_get_number(root_obj, "UUID");
+			std::string exported_path = json_object_get_string(root_obj, "UUID_path");
+
+			if (!PHYSFS_exists(exported_path.c_str()))
+			{
+				std::string extension;
+				GetExtensionFile(file_name.c_str(), extension);
+
+				if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+				{
+					UID ret;
+					ret = App->resources->ImportFile(file_path.c_str(), Resource::R_SCENE, exported_uuid);
+				}
+
+				else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
+					!extension.compare(".TGA") || !extension.compare(".dds") ||
+					!extension.compare(".jpg") || !extension.compare(".JPG"))
+				{
+					UID ret;
+					ret = App->resources->ImportFile(file_path.c_str(), Resource::R_TEXTURE, exported_uuid);
+				}
+
+				else
+				{
+					LOG("Unsupported file format");
+				}
+			}
+			
+			//TODO: Check modifications (remove, add, rename,...)
+			// Re-Import new meta
+		}
+
+	}
+
+	for (uint i = 0u; i < root->folders.size(); i++) 
+		ImportFilesRecursively(&root->folders[i]);
+	
+}
+
+void ModuleFileSystem::DeleteMetaFiles(Folder* root)
+{
+	for (uint i = 0u; i < root->files.size(); i++) 
+	{
+
+		std::string file_name = root->files[i].name;
+		std::string file_path = root->files[i].path;
+		file_path += file_name;
+
+		std::string meta_file = file_path + META_EXTENSION;
+
+		if (PHYSFS_exists(meta_file.c_str()))
+			DeleteFiles(meta_file.c_str());
+		
+	}
+
+	for (uint i = 0u; i < root->folders.size(); i++)
+		DeleteMetaFiles(&root->folders[i]);
+
+}
+
+bool ModuleFileSystem::DeleteFiles(const char* path)
+{
+	bool ret = true;
+
+	if (PHYSFS_delete(path) != 0) 
+	{
+		LOG("FILESYSTEM: success on deleting %s\n", path);
+	}
+	else
+	{
+		ret = false;
+		LOG("FILESYSTEM: could not delete %s: %s\n", path, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));
+	}
+
+	return ret;
+}
+
+void ModuleFileSystem::DeleteOwnFormatFiles(Folder* root)
+{
+	for (uint i = 0u; i < root->files.size(); i++)
+	{
+
+		std::string file_name = root->files[i].name;
+		std::string file_path = root->files[i].path;
+		file_path += file_name;
+
+		std::string meta_file = file_path + META_EXTENSION;
+
+		if (PHYSFS_exists(meta_file.c_str())) 
+		{
+			JSON_Value* json_file = nullptr;
+			JSON_Object* root_obj = nullptr;
+
+			
+			json_file = json_parse_file(meta_file.c_str());
+			root_obj = json_value_get_object(json_file);
+
+			UID uuid = json_object_get_number(root_obj, "UUID");
+
+			Resource* tmp_res = App->resources->GetResource(uuid);
+		    
+			if (tmp_res)
+			{
+				DeleteFiles(tmp_res->GetExportedFile());
+			}
+
+			App->resources->DeleteResourceFromUID(uuid);
+		}
+			
+
+	}
+
+	for (uint i = 0u; i < root->folders.size(); i++)
+		DeleteOwnFormatFiles(&root->folders[i]);
+
+
+}
+
+void ModuleFileSystem::SearchLibraryFolders()
+{
+	for(int i = 0; i < library_directories.size(); ++i)
+	{
+		if (!FileExist(library_directories.at(i)))
+			GenerateDirectory(library_directories.at(i));
 	}
 
 }

@@ -261,9 +261,9 @@ bool ModuleTextureLoader::Import(const char* path, std::string& library_file, UI
 	ilBindImage(imageID);
 
 	char* buffer = nullptr;
-	uint size = App->fs->ReadFile(path, buffer); //fill buffer from texture file data
+	uint size = App->fs->ReadFile(path, &buffer); //fill buffer from texture file data
 
-	if((bool)ilLoadL(IL_TYPE_UNKNOWN, (const void*)buffer, size)) //Load image data from Lumps (Memory)
+	if(ilLoadL(IL_TYPE_UNKNOWN, buffer, size)) //Load image data from Lumps (Memory)
 	{
 		LOG("Texture file [%s] loading from memory successfully", path);
 		ret = true;
@@ -288,6 +288,7 @@ bool ModuleTextureLoader::Import(const char* path, std::string& library_file, UI
 				std::string output_file(L_TEXTURES_FOLDER + std::to_string(uuid) + TEXTURES_EXTENSION);
 				App->fs->WriteFile(output_file.c_str(), (char*)data, size);
 				library_file = output_file; 
+				LOG("Own format file exported successfully at [%s]", library_file);
 			}
 			RELEASE_ARRAY(data);
 		}

@@ -31,7 +31,7 @@ public:
 	PHYSFS_File* OpenFileRead(const char* file_name) const;
 
 	bool WriteFile(const char* file_name, char* buffer, uint32 size) const;
-	bool ReadFile(const char* file_name, char* buffer);
+	uint ReadFile(const char* file_name, char** buffer);
 
 	void CloseFile(PHYSFS_File* file, const char* file_name) const;
 	bool GenerateDirectory(const char* dir_name);
@@ -49,8 +49,15 @@ public:
 	void PushFilesRecursively(const char* folder_name);
 	int GetLastModTime(const char* path) const;
 	void LogAssetsInfo(Folder* root);
+	void ImportFilesRecursively(Folder* root, bool start = false);
 
+	void DeleteMetaFiles(Folder* root);
+	bool DeleteFiles(const char* path);
+	void DeleteOwnFormatFiles(Folder* root);
+
+	void SearchLibraryFolders();
 private:
 	std::array<const char*, PATHS_AMOUNT> directories = {ASSETS_FOLDER,LIBRARY_FOLDER,SETTINGS_FOLDER,L_MESHES_FOLDER,L_TEXTURES_FOLDER,L_SCENES_FOLDER};
+	std::array<const char*, 4> library_directories = { LIBRARY_FOLDER, L_MESHES_FOLDER,L_TEXTURES_FOLDER,L_SCENES_FOLDER };
 	Folder* assets = nullptr;
 };
