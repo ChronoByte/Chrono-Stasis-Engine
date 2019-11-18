@@ -227,6 +227,21 @@ GameObject * ModuleScene::CreateCamera(GameObject * parent, const char * name)
 	return go;
 }
 
+GameObject * ModuleScene::GetSelected() const
+{
+	return selected;
+}
+
+void ModuleScene::SetSelected(GameObject* go)
+{
+	selected = go; 
+}
+
+void ModuleScene::CleanSelected()
+{
+	selected = nullptr; 
+}
+
 void ModuleScene::SetMainCamera(ComponentCamera * camera)
 {
 	if (camera == nullptr)
@@ -300,18 +315,69 @@ void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)
 	}
 }
 
-void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, LineSegment ray, std::vector<GameObject*> objectsIntersected)
+void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected)
 {
-	bool intersects = ray.Intersects(parent->GetTransform()->GetBoundingBox()); 
+	float nearDist = 0;
+	float farDist = 0;
+
+	bool intersects = ray.Intersects(parent->GetTransform()->GetBoundingBox(), nearDist, farDist); 
 
 	if (intersects)
-	{
-		LOG("Ray cast intersected with AABB from: %s", parent->GetName()); 
-		objectsIntersected.push_back(parent); 
-	}
-
+		objectsIntersected.insert(std::pair<float, GameObject*>(nearDist, parent));
+	
 	for (std::list<GameObject*>::iterator it = parent->childs.begin(); it != parent->childs.end(); ++it)
 	{
 		CheckRayAgainstAABBS((*it), ray, objectsIntersected);
 	}
+}
+
+GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, std::multimap<float, GameObject*>& intersected)
+{
+	GameObject* firstObjectHit = nullptr; 
+	float minDist = FLOAT_INF;
+
+	std::multimap<float, GameObject*>::iterator iter = intersected.begin(); 
+	for (iter; iter != intersected.end(); ++iter)
+	{
+		GameObject* gameObject = (*iter).second; 
+
+		ComponentMesh* mesh = dynamic_cast<ComponentMesh*>(gameObject->FindComponent(ComponentType::C_MESH));
+		if (mesh == nullptr)
+			continue; 
+
+		// Transform ray into local space
+		float4x4 inverted_m = gameObject->GetTransform()->GetGlobalTransform().Inverted();
+		LineSegment rayLocal = inverted_m * ray;
+
+		for (uint i = 0; i < mesh->index.capacity/ 3;)
+		{
+			float3 a, b, c;
+			//LOG("Checking against tris from %s", gameObject->GetName());
+
+			a = float3(&mesh->vertex.buffer[mesh->index.buffer[i++] * 3]);
+			b = float3(&mesh->vertex.buffer[mesh->index.buffer[i++] * 3]);
+			c = float3(&mesh->vertex.buffer[mesh->index.buffer[i++] * 3]);
+
+			Triangle tri = Triangle(a, b, c); 
+			float distanceHit = 0.f; 
+
+			bool hit = rayLocal.Intersects(tri, &distanceHit, nullptr);
+
+			if (hit)
+			{
+				LOG("Hit with a triangle in the mesh of %s and at distance: %f and hitpoint %f", gameObject->GetName(), distanceHit);
+				if (distanceHit < minDist)
+				{
+					minDist = distanceHit;
+					firstObjectHit = gameObject; 
+				}
+			
+			}
+		}
+	}
+
+	if (firstObjectHit != nullptr)
+		LOG("Success mouse picking: Object Selected = %s", firstObjectHit->GetName());
+
+	return firstObjectHit; 
 }

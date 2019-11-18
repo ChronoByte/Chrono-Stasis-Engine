@@ -20,7 +20,7 @@ void InspectorWindow::Draw()
 
 	if (ImGui::Begin("Inspector", &active, ImGuiWindowFlags_MenuBar))
 	{
-		GameObject* go_selected = App->editor->hierarchy->GetSelected();
+		GameObject* go_selected = App->scene->GetSelected();
 		//GameObject* go_selected = App->scene->CreateGameObject(nullptr, "");
 
 		if (go_selected != nullptr) {

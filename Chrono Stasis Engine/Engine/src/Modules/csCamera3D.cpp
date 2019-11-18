@@ -129,14 +129,22 @@ update_status ModuleCamera3D::Update(float dt)
 
 			}
 		}
+
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+		{
+			MousePicking();
+		}
+
+		DrawMouseRay();
+
 	}
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
-	{
-		MousePicking();
-	}
+	
 
+	return UPDATE_CONTINUE;
+}
 
-
+void ModuleCamera3D::DrawMouseRay()
+{
 	if (ray.Length() != 0)
 	{
 		glBegin(GL_LINES);
@@ -151,8 +159,6 @@ update_status ModuleCamera3D::Update(float dt)
 		glColor3f(1.f, 1.f, 1.f);
 		glEnd();
 	}
-
-	return UPDATE_CONTINUE;
 }
 
 // -----------------------------------------------------------------
@@ -168,7 +174,7 @@ void ModuleCamera3D::LookAt(const float3& Spot)
 
 void ModuleCamera3D::FocusAtObject()
 {
-	GameObject* go_selected = App->editor->hierarchy->GetSelected();
+	GameObject* go_selected = App->scene->GetSelected();
 
 	if (go_selected != nullptr)
 	{
@@ -244,23 +250,31 @@ float4x4 ModuleCamera3D::GetViewMatrix()
 	return fakeCamera->GetViewMatrix();
 }
 
-bool ModuleCamera3D::MousePicking()
+void ModuleCamera3D::MousePicking()
 {
-	float normalizedX = -1.0 + 2.0 * (float)App->input->GetMouseX() / (float)App->window->width;
-	float normalizedY = 1.0 - 2.0 * (float)App->input->GetMouseY() / (float)App->window->height;
+	/*float normalizedX = -1.0 + 2.0 * (float)App->input->GetMouseX() / (float)App->window->width;
+	float normalizedY = 1.0 - 2.0 * (float)App->input->GetMouseY() / (float)App->window->height;*/
 	
-	/*float normalizedX = -1.0 + 2.0 *  App->editor->sceneView->GetMouseXInWindow() / App->editor->sceneView->GetWindowWidth();
-	float normalizedY = 1.0 - 2.0 * App->editor->sceneView->GetMouseYInWindow() / App->editor->sceneView->GetWindowHeight();*/
+	float normalizedX = -1.0 + 2.0 *  App->editor->sceneView->GetMouseXInWindow() / App->editor->sceneView->GetWindowWidth();
+	float normalizedY = 1.0 - 2.0 * App->editor->sceneView->GetMouseYInWindow() / App->editor->sceneView->GetWindowHeight();
 
-	LOG("Success: Normalized X = %f, Normalized Y = %f", normalizedX, normalizedY);
-	LOG("Corrected Mouse X: %f Mouse Y: %f", App->editor->sceneView->GetMouseXInWindow(), App->editor->sceneView->GetMouseYInWindow());
+	//LOG("Success: Normalized X = %f, Normalized Y = %f", normalizedX, normalizedY);
+	//LOG("Corrected Mouse X: %f Mouse Y: %f", App->editor->sceneView->GetMouseXInWindow(), App->editor->sceneView->GetMouseYInWindow());
 	ray = LineSegment(fakeCamera->frustum.UnProjectLineSegment(normalizedX, normalizedY));
 
-	std::vector<GameObject*> intersected;
+	std::multimap<float, GameObject*> intersected;
 
 	App->scene->CheckRayAgainstAABBS(App->scene->GetRoot(), ray, intersected); 
 
+	LOG("AABBS hit ordered");
+	for (std::multimap<float, GameObject*>::iterator it = intersected.begin(); it != intersected.end(); ++it)
+	{
+		LOG("%f -> %s", (*it).first, (*it).second->GetName());
+	}
 
-	return false;
+	GameObject* objectHit = App->scene->CheckRayAgainstTris(ray, intersected);
+
+	App->scene->SetSelected(objectHit);
+
 }
 

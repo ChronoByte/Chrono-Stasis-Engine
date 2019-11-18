@@ -53,7 +53,7 @@ void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 	static ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 	ImGuiTreeNodeFlags node_flags = base_flags;
 
-	if(parent == selectedGo)
+	if(parent == App->scene->GetSelected())
 		node_flags |= ImGuiTreeNodeFlags_Selected;
 
 	if (ImGui::TreeNodeEx(parent, node_flags, parent->GetName()))
@@ -93,8 +93,8 @@ void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 
 		if (ImGui::IsItemClicked())
 		{
-			selectedGo = parent;		// TODO: Handle the situation where a GameObject is deleted and selected at the same time
-			LOG("Selected game object: %s", selectedGo->GetName());
+			App->scene->SetSelected(parent); 	// TODO: Handle the situation where a GameObject is deleted and selected at the same time
+			LOG("Selected game object: %s", App->scene->GetSelected()->GetName());
 		}
 
 		std::list<GameObject*>::const_iterator it = parent->childs.begin();
@@ -105,16 +105,6 @@ void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 		}
 		ImGui::TreePop();
 	}
-}
-
-GameObject* HierarchyWindow::GetSelected() const
-{
-	return selectedGo;
-}
-
-void HierarchyWindow::CleanSelected()
-{
-	selectedGo = nullptr; 
 }
 
 
