@@ -346,8 +346,9 @@ GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, std::multim
 	for (iter; iter != intersected.end(); ++iter)
 	{
 		GameObject* gameObject = (*iter).second; 
-
 		ComponentMesh* mesh = dynamic_cast<ComponentMesh*>(gameObject->FindComponent(ComponentType::C_MESH));
+		bool hit = false; 
+
 		if (mesh == nullptr)
 			continue; 
 
@@ -367,19 +368,24 @@ GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, std::multim
 			//tri.Transform(gameObject->GetTransform()->GetGlobalTransform());
 			float distanceHit = 0.f; 
 
-			bool hit = rayLocal.Intersects(tri, &distanceHit, nullptr);
+			hit = rayLocal.Intersects(tri, &distanceHit, nullptr);
 
 			if (hit)
 			{
 				LOG("Hit with a triangle in the mesh of %s and at distance: %f and hitpoint %f", gameObject->GetName(), distanceHit);
 				if (distanceHit < minDist)
 				{
+					LOG("New lowest distance ^");
 					minDist = distanceHit;
 					firstObjectHit = gameObject; 
 				}
 			
 			}
 		}
+
+		// If a triangle is hit, there's no need to look further
+		if (hit)
+			break; 
 	}
 
 	if (firstObjectHit != nullptr)
