@@ -299,3 +299,19 @@ void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)
 		}
 	}
 }
+
+void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, LineSegment ray, std::vector<GameObject*> objectsIntersected)
+{
+	bool intersects = ray.Intersects(parent->GetTransform()->GetBoundingBox()); 
+
+	if (intersects)
+	{
+		LOG("Ray cast intersected with AABB from: %s", parent->GetName()); 
+		objectsIntersected.push_back(parent); 
+	}
+
+	for (std::list<GameObject*>::iterator it = parent->childs.begin(); it != parent->childs.end(); ++it)
+	{
+		CheckRayAgainstAABBS((*it), ray, objectsIntersected);
+	}
+}

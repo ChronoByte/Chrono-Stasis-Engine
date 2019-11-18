@@ -12,7 +12,8 @@ ComponentCamera::ComponentCamera(GameObject* parent) : Component(parent)
 
 ComponentCamera::~ComponentCamera()
 {
-	LOG("Deleting component %s from %s", GetName(), owner->GetName());
+	if(owner != nullptr)
+		LOG("Deleting component %s from %s", GetName(), owner->GetName());
 
 	if(App->scene->GetMainCamera() == this)
 		App->scene->ClearCamera();

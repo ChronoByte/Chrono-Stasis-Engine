@@ -40,7 +40,9 @@ public:
 
 	// --------- Game Objects ---------
 	void RecursiveUpdate(GameObject* parent, float dt); 
+	void CheckRayAgainstAABBS(GameObject* parent, LineSegment ray, std::vector<GameObject*> objectsIntersected);
 
+	// Creation
 	GameObject* CreateGameObject(GameObject* parent, const char* name); 
 	GameObject* CreateRoot(); 
 	GameObject* GetRoot() const; 

@@ -3,7 +3,7 @@
 #include "../Structure/HierarchyWindow.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
-
+#include "src/Structure/SceneViewWindow.h"
 #include "csCamera3D.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
@@ -47,6 +47,9 @@ bool ModuleCamera3D::Start()
 bool ModuleCamera3D::CleanUp()
 {
 	LOG("Cleaning camera");
+
+	delete fakeCamera; 
+	fakeCamera = nullptr; 
 
 	return true;
 }
@@ -93,7 +96,7 @@ update_status ModuleCamera3D::Update(float dt)
 		reference += newPos; 
 
 		//----------ORBITATION MOVEMENT (LEFT CLICK + LALT)---------//
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
+		if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 
 			if (App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT) {
 				orbit = true;
@@ -126,6 +129,27 @@ update_status ModuleCamera3D::Update(float dt)
 
 			}
 		}
+	}
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		MousePicking();
+	}
+
+
+
+	if (ray.Length() != 0)
+	{
+		glBegin(GL_LINES);
+		glLineWidth(2.5f);
+		glColor3f(0, 0, 1.f);
+		for (uint i = 0; i < 12; ++i)
+		{
+			glVertex3f(ray.a.x, ray.a.y, ray.a.z);
+			glVertex3f(ray.b.x, ray.b.y, ray.b.z);
+		}
+
+		glColor3f(1.f, 1.f, 1.f);
+		glEnd();
 	}
 
 	return UPDATE_CONTINUE;
@@ -218,5 +242,25 @@ float3 ModuleCamera3D::DistanceFromOrthonormalBasis()
 float4x4 ModuleCamera3D::GetViewMatrix()
 {
 	return fakeCamera->GetViewMatrix();
+}
+
+bool ModuleCamera3D::MousePicking()
+{
+	float normalizedX = -1.0 + 2.0 * (float)App->input->GetMouseX() / (float)App->window->width;
+	float normalizedY = 1.0 - 2.0 * (float)App->input->GetMouseY() / (float)App->window->height;
+	
+	/*float normalizedX = -1.0 + 2.0 *  App->editor->sceneView->GetMouseXInWindow() / App->editor->sceneView->GetWindowWidth();
+	float normalizedY = 1.0 - 2.0 * App->editor->sceneView->GetMouseYInWindow() / App->editor->sceneView->GetWindowHeight();*/
+
+	LOG("Success: Normalized X = %f, Normalized Y = %f", normalizedX, normalizedY);
+	LOG("Corrected Mouse X: %f Mouse Y: %f", App->editor->sceneView->GetMouseXInWindow(), App->editor->sceneView->GetMouseYInWindow());
+	ray = LineSegment(fakeCamera->frustum.UnProjectLineSegment(normalizedX, normalizedY));
+
+	std::vector<GameObject*> intersected;
+
+	App->scene->CheckRayAgainstAABBS(App->scene->GetRoot(), ray, intersected); 
+
+
+	return false;
 }
 
