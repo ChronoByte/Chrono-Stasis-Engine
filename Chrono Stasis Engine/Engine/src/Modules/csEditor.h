@@ -26,6 +26,7 @@ class GeometryWindow;
 class SceneViewWindow;
 class GameViewWindow; 
 class FileBrowserWindow;
+class ProjectWindow;
 class Window;
 struct TextureInfo;
 
@@ -69,6 +70,7 @@ public:
 	SceneViewWindow*	sceneView = nullptr;
 	GameViewWindow*		gameView = nullptr;
 	FileBrowserWindow*	browser = nullptr;
+	ProjectWindow*		project = nullptr;
 
 	bool show_demo_window = false;
 	bool show_style_window = false;

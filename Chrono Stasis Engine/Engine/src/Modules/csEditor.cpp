@@ -21,6 +21,7 @@
 #include "src/Structure/SceneViewWindow.h"
 #include "src/Structure/GameViewWindow.h"
 #include "src/Structure/FileBrowserWindow.h"
+#include "src/Structure/ProjectWindow.h"
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
@@ -45,6 +46,7 @@ bool ModuleEditor::Init(JSON_Object* node)
 	windows.push_back(sceneView = new SceneViewWindow(json_object_get_boolean(node, "scene view")));
 	windows.push_back(gameView = new GameViewWindow(json_object_get_boolean(node, "game view")));
 	windows.push_back(browser = new FileBrowserWindow(false)); //TODO: parse into json
+	windows.push_back(project = new ProjectWindow(true));
 	LOG("-------------- Application Init --------------");	// This is stuffed here so it logs into the console, which was not created previously
 
 	return true;
@@ -184,6 +186,7 @@ update_status ModuleEditor::Update(float dt)
 			if (ImGui::MenuItem("Hierarchy", "", hierarchy->GetBool())) {}
 			if (ImGui::MenuItem("Configuration", "", config->GetBool())) {}
 			if (ImGui::MenuItem("Game View", "", gameView->GetBool())) {}
+			if (ImGui::MenuItem("Game View", "", project->GetBool())) {}
 
 			ImGui::EndMenu();
 		}
