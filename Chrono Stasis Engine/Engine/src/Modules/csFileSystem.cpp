@@ -753,6 +753,11 @@ void ModuleFileSystem::SearchLibraryFolders()
 
 }
 
+Folder* ModuleFileSystem::GetAssetsFolder() const
+{
+	return assets;
+}
+
 
 
 

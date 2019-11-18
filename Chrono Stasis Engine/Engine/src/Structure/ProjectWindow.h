@@ -3,6 +3,8 @@
 #include "Window.h"
 #include "imgui/imgui.h"
 
+class Folder;
+
 class ProjectWindow : public Window
 {
 
@@ -12,7 +14,10 @@ public:
 
 	void Draw();
 	
+	void TestUnityProject();
+	void TestChronoStasisProject();
 
+	void DrawAssetsTree(Folder* root);
 
-
+	
 };
