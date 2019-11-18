@@ -44,7 +44,7 @@ public:
 	std::string GetFullPath(const char* path, const char* folder = nullptr, const char* extension = nullptr);
 	void SplitPath(const char* full_path, std::string* path, std::string* filename, std::string* extension);
 
-	void GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension);
+	void GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension, const char* metaExtension = nullptr);
 	bool CopyToAssets(const char* src_file_path);
 	void PushFilesRecursively(const char* folder_name);
 	int GetLastModTime(const char* path) const;

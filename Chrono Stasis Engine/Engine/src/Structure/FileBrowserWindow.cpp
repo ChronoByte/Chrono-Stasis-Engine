@@ -23,7 +23,7 @@ void FileBrowserWindow::Draw()
 		
 		current_path = current_path.substr(0, current_path.find_last_of("/")+1);
 		ClearStorage();
-		App->fs->GetStorageResources(current_path.c_str(),storage, extension.c_str());
+		App->fs->GetStorageResources(current_path.c_str(),storage, extension.c_str(), META_EXTENSION);
 	}
 	ImGui::SameLine();
 	ImGui::Text(current_path.c_str());
@@ -56,7 +56,7 @@ void FileBrowserWindow::Draw()
 			{
 				current_path += (*unit)->name + "/";
 				ClearStorage();
-				App->fs->GetStorageResources(current_path.c_str(), storage, extension.c_str());
+				App->fs->GetStorageResources(current_path.c_str(), storage, extension.c_str(), META_EXTENSION);
 				break;
 			}
 		}
@@ -151,7 +151,7 @@ void FileBrowserWindow::SaveScene(const char* path, const char* extension)
 	this->extension = extension;
 
 	ClearStorage();
-	App->fs->GetStorageResources(path, storage, extension);
+	App->fs->GetStorageResources(path, storage, extension, META_EXTENSION);
 }
 
 void FileBrowserWindow::LoadScene(const char* path, const char* extension)
@@ -161,7 +161,7 @@ void FileBrowserWindow::LoadScene(const char* path, const char* extension)
 	this->extension = extension;
 
 	ClearStorage();
-	App->fs->GetStorageResources(path, storage, extension);
+	App->fs->GetStorageResources(path, storage, extension, META_EXTENSION);
 }
 
 void FileBrowserWindow::NewScene()

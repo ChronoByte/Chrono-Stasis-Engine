@@ -73,6 +73,8 @@ public:
 
 public:
 	std::string name;
+	std::string path;
+
 	std::vector<Folder> folders;
 	std::vector<File> files;
 	uint index = 0u;

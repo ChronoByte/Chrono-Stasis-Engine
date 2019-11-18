@@ -399,7 +399,7 @@ void ModuleFileSystem::SplitPath(const char* full_path, std::string* path, std::
 	}
 }
 
-void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension)
+void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension, const char* metaExtension)
 {
 
 	char** scannedFiles = PHYSFS_enumerateFiles(path);
@@ -416,7 +416,10 @@ void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUn
 		if (fileExtension.length() > 0) //if is not a folder, add dot and extension 
 			fileName += fileExtension;
 
-		if (!PHYSFS_isDirectory(currentPath.c_str()) && (fileExtension == desiredExtension) || PHYSFS_isDirectory(currentPath.c_str()))
+
+		if ((fileExtension == metaExtension) && (metaExtension != nullptr)) { continue; }
+
+		if (!PHYSFS_isDirectory(currentPath.c_str()) && (fileExtension == desiredExtension) || PHYSFS_isDirectory(currentPath.c_str()) || !PHYSFS_isDirectory(currentPath.c_str()) && desiredExtension == "all")
 		{
 			StorageUnit* newResource = new StorageUnit();
 			newResource->name = fileName;
@@ -540,6 +543,7 @@ void ModuleFileSystem::PushFilesRecursively(const char* folder_name)
 
 				Folder new_folder;
 				new_folder.name = *i; // ex: Models
+				new_folder.path = folder_path;
 
 				assets->AddFolder(new_folder);
 				//assets->folders.push_back(new_folder);
