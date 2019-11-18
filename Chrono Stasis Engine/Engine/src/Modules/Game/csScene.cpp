@@ -33,8 +33,10 @@ bool ModuleScene::Init(JSON_Object* node)
 bool ModuleScene::Start()
 {
 	CreateRoot(); 
+	
+	App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
 
-	GameObject* go = App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
+	CleanSelected(); 
 
 	return true;
 }
@@ -217,6 +219,8 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 
 	par_shapes_free_mesh(shape);
 
+	if (go != nullptr)
+		SetSelected(go);
 	return go;
 }
 
@@ -224,6 +228,7 @@ GameObject * ModuleScene::CreateCamera(GameObject * parent, const char * name)
 {
 	GameObject* go = CreateGameObject(parent, name); 
 	go->CreateComponent(ComponentType::C_CAMERA); 
+	SetSelected(go);
 	return go;
 }
 
@@ -277,6 +282,7 @@ GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name)
 
 	GameObject* go = new GameObject(parent); 
 	go->SetName(name); 
+	SetSelected(go);
 	return go;
 }
 
@@ -352,13 +358,13 @@ GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, std::multim
 		for (uint i = 0; i < mesh->index.capacity/ 3;)
 		{
 			float3 a, b, c;
-			//LOG("Checking against tris from %s", gameObject->GetName());
 
 			a = float3(&mesh->vertex.buffer[mesh->index.buffer[i++] * 3]);
 			b = float3(&mesh->vertex.buffer[mesh->index.buffer[i++] * 3]);
 			c = float3(&mesh->vertex.buffer[mesh->index.buffer[i++] * 3]);
 
 			Triangle tri = Triangle(a, b, c); 
+			//tri.Transform(gameObject->GetTransform()->GetGlobalTransform());
 			float distanceHit = 0.f; 
 
 			bool hit = rayLocal.Intersects(tri, &distanceHit, nullptr);
