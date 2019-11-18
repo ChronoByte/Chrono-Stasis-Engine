@@ -91,7 +91,7 @@ update_status ModuleFBXLoader::PostUpdate(float dt)
 		case TEXTURE:
 		{
 			//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
-			GameObject* go = App->editor->hierarchy->GetSelected();
+			GameObject* go = App->scene->GetSelected();
 
 			if (go != nullptr && go != App->scene->GetRoot())
 			{

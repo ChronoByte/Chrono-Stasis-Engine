@@ -14,6 +14,7 @@ public:
 	bool Init(JSON_Object* node);
 	bool Start();
 	update_status Update(float dt);
+	void DrawMouseRay();
 	bool CleanUp();
 
 	// ---------- Camera ---------
@@ -24,7 +25,7 @@ public:
 
 
 	// ------- Mouse Picking ------
-	bool MousePicking();
+	void MousePicking();
 
 
 public:

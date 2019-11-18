@@ -2,6 +2,7 @@
 
 #include "csModule.h"
 #include "csGlobals.h"
+#include <map>
 
 class GameObject;
 class BoundingBox;
@@ -39,8 +40,11 @@ public:
 	bool CleanUp();
 
 	// --------- Game Objects ---------
+	
+	// Mouse picking
 	void RecursiveUpdate(GameObject* parent, float dt); 
-	void CheckRayAgainstAABBS(GameObject* parent, LineSegment ray, std::vector<GameObject*> objectsIntersected);
+	void CheckRayAgainstAABBS(GameObject* parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected);
+	GameObject* CheckRayAgainstTris(const LineSegment& ray, std::multimap<float, GameObject*>& intersected); 
 
 	// Creation
 	GameObject* CreateGameObject(GameObject* parent, const char* name); 
@@ -49,6 +53,11 @@ public:
 
 	GameObject* CreateObject3D(PrimitiveType type, GameObject* parent); 
 	GameObject* CreateCamera(GameObject* parent, const char* name); 
+
+	// Selection
+	GameObject* GetSelected() const; 
+	void SetSelected(GameObject* go); 
+	void CleanSelected(); 
 
 	// ------------ Camera -----------
 	void SetMainCamera(ComponentCamera* camera);
@@ -62,5 +71,5 @@ public:
 private:
 	//vars
 	GameObject* root = nullptr; 
-
+	GameObject* selected = nullptr; 
 };

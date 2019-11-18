@@ -28,8 +28,8 @@ GameObject::~GameObject()
 {
 	LOG("Deleting %s", name.c_str());
 
-	if (App->editor->hierarchy->GetSelected() == this)
-		App->editor->hierarchy->CleanSelected(); 
+	if (App->scene->GetSelected() == this)
+		App->scene->CleanSelected(); 
 
 	std::list<GameObject*>::iterator it = childs.begin(); 
 
