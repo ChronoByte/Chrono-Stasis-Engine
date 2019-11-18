@@ -16,11 +16,16 @@ public:
 	update_status Update(float dt);
 	bool CleanUp();
 
+	// ---------- Camera ---------
 	void LookAt(const float3& Spot);
-	void Move(const vec3 &Movement);
 	void FocusAtObject();
 	float3 DistanceFromOrthonormalBasis();
 	float4x4 GetViewMatrix();
+
+
+	// ------- Mouse Picking ------
+	bool MousePicking();
+
 
 public:
 	
@@ -37,6 +42,7 @@ public:
 
 private:
 
+	LineSegment ray;
 	mat4x4 ViewMatrix, ViewMatrixInverse;
 	bool orbit = false;
 };
