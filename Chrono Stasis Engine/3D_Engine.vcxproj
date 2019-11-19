@@ -283,6 +283,7 @@
     <ClInclude Include="Engine\src\Structure\InspectorWindow.h" />
     <ClInclude Include="Engine\src\Structure\ProjectWindow.h" />
     <ClInclude Include="Engine\src\Structure\RandomWindow.h" />
+    <ClInclude Include="Engine\src\Structure\ResourceBrowserWindow.h" />
     <ClInclude Include="Engine\src\Structure\SceneViewWindow.h" />
     <ClInclude Include="Engine\src\Structure\Window.h" />
     <ClInclude Include="Engine\src\Tools\FileManager.h" />
@@ -305,6 +306,7 @@
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentCamera.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMaterial.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentTransform.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\csComponent.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\csGameObject.cpp" />
     <ClCompile Include="Engine\src\Modules\csFileSystem.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMesh.cpp" />
@@ -331,6 +333,7 @@
     <ClCompile Include="Engine\src\Structure\InspectorWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ProjectWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
+    <ClCompile Include="Engine\src\Structure\ResourceBrowserWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\SceneViewWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\Serializer.cpp" />
     <ClCompile Include="Engine\src\Tools\log.cpp" />

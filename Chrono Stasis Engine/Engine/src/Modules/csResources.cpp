@@ -30,6 +30,9 @@ uint ModuleResources::ImportFile(const char* assets_file, Resource::Type type, U
 	uint ret = 0;
 	bool import_ok = false; 
 	std::string written_file; // Own format file
+
+	std::string asset_name;
+	App->fs->GetNameFile(assets_file, asset_name);
 	//UID uuid = 0; 
 	switch (type) {
 		case Resource::R_TEXTURE: import_ok = App->texture->Import(assets_file, written_file, uuid_to_force); break; // Create Own format file
@@ -41,8 +44,10 @@ uint ModuleResources::ImportFile(const char* assets_file, Resource::Type type, U
 	if (import_ok == true) { 
 		Resource* res = CreateNewResource(type, uuid_to_force);
 		res->uid = uuid_to_force;
+		res->name = asset_name;
 		res->file = assets_file;
 		res->exported_file = written_file;
+		res->type = type;
 		ret = res->uid;
 		LOG("Resource file created successfully from: [%s]", assets_file);
 
@@ -54,7 +59,7 @@ uint ModuleResources::ImportFile(const char* assets_file, Resource::Type type, U
 	return ret;
 }
 
-Resource* ModuleResources::CreateNewResource(Resource::Type type, UID force_uid)
+Resource* ModuleResources::CreateNewResource(Resource::Type type, UID force_uid, const char* name, const char* file, const char* exported_file, bool load)
 {
 	Resource* ret = nullptr;
 
@@ -72,11 +77,18 @@ Resource* ModuleResources::CreateNewResource(Resource::Type type, UID force_uid)
 		
 	}
 
+	if (load)
+	{
+		ret->uid = force_uid;
+		ret->name = name;
+		ret->file = file;
+		ret->exported_file = exported_file;
+		ret->type = type;
+	}
+
 	if (ret != nullptr)
 		resources[force_uid] = ret;
-		
 	
-
 	return ret;
 }
 
@@ -148,4 +160,18 @@ bool ModuleResources::DeleteResourceFromUID(UID uid)
 		return true;
 	}
 	return false;
+}
+
+std::vector<Resource*> ModuleResources::GetResourcesFromType(Resource::Type type)
+{
+	std::vector<Resource*> ret;
+	auto i = resources.begin();
+
+	for (auto res = resources.begin(); res != resources.end(); res++)
+	{
+		if ((*res).second->GetType() == type)
+			ret.push_back((*res).second);
+	}
+
+	return ret;
 }

@@ -97,24 +97,24 @@ update_status ModuleFileSystem::Update(float dt)
 	//TODO: Check if new file was added or moified in Assets Folder
 
 	//Delete .META files just for swagg
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) 
+	/*if (App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN) 
 	{
 		LOG("FILESYSTEM: Deleting .META files");
 		DeleteMetaFiles(assets);
-	}
+	}*/
 
-	//Delete Own Format files & Resources just for swagg
-	if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
-	{
-		LOG("FILESYSTEM: Deleting Own Format files & Resources");
-		DeleteOwnFormatFiles(assets);
-	}
+	////Delete Own Format files & Resources just for swagg
+	//if (App->input->GetKey(SDL_SCANCODE_F) == KEY_DOWN)
+	//{
+	//	LOG("FILESYSTEM: Deleting Own Format files & Resources");
+	//	DeleteOwnFormatFiles(assets);
+	//}
 
-	if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
+	/*if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
 	{
 		LOG("FILESYSTEM: Checking files to Update");
 		ImportFilesRecursively(assets);
-	}
+	}*/
 
 
 	return UPDATE_CONTINUE;
@@ -649,6 +649,33 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 				{
 					UID ret;
 					ret = App->resources->ImportFile(file_path.c_str(), Resource::R_TEXTURE, exported_uuid);
+				}
+
+				else
+				{
+					LOG("Unsupported file format");
+				}
+			}
+			else
+			{
+				std::string extension;
+				GetExtensionFile(file_name.c_str(), extension);
+
+				if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+				{
+					UID ret;
+					//ret = App->resources->ImportFile(file_path.c_str(), Resource::R_SCENE, exported_uuid);
+				}
+
+				else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
+					!extension.compare(".TGA") || !extension.compare(".dds") ||
+					!extension.compare(".jpg") || !extension.compare(".JPG"))
+				{
+					UID ret;
+					Resource* res = App->resources->CreateNewResource(Resource::R_TEXTURE,exported_uuid,file_name.c_str(),file_path.c_str() ,exported_path.c_str(), true);
+					if (res)
+						ret = res->GetUID();
+					//ret = App->resources->ImportFile(file_path.c_str(), Resource::R_TEXTURE, exported_uuid);
 				}
 
 				else

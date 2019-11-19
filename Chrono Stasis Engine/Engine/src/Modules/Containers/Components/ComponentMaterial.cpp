@@ -1,6 +1,6 @@
 #include "ComponentMaterial.h"
 #include "csApp.h"
-
+#include "ResourceTexture.h"
 ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 {
 	type = ComponentType::C_MATERIAL;
@@ -41,13 +41,20 @@ void ComponentMaterial::SetMaterial(TextureInfo* texture, float r, float g, floa
 
 void ComponentMaterial::InspectorInfo()
 {
+	ResourceTexture* tex = nullptr;
+
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::Checkbox("Active Material", &active); // Can't repeat checkbox name (!!)
-		
+
 		ImGui::Text("Texture:");
 		if (texture != nullptr)
 		{
+			DroppableSpace((tex == nullptr) ? "No Texture" : tex->GetFile(), tex == nullptr);
+			ImGui::SameLine();
+			ResourceExplorerButton(Resource::R_TEXTURE);
+
+
 			ImGui::Image((ImTextureID*)texture->id, ImVec2(150, 150));
 			ImGui::Text("Size: ");
 			ImGui::SameLine();

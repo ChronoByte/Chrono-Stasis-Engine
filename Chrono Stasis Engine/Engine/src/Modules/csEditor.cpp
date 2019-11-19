@@ -22,6 +22,7 @@
 #include "src/Structure/GameViewWindow.h"
 #include "src/Structure/FileBrowserWindow.h"
 #include "src/Structure/ProjectWindow.h"
+#include "src/Structure/ResourceBrowserWindow.h"
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
@@ -47,6 +48,7 @@ bool ModuleEditor::Init(JSON_Object* node)
 	windows.push_back(gameView = new GameViewWindow(json_object_get_boolean(node, "game view")));
 	windows.push_back(browser = new FileBrowserWindow(false)); //TODO: parse into json
 	windows.push_back(project = new ProjectWindow(true));
+	windows.push_back(resource_browser = new ResourceBrowserWindow(false));
 	LOG("-------------- Application Init --------------");	// This is stuffed here so it logs into the console, which was not created previously
 
 	return true;
@@ -294,5 +296,10 @@ void ModuleEditor::CreateCube(const vec3& position, const uint & length, const u
 	ComponentMesh* shape = new ComponentMesh(nullptr);
 
 	//App->renderer3D->PushMeshToRender(shape);
+}
+
+void ModuleEditor::OpenResourceExplorer(Resource::Type type, int x, int y, Component* callback)
+{
+	resource_browser->OpenExplorer(type, x,y, callback);
 }
 

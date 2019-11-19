@@ -19,8 +19,9 @@ public:
 	virtual ~Resource();
 
 	Resource::Type GetType() const;
-	uint GetUID() const;
+	UID GetUID() const;
 	const char* GetFile() const;
+	const char* GetName() const;
 	const char* GetImportedFile() const;
 	const char* GetExportedFile() const;
 	bool IsLoadedToMemory() const;
@@ -30,8 +31,9 @@ public:
 	virtual bool LoadInMemory() = 0;
 
 protected:
-	uint uid = 0;
+	UID uid = 0;
 	std::string file;
+	std::string name;
 	std::string exported_file;
 	std::string imported_file;
 

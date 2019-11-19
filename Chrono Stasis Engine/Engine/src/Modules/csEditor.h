@@ -8,6 +8,9 @@
 #include "MathGeoLib/include/MathBuildConfig.h"
 #include "MathGeoLib/include/MathGeoLibFwd.h"
 
+#include "Resource.h"
+#include "csComponent.h"
+
 #include "par/par_shapes.h"
 #include "glm/glmath.h"
 
@@ -27,6 +30,7 @@ class SceneViewWindow;
 class GameViewWindow; 
 class FileBrowserWindow;
 class ProjectWindow;
+class ResourceBrowserWindow;
 class Window;
 struct TextureInfo;
 
@@ -56,6 +60,7 @@ public:
 
 	void Log(char* log) const; 
 	void ExitWindow();
+	void OpenResourceExplorer(Resource::Type type, int x, int y, Component* callback);
 
 public:
 
@@ -71,6 +76,7 @@ public:
 	GameViewWindow*		gameView = nullptr;
 	FileBrowserWindow*	browser = nullptr;
 	ProjectWindow*		project = nullptr;
+	ResourceBrowserWindow* resource_browser = nullptr;
 
 	bool show_demo_window = false;
 	bool show_style_window = false;

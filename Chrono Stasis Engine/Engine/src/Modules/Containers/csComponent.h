@@ -5,8 +5,9 @@
 #include "csGameObject.h"
 #include "imgui/imgui.h"
 #include "PseudoRandom.h"
-
+#include "Resource.h"
 struct RJSON_Value;
+
 
 enum class ComponentType
 {
@@ -49,6 +50,10 @@ public:
 	// Parser
 	virtual void Save(RJSON_Value* component) const {}
 	virtual void Load(RJSON_Value* component) {}
+
+	//Resource
+	void DroppableSpace(const char* string, bool empty = false, float x = 250, float y = 20);
+	void ResourceExplorerButton(Resource::Type type);
 
 protected:
 

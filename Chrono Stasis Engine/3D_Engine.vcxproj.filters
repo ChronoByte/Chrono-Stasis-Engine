@@ -405,6 +405,7 @@
     <ClInclude Include="Engine\src\Resources\ResourceTexture.h" />
     <ClInclude Include="Engine\src\Tools\FileManager.h" />
     <ClInclude Include="Engine\src\Structure\ProjectWindow.h" />
+    <ClInclude Include="Engine\src\Structure\ResourceBrowserWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -596,6 +597,8 @@
     <ClCompile Include="Engine\src\Resources\Resource.cpp" />
     <ClCompile Include="Engine\src\Resources\ResourceTexture.cpp" />
     <ClCompile Include="Engine\src\Structure\ProjectWindow.cpp" />
+    <ClCompile Include="Engine\src\Structure\ResourceBrowserWindow.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\csComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
