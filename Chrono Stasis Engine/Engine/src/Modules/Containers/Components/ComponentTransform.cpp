@@ -16,8 +16,7 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Update(float dt)
 {
-	if (App->renderer3D->drawBoundingBox || drawBoundingBox)
-		 DrawBoundingBox(); 
+
 
 	if (toRecalculateTransform) 
 	{
@@ -27,6 +26,15 @@ void ComponentTransform::Update(float dt)
 		if (App->renderer3D->drawBoundingBox || drawBoundingBox)
 			ForceParentBoundingBox();
 	}
+}
+
+
+void ComponentTransform::OnDebugDraw()
+{
+
+	if (App->renderer3D->drawBoundingBox || drawBoundingBox)
+		DrawBoundingBox();
+
 }
 
 void ComponentTransform::DrawBoundingBox()

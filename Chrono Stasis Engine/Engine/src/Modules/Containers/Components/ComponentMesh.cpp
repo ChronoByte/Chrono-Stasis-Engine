@@ -65,11 +65,15 @@ ComponentMesh::~ComponentMesh()
 	}
 }
 
-void ComponentMesh::Update(float dt)
+void ComponentMesh::OnDraw()
 {
 
-	Draw(); 
+	Draw();
 
+}
+
+void ComponentMesh::OnDebugDraw()
+{
 	if (App->renderer3D->drawNormals || drawFaceNormals)
 		DrawNormals();
 

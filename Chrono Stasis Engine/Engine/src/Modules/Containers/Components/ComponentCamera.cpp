@@ -24,8 +24,14 @@ void ComponentCamera::Update(float dt)
 {
 
 	UpdateTransform();
-	DrawFrustum();
 
+}
+
+void ComponentCamera::OnDebugDraw()
+{
+
+	DrawFrustum();
+	
 }
 
 void ComponentCamera::UpdateTransform()
@@ -41,7 +47,15 @@ void ComponentCamera::DrawFrustum()
 {
 	glBegin(GL_LINES);
 	glLineWidth(2.5f);
-	glColor3f(1, 0.4f, 0.9f);
+
+	// Vertex from initial point to near plane
+	glVertex3f(frustum.pos.x, frustum.pos.y, frustum.pos.z);
+	glVertex3f(frustum.pos.x + frustum.front.x * frustum.nearPlaneDistance, frustum.pos.y + frustum.front.y *  frustum.nearPlaneDistance, frustum.pos.z + frustum.front.z *  frustum.nearPlaneDistance);
+
+
+	//glColor4f(1, 0.4f, 0.9f, 1);  // Pink
+	glColor4f(1, 0.07f, 0.57f, 1);  // Pink
+	//glColor3f(0.f, 1.f, 0.f); // Green
 
 	for (uint i = 0; i < 12; ++i)
 	{
@@ -59,12 +73,9 @@ void ComponentCamera::InspectorInfo()
 
 	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		ImGui::Text("Preview");
-
-		// Here we could have the texture in miniature 
-
-		ImGui::Separator(); 
 	
+		// ------- Options --------- 
+
 		ImGui::Checkbox("Frustum Culling", &culling);
 		if (ImGui::Checkbox("Set as Main Camera", &isMainCamera))
 		{
@@ -78,27 +89,44 @@ void ComponentCamera::InspectorInfo()
 			}
 		}
 
+		ImGui::Separator();
+
+		if (isMainCamera)
+		{
+
+			ImGui::Text("Preview");
+			ImGui::Image((ImTextureID)App->renderer3D->gameTexture, { 150, 150 * aspectRatio });
+			ImGui::Separator();
+
+		}
+
 		// ------- FOV --------- 
 
 		ImGui::Text("FOV Axis");
 
-		static int selected = 0; 
+		static int selected = 0;
 		ImGui::RadioButton("Vertical", &selected, 0); ImGui::SameLine();
 		ImGui::RadioButton("Horizontal", &selected, 1);
-		float verticalFOV = frustum.verticalFov * RADTODEG; 
-		float horizontalFOV = frustum.horizontalFov * RADTODEG; 
+
+		float verticalFOV = frustum.verticalFov * RADTODEG;
+		float horizontalFOV = frustum.horizontalFov * RADTODEG;
 
 		if (ImGui::DragFloat("Field Of View", (selected == 0) ? &verticalFOV : &horizontalFOV, 0.1f, 0.1f, 179.5f))
 			UpdateRatio(selected == 0, verticalFOV * DEGTORAD, horizontalFOV * DEGTORAD);
-		
+
 		// ------- Planes --------- 
 
-		ImGui::Separator(); 
+		ImGui::Separator();
+		ImGui::Text("Size:");
 		ImGui::DragFloat("Near Plane Distance", &frustum.nearPlaneDistance, 0.1f, 0.1f, frustum.farPlaneDistance);
 		ImGui::DragFloat("Far Plane Distance", &frustum.farPlaneDistance, 0.1f, frustum.nearPlaneDistance, 1000.f);
-		ImGui::Separator(); 
+		ImGui::Separator();
 
 		// ---------------------
+
+		ImGui::Text("Background Color");
+		ImGui::ColorEdit4("Background Color", bgColor, ImGuiColorEditFlags_Uint8);
+
 		// TODO: Add more customization 
 	}
 }
@@ -162,6 +190,9 @@ void ComponentCamera::UpdateRatio(bool axisVertical, float verticalFOV, float ho
 		frustum.horizontalFov = horizontalFOV;
 		frustum.verticalFov = 2.f * atanf(tanf(frustum.horizontalFov * 0.5f) * ((float)App->window->height / (float)App->window->width));
 	}
+
+	// Aspect ratio currently locked
+	//aspectRatio = tanf(frustum.verticalFov * 0.5f) / tanf(frustum.horizontalFov * 0.5f);
 }
 
 void ComponentCamera::LookAt(const float3 & lookatPos)
@@ -210,6 +241,15 @@ void ComponentCamera::SetHorizontalFOV(const float & fov)
 void ComponentCamera::SetVerticalFOV(const float & fov)
 {
 	frustum.verticalFov = fov; 
+}
+
+void ComponentCamera::SetColor(const Color & set)
+{
+	bgColor[0] = set.r;
+	bgColor[1] = set.g;
+	bgColor[2] = set.b;
+	bgColor[3] = set.a;
+
 }
 
 // ---------------------- Gets -----------------------------
@@ -263,6 +303,11 @@ float4x4 ComponentCamera::GetProjectionMatrix() const
 bool ComponentCamera::isCulling() const
 {
 	return culling;
+}
+
+const float* ComponentCamera::GetColor() const
+{
+	return bgColor;
 }
 
 void ComponentCamera::Save(RJSON_Value* component) const

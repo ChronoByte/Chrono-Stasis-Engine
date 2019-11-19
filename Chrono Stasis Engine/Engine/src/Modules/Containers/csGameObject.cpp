@@ -53,12 +53,39 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
+
 	std::list<Component*>::const_iterator it = components.begin();
 
 	for (it; it != components.end(); ++it)
 	{
 		if ((*it)->isActive())
 			(*it)->Update(dt); 
+	}
+
+}
+
+void GameObject::OnDraw()
+{
+
+	std::list<Component*>::const_iterator it = components.begin();
+
+	for (it; it != components.end(); ++it)
+	{
+		if ((*it)->isActive())
+			(*it)->OnDraw();
+	}
+
+}
+
+void GameObject::OnDebugDraw()
+{
+
+	std::list<Component*>::const_iterator it = components.begin();
+
+	for (it; it != components.end(); ++it)
+	{
+		if ((*it)->isActive())
+			(*it)->OnDebugDraw();
 	}
 
 }

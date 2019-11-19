@@ -21,8 +21,6 @@ public:
 
 	void OnResize(int width, int height);
 
-	void DrawOriginAxis();
-
 	void ToggleDebugMode(); 
 	bool GetDebugMode() const; 
 private:
@@ -93,4 +91,7 @@ public:
 	GLuint textureBuffer = 0;
 	GLuint depthStencilBuffer = 0;
 
+	GLuint secondFrameBuffer = 0; 
+	GLuint secondDepthBuffer = 0; 
+	GLuint gameTexture = 0; 
 };

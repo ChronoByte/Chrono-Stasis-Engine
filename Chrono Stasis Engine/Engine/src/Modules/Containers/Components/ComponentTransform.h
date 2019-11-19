@@ -21,6 +21,8 @@ public:
 	~ComponentTransform();
 
 	void Update(float dt) override;
+	void OnDebugDraw() override; 
+
 	void DrawBoundingBox();
 	const float4x4 GetLocalTransform() const;
 	const void SetLocalTransform(const float4x4& local);

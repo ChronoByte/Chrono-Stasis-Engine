@@ -54,35 +54,87 @@ bool ModuleScene::CleanUp()
 	return true;
 }
 
+void ModuleScene::DrawScene()
+{
+
+	DrawAllGameObjects(root); 
+
+}
+
+void ModuleScene::DebugDrawScene()
+{
+
+	if (App->renderer3D->GetDebugMode())
+	{
+		DrawGrid();
+		DrawOriginAxis();
+	}
+
+	DebugDrawAllGameObjects(root); 
+
+}
+
+void ModuleScene::DrawGrid()
+{
+	glLineWidth(1.0f);
+
+	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	glBegin(GL_LINES);
+
+	float d = 200.0f;
+
+	for (float i = -d; i <= d; i += 1.0f)
+	{
+		glVertex3f(i, 0.0f, -d);
+		glVertex3f(i, 0.0f, d);
+		glVertex3f(-d, 0.0f, i);
+		glVertex3f(d, 0.0f, i);
+	}
+
+	glEnd();
+}
+
+void ModuleScene::DrawOriginAxis()
+{
+	glLineWidth(2.0f);
+
+	glBegin(GL_LINES);
+
+	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(1.0f, 0.1f, 0.0f); glVertex3f(1.1f, -0.1f, 0.0f);
+	glVertex3f(1.1f, 0.1f, 0.0f); glVertex3f(1.0f, -0.1f, 0.0f);
+
+	glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.05f, 1.25f, 0.0f); glVertex3f(0.0f, 1.15f, 0.0f);
+	glVertex3f(0.0f, 1.15f, 0.0f); glVertex3f(0.0f, 1.05f, 0.0f);
+
+	glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+
+	glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-0.05f, 0.1f, 1.05f); glVertex3f(0.05f, 0.1f, 1.05f);
+	glVertex3f(0.05f, 0.1f, 1.05f); glVertex3f(-0.05f, -0.1f, 1.05f);
+	glVertex3f(-0.05f, -0.1f, 1.05f); glVertex3f(0.05f, -0.1f, 1.05f);
+
+	glEnd();
+
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+
+	glLineWidth(1.0f);
+}
+
 update_status ModuleScene::Update(float dt)
 {
 
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 		App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
 	
-
-	if (App->renderer3D->GetDebugMode())
-	{
-		glLineWidth(1.0f);
-
-		//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-		glBegin(GL_LINES);
-
-		float d = 200.0f;
-
-		for (float i = -d; i <= d; i += 1.0f)
-		{
-			glVertex3f(i, 0.0f, -d);
-			glVertex3f(i, 0.0f, d);
-			glVertex3f(-d, 0.0f, i);
-			glVertex3f(d, 0.0f, i);
-		}
-
-		glEnd();
-	}
-
-	RecursiveUpdate(root, dt);
+	UpdateAllGameObjects(root, dt);
 
 	return UPDATE_CONTINUE;
 }
@@ -229,6 +281,11 @@ GameObject * ModuleScene::CreateCamera(GameObject * parent, const char * name)
 	GameObject* go = CreateGameObject(parent, name); 
 	go->CreateComponent(ComponentType::C_CAMERA); 
 	SetSelected(go);
+
+	// Set a position to the camera so it doesn't spawn with akward view
+	go->GetTransform()->SetPosition(float3(0.f, 10.f, -20.f));
+	go->GetTransform()->SetRotationEuler(float3(20.f, 0.f, 0.f));
+
 	return go;
 }
 
@@ -298,7 +355,7 @@ GameObject * ModuleScene::GetRoot() const
 	return root;
 }
 
-void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)
+void ModuleScene::UpdateAllGameObjects(GameObject * parent, float dt)
 {
 	if (!parent->isActive())
 		return;
@@ -315,10 +372,39 @@ void ModuleScene::RecursiveUpdate(GameObject * parent, float dt)
 		}
 		else
 		{
-			RecursiveUpdate((*it), dt);
+			UpdateAllGameObjects((*it), dt);
 			it++;
 		}
 	}
+}
+
+void ModuleScene::DrawAllGameObjects(GameObject * parent)
+{
+	if (!parent->isActive())
+		return;
+
+	parent->OnDraw();
+
+	std::list<GameObject*>::iterator it = parent->childs.begin();
+	for (it; it != parent->childs.end(); ++it)
+	{
+		DrawAllGameObjects((*it)); 
+	}
+}
+
+void ModuleScene::DebugDrawAllGameObjects(GameObject * parent)
+{
+	if (!parent->isActive())
+		return;
+
+	parent->OnDebugDraw();
+
+	std::list<GameObject*>::iterator it = parent->childs.begin();
+	for (it; it != parent->childs.end(); ++it)
+	{
+		DebugDrawAllGameObjects((*it));
+	}
+
 }
 
 void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected)
