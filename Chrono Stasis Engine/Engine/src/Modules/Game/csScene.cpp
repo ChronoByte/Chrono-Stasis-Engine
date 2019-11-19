@@ -8,6 +8,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "csViewport.h"
 
 #include "csGameObject.h"
 
@@ -314,6 +315,7 @@ void ModuleScene::SetMainCamera(ComponentCamera * camera)
 
 	mainCamera = camera; 
 	mainCamera->isMainCamera = true; 
+	App->renderer3D->gameViewport->SetCamera(mainCamera); 
 
 	App->editor->gameView->SetActive(true); 
 }
@@ -324,6 +326,8 @@ void ModuleScene::ClearCamera()
 		mainCamera->isMainCamera = false; 
 
 	mainCamera = nullptr; 
+	App->renderer3D->gameViewport->SetCamera(nullptr);
+
 	App->editor->gameView->SetActive(false);
 }
 

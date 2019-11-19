@@ -3,6 +3,7 @@
 #include "csRenderer3D.h"
 #include "src/Structure/SceneViewWindow.h"
 #include "ComponentCamera.h"
+#include "csViewport.h"
 
 #include "glew/include/GL/glew.h"
 #include "SDL\include\SDL_opengl.h"
@@ -139,6 +140,9 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 	}
 
 	// Projection matrix for
+	editorViewport = new Viewport(App->window->width, App->window->height, App->camera->fakeCamera);
+	gameViewport = new Viewport(App->window->width, App->window->height); // Camera not created yet
+
 	OnResize(App->window->width, App->window->height);
 	
 
@@ -148,21 +152,21 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glLoadIdentity();
 
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	glViewport(0, 0, App->window->width, App->window->height);
+	//glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	//glViewport(0, 0, App->window->width, App->window->height);
 
-	glClearColor(0.f, 0.f, 0.f, 0.f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
+	//glClearColor(0.f, 0.f, 0.f, 0.f);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glLoadIdentity();
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf((GLfloat*)&App->camera->GetViewMatrix());
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadMatrixf((GLfloat*)&App->camera->GetViewMatrix());
 
-	// light 0 on cam pos
-	lights[0].SetPos(App->camera->fakeCamera->frustum.pos.x, App->camera->fakeCamera->frustum.pos.y, App->camera->fakeCamera->frustum.pos.z);
+	//// light 0 on cam pos
+	//lights[0].SetPos(App->camera->fakeCamera->frustum.pos.x, App->camera->fakeCamera->frustum.pos.y, App->camera->fakeCamera->frustum.pos.z);
 
 
 	for(uint i = 0; i < MAX_LIGHTS; ++i)
@@ -178,8 +182,22 @@ update_status ModuleRenderer3D::Update(float dt)
 {
 	// ------------------- 	
 
+	editorViewport->SetView(); 
+
 	App->scene->DrawScene();
 	App->scene->DebugDrawScene();
+
+	editorViewport->CreateTextures();
+
+	// ------------------- 	
+	if (App->scene->GetMainCamera() != nullptr)
+	{
+		gameViewport->SetView(); 
+
+		App->scene->DrawScene();
+
+		gameViewport->CreateTextures(); 
+	}
 
 	//if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
 	//{
@@ -213,47 +231,47 @@ update_status ModuleRenderer3D::Update(float dt)
 	//	glBindTexture(GL_TEXTURE_2D, 0);
 
 	//}
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+   /* glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, App->renderer3D->textureBuffer);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, App->renderer3D->zBufferTexture);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);*/
 
 
 	// ------------------- Second Draw
-	if (App->scene->GetMainCamera() != nullptr)
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
+	//if (App->scene->GetMainCamera() != nullptr)
+	//{
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//	glLoadIdentity();
 
-		glBindFramebuffer(GL_FRAMEBUFFER, secondFrameBuffer);
-		glViewport(0, 0, App->window->width, App->window->height);
+	//	glBindFramebuffer(GL_FRAMEBUFFER, secondFrameBuffer);
+	//	glViewport(0, 0, App->window->width, App->window->height);
 
-		const float* color = App->scene->GetMainCamera()->GetColor(); 
+	//	const float* color = App->scene->GetMainCamera()->GetColor(); 
 
-		glClearColor(color[0], color[1], color[2], color[3]);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glLoadIdentity();
+	//	glClearColor(color[0], color[1], color[2], color[3]);
+	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//	glLoadIdentity();
 
-		glMatrixMode(GL_MODELVIEW);
-		glLoadMatrixf((GLfloat*)&App->scene->GetMainCamera()->GetViewMatrix());
+	//	glMatrixMode(GL_MODELVIEW);
+	//	glLoadMatrixf((GLfloat*)&App->scene->GetMainCamera()->GetViewMatrix());
 
-		lights[0].SetPos(App->scene->GetMainCamera()->frustum.pos.x, App->scene->GetMainCamera()->frustum.pos.y, App->scene->GetMainCamera()->frustum.pos.z);
+	//	lights[0].SetPos(App->scene->GetMainCamera()->frustum.pos.x, App->scene->GetMainCamera()->frustum.pos.y, App->scene->GetMainCamera()->frustum.pos.z);
 
-		// --------- Update 
+	//	// --------- Update 
 
-		App->scene->DrawScene();
+	//	App->scene->DrawScene();
 
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glBindTexture(GL_TEXTURE_2D, gameTexture);
-		glGenerateMipmap(GL_TEXTURE_2D);
+	//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//	glBindTexture(GL_TEXTURE_2D, gameTexture);
+	//	glGenerateMipmap(GL_TEXTURE_2D);
 
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-	
+	//	glBindTexture(GL_TEXTURE_2D, 0);
+	//}
+	//
 	
 
 
@@ -273,7 +291,10 @@ update_status ModuleRenderer3D::PostUpdate(float dt)
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
-	glDeleteFramebuffers(1, &frameBuffer);
+	//glDeleteFramebuffers(1, &frameBuffer);
+
+	// TODO delete of framebuffers in viewports! 
+
 	SDL_GL_DeleteContext(context);
 
 	return true;
@@ -283,70 +304,17 @@ bool ModuleRenderer3D::CleanUp()
 void ModuleRenderer3D::OnResize(int width, int height)
 {
 	
-	glDeleteFramebuffers(1, &frameBuffer);
-	glDeleteTextures(1, &textureBuffer);
-	glDeleteRenderbuffers(1, &depthStencilBuffer);
+	editorViewport->SetSize(width, height);
+	gameViewport->SetSize(width, height);
 
-
-	// ------------------------------------------- First Segment --------------------------------------
-	glGenFramebuffers(1, &frameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-
-	glGenTextures(1, &textureBuffer);
-
-	glBindTexture(GL_TEXTURE_2D, textureBuffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, App->window->width, App->window->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-	
-	glGenTextures(1, &zBufferTexture);
-	glBindTexture(GL_TEXTURE_2D, zBufferTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, App->window->width, App->window->height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-
-	glGenRenderbuffers(1, &depthStencilBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->window->width, App->window->height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthStencilBuffer);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureBuffer, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, zBufferTexture, 0);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	// ----------------------------------------- Second Segment --------------------------------------
-
-	glGenFramebuffers(1, &secondFrameBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, secondFrameBuffer);
-
-	glGenTextures(1, &gameTexture);
-	glBindTexture(GL_TEXTURE_2D, gameTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, App->window->width, App->window->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-
-	glGenRenderbuffers(1, &depthStencilBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilBuffer);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->window->width, App->window->height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthStencilBuffer);
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gameTexture, 0);
+	editorViewport->CreateBuffers(); 
+	gameViewport->CreateBuffers();
 
 	// -------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------
 
 	// Set the list of draw buffers.
-	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+	/*GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
 	glDrawBuffers(1, DrawBuffers);
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -370,7 +338,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);*/
 
 }
 

@@ -1,5 +1,7 @@
 #include "SceneViewWindow.h"
 #include "csApp.h"
+#include "csViewport.h"
+
 SceneViewWindow::SceneViewWindow(bool startOpened) : Window(startOpened)
 {
 
@@ -36,9 +38,9 @@ void SceneViewWindow::Draw()
 	ImVec2 current_viewport_size = ImGui::GetContentRegionAvail();
 
 	if(zBuffer)
-		ImGui::Image((ImTextureID)App->renderer3D->zBufferTexture, { (float)App->window->width, (float)App->window->height }, { 0,1 }, { 1,0 });
+		ImGui::Image((ImTextureID)App->renderer3D->editorViewport->renderTexture, { (float)App->window->width, (float)App->window->height }, { 0,1 }, { 1,0 });
 	else
-		ImGui::Image((ImTextureID)App->renderer3D->textureBuffer, { (float)App->window->width, (float)App->window->height }, { 0,1 }, { 1,0 });
+		ImGui::Image((ImTextureID)App->renderer3D->editorViewport->zBufferTexture, { (float)App->window->width, (float)App->window->height }, { 0,1 }, { 1,0 });
 	//ImGui::Image((ImTextureID)App->renderer3D->textureBuffer, ImVec2(current_viewport_size.x, current_viewport_size.y), { 0,1 }, { 1,0 });
 
 	int new_width, new_height;
