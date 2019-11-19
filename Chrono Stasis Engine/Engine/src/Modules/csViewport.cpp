@@ -30,6 +30,10 @@ void Viewport::SetSize(const uint & width, const uint & height)
 
 void Viewport::CreateBuffers()
 {
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindRenderbuffer(GL_RENDERBUFFER, 0);
+
 	// Clean already created
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteRenderbuffers(1, &depthBuffer);
@@ -70,6 +74,14 @@ void Viewport::CreateBuffers()
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, renderTexture, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, zBufferTexture, 0);
 
+	GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
+	glDrawBuffers(1, DrawBuffers);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG("ERROR");
+	}
+
 	// Unbind everything
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -81,7 +93,6 @@ void Viewport::SetView()
 	// Bind buffers so it futurely renders on it
 
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
 
 	glViewport(0, 0, width, height);
 
@@ -90,21 +101,19 @@ void Viewport::SetView()
 	glLoadIdentity();
 	mat4x4 ProjectionMatrix = perspective(camera->GetVerticalFOV() * RADTODEG,
 		(float)width / (float)height,
-		App->camera->fakeCamera->GetNearPlaneDistance(),
-		App->camera->fakeCamera->GetFarPlaneDistance());
+		camera->GetNearPlaneDistance(),
+		camera->GetFarPlaneDistance());
 
 	glLoadMatrixf(&ProjectionMatrix);
-
-	// Clear screen with bg color
-	const float* color = camera->GetColor();
-	glClearColor(color[0], color[1], color[2], color[3]);	
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glLoadIdentity();
 
 	// Load Model View Matrix
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf((GLfloat*)&camera->GetViewMatrix());
 
+	// Clear screen with bg color
+	const float* color = camera->GetColor();
+	glClearColor(color[0], color[1], color[2], color[3]);	
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 
 }
 

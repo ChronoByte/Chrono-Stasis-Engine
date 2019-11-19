@@ -152,19 +152,6 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glLoadIdentity();
-
-	//glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
-	//glViewport(0, 0, App->window->width, App->window->height);
-
-	//glClearColor(0.f, 0.f, 0.f, 0.f);
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glLoadIdentity();
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadMatrixf((GLfloat*)&App->camera->GetViewMatrix());
-
 	//// light 0 on cam pos
 	//lights[0].SetPos(App->camera->fakeCamera->frustum.pos.x, App->camera->fakeCamera->frustum.pos.y, App->camera->fakeCamera->frustum.pos.z);
 
@@ -180,6 +167,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 
 update_status ModuleRenderer3D::Update(float dt)
 {
+
 	// ------------------- 	
 
 	editorViewport->SetView(); 
@@ -190,6 +178,7 @@ update_status ModuleRenderer3D::Update(float dt)
 	editorViewport->CreateTextures();
 
 	// ------------------- 	
+
 	if (App->scene->GetMainCamera() != nullptr)
 	{
 		gameViewport->SetView(); 
@@ -199,81 +188,7 @@ update_status ModuleRenderer3D::Update(float dt)
 		gameViewport->CreateTextures(); 
 	}
 
-	//if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
-	//{
-
-	//	std::vector<GLfloat> depth(App->window->width * App->window->height, 0);
-	//	glReadPixels(0, 0, App->window->width, App->window->height, GL_DEPTH_COMPONENT, GL_FLOAT, &depth[0]);
-
-	//	// linearize depth
-	//	// http://www.geeks3d.com/20091216/geexlab-how-to-visualize-the-depth-buffer-in-glsl/
-	//	float zNear = App->camera->fakeCamera->GetNearPlaneDistance();
-	//	float zFar = App->camera->fakeCamera->GetFarPlaneDistance();
-
-	//	for (size_t i = 0; i < depth.size(); ++i)
-	//	{
-	//		/*depth[i] = 2.0 * depth[i] - 1.0;
-	//		depth[i] = 2.0 * zNear * zFar / (zFar + zNear - depth[i] * (zFar - zNear));*/
-	//		depth[i] = (2.0 * zNear) / (zFar + zNear - depth[i] * (zFar - zNear));
-	//	}
-
-	//	glGenTextures(1, &zbuffer);
-	//	glBindTexture(GL_TEXTURE_2D, zbuffer);
-	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, App->window->width, App->window->height, 0, GL_LUMINANCE, GL_FLOAT, &depth[0]);
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//	//glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-
-	//	//glGenerateMipmap(GL_TEXTURE_2D);
-
-	//	glBindTexture(GL_TEXTURE_2D, 0);
-
-	//}
-   /* glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, App->renderer3D->textureBuffer);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	glBindTexture(GL_TEXTURE_2D, App->renderer3D->zBufferTexture);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	glBindTexture(GL_TEXTURE_2D, 0);*/
-
-
-	// ------------------- Second Draw
-	//if (App->scene->GetMainCamera() != nullptr)
-	//{
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//	glLoadIdentity();
-
-	//	glBindFramebuffer(GL_FRAMEBUFFER, secondFrameBuffer);
-	//	glViewport(0, 0, App->window->width, App->window->height);
-
-	//	const float* color = App->scene->GetMainCamera()->GetColor(); 
-
-	//	glClearColor(color[0], color[1], color[2], color[3]);
-	//	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//	glLoadIdentity();
-
-	//	glMatrixMode(GL_MODELVIEW);
-	//	glLoadMatrixf((GLfloat*)&App->scene->GetMainCamera()->GetViewMatrix());
-
-	//	lights[0].SetPos(App->scene->GetMainCamera()->frustum.pos.x, App->scene->GetMainCamera()->frustum.pos.y, App->scene->GetMainCamera()->frustum.pos.z);
-
-	//	// --------- Update 
-
-	//	App->scene->DrawScene();
-
-	//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	//	glBindTexture(GL_TEXTURE_2D, gameTexture);
-	//	glGenerateMipmap(GL_TEXTURE_2D);
-
-	//	glBindTexture(GL_TEXTURE_2D, 0);
-	//}
-	//
-	
-
+	// ------------------- 	
 
 	return UPDATE_CONTINUE;
 }
@@ -307,38 +222,8 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	editorViewport->SetSize(width, height);
 	gameViewport->SetSize(width, height);
 
-	editorViewport->CreateBuffers(); 
 	gameViewport->CreateBuffers();
-
-	// -------------------------------------------------------------------------------
-	// -------------------------------------------------------------------------------
-
-	// Set the list of draw buffers.
-	/*GLenum DrawBuffers[1] = { GL_COLOR_ATTACHMENT0 };
-	glDrawBuffers(1, DrawBuffers);
-
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	{
-		LOG("ERROR");
-	}
-
-	glViewport(0, 0, width, height);
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	ProjectionMatrix = perspective(App->camera->fakeCamera->GetVerticalFOV() * RADTODEG, 
-		(float)width / (float)height, 
-		App->camera->fakeCamera->GetNearPlaneDistance(), 
-		App->camera->fakeCamera->GetFarPlaneDistance());
-
-	glLoadMatrixf(&ProjectionMatrix);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindRenderbuffer(GL_RENDERBUFFER, 0);*/
+	editorViewport->CreateBuffers(); 
 
 }
 

@@ -67,8 +67,6 @@ public:
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
-	mat3x3 NormalMatrix;
-	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
 	bool depth_test = false;
 	bool cull_face = false;
@@ -90,14 +88,4 @@ public:
 
 	Viewport* editorViewport = nullptr;
 	Viewport* gameViewport = nullptr; 
-
-	/*GLuint frameBuffer = 0;
-	GLuint textureBuffer = 0;
-	GLuint depthStencilBuffer = 0;
-
-	GLuint secondFrameBuffer = 0; 
-	GLuint secondDepthBuffer = 0; 
-	GLuint gameTexture = 0; 
-	GLuint zBufferTexture = 0; 
-	GLuint zbuffer = 0; */
 };

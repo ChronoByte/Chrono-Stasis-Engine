@@ -19,7 +19,7 @@ void GameViewWindow::Draw()
 	ImGui::SetCursorPos({ -(App->window->width - size.x) / 2,-(App->window->height - size.y) / 2 });
 	
 	ImVec2 current_viewport_size = ImGui::GetContentRegionAvail();
-	ImGui::Image((ImTextureID)App->renderer3D->gameViewport->renderTexture, { (float)App->window->width, (float)App->window->height }, { 0,1 }, { 1,0 });
+	ImGui::Image((ImTextureID)App->renderer3D->gameViewport->renderTexture, { (float)App->renderer3D->gameViewport->width, (float)App->renderer3D->gameViewport->height }, { 0,1 }, { 1,0 });
 	
 	int new_width, new_height;
 	App->window->GetWindowSize(new_width, new_height);
