@@ -281,8 +281,11 @@ GameObject * ModuleScene::CreateCamera(GameObject * parent, const char * name)
 	GameObject* go = CreateGameObject(parent, name); 
 	go->CreateComponent(ComponentType::C_CAMERA); 
 	SetSelected(go);
+
+	// Set a position to the camera so it doesn't spawn with akward view
 	go->GetTransform()->SetPosition(float3(0.f, 10.f, -20.f));
 	go->GetTransform()->SetRotationEuler(float3(20.f, 0.f, 0.f));
+
 	return go;
 }
 

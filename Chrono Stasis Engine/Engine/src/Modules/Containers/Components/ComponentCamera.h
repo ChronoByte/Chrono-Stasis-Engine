@@ -2,6 +2,7 @@
 
 #include "csComponent.h"
 #include "csGlobals.h"
+#include "Color.h"
 
 #include "MathGeoLib\include\MathBuildConfig.h"
 #include "MathGeoLib\include\MathGeoLib.h"
@@ -41,7 +42,8 @@ public:
 	// FoV
 	void SetHorizontalFOV(const float& fov); 
 	void SetVerticalFOV(const float& fov); 
-	
+	// Color
+	void SetColor(const Color& set); 
 	// ------------- Gets ------------------
 	// Pos
 	float3 GetPos() const; 
@@ -59,6 +61,8 @@ public:
 	float4x4 GetProjectionMatrix() const; 
 	// Culling
 	bool isCulling() const; 
+	// Color
+	const float* GetColor() const; 
 	// --------------------------------------------
 
 
@@ -74,6 +78,7 @@ public:
 
 private:
 
+	float bgColor[4] = { 0.6784f, 0.8392f, 1.f, 1.f };
 	float aspectRatio = 0.0f;
 	bool culling = true; 
 };

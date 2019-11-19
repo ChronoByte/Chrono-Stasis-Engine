@@ -154,6 +154,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 	glViewport(0, 0, App->window->width, App->window->height);
 
+	glClearColor(0.f, 0.f, 0.f, 0.f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -196,6 +197,9 @@ update_status ModuleRenderer3D::Update(float dt)
 		glBindFramebuffer(GL_FRAMEBUFFER, secondFrameBuffer);
 		glViewport(0, 0, App->window->width, App->window->height);
 
+		const float* color = App->scene->GetMainCamera()->GetColor(); 
+
+		glClearColor(color[0], color[1], color[2], color[3]);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glLoadIdentity();
 
