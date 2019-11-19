@@ -98,7 +98,8 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 			LOG("SDL Version: v%d.%d.%d", compiled.major, compiled.minor, compiled.patch);
 		}
 
-		GLfloat LightModelAmbient[] = {1.0f, 1.0f, 1.0f, 1.0f};
+		GLfloat LightModelAmbient[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
 
 		lights[0].ref = GL_LIGHT0;
@@ -208,7 +209,11 @@ bool ModuleRenderer3D::CleanUp()
 	LOG("Destroying 3D Renderer");
 	//glDeleteFramebuffers(1, &frameBuffer);
 
-	// TODO delete of framebuffers in viewports! 
+	delete editorViewport;
+	editorViewport = nullptr; 
+
+	delete gameViewport;
+	gameViewport = nullptr;
 
 	SDL_GL_DeleteContext(context);
 

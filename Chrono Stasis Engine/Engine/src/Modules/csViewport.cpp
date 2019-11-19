@@ -15,6 +15,13 @@ Viewport::Viewport(const uint & width, const uint & height, ComponentCamera * ca
 Viewport::~Viewport()
 {
 	camera = nullptr; 
+
+	// Deletes buffers
+	glDeleteFramebuffers(1, &frameBuffer);
+	glDeleteRenderbuffers(1, &depthBuffer);
+	glDeleteTextures(1, &renderTexture);
+	glDeleteTextures(1, &zBufferTexture);
+
 }
 
 void Viewport::SetCamera(ComponentCamera * camera)
@@ -34,7 +41,7 @@ void Viewport::CreateBuffers()
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindRenderbuffer(GL_RENDERBUFFER, 0);
 
-	// Clean already created
+	// Clean what's already created
 	glDeleteFramebuffers(1, &frameBuffer);
 	glDeleteRenderbuffers(1, &depthBuffer);
 	glDeleteTextures(1, &renderTexture);

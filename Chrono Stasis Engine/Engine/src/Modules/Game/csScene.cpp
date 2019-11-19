@@ -315,8 +315,12 @@ void ModuleScene::SetMainCamera(ComponentCamera * camera)
 
 	mainCamera = camera; 
 	mainCamera->isMainCamera = true; 
-	App->renderer3D->gameViewport->SetCamera(mainCamera); 
 
+	// Set game viewport camera
+	if (App->renderer3D->gameViewport != nullptr)
+		App->renderer3D->gameViewport->SetCamera(mainCamera); 
+
+	// Open window
 	App->editor->gameView->SetActive(true); 
 }
 
@@ -325,9 +329,13 @@ void ModuleScene::ClearCamera()
 	if (mainCamera != nullptr)
 		mainCamera->isMainCamera = false; 
 
-	mainCamera = nullptr; 
-	App->renderer3D->gameViewport->SetCamera(nullptr);
+	mainCamera = nullptr;
 
+	// Set game viewport camera
+	if(App->renderer3D->gameViewport != nullptr)
+		App->renderer3D->gameViewport->SetCamera(nullptr);
+
+	// Close window
 	App->editor->gameView->SetActive(false);
 }
 
