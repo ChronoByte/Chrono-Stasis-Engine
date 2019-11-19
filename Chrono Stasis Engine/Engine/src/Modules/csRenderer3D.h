@@ -86,6 +86,8 @@ public:
 	bool drawVertexNormals = false; 
 	bool drawBoundingBox = false;
 
+	bool displayZBuffer = false;
+
 	Viewport* editorViewport = nullptr;
 	Viewport* gameViewport = nullptr; 
 };

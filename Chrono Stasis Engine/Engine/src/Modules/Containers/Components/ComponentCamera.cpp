@@ -79,6 +79,7 @@ void ComponentCamera::InspectorInfo()
 		// ------- Options --------- 
 
 		ImGui::Checkbox("Frustum Culling", &culling);
+		ImGui::Checkbox("Display Z-Buffer", &showZBuffer);
 		if (ImGui::Checkbox("Set as Main Camera", &isMainCamera))
 		{
 			if (isMainCamera)
@@ -97,7 +98,11 @@ void ComponentCamera::InspectorInfo()
 		{
 
 			ImGui::Text("Preview");
-			ImGui::Image((ImTextureID)App->renderer3D->gameViewport->renderTexture, { 150, 150 * aspectRatio });
+			ImGui::Image((ImTextureID)App->renderer3D->gameViewport->renderTexture, { 150, 150 * aspectRatio }, { 0,1 }, { 1,0 });
+
+			ImGui::SameLine();
+			ImGui::Image((ImTextureID)App->renderer3D->gameViewport->zBufferTexture, { 150, 150 * aspectRatio }, { 0,1 }, { 1,0 });
+
 			ImGui::Separator();
 
 		}

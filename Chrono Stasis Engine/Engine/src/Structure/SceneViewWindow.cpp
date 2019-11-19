@@ -13,9 +13,6 @@ SceneViewWindow::~SceneViewWindow()
 
 void SceneViewWindow::Draw()
 {
-	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
-		zBuffer = !zBuffer;
-
 	ImGui::Begin("Scene", &active, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
 
 	ImVec2 size = ImGui::GetWindowSize();
@@ -37,11 +34,10 @@ void SceneViewWindow::Draw()
 
 	ImVec2 current_viewport_size = ImGui::GetContentRegionAvail();
 
-	if(!zBuffer)
+	if(!App->renderer3D->displayZBuffer)
 		ImGui::Image((ImTextureID)App->renderer3D->editorViewport->renderTexture, { (float)App->renderer3D->editorViewport->width, (float)App->renderer3D->editorViewport->height }, { 0,1 }, { 1,0 });
 	else
 		ImGui::Image((ImTextureID)App->renderer3D->editorViewport->zBufferTexture, { (float)App->renderer3D->editorViewport->width, (float)App->renderer3D->editorViewport->height }, { 0,1 }, { 1,0 });
-	//ImGui::Image((ImTextureID)App->renderer3D->textureBuffer, ImVec2(current_viewport_size.x, current_viewport_size.y), { 0,1 }, { 1,0 });
 
 	int new_width, new_height;
 	App->window->GetWindowSize(new_width, new_height);

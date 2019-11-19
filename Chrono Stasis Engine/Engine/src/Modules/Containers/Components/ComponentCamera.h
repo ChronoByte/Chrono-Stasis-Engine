@@ -73,6 +73,7 @@ public:
 
 public: 
 
+	bool showZBuffer = false; 
 	bool isMainCamera = false; 
 	Frustum frustum;
 
