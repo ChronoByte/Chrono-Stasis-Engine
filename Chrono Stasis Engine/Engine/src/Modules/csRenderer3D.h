@@ -94,4 +94,6 @@ public:
 	GLuint secondFrameBuffer = 0; 
 	GLuint secondDepthBuffer = 0; 
 	GLuint gameTexture = 0; 
+	GLuint zBufferTexture = 0; 
+	GLuint zbuffer = 0; 
 };

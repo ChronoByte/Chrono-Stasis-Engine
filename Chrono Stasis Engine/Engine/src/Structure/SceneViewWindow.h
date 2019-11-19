@@ -30,6 +30,8 @@ private:
 
 	float mouseX = 0.f;
 	float mouseY = 0.f;
+
+	bool zBuffer = false; 
 };
 
 

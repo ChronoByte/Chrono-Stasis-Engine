@@ -181,8 +181,43 @@ update_status ModuleRenderer3D::Update(float dt)
 	App->scene->DrawScene();
 	App->scene->DebugDrawScene();
 
+	//if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN)
+	//{
+
+	//	std::vector<GLfloat> depth(App->window->width * App->window->height, 0);
+	//	glReadPixels(0, 0, App->window->width, App->window->height, GL_DEPTH_COMPONENT, GL_FLOAT, &depth[0]);
+
+	//	// linearize depth
+	//	// http://www.geeks3d.com/20091216/geexlab-how-to-visualize-the-depth-buffer-in-glsl/
+	//	float zNear = App->camera->fakeCamera->GetNearPlaneDistance();
+	//	float zFar = App->camera->fakeCamera->GetFarPlaneDistance();
+
+	//	for (size_t i = 0; i < depth.size(); ++i)
+	//	{
+	//		/*depth[i] = 2.0 * depth[i] - 1.0;
+	//		depth[i] = 2.0 * zNear * zFar / (zFar + zNear - depth[i] * (zFar - zNear));*/
+	//		depth[i] = (2.0 * zNear) / (zFar + zNear - depth[i] * (zFar - zNear));
+	//	}
+
+	//	glGenTextures(1, &zbuffer);
+	//	glBindTexture(GL_TEXTURE_2D, zbuffer);
+	//	glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE, App->window->width, App->window->height, 0, GL_LUMINANCE, GL_FLOAT, &depth[0]);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	//	//glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+
+	//	//glGenerateMipmap(GL_TEXTURE_2D);
+
+	//	glBindTexture(GL_TEXTURE_2D, 0);
+
+	//}
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, App->renderer3D->textureBuffer);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	glBindTexture(GL_TEXTURE_2D, App->renderer3D->zBufferTexture);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -267,12 +302,22 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
 	
+	glGenTextures(1, &zBufferTexture);
+	glBindTexture(GL_TEXTURE_2D, zBufferTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, App->window->width, App->window->height, 0, GL_DEPTH_COMPONENT, GL_UNSIGNED_BYTE, 0);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+
 	glGenRenderbuffers(1, &depthStencilBuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, depthStencilBuffer);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, App->window->width, App->window->height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthStencilBuffer);
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureBuffer, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, zBufferTexture, 0);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -297,6 +342,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gameTexture, 0);
 
+	// -------------------------------------------------------------------------------
 	// -------------------------------------------------------------------------------
 
 	// Set the list of draw buffers.
