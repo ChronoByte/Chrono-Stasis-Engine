@@ -26,6 +26,7 @@ struct StorageUnit
 	std::string name = "";
 	storageType type;
 	bool selected = false;
+	bool rename = false;
 };
 
 class FileBrowserWindow : public Window

@@ -269,7 +269,7 @@ bool ModuleFileSystem::GenerateDirectory(const char* dir_name)
 	if (PHYSFS_mkdir(dir_name) != 0)
 	{
 		ret = true;
-		LOG("FILESYSTEM: Directory [%s] created!", dir_name);
+		LOG("FILESYSTEM: Directory [%s] created successfully!", dir_name);
 	}
 	else
 		LOG("FILESYSTEM: could not create directory [%s]: %s", dir_name, PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()));

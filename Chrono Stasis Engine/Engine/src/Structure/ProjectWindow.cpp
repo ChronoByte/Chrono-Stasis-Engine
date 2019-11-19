@@ -42,6 +42,30 @@ void ProjectWindow::TestUnityProject()
 
 	ImGui::SameLine();
 	ImGui::Text(current_path.c_str());
+
+	//std::string folder;
+	//App->fs->GetNameFile(current_path.c_str(), folder);
+	ImGui::SameLine(ImGui::GetWindowContentRegionMax().x - 60);
+	
+	if (ImGui::BeginMenu("Create"))
+	{
+		if (ImGui::MenuItem("New Folder"))
+		{ 
+			std::string path = current_path;
+			path += "Unnamed";
+			App->fs->GenerateDirectory(path.c_str());
+
+			StorageUnit* newFolder = new StorageUnit();
+			newFolder->type = StorageUnit::FOLDER;
+			newFolder->name = "Unnamed";
+			newFolder->rename = true;
+			storage.push_back(newFolder);
+
+		}
+
+		ImGui::EndMenu();
+	}
+
 	ImGui::EndMenuBar();
 
 	//---------------------------------------------------------------------------------------
@@ -81,42 +105,158 @@ void ProjectWindow::TestUnityProject()
 	ImGui::NextColumn();
 	if (useChild) ImGui::BeginChild("col 2", ImVec2(0.0f, childHeight), useChildBorder);
 
+	ImGui::PushStyleColor(ImGuiCol_Button, { 1.0f,1.0f,1.0f,0.0f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.8f,0.37f,0.0f,0.7f });
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.95f,0.5f,0.0f,0.7f });
+
+
+	int counter = 1;
+	int i = 0;
+	int text_counter = 1;
+	float YLine = ImGui::GetCursorPosY();
+	float offsetH = 70;
 	for (auto unit = storage.begin(); unit != storage.end(); unit++)
 	{
+
 		switch ((*unit)->type)
 		{
 		case StorageUnit::FOLDER:
-			ImGui::PushStyleColor(ImGuiCol_Button, { 1.0f,1.0f,1.0f,0.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.8f,0.37f,0.0f,0.0f });
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.95f,0.5f,0.0f,0.0f });
-			ImGui::ImageButton((ImTextureID)(App->editor->iconFolder->id), { 24, 24 });
-			ImGui::PopStyleColor(3);
+			
+			if ((*unit)->rename)
+			{
+				ImGui::PushStyleColor(ImGuiCol_FrameBg, { 1.0f,1.0f,1.0f,0.9f });
+				ImGui::PushStyleColor(ImGuiCol_Text, { 0.0f,0.0f,0.0f,1.0f });
+				ImGui::PushItemWidth(60);
+				char text[120];
+				strcpy_s(text, 120, (*unit)->name.c_str());
+				ImGui::PushID(-i);
+				ImGui::SetCursorPos({ 5 + ImGui::GetCursorPosX() + (64 + 30) * (counter - 1), 70 });
+				if (ImGui::InputText("", text, 120, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue) || (!ImGui::IsItemHovered() && ImGui::IsMouseClicked(0)))
+				{
+					if ((*unit)->name != text) {
+						std::string path = current_path;
+						path += (*unit)->name;
+
+						if ((*unit)->name.size() == 0)
+							(*unit)->name = "Unnamed";
+
+						(*unit)->name = text;
+
+						App->fs->GenerateDirectory((current_path + text).c_str());
+						App->fs->DeleteDirectory(path.c_str());
+					}
+					(*unit)->rename = false;
+				}
+				if (!ImGui::IsItemFocused())
+					ImGui::SetKeyboardFocusHere(0);
+				ImGui::PopID();
+				ImGui::PopItemWidth();
+				ImGui::PopStyleColor(2);
+			}
+			else {
+				ImGui::SetCursorPos({ 5 + ImGui::GetCursorPosX() + (64 + 30) * (counter - 1), 70 });
+				ImGui::Text((*unit)->name.c_str());
+			}
+
+			ImGui::SetCursorPos({ ImGui::GetCursorPosX() + (64 + 30) * (counter - 1), 0 });
+			ImGui::PushID(i);
+			ImGui::ImageButton((ImTextureID)(App->editor->iconFolder->id), { 64, 64 });
+			ImGui::PopID();
 	
-			ImGui::SameLine();
-			ImGui::SetCursorPos({ ImGui::GetCursorPosX() - 2, ImGui::GetCursorPosY() + 8 });
-			ImGui::Selectable((*unit)->name.c_str(), false, 0, { ImGui::GetWindowWidth(),24 });
 
 			break;
 		case StorageUnit::FILE:
+			ImGui::SetCursorPos({ 5 + ImGui::GetCursorPosX() + (64 + 30) * (counter - 1), 70 });
+			ImGui::Text((*unit)->name.c_str());
+			//ImGui::Selectable((*unit)->name.c_str());
+			ImGui::SetCursorPos({ ImGui::GetCursorPosX() + (64 + 30) * (counter - 1), 0 });
+			ImGui::ImageButton((ImTextureID)(App->editor->iconFile->id), { 64, 64 });
 			
-			ImGui::Selectable((*unit)->name.c_str());
 			break;
 		}
 
-		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+
+		
+	if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+	{
+		if ((*unit)->type == StorageUnit::FOLDER)
 		{
-			if ((*unit)->type == StorageUnit::FOLDER)
-			{
-				current_path += (*unit)->name + "/";
-				ClearStorage();
-				App->fs->GetStorageResources(current_path.c_str(), storage, "all", extension.c_str());
-				break;
-			}
+			current_path += (*unit)->name + "/";
+			ClearStorage();
+			App->fs->GetStorageResources(current_path.c_str(), storage, "all", extension.c_str());
+
+			break;
+		}
+		if ((*unit)->type == StorageUnit::FILE)
+		{
+		  std::string extension;
+		  App->fs->GetExtensionFile((*unit)->name.c_str(), extension );
+
+		  if(!extension.compare(".scene"))
+			  ImGui::OpenPopup("WARNING!");
+
 		}
 	}
+	if (ImGui::BeginPopupContextItem(((*unit)->name + "rightClick").c_str(), 1))
+	{
+		if (ImGui::Button("Delete"))
+		{
+			std::string path = current_path;
+			path += (*unit)->name;
+			App->fs->DeleteDirectory(path.c_str());
 
+			StorageUnit* deleteUnit = *unit;
+			unit--; 
+			storage.remove(deleteUnit);
+			RELEASE(deleteUnit);
+		}
+		if (ImGui::Button("Rename"))
+		{
+			(*unit)->rename = true;
+		}
+
+		ImGui::EndPopup();
+	}
+
+
+
+		counter++;
+		i++;
+	}
+	ImGui::PopStyleColor(3);
+
+	ImGui::SetNextWindowSize(ImVec2(800.0f, 130.0f));
+	if (ImGui::BeginPopupModal("WARNING!", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove))
+	{
+		ImGui::Separator();
+		ImGui::Separator();
+		ImVec2 new_txt_pos(ImGui::GetWindowPos().x + 330.0f, ImGui::GetCursorScreenPos().y);
+		ImGui::SetCursorScreenPos(new_txt_pos);
+		ImGui::Text("ALTO AHI PAJILLERO!");
+		ImVec2 new_txt_pos2(ImGui::GetWindowPos().x + 175.0f, ImGui::GetCursorScreenPos().y);
+		ImGui::SetCursorScreenPos(new_txt_pos2);
+		ImGui::Text("Estas accediendo a zonas no programadas todavia, ten paciencia!");
+		//ImGui::NewLine();
+		ImGui::Separator();
+		ImGui::Separator();
+		ImGui::Spacing();
+		ImVec2 new_btn_pos(ImGui::GetWindowPos().x + (800.0f / 2.0f - 350.0f / 2.0f), ImGui::GetCursorScreenPos().y);
+		ImGui::SetCursorScreenPos(new_btn_pos);
+		if (ImGui::Button("TU PUTA MADRE", ImVec2(120, 40)))
+		{
+			//LOAD SCENE
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
+		ImGui::SetCursorPosX(450);
+		if (ImGui::Button("CANCEL", ImVec2(120, 40)))
+		{
+			ImGui::CloseCurrentPopup();
+		}
+		
+		ImGui::EndPopup();
+	}
 	if (useChild) ImGui::EndChild();
-
 	ImGui::End();
 }
 

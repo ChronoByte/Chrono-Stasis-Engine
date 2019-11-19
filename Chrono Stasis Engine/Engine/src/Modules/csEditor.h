@@ -77,6 +77,7 @@ public:
 	bool show_exit_window = false;
 	
 	TextureInfo* iconFolder = nullptr;
+	TextureInfo* iconFile = nullptr;
 
 	std::vector<Window*> windows;
 };

@@ -64,6 +64,7 @@ bool ModuleEditor::Start()
 		item[i]->Start();
 	
 	iconFolder = App->texture->LoadTextureIcon("Assets/Icons/folder.png");
+	iconFile = App->texture->LoadTextureIcon("Assets/Icons/file2.png");
 	return ret;
 }
 
