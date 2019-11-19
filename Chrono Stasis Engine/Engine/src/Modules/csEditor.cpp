@@ -186,8 +186,9 @@ update_status ModuleEditor::Update(float dt)
 			if (ImGui::MenuItem("Inspector", "", inspector->GetBool())) {}
 			if (ImGui::MenuItem("Hierarchy", "", hierarchy->GetBool())) {}
 			if (ImGui::MenuItem("Configuration", "", config->GetBool())) {}
+			if (ImGui::MenuItem("Scene View", "", sceneView->GetBool())) {}
 			if (ImGui::MenuItem("Game View", "", gameView->GetBool())) {}
-			if (ImGui::MenuItem("Game View", "", project->GetBool())) {}
+			if (ImGui::MenuItem("File Explorer", "", project->GetBool())) {}
 
 			ImGui::EndMenu();
 		}
