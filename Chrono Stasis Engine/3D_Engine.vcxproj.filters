@@ -406,6 +406,7 @@
     <ClInclude Include="Engine\src\Tools\FileManager.h" />
     <ClInclude Include="Engine\src\Structure\ProjectWindow.h" />
     <ClInclude Include="Engine\src\Structure\ResourceBrowserWindow.h" />
+    <ClInclude Include="Engine\src\Modules\csViewport.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -599,6 +600,7 @@
     <ClCompile Include="Engine\src\Structure\ProjectWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ResourceBrowserWindow.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\csComponent.cpp" />
+    <ClCompile Include="Engine\src\Modules\csViewport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

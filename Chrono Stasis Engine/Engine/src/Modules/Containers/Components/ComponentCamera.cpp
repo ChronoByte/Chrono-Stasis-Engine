@@ -2,6 +2,8 @@
 #include "csApp.h"
 
 #include "ComponentTransform.h"
+#include "csViewport.h"
+
 ComponentCamera::ComponentCamera(GameObject* parent) : Component(parent)
 {
 	type = ComponentType::C_CAMERA;
@@ -77,6 +79,7 @@ void ComponentCamera::InspectorInfo()
 		// ------- Options --------- 
 
 		ImGui::Checkbox("Frustum Culling", &culling);
+		ImGui::Checkbox("Display Z-Buffer", &showZBuffer);
 		if (ImGui::Checkbox("Set as Main Camera", &isMainCamera))
 		{
 			if (isMainCamera)
@@ -95,7 +98,11 @@ void ComponentCamera::InspectorInfo()
 		{
 
 			ImGui::Text("Preview");
-			ImGui::Image((ImTextureID)App->renderer3D->gameTexture, { 150, 150 * aspectRatio });
+			ImGui::Image((ImTextureID)App->renderer3D->gameViewport->renderTexture, { 150, 150 * aspectRatio }, { 0,1 }, { 1,0 });
+
+			ImGui::SameLine();
+			ImGui::Image((ImTextureID)App->renderer3D->gameViewport->zBufferTexture, { 150, 150 * aspectRatio }, { 0,1 }, { 1,0 });
+
 			ImGui::Separator();
 
 		}
@@ -166,6 +173,10 @@ void ComponentCamera::SetInitially()
 		frustum.pos = float3(1.f, 6.f, 10.f);
 		frustum.front = float3(0.f, 0.f, 1.f);
 		frustum.up = float3(0.f, 1.f, 0.f);
+		bgColor[0] = 0.f;
+		bgColor[1] = 0.f;
+		bgColor[2] = 0.f;
+		bgColor[3] = 0.f;
 	}
 
 	frustum.nearPlaneDistance = 1.f;

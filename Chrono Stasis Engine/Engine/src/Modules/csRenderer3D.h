@@ -5,7 +5,8 @@
 #include "Light.h"
 
 #define MAX_LIGHTS 8
-class Mesh; 
+
+class Viewport; 
 
 class ModuleRenderer3D : public Module
 {
@@ -66,8 +67,6 @@ public:
 
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
-	mat3x3 NormalMatrix;
-	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 
 	bool depth_test = false;
 	bool cull_face = false;
@@ -87,11 +86,8 @@ public:
 	bool drawVertexNormals = false; 
 	bool drawBoundingBox = false;
 
-	GLuint frameBuffer = 0;
-	GLuint textureBuffer = 0;
-	GLuint depthStencilBuffer = 0;
+	bool displayZBuffer = false;
 
-	GLuint secondFrameBuffer = 0; 
-	GLuint secondDepthBuffer = 0; 
-	GLuint gameTexture = 0; 
+	Viewport* editorViewport = nullptr;
+	Viewport* gameViewport = nullptr; 
 };
