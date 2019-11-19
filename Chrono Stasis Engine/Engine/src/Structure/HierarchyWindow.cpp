@@ -39,6 +39,7 @@ void HierarchyWindow::Draw()
 				if (ImGui::MenuItem("Rock")) { App->scene->CreateObject3D(PrimitiveType::ROCK, nullptr); }
 				ImGui::EndMenu();
 			}
+			if (ImGui::MenuItem("Camera", "")) { App->scene->CreateCamera(nullptr, "Camera"); }
 			ImGui::EndMenu();
 		}		
 		ImGui::EndMenuBar();
