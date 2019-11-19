@@ -40,13 +40,15 @@ public:
 	bool CleanUp();
 
 	void DrawScene();
+	void DebugDrawScene(); 
+
 	void DrawGrid();
 	void DrawOriginAxis(); 
 
 	// --------- Game Objects ---------
 	void UpdateAllGameObjects(GameObject* parent, float dt); 
 	void DrawAllGameObjects(GameObject* parent); 
-	
+	void DebugDrawAllGameObjects(GameObject* parent); 
 	// Mouse picking
 	void CheckRayAgainstAABBS(GameObject* parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected);
 	GameObject* CheckRayAgainstTris(const LineSegment& ray, std::multimap<float, GameObject*>& intersected); 

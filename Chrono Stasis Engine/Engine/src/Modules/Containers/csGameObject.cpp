@@ -77,6 +77,19 @@ void GameObject::OnDraw()
 
 }
 
+void GameObject::OnDebugDraw()
+{
+
+	std::list<Component*>::const_iterator it = components.begin();
+
+	for (it; it != components.end(); ++it)
+	{
+		if ((*it)->isActive())
+			(*it)->OnDebugDraw();
+	}
+
+}
+
 
 void GameObject::Enable()
 {

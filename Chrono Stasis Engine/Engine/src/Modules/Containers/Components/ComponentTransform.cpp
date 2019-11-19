@@ -28,10 +28,13 @@ void ComponentTransform::Update(float dt)
 	}
 }
 
-void ComponentTransform::OnDraw()
+
+void ComponentTransform::OnDebugDraw()
 {
+
 	if (App->renderer3D->drawBoundingBox || drawBoundingBox)
 		DrawBoundingBox();
+
 }
 
 void ComponentTransform::DrawBoundingBox()

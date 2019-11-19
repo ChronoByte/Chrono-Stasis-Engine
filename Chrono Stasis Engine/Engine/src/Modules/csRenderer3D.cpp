@@ -176,7 +176,9 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 update_status ModuleRenderer3D::Update(float dt)
 {
 	// ------------------- 	
+
 	App->scene->DrawScene();
+	App->scene->DebugDrawScene();
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, App->renderer3D->textureBuffer);

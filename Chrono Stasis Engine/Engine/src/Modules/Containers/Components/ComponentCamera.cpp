@@ -27,7 +27,7 @@ void ComponentCamera::Update(float dt)
 
 }
 
-void ComponentCamera::OnDraw()
+void ComponentCamera::OnDebugDraw()
 {
 
 	DrawFrustum();

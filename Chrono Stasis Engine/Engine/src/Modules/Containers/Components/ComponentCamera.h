@@ -15,7 +15,7 @@ public:
 	~ComponentCamera();
 
 	void Update(float dt) override;
-	void OnDraw() override; 
+	void OnDebugDraw() override; 
 
 	void UpdateTransform();
 	

@@ -56,13 +56,22 @@ bool ModuleScene::CleanUp()
 
 void ModuleScene::DrawScene()
 {
+
+	DrawAllGameObjects(root); 
+
+}
+
+void ModuleScene::DebugDrawScene()
+{
+
 	if (App->renderer3D->GetDebugMode())
 	{
 		DrawGrid();
 		DrawOriginAxis();
 	}
 
-	DrawAllGameObjects(root); 
+	DebugDrawAllGameObjects(root); 
+
 }
 
 void ModuleScene::DrawGrid()
@@ -272,6 +281,8 @@ GameObject * ModuleScene::CreateCamera(GameObject * parent, const char * name)
 	GameObject* go = CreateGameObject(parent, name); 
 	go->CreateComponent(ComponentType::C_CAMERA); 
 	SetSelected(go);
+	go->GetTransform()->SetPosition(float3(0.f, 10.f, -20.f));
+	go->GetTransform()->SetRotationEuler(float3(20.f, 0.f, 0.f));
 	return go;
 }
 
@@ -376,6 +387,21 @@ void ModuleScene::DrawAllGameObjects(GameObject * parent)
 	{
 		DrawAllGameObjects((*it)); 
 	}
+}
+
+void ModuleScene::DebugDrawAllGameObjects(GameObject * parent)
+{
+	if (!parent->isActive())
+		return;
+
+	parent->OnDebugDraw();
+
+	std::list<GameObject*>::iterator it = parent->childs.begin();
+	for (it; it != parent->childs.end(); ++it)
+	{
+		DebugDrawAllGameObjects((*it));
+	}
+
 }
 
 void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected)

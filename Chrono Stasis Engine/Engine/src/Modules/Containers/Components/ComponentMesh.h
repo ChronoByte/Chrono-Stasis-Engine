@@ -30,6 +30,7 @@ public:
 	~ComponentMesh();
 
 	void OnDraw() override; 
+	void OnDebugDraw() override; 
 
 	void Draw();
 	void DrawNormals(); 
