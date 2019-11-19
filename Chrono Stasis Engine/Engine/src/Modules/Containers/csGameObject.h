@@ -21,6 +21,7 @@ public:
 
 	// Logic
 	void Update(float dt); 
+	void OnDraw(); 
 
 	void Enable();
 	void Disable();

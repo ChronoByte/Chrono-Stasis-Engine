@@ -31,7 +31,8 @@ public:
 	virtual ~Component(){}
 
 	virtual void Update(float dt){}
-	
+	virtual void OnDraw() {}
+
 	virtual void Enable() { active = true; }
 	virtual void Disable() { active = false; }
 	

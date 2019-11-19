@@ -39,10 +39,15 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void DrawScene();
+	void DrawGrid();
+	void DrawOriginAxis(); 
+
 	// --------- Game Objects ---------
+	void UpdateAllGameObjects(GameObject* parent, float dt); 
+	void DrawAllGameObjects(GameObject* parent); 
 	
 	// Mouse picking
-	void RecursiveUpdate(GameObject* parent, float dt); 
 	void CheckRayAgainstAABBS(GameObject* parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected);
 	GameObject* CheckRayAgainstTris(const LineSegment& ray, std::multimap<float, GameObject*>& intersected); 
 

@@ -24,6 +24,12 @@ void ComponentCamera::Update(float dt)
 {
 
 	UpdateTransform();
+
+}
+
+void ComponentCamera::OnDraw()
+{
+
 	DrawFrustum();
 
 }

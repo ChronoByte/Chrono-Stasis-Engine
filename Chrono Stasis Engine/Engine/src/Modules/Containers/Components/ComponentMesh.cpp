@@ -65,16 +65,16 @@ ComponentMesh::~ComponentMesh()
 	}
 }
 
-void ComponentMesh::Update(float dt)
+void ComponentMesh::OnDraw()
 {
-
-	Draw(); 
+	Draw();
 
 	if (App->renderer3D->drawNormals || drawFaceNormals)
 		DrawNormals();
 
 	if (App->renderer3D->drawVertexNormals || drawVertexNormals)
 		DrawVertexNormals();
+
 }
 
 void ComponentMesh::Draw()

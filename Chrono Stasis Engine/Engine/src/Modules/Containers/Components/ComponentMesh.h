@@ -29,7 +29,7 @@ public:
 	ComponentMesh(GameObject* parent);
 	~ComponentMesh();
 
-	void Update(float dt) override; 
+	void OnDraw() override; 
 
 	void Draw();
 	void DrawNormals(); 
