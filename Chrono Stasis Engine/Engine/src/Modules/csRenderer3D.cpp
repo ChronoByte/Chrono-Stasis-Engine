@@ -98,9 +98,9 @@ bool ModuleRenderer3D::Init(JSON_Object* node)
 			LOG("SDL Version: v%d.%d.%d", compiled.major, compiled.minor, compiled.patch);
 		}
 
-		GLfloat LightModelAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
+		GLfloat LightModelAmbient[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
-		
+
 		lights[0].ref = GL_LIGHT0;
 		lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
 		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
