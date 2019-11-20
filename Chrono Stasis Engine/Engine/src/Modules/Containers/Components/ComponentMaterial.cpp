@@ -10,7 +10,21 @@ ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 
 ComponentMaterial::~ComponentMaterial()
 {
+	ResourceTexture* texReference = (ResourceTexture*)currentResource;
+	if (texReference != nullptr)
+		texReference->UnloadFromMemory();
+
 	LOG("Deleting component material from %s", owner->GetName());
+}
+
+void ComponentMaterial::Update(float dt)
+{
+	ResourceTexture* texReference = (ResourceTexture*)currentResource;
+
+	if (texReference != nullptr)
+		glBindTexture(GL_TEXTURE_2D, texReference->gpu_id);
+	else
+		glColor3f(1, 1, 1);
 }
 
 void ComponentMaterial::SetColor(float r, float g, float b, float a)
@@ -41,7 +55,8 @@ void ComponentMaterial::SetMaterial(TextureInfo* texture, float r, float g, floa
 
 void ComponentMaterial::InspectorInfo()
 {
-	ResourceTexture* tex = nullptr;
+	
+	ResourceTexture* texReference = (ResourceTexture*)currentResource;
 
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -50,7 +65,7 @@ void ComponentMaterial::InspectorInfo()
 		ImGui::Text("Texture:");
 		if (texture != nullptr)
 		{
-			DroppableSpace((tex == nullptr) ? "No Texture" : tex->GetFile(), tex == nullptr);
+			DroppableSpace((texReference == nullptr) ? "No Texture" : texReference->GetName(), texReference == nullptr);
 			ImGui::SameLine();
 			ResourceExplorerButton(Resource::R_TEXTURE);
 
@@ -66,7 +81,9 @@ void ComponentMaterial::InspectorInfo()
 			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
 			ImGui::TextWrapped(texture->path.c_str());
 			ImGui::PopStyleColor(); 
-
+			ImGui::Text("Reference Counting: ");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (texReference == nullptr) ? 0 : texReference->CountReferences());
 			//ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", texture->path.c_str());
 		}
 

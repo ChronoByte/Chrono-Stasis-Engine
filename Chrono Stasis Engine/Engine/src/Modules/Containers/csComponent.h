@@ -55,8 +55,9 @@ public:
 	void DroppableSpace(const char* string, bool empty = false, float x = 250, float y = 20);
 	void ResourceExplorerButton(Resource::Type type);
 
+	void AssignResource(UID uid);
 protected:
-
+	Resource* currentResource = nullptr;
 	ComponentType type = ComponentType::C_NONE; 
 	GameObject* owner = nullptr; 
 	bool active = true; 

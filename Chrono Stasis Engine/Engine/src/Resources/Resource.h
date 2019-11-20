@@ -22,13 +22,16 @@ public:
 	UID GetUID() const;
 	const char* GetFile() const;
 	const char* GetName() const;
-	const char* GetImportedFile() const;
+	//const char* GetImportedFile() const;
 	const char* GetExportedFile() const;
+
+	uint CountReferences() const;
 	bool IsLoadedToMemory() const;
 	bool LoadToMemory();
-	uint CountReferences() const;
-	
+	bool UnloadFromMemory();
+
 	virtual bool LoadInMemory() = 0;
+	virtual bool UnloadOutMemory() = 0;
 
 protected:
 	UID uid = 0;

@@ -18,7 +18,10 @@ public:
 
 	ResourceTexture(uint id, Resource::Type type);
 	virtual ~ResourceTexture();
-	bool LoadInMemory() override;
+	
+
+	virtual bool LoadInMemory() override;
+	virtual bool UnloadOutMemory() override;
 	
 public:
 	uint width = 0;

@@ -29,13 +29,24 @@ void ResourceBrowserWindow::Draw()
 	}
 	ImGui::EndMenuBar();
 
+	if (ImGui::Selectable("No Texture"))
+	{
+		if (callbackComponent != nullptr)
+		{
+			callbackComponent->AssignResource(0);
+		}
+		active = false;
+	}
+
+	ImGui::Separator();
+
 	for (int i = 0; i < resources.size(); i++)
 	{
 		if (ImGui::Selectable(resources[i]->GetName()))
 		{
 			if (callbackComponent != nullptr)
 			{
-				
+				callbackComponent->AssignResource(resources[i]->GetUID());
 			}
 			active = false;
 		}

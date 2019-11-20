@@ -214,7 +214,7 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene)
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 		aiString fileName;
 		material->GetTexture(aiTextureType_DIFFUSE, 0, &fileName);
-
+		//textures[scene->mMeshes[node->mMeshes[i]]->mMaterialIndex]
 		if (strcmp(fileName.C_Str(), "") != 0) 
 		{
 			std::string newPath = filePath + fileName.C_Str(); 
