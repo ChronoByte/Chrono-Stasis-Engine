@@ -25,7 +25,7 @@ public:
 
 
 	// ------- Mouse Picking ------
-	void MousePicking();
+	void MousePicking(bool usingOctree = false);
 
 
 public:

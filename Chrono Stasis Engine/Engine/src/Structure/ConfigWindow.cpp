@@ -455,6 +455,10 @@ void ConfigWindow::RendererConfiguration()
 
 		if (ImGui::Checkbox("Draw Bounding Box", &App->renderer3D->drawBoundingBox)) {} 
 
+		ImGui::Checkbox("Active Octree", &App->scene->activeOctree); ImGui::SameLine(200.0f);
+
+		ImGui::Checkbox("Draw Octree", &App->scene->drawOctree);
+
 		ImGui::Checkbox("Z Buffer", &App->renderer3D->displayZBuffer);
 
 		ImGui::Separator();

@@ -52,9 +52,11 @@ public:
 	void UpdateAllGameObjects(GameObject* parent, float dt); 
 	void DrawAllGameObjects(GameObject* parent); 
 	void DebugDrawAllGameObjects(GameObject* parent); 
+
+
 	// Mouse picking
-	void CheckRayAgainstAABBS(GameObject* parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected);
-	GameObject* CheckRayAgainstTris(const LineSegment& ray, std::multimap<float, GameObject*>& intersected); 
+	void CheckRayAgainstAABBS(GameObject* parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected, int& tests);
+	GameObject* CheckRayAgainstTris(const LineSegment& ray, const std::multimap<float, GameObject*>& intersected); 
 
 	// Creation
 	GameObject* CreateGameObject(GameObject* parent, const char* name); 
@@ -74,10 +76,15 @@ public:
 	void ClearCamera(); 
 	ComponentCamera* GetMainCamera() const; 
 
+	// ------------ Octree ------------
+	bool isOctreeActive() const; 
 
 public: 
 	ComponentCamera* mainCamera = nullptr; 
 	Octree* octree = nullptr;
+
+	bool drawOctree = true; 
+	bool activeOctree = true;
 
 private:
 	//vars

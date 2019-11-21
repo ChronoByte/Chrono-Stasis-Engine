@@ -5,6 +5,8 @@
 #include "ComponentCamera.h"
 #include "src/Structure/SceneViewWindow.h"
 #include "csCamera3D.h"
+#include "csOctree.h"
+
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 {
@@ -132,7 +134,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
-			MousePicking();
+			MousePicking(App->scene->isOctreeActive());
 		}
 
 	}
@@ -248,7 +250,7 @@ float4x4 ModuleCamera3D::GetViewMatrix()
 	return fakeCamera->GetViewMatrix();
 }
 
-void ModuleCamera3D::MousePicking()
+void ModuleCamera3D::MousePicking(bool usingOctree)
 {
 	/*float normalizedX = -1.0 + 2.0 * (float)App->input->GetMouseX() / (float)App->window->width;
 	float normalizedY = 1.0 - 2.0 * (float)App->input->GetMouseY() / (float)App->window->height;*/
@@ -258,21 +260,41 @@ void ModuleCamera3D::MousePicking()
 
 	//LOG("Success: Normalized X = %f, Normalized Y = %f", normalizedX, normalizedY);
 	//LOG("Corrected Mouse X: %f Mouse Y: %f", App->editor->sceneView->GetMouseXInWindow(), App->editor->sceneView->GetMouseYInWindow());
+
+
+	// -------------------------
+
 	ray = LineSegment(fakeCamera->frustum.UnProjectLineSegment(normalizedX, normalizedY));
+	Timer timer;
 
-	std::multimap<float, GameObject*> intersected;
-
-	App->scene->CheckRayAgainstAABBS(App->scene->GetRoot(), ray, intersected); 
-
-	LOG("AABBS hit ordered");
-	for (std::multimap<float, GameObject*>::iterator it = intersected.begin(); it != intersected.end(); ++it)
+	if(!usingOctree)
 	{
-		LOG("%f -> %s", (*it).first, (*it).second->GetName());
+		timer.Start(); 
+		int tests = 0;
+		std::multimap<float, GameObject*> intersected;
+
+		App->scene->CheckRayAgainstAABBS(App->scene->GetRoot(), ray, intersected, tests);
+		LOG("Mouse picking took %i Intersection tests without Octree", tests);
+
+		GameObject* objectHit = App->scene->CheckRayAgainstTris(ray, intersected);
+
+		App->scene->SetSelected(objectHit);
+		LOG("Mouse Picking without octree took: %f ms", timer.Read());
 	}
+	else
+	{
+		timer.Start();
 
-	GameObject* objectHit = App->scene->CheckRayAgainstTris(ray, intersected);
+		std::multimap<float, GameObject*> candidates; 
 
-	App->scene->SetSelected(objectHit);
+		App->scene->octree->CollectCandidates(candidates, ray);
+
+		GameObject* objectHit = App->scene->CheckRayAgainstTris(ray, candidates);
+
+		App->scene->SetSelected(objectHit);
+
+		LOG("Mouse Picking with octree took: %f ms", timer.Read());
+	}
 
 }
 

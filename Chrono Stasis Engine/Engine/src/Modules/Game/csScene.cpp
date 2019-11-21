@@ -57,6 +57,11 @@ bool ModuleScene::CleanUp()
 
 update_status ModuleScene::PreUpdate(float dt)
 {
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+		App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
+
+	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		activeOctree = !activeOctree;
 
 	return UPDATE_CONTINUE;
 }
@@ -65,9 +70,6 @@ update_status ModuleScene::PreUpdate(float dt)
 update_status ModuleScene::Update(float dt)
 {
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-		App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
-	
 	UpdateAllGameObjects(root, dt);
 
 	return UPDATE_CONTINUE;
@@ -95,7 +97,9 @@ void ModuleScene::DebugDrawScene()
 	}
 	App->camera->DrawMouseRay();
 	DebugDrawAllGameObjects(root);
-	DrawOctree();
+
+	if(isOctreeActive() && drawOctree)
+		DrawOctree();
 
 }
 
@@ -372,6 +376,11 @@ ComponentCamera * ModuleScene::GetMainCamera() const
 	return mainCamera;
 }
 
+bool ModuleScene::isOctreeActive() const
+{
+	return activeOctree;
+}
+
 GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name)
 {
 	if (parent == nullptr)
@@ -447,28 +456,30 @@ void ModuleScene::DebugDrawAllGameObjects(GameObject * parent)
 
 }
 
-void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected)
+void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected, int& tests)
 {
 	float nearDist = 0;
 	float farDist = 0;
 
 	bool intersects = ray.Intersects(parent->GetTransform()->GetBoundingBox(), nearDist, farDist); 
+	tests++; 
 
 	if (intersects)
 		objectsIntersected.insert(std::pair<float, GameObject*>(nearDist, parent));
 	
 	for (std::list<GameObject*>::iterator it = parent->childs.begin(); it != parent->childs.end(); ++it)
 	{
-		CheckRayAgainstAABBS((*it), ray, objectsIntersected);
+		CheckRayAgainstAABBS((*it), ray, objectsIntersected, tests);
 	}
 }
 
-GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, std::multimap<float, GameObject*>& intersected)
+GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, const std::multimap<float, GameObject*>& intersected)
 {
 	GameObject* firstObjectHit = nullptr; 
 	float minDist = FLOAT_INF;
 
-	std::multimap<float, GameObject*>::iterator iter = intersected.begin(); 
+	std::multimap<float, GameObject*>::const_iterator iter = intersected.begin(); 
+
 	for (iter; iter != intersected.end(); ++iter)
 	{
 		GameObject* gameObject = (*iter).second; 
@@ -482,7 +493,7 @@ GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, std::multim
 		float4x4 inverted_m = gameObject->GetTransform()->GetGlobalTransform().Inverted();
 		LineSegment rayLocal = inverted_m * ray;
 
-		for (uint i = 0; i < mesh->index.capacity/ 3;)
+		for (uint i = 0; i < mesh->index.capacity / 3;)
 		{
 			float3 a, b, c;
 

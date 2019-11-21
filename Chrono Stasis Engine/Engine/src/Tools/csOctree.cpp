@@ -41,6 +41,28 @@ void OctreeNode::Insert(GameObject * go)
 	}
 }
 
+void OctreeNode::Remove(GameObject * go)
+{
+	for (uint i = 0; i < objects.size(); ++i)
+	{
+		if (objects[i] == go)
+		{
+			// To do delete
+			LOG("Found the object to be removed from the octree"); 
+
+			return; 
+		}
+	}
+
+	if (!isLeaf)
+	{
+		for (uint i = 0; i < 8; ++i)
+		{
+			childs[i]->Remove(go);
+		}
+	}
+}
+
 // Subdivides the node in 4 zones 
 void OctreeNode::Subdivide()
 {
@@ -148,27 +170,6 @@ void OctreeNode::DistributeInChilds()
 	}
 }
 
-int OctreeNode::CollectCandidates(std::vector<GameObject*>& candidates, const AABB & rect)
-{
-	if (zone.Intersects(rect)) 
-	{
-		for (uint i = 0; i < objects.size(); ++i)
-		{
-			candidates.push_back(objects[i]);
-		}
-	}
-
-	if (!isLeaf)
-	{
-		for (uint i = 0; i < 8; ++i)
-		{
-			childs[i]->CollectCandidates(candidates, rect); 
-		}
-	}
-
-	return 0;
-}
-
 void OctreeNode::CollectZones(std::vector<OctreeNode*>& candidates)
 {
 	candidates.push_back(this);
@@ -240,13 +241,14 @@ void Octree::Insert(GameObject * go)
 	}
 }
 
-int Octree::CollectCandidates(std::vector<GameObject*>& candidates, const AABB & rect) const
+void Octree::Remove(GameObject * go)
 {
-	int tests = 1;
-	if (root != nullptr && root->zone.Intersects(rect))
-		tests = root->CollectCandidates(candidates, rect);
-
-	return tests;
+	if (root != nullptr)
+	{
+		AABB goAABB = go->GetTransform()->GetBoundingBox();
+		if (root->zone.Contains(goAABB))
+			root->Remove(go);
+	}
 }
 
 void Octree::CollectZones(std::vector<OctreeNode*>& nodesCollected)
