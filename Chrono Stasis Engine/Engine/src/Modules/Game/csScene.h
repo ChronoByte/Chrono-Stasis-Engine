@@ -2,10 +2,13 @@
 
 #include "csModule.h"
 #include "csGlobals.h"
+#include "csOctree.h"
+
 #include <map>
 
 class GameObject;
 class BoundingBox;
+class ComponentCamera; 
 
 enum class PrimitiveType
 {
@@ -24,7 +27,6 @@ enum class PrimitiveType
 	MAX
 };
 
-class ComponentCamera; 
 
 class ModuleScene : public Module
 {
@@ -32,18 +34,19 @@ public:
 	ModuleScene(bool start_enabled = true);
 	virtual ~ModuleScene();
 
-	bool Init(JSON_Object* node);
-	bool Start();
-	update_status PreUpdate();
+	bool Init(JSON_Object* node) override;
+	bool Start() override;
+	update_status PreUpdate(float dt) override;
 	update_status Update(float dt);
-	update_status PostUpdate();
-	bool CleanUp();
+	update_status PostUpdate(float dt) override;
+	bool CleanUp() override;
 
 	void DrawScene();
 	void DebugDrawScene(); 
 
 	void DrawGrid();
 	void DrawOriginAxis(); 
+	void DrawOctree(); 
 
 	// --------- Game Objects ---------
 	void UpdateAllGameObjects(GameObject* parent, float dt); 
@@ -74,6 +77,7 @@ public:
 
 public: 
 	ComponentCamera* mainCamera = nullptr; 
+	Octree* octree = nullptr;
 
 private:
 	//vars

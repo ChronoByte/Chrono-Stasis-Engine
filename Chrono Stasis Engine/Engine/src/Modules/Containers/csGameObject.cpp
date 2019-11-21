@@ -295,6 +295,8 @@ void GameObject::DrawInspectorComponents()
 	if (ImGui::InputText("name", buffer, 256, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		SetName(buffer);
 	ImGui::Checkbox("Static", &staticGO);
+	if(ImGui::Button("Insert To Octree"))
+		App->scene->octree->Insert(this);
 
 	std::list<Component*>::const_iterator it = components.begin();
 	for (it; it != components.end(); ++it)

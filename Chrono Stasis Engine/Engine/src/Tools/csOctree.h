@@ -3,7 +3,7 @@
 #include "MathGeoLib/include/MathGeoLib.h"
 #include "SDL/include/SDL_rect.h"
 
-#define MAX_OBJECTS 3
+#define MAX_OBJECTS 2
 
 class GameObject; 
 
@@ -19,10 +19,10 @@ public:
 	void Subdivide();
 	void DistributeInChilds();
 
-	int CollectCandidates(std::vector<GameObject*> candidates, const SDL_Rect& rect);
-	void CollectZones(std::vector<OctreeNode*> candidates); 
+	int CollectCandidates(std::vector<GameObject*>& candidates, const SDL_Rect& rect);
+	void CollectZones(std::vector<OctreeNode*>& candidates); 
 
-	bool isLeaf = false; 
+	bool isLeaf = true; 
 	std::vector<GameObject*> objects;
 	OctreeNode* parent = nullptr; 
 	OctreeNode* childs[4];
@@ -35,16 +35,18 @@ public:
 
 
 	Octree(); 
+	Octree(const SDL_Rect& zone); 
 	~Octree(); 
 
 	void ClearOctree(); 
 	void SetBoundaries(const SDL_Rect& rect);
 
 	void Insert(GameObject* go);
-	int CollectCandidates(std::vector<GameObject*> candidates, const SDL_Rect& rect) const;
+	int CollectCandidates(std::vector<GameObject*>& candidates, const SDL_Rect& rect) const;
 
-	void CollectZones(std::vector<OctreeNode*> nodesCollected);
+	void CollectZones(std::vector<OctreeNode*>& nodesCollected);
 
+	OctreeNode* GetRoot() const; 
 
 private: 
 

@@ -28,12 +28,13 @@ OctreeNode::~OctreeNode()
 
 void OctreeNode::Insert(GameObject * go)
 {
+	LOG("Success Inserting game object to a node");
 	objects.push_back(go);
 
 	// If it tops limit, then subdivide and redistribute
 	if (objects.size() >= MAX_OBJECTS)
 	{
-		if (!isLeaf)
+		if (isLeaf)
 			Subdivide(); 
 
 		DistributeInChilds(); 
@@ -49,7 +50,7 @@ void OctreeNode::Subdivide()
 	childs[2] = new OctreeNode(SDL_Rect({ zone.x, zone.y + zone.h / 2, zone.w / 2, zone.h / 2 }));
 	childs[3] = new OctreeNode(SDL_Rect({ zone.x + zone.w / 2, zone.y + zone.h / 2, zone.w / 2, zone.h / 2 }));
 
-	isLeaf = true;
+	isLeaf = false;
 }
 
 // Redistribute all objects inside this node in its childs
@@ -93,7 +94,7 @@ void OctreeNode::DistributeInChilds()
 	}
 }
 
-int OctreeNode::CollectCandidates(std::vector<GameObject*> candidates, const SDL_Rect & rect)
+int OctreeNode::CollectCandidates(std::vector<GameObject*>& candidates, const SDL_Rect & rect)
 {
 	if (Intersects(zone, rect)) 
 	{
@@ -114,7 +115,7 @@ int OctreeNode::CollectCandidates(std::vector<GameObject*> candidates, const SDL
 	return 0;
 }
 
-void OctreeNode::CollectZones(std::vector<OctreeNode*> candidates)
+void OctreeNode::CollectZones(std::vector<OctreeNode*>& candidates)
 {
 	candidates.push_back(this);
 
@@ -146,6 +147,11 @@ void OctreeNode::CollectZones(std::vector<OctreeNode*> candidates)
 
 Octree::Octree()
 {
+}
+
+Octree::Octree(const SDL_Rect & zone)
+{
+	root = new OctreeNode(zone);
 }
 
 Octree::~Octree()
@@ -180,7 +186,7 @@ void Octree::Insert(GameObject * go)
 	}
 }
 
-int Octree::CollectCandidates(std::vector<GameObject*> candidates, const SDL_Rect & rect) const
+int Octree::CollectCandidates(std::vector<GameObject*>& candidates, const SDL_Rect & rect) const
 {
 	int tests = 1;
 	if (root != nullptr && Intersects(root->zone, rect))
@@ -189,15 +195,18 @@ int Octree::CollectCandidates(std::vector<GameObject*> candidates, const SDL_Rec
 	return tests;
 }
 
-void Octree::CollectZones(std::vector<OctreeNode*> nodesCollected)
+void Octree::CollectZones(std::vector<OctreeNode*>& nodesCollected)
 {
-	if (root != NULL)
+	if (root != nullptr)
 		root->CollectZones(nodesCollected);
 }
 
 
 
-
+OctreeNode * Octree::GetRoot() const
+{
+	return root;
+}
 
 
 

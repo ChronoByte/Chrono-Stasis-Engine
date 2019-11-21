@@ -39,26 +39,49 @@ bool ModuleScene::Start()
 
 	CleanSelected(); 
 
-	return true;
-}
+	octree = new Octree(SDL_Rect({ -50, -50, 100, 100 }));
 
-update_status ModuleScene::PreUpdate()
-{
-	
-	return UPDATE_CONTINUE;
+	return true;
 }
 
 bool ModuleScene::CleanUp()
 {
-	delete root; 
+	delete root;
+	root = nullptr; 
+
+	delete octree; 
+	octree = nullptr; 
 
 	return true;
+}
+
+update_status ModuleScene::PreUpdate(float dt)
+{
+
+	return UPDATE_CONTINUE;
+}
+
+
+update_status ModuleScene::Update(float dt)
+{
+
+	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
+		App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
+	
+	UpdateAllGameObjects(root, dt);
+
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleScene::PostUpdate(float dt)
+{
+	return UPDATE_CONTINUE;
 }
 
 void ModuleScene::DrawScene()
 {
 
-	DrawAllGameObjects(root); 
+	DrawAllGameObjects(root);
 
 }
 
@@ -70,8 +93,9 @@ void ModuleScene::DebugDrawScene()
 		DrawGrid();
 		DrawOriginAxis();
 	}
-	App->camera->DrawMouseRay(); 
-	DebugDrawAllGameObjects(root); 
+	App->camera->DrawMouseRay();
+	DebugDrawAllGameObjects(root);
+	DrawOctree();
 
 }
 
@@ -129,20 +153,36 @@ void ModuleScene::DrawOriginAxis()
 	glLineWidth(1.0f);
 }
 
-update_status ModuleScene::Update(float dt)
+void ModuleScene::DrawOctree()
 {
+	std::vector<OctreeNode*> nodes;
+	octree->CollectZones(nodes);
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-		App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
-	
-	UpdateAllGameObjects(root, dt);
+	glBegin(GL_LINES);
+	glColor3f(0.f, 1.f, 0.f);
 
-	return UPDATE_CONTINUE;
-}
+	for (uint i = 0; i < nodes.size(); ++i)
+	{
+		//  4 draws 
+		float x = nodes[i]->zone.x;
+		float y = nodes[i]->zone.y;
+		float w = nodes[i]->zone.w;
+		float h = nodes[i]->zone.h;
 
-update_status ModuleScene::PostUpdate()
-{
-	return UPDATE_CONTINUE;
+		glVertex3f(x, 0.f, y);
+		glVertex3f(x + w, 0.f, y);
+
+		glVertex3f(x, 0.f, y);
+		glVertex3f(x, 0.f, y + h);
+
+		glVertex3f(x + w, 0.f, y);
+		glVertex3f(x + w, 0.f, y + h);
+
+		glVertex3f(x, 0.f, y + h);
+		glVertex3f(x + w, 0.f, y + h);
+	}
+
+	glEnd();
 }
 
 GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent)
