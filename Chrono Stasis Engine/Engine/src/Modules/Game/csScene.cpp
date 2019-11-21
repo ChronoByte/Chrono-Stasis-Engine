@@ -39,7 +39,7 @@ bool ModuleScene::Start()
 
 	CleanSelected(); 
 
-	octree = new Octree(SDL_Rect({ -50, -50, 100, 100 }));
+	octree = new Octree(AABB(float3(-50.f, -50.f, -50.f), float3(50.f,50.f, 50.f)));
 
 	return true;
 }
@@ -161,25 +161,13 @@ void ModuleScene::DrawOctree()
 	glBegin(GL_LINES);
 	glColor3f(0.f, 1.f, 0.f);
 
-	for (uint i = 0; i < nodes.size(); ++i)
+	for (uint j = 0; j < nodes.size(); ++j)
 	{
-		//  4 draws 
-		float x = nodes[i]->zone.x;
-		float y = nodes[i]->zone.y;
-		float w = nodes[i]->zone.w;
-		float h = nodes[i]->zone.h;
-
-		glVertex3f(x, 0.f, y);
-		glVertex3f(x + w, 0.f, y);
-
-		glVertex3f(x, 0.f, y);
-		glVertex3f(x, 0.f, y + h);
-
-		glVertex3f(x + w, 0.f, y);
-		glVertex3f(x + w, 0.f, y + h);
-
-		glVertex3f(x, 0.f, y + h);
-		glVertex3f(x + w, 0.f, y + h);
+		for (uint i = 0; i < nodes[j]->zone.NumEdges(); ++i)
+		{
+			glVertex3f(nodes[j]->zone.Edge(i).a.x, nodes[j]->zone.Edge(i).a.y, nodes[j]->zone.Edge(i).a.z);
+			glVertex3f(nodes[j]->zone.Edge(i).b.x, nodes[j]->zone.Edge(i).b.y, nodes[j]->zone.Edge(i).b.z);
+		}
 	}
 
 	glEnd();

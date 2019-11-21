@@ -5,19 +5,19 @@
 
 // --------------------------------------- Octree Node ---------------------------------------
 
-OctreeNode::OctreeNode(const SDL_Rect & zone)
+OctreeNode::OctreeNode(const AABB & zone)
 	:zone(zone)
 {
 	objects.reserve(MAX_OBJECTS);
 
-	for (uint i = 0; i < 4; ++i)
+	for (uint i = 0; i < 8; ++i)
 		childs[i] = nullptr; 
 
 }
 
 OctreeNode::~OctreeNode()
 {
-	for (uint i = 0; i < 4; ++i)
+	for (uint i = 0; i < 8; ++i)
 	{
 		if (childs[i] != nullptr)
 			delete childs[i];
@@ -28,7 +28,6 @@ OctreeNode::~OctreeNode()
 
 void OctreeNode::Insert(GameObject * go)
 {
-	LOG("Success Inserting game object to a node");
 	objects.push_back(go);
 
 	// If it tops limit, then subdivide and redistribute
@@ -45,10 +44,61 @@ void OctreeNode::Insert(GameObject * go)
 // Subdivides the node in 4 zones 
 void OctreeNode::Subdivide()
 {
-	childs[0] = new OctreeNode(SDL_Rect({ zone.x, zone.y, zone.w / 2, zone.h / 2 }));
-	childs[1] = new OctreeNode(SDL_Rect({ zone.x + zone.w / 2, zone.y, zone.w / 2, zone.h / 2 }));
-	childs[2] = new OctreeNode(SDL_Rect({ zone.x, zone.y + zone.h / 2, zone.w / 2, zone.h / 2 }));
-	childs[3] = new OctreeNode(SDL_Rect({ zone.x + zone.w / 2, zone.y + zone.h / 2, zone.w / 2, zone.h / 2 }));
+	LOG("Subdividing Octree");
+	float3 minPoint = zone.CenterPoint(); 
+	float3 maxPoint = float3::zero;
+
+	float3 halfSize = zone.HalfSize(); 
+
+	// ---------
+
+	// Upper half
+	AABB abb;
+	abb.SetNegativeInfinity(); 
+
+	maxPoint = minPoint + float3(halfSize.x, halfSize.y, halfSize.z); 
+	abb.Enclose(LineSegment(minPoint, maxPoint)); 
+	childs[0] = new OctreeNode(abb);
+	abb.SetNegativeInfinity();
+
+	maxPoint = minPoint + float3(halfSize.x, halfSize.y, -halfSize.z);
+	abb.Enclose(LineSegment(minPoint, maxPoint));
+	childs[1] = new OctreeNode(abb);
+	abb.SetNegativeInfinity();
+
+	maxPoint = minPoint + float3(-halfSize.x, halfSize.y, halfSize.z);
+	abb.Enclose(LineSegment(minPoint, maxPoint));
+	childs[2] = new OctreeNode(abb);
+	abb.SetNegativeInfinity();
+
+	maxPoint = minPoint + float3(-halfSize.x, halfSize.y, -halfSize.z);
+	abb.Enclose(LineSegment(minPoint, maxPoint));
+	childs[3] = new OctreeNode(abb);
+	abb.SetNegativeInfinity();
+
+	// Lower half
+	
+	maxPoint = minPoint + float3(halfSize.x, -halfSize.y, halfSize.z);
+	abb.Enclose(LineSegment(minPoint, maxPoint));
+	childs[4] = new OctreeNode(abb);
+	abb.SetNegativeInfinity();
+
+	maxPoint = minPoint + float3(halfSize.x, -halfSize.y, -halfSize.z);
+	abb.Enclose(LineSegment(minPoint, maxPoint));
+	childs[5] = new OctreeNode(abb);
+	abb.SetNegativeInfinity();
+
+	maxPoint = minPoint + float3(-halfSize.x, -halfSize.y, halfSize.z);
+	abb.Enclose(LineSegment(minPoint, maxPoint));
+	childs[6] = new OctreeNode(abb);
+	abb.SetNegativeInfinity();
+
+	maxPoint = minPoint + float3(-halfSize.x, -halfSize.y, -halfSize.z);
+	abb.Enclose(LineSegment(minPoint, maxPoint));
+	childs[7] = new OctreeNode(abb);
+	abb.SetNegativeInfinity();
+
+	// ---------
 
 	isLeaf = false;
 }
@@ -59,30 +109,34 @@ void OctreeNode::DistributeInChilds()
 	for (uint i = 0; i < objects.size(); ++i)
 	{
 		std::vector<int> childNum;
-		GameObject* currentGo = objects.back();
-		SDL_Rect goRect = currentGo->GetTransform()->GetBoundingBox2D();
+		childNum.reserve(8);
 
-		for (uint j = 0; j < 4; ++j)
+		GameObject* currentGo = objects.back();
+		AABB goAABB = currentGo->GetTransform()->GetBoundingBox();
+
+		for (uint j = 0; j < 8; ++j)
 		{
 			// If its completely inside a child, push it there, delete it from here and there's no need to continue further
-			if (IsInside(childs[i]->zone, goRect))
+			if (childs[j]->zone.Contains(goAABB))
 			{
-				childs[i]->Insert(currentGo);
+				LOG("Object is contained in one child in Redistribution");
+				childs[j]->Insert(currentGo);
 				currentGo = nullptr;
 				objects.pop_back();
 				break;
 			}
 
 			// If its intersecting, push the child "ID" to be assigned later (or not)
-			if (Intersects(zone, goRect))
+			if (childs[j]->zone.Intersects(goAABB))
 			{
 				childNum.push_back(i);
 			}
 		}
 
 		// Insert the GO in every node it fits in and delete it from here
-		if (!childNum.empty() && childNum.size() < 4)
+		if (!childNum.empty() && childNum.size() < 8)
 		{
+			LOG("Object is contained in more than one child in Redistribution");
 			for (uint i = 0; i < childNum.size(); ++i)
 			{
 				childs[childNum[i]]->Insert(currentGo);
@@ -94,9 +148,9 @@ void OctreeNode::DistributeInChilds()
 	}
 }
 
-int OctreeNode::CollectCandidates(std::vector<GameObject*>& candidates, const SDL_Rect & rect)
+int OctreeNode::CollectCandidates(std::vector<GameObject*>& candidates, const AABB & rect)
 {
-	if (Intersects(zone, rect)) 
+	if (zone.Intersects(rect)) 
 	{
 		for (uint i = 0; i < objects.size(); ++i)
 		{
@@ -106,7 +160,7 @@ int OctreeNode::CollectCandidates(std::vector<GameObject*>& candidates, const SD
 
 	if (!isLeaf)
 	{
-		for (uint i = 0; i < 4; ++i)
+		for (uint i = 0; i < 8; ++i)
 		{
 			childs[i]->CollectCandidates(candidates, rect); 
 		}
@@ -121,7 +175,7 @@ void OctreeNode::CollectZones(std::vector<OctreeNode*>& candidates)
 
 	if(!isLeaf)
 	{
-		for (uint i = 0; i < 4; ++i)
+		for (uint i = 0; i < 8; ++i)
 		{
 			childs[i]->CollectZones(candidates);
 		}
@@ -149,7 +203,7 @@ Octree::Octree()
 {
 }
 
-Octree::Octree(const SDL_Rect & zone)
+Octree::Octree(const AABB & zone)
 {
 	root = new OctreeNode(zone);
 }
@@ -168,11 +222,11 @@ void Octree::ClearOctree()
 	}
 }
 
-void Octree::SetBoundaries(const SDL_Rect & rect)
+void Octree::SetBoundaries(const AABB & zone)
 {
 	ClearOctree(); 
 
-	root = new OctreeNode(rect); 
+	root = new OctreeNode(zone);
 
 }
 
@@ -180,16 +234,16 @@ void Octree::Insert(GameObject * go)
 {
 	if (root != nullptr)
 	{
-		SDL_Rect rect = go->GetTransform()->GetBoundingBox2D();
-		if(Intersects(root->zone, rect))
+		AABB goAABB = go->GetTransform()->GetBoundingBox();
+		if(root->zone.Contains(goAABB))
 			root->Insert(go); 
 	}
 }
 
-int Octree::CollectCandidates(std::vector<GameObject*>& candidates, const SDL_Rect & rect) const
+int Octree::CollectCandidates(std::vector<GameObject*>& candidates, const AABB & rect) const
 {
 	int tests = 1;
-	if (root != nullptr && Intersects(root->zone, rect))
+	if (root != nullptr && root->zone.Intersects(rect))
 		tests = root->CollectCandidates(candidates, rect);
 
 	return tests;
@@ -212,16 +266,16 @@ OctreeNode * Octree::GetRoot() const
 
 // --------------------------------------------------------------------------------------------------
 
-bool IsInside(const SDL_Rect & zone, const SDL_Rect & rect)
-{
-	return (zone.x <= rect.x &&
-		zone.x + zone.w >= rect.x + rect.w &&
-		zone.y <= rect.y &&
-		zone.y + zone.h >= rect.y + rect.h);
-}
-
-bool Intersects(const SDL_Rect & zone, const SDL_Rect & rect)
-{
-	return SDL_HasIntersection(&zone, &rect) == SDL_TRUE;
-}
+//bool IsInside(const SDL_Rect & zone, const SDL_Rect & rect)
+//{
+//	return (zone.x <= rect.x &&
+//		zone.x + zone.w >= rect.x + rect.w &&
+//		zone.y <= rect.y &&
+//		zone.y + zone.h >= rect.y + rect.h);
+//}
+//
+//bool Intersects(const SDL_Rect & zone, const SDL_Rect & rect)
+//{
+//	return SDL_HasIntersection(&zone, &rect) == SDL_TRUE;
+//}
 

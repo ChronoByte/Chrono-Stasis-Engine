@@ -11,7 +11,7 @@ class OctreeNode
 {
 public: 
 
-	OctreeNode(const SDL_Rect& zone); 
+	OctreeNode(const AABB& zone); 
 	~OctreeNode();
 
 	void Insert(GameObject* go);
@@ -19,14 +19,14 @@ public:
 	void Subdivide();
 	void DistributeInChilds();
 
-	int CollectCandidates(std::vector<GameObject*>& candidates, const SDL_Rect& rect);
+	int CollectCandidates(std::vector<GameObject*>& candidates, const AABB& rect);
 	void CollectZones(std::vector<OctreeNode*>& candidates); 
 
 	bool isLeaf = true; 
 	std::vector<GameObject*> objects;
 	OctreeNode* parent = nullptr; 
-	OctreeNode* childs[4];
-	SDL_Rect zone;
+	OctreeNode* childs[8];
+	AABB zone;
 };
 
 class Octree 
@@ -35,14 +35,14 @@ public:
 
 
 	Octree(); 
-	Octree(const SDL_Rect& zone); 
+	Octree(const AABB& zone); 
 	~Octree(); 
 
 	void ClearOctree(); 
-	void SetBoundaries(const SDL_Rect& rect);
+	void SetBoundaries(const AABB& rect);
 
 	void Insert(GameObject* go);
-	int CollectCandidates(std::vector<GameObject*>& candidates, const SDL_Rect& rect) const;
+	int CollectCandidates(std::vector<GameObject*>& candidates, const AABB& rect) const;
 
 	void CollectZones(std::vector<OctreeNode*>& nodesCollected);
 
@@ -55,5 +55,5 @@ private:
 
 // Checkers 
 
-bool IsInside(const SDL_Rect& zone, const SDL_Rect& rect);
-bool Intersects(const SDL_Rect& zone, const SDL_Rect& rect); 
+//bool IsInside(const SDL_Rect& zone, const SDL_Rect& rect);
+//bool Intersects(const SDL_Rect& zone, const SDL_Rect& rect); 

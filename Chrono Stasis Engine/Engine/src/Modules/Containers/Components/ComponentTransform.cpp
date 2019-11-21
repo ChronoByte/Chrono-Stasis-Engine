@@ -39,12 +39,12 @@ void ComponentTransform::OnDebugDraw()
 
 void ComponentTransform::DrawBoundingBox()
 {
+	glBegin(GL_LINES);
+	glLineWidth(2.0f);
 
 	for (uint i = 0; i < boundingBox.aabb.NumEdges(); ++i)
 	{
-		glBegin(GL_LINES);
-		glLineWidth(2.0f);
-
+	
 		// Draw AABB
 		glColor3f(0, 1, 1);
 
@@ -57,9 +57,10 @@ void ComponentTransform::DrawBoundingBox()
 		glVertex3f(boundingBox.obb.Edge(i).a.x, boundingBox.obb.Edge(i).a.y, boundingBox.obb.Edge(i).a.z);
 		glVertex3f(boundingBox.obb.Edge(i).b.x, boundingBox.obb.Edge(i).b.y, boundingBox.obb.Edge(i).b.z);
 	
-		glColor3f(1, 1, 1);
-		glEnd();
 	}
+
+	glColor3f(1, 1, 1);
+	glEnd();
 }
 
 
