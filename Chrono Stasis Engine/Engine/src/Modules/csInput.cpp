@@ -117,35 +117,10 @@ update_status ModuleInput::PreUpdate(float dt)
 			
 			case SDL_DROPFILE:
 			{
-				//std::string extension;
+			
 				file = e.drop.file;
 				dropped = true;
 
-				if (file != nullptr)
-					App->fs->CopyToAssets(file);
-
-
-
-
-				//App->fs->GetExtensionFile(file, extension);
-			
-				//if (!extension.compare(".fbx") || !extension.compare(".FBX"))
-				//{
-				//	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", file, App->window->window);
-				//	go = App->fbx->LoadFBXData(file);
-				//}
-				//
-				//if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") || !extension.compare(".TGA") || !extension.compare(".dds"))
-				//{
-				//	SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", e.drop.file, App->window->window);
-
-				//	TextureInfo* tex = nullptr; 
-				//	tex = App->texture->LoadTexture(file);
-				//	if (go != nullptr) {}
-				//		//go->AssignTexture(tex);
-				//}
-
-				//SDL_free(e.drop.file);
 				break;
 			}
 

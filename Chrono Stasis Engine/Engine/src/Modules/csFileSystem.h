@@ -57,6 +57,9 @@ public:
 
 	void SearchLibraryFolders();
 	Folder* GetAssetsFolder() const;
+
+	bool CheckDroppedFile(const char* dropped_file);
+	void RefreshFiles();
 private:
 	std::array<const char*, PATHS_AMOUNT> directories = {ASSETS_FOLDER,LIBRARY_FOLDER,SETTINGS_FOLDER,L_MESHES_FOLDER,L_TEXTURES_FOLDER,L_SCENES_FOLDER};
 	std::array<const char*, 4> library_directories = { LIBRARY_FOLDER, L_MESHES_FOLDER,L_TEXTURES_FOLDER,L_SCENES_FOLDER };

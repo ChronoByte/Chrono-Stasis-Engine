@@ -94,6 +94,37 @@ bool ModuleFileSystem::Start()
 
 update_status ModuleFileSystem::Update(float dt)
 {
+
+	if (App->input->dropped && App->input->file != nullptr)
+	{
+		bool file_found = CheckDroppedFile(App->input->file);
+
+		if (!file_found) 
+		{
+			bool file_copied = CopyToAssets(App->input->file);
+			if (file_copied)
+			{
+				LOG("SUCCESS: File Copied to Assets Directory successfully");
+			}
+			else
+				LOG("ERROR: File could not be copied to Assets");
+				
+		}
+		else
+		{
+			LOG("Copying a file that already exists in assets directory");
+		}
+		
+		App->input->dropped = false;
+		SDL_free(App->input->file);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	{
+		LOG("FILESYSTEM: Refresh Files");
+		RefreshFiles();
+	}
+
 	//TODO: Check if new file was added or moified in Assets Folder
 
 	//Delete .META files just for swagg
@@ -459,71 +490,38 @@ bool ModuleFileSystem::CopyToAssets(const char* src_file_path)
 		{
 			output_file.close();
 
-			// Getting file name
+			// Get Name File
 			std::string file_name;
 			GetNameFile(src_file_path, file_name);
-			
-
-			// Getting file extension
+			// Get Extension File
 			std::string extension;
 			GetExtensionFile(src_file_path, extension);
 
-			//Getting full name
-			std::string full_file_name = file_name + extension;
-		
+			// Get File
+			std::string full_file = file_name + extension;
 
-			// Checking if file already exists in assets
-			std::vector<File> files;
-			assets->GetFilesRecursively(files);
 
-			bool file_exists = false;
-			bool new_file = false;
-			for (uint i = 0; i < files.size(); i++)
+			if (!extension.compare(".fbx") || !extension.compare(".FBX"))
 			{
-				if (!files[i].name.compare(full_file_name))
-				{
-					file_exists = true;
-					LOG("Copying a file that already exists in assets directory");
-					break;
-				}
-			
+				WriteFile((A_MODELS_FOLDER + full_file).c_str(), buffer, length);
 			}
 
-			if (!file_exists)
+			if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
+				!extension.compare(".TGA") || !extension.compare(".dds") ||
+				!extension.compare(".jpg") || !extension.compare(".JPG"))
 			{
-				bool accepted_file = false;
-				std::string new_path;
-
-				if (!extension.compare(".fbx") || !extension.compare(".FBX"))
-				{
-					accepted_file = true;
-					new_path = A_MODELS_FOLDER;
-				}
-				else if(!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
-					    !extension.compare(".TGA") || !extension.compare(".dds") ||
-					    !extension.compare(".jpg") || !extension.compare(".JPG"))
-				{
-					accepted_file = true;
-					new_path = A_TEXTURES_FOLDER;
-				}
-
-				if (accepted_file)
-				{
-					WriteFile((new_path + full_file_name).c_str(), buffer, length);
-				
-				}
+				WriteFile((A_TEXTURES_FOLDER + full_file).c_str(), buffer, length);
 			}
-
 		}
 		else
 		{
-		output_file.close();
-		ret = false;
+			output_file.close();
+			ret = false;
 		}
-	delete[] buffer;
+		RELEASE_ARRAY(buffer);
 	}
-
 	return ret;
+
 }
 
 void ModuleFileSystem::PushFilesRecursively(const char* folder_name)
@@ -787,6 +785,43 @@ void ModuleFileSystem::SearchLibraryFolders()
 Folder* ModuleFileSystem::GetAssetsFolder() const
 {
 	return assets;
+}
+
+bool ModuleFileSystem::CheckDroppedFile(const char* dropped_file)
+{
+	bool file_found = false;
+
+	std::string file_name;
+	GetNameFile(dropped_file, file_name);
+
+	std::string extension;
+	GetExtensionFile(dropped_file, extension);
+
+	std::string full_file = file_name + extension;
+
+	std::vector<File> files;
+	assets->GetFilesRecursively(files);
+
+	for (uint i = 0; i < files.size(); i++)
+	{
+		if (!files[i].name.compare(full_file))
+		{
+			file_found = true;
+			//LOG("Copying a file that already exists in assets directory");
+			break;
+		}
+
+	}
+
+	return file_found;
+}
+
+void ModuleFileSystem::RefreshFiles()
+{
+	assets->ClearFiles();
+	PushFilesRecursively(assets->name.c_str());
+	ImportFilesRecursively(assets, false);
+
 }
 
 

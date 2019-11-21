@@ -48,7 +48,7 @@ update_status ModuleFBXLoader::PreUpdate(float dt)
 update_status ModuleFBXLoader::Update(float dt)
 {
 
-	if (App->input->dropped)
+	/*if (App->input->dropped)
 	{
 		std::string extension;
 		std::string file = App->input->file;
@@ -68,7 +68,7 @@ update_status ModuleFBXLoader::Update(float dt)
 			type = FileType::TEXTURE;
 		}
 			
-	}
+	}*/
 
 	return UPDATE_CONTINUE;
 }
@@ -76,59 +76,59 @@ update_status ModuleFBXLoader::Update(float dt)
 update_status ModuleFBXLoader::PostUpdate(float dt)
 {
 
-	if (App->input->dropped) 
-	{
+	//if (App->input->dropped) 
+	//{
 
-		switch (type)
-		{
-		case MODEL:
-		{
-			//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+	//	switch (type)
+	//	{
+	//	case MODEL:
+	//	{
+	//		//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
 
-			App->fbx->LoadModel(App->input->file);
-			break;
-		}
-		case TEXTURE:
-		{
-			//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
-			GameObject* go = App->scene->GetSelected();
+	//		App->fbx->LoadModel(App->input->file);
+	//		break;
+	//	}
+	//	case TEXTURE:
+	//	{
+	//		//SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "File dropped on window", App->input->file, App->window->window);
+	//		GameObject* go = App->scene->GetSelected();
 
-			if (go != nullptr && go != App->scene->GetRoot())
-			{
-				if (go->HasComponent(ComponentType::C_MATERIAL))
-				{
-					ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(go->FindComponent(ComponentType::C_MATERIAL));
-					mat->SetTexture(App->texture->LoadTexture(App->input->file));
-				}
-				else
-				{
-					ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
-					if(mat!=nullptr)
-						mat->SetTexture(App->texture->LoadTexture(App->input->file));
-				}
-			}
-			else LOG("Error applying texture: There was not a valid Game Object selected."); 
+	//		if (go != nullptr && go != App->scene->GetRoot())
+	//		{
+	//			if (go->HasComponent(ComponentType::C_MATERIAL))
+	//			{
+	//				ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(go->FindComponent(ComponentType::C_MATERIAL));
+	//				mat->SetTexture(App->texture->LoadTexture(App->input->file));
+	//			}
+	//			else
+	//			{
+	//				ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
+	//				if(mat!=nullptr)
+	//					mat->SetTexture(App->texture->LoadTexture(App->input->file));
+	//			}
+	//		}
+	//		else LOG("Error applying texture: There was not a valid Game Object selected."); 
 
-			break;
-		}
-		case UNKNOWN:
-		{
-			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Unknown file dropped on window", App->input->file, App->window->window);
-			break;
-		}
-		case NONE:
-		{
-			break;
-		}
+	//		break;
+	//	}
+	//	case UNKNOWN:
+	//	{
+	//		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Unknown file dropped on window", App->input->file, App->window->window);
+	//		break;
+	//	}
+	//	case NONE:
+	//	{
+	//		break;
+	//	}
 
-		default:
-			break;
-		}
+	//	default:
+	//		break;
+	//	}
 
-		type = FileType::NONE;
-		App->input->dropped = false;
-		SDL_free(App->input->file);
-	}
+	//	type = FileType::NONE;
+	//	App->input->dropped = false;
+	//	SDL_free(App->input->file);
+	//}
 
 	return UPDATE_CONTINUE;
 }
