@@ -294,6 +294,7 @@ void GameObject::DrawInspectorComponents()
 	strcpy(&buffer[0], name.c_str());
 	if (ImGui::InputText("name", buffer, 256, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		SetName(buffer);
+	ImGui::Checkbox("Static", &staticGO);
 
 	std::list<Component*>::const_iterator it = components.begin();
 	for (it; it != components.end(); ++it)

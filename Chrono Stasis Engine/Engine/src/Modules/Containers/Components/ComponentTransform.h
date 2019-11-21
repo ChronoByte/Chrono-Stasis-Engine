@@ -6,6 +6,8 @@
 #include "MathGeoLib\include\MathBuildConfig.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
+#include "SDL/include/SDL_rect.h"
+
 struct BoundingBox {
 
 	AABB aabb;
@@ -52,6 +54,7 @@ public:
 
 	const void SetBoundingBox(const AABB& bb);
 	const AABB GetBoundingBox() const;
+	SDL_Rect GetBoundingBox2D() const; 
 
 	void InspectorInfo();
 

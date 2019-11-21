@@ -287,6 +287,7 @@
     <ClInclude Include="Engine\src\Structure\ResourceBrowserWindow.h" />
     <ClInclude Include="Engine\src\Structure\SceneViewWindow.h" />
     <ClInclude Include="Engine\src\Structure\Window.h" />
+    <ClInclude Include="Engine\src\Tools\csOctree.h" />
     <ClInclude Include="Engine\src\Tools\FileManager.h" />
     <ClInclude Include="Engine\src\Tools\PseudoRandom.h" />
     <ClInclude Include="Engine\src\Tools\Serializer.h" />
@@ -337,6 +338,7 @@
     <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ResourceBrowserWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\SceneViewWindow.cpp" />
+    <ClCompile Include="Engine\src\Tools\csOctree.cpp" />
     <ClCompile Include="Engine\src\Tools\Serializer.cpp" />
     <ClCompile Include="Engine\src\Tools\log.cpp" />
     <ClCompile Include="Engine\src\Core\csMain.cpp" />

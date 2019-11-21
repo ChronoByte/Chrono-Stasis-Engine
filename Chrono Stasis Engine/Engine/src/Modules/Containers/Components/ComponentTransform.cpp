@@ -221,6 +221,16 @@ const AABB ComponentTransform::GetBoundingBox() const
 	return boundingBox.aabb;
 }
 
+SDL_Rect ComponentTransform::GetBoundingBox2D() const
+{
+	float3 maxZ = boundingBox.aabb.ExtremePoint(float3::unitZ);
+	float3 maxX = boundingBox.aabb.ExtremePoint(float3::unitX);
+	float width = boundingBox.aabb.ExtremePoint(float3::unitZ).Distance(boundingBox.aabb.ExtremePoint(-float3::unitZ));
+	float height = boundingBox.aabb.ExtremePoint(float3::unitX).Distance(boundingBox.aabb.ExtremePoint(-float3::unitX));
+
+	return SDL_Rect({ (int)maxZ.z, (int)maxX.x, (int)width, (int)height });
+}
+
 void ComponentTransform::SetupTransform(const float3& position, const float3& scale, const Quat& rotation)
 {
 	SetPosition(position);

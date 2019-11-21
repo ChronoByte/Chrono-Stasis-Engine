@@ -70,7 +70,7 @@ void ModuleScene::DebugDrawScene()
 		DrawGrid();
 		DrawOriginAxis();
 	}
-
+	App->camera->DrawMouseRay(); 
 	DebugDrawAllGameObjects(root); 
 
 }

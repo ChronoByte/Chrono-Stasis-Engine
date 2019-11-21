@@ -135,8 +135,6 @@ update_status ModuleCamera3D::Update(float dt)
 			MousePicking();
 		}
 
-		DrawMouseRay();
-
 	}
 	
 
