@@ -339,3 +339,16 @@ void GameObject::Save(RJSON_Value* gos)
 	for (auto& child : childs) // Serialize GameObject Children
 		child->Save(gos);
 }
+
+void GameObject::SaveComponents(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const
+{
+	int i = 0;
+	for (auto& comp : components)
+	{
+		std::string temp = name + "Component " + std::to_string(i) + ".";
+		comp->Save(object, temp, saveScene, countResources);
+		i++;
+	}
+	
+
+}

@@ -71,6 +71,8 @@ public:
 	void SetSelected(GameObject* go); 
 	void CleanSelected(); 
 
+	void SetRoot(GameObject* go);
+	void DeleteRoot();
 	// ------------ Camera -----------
 	void SetMainCamera(ComponentCamera* camera);
 	void ClearCamera(); 

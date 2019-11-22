@@ -446,6 +446,7 @@ bool ModuleFBXLoader::Import(const char* assets_path, std::string& library_path,
 		//-----------------------------------
 		
 		App->serialization->SaveModel(*newGo, A_MODELS_FOLDER, assets_path);
+		
 		//TODO: GO needs to be deleted after being serialized into .meta fbx
 		//TODO: NewGo->DeleteGO();
 		
@@ -486,14 +487,14 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene, std::string& 
 
 			if (resMat)
 			{
-				UID uuid;
+				UID uuid = 0u;
 				uuid = resMat->GetUID();
 				myMaterial->AssignResource(uuid);
 				LOG("Assigning texture already imported: %s", newPath.c_str());
 			}
 			else 
 			{
-				UID uuid;
+				UID uuid = 0u;
 				uuid = App->resources->ImportFile(newPath.c_str(), Resource::R_TEXTURE, uuid);
 				myMaterial->AssignResource(uuid);
 				LOG("Assigning texture embbeded: %s", newPath.c_str());

@@ -7,7 +7,8 @@
 #include "PseudoRandom.h"
 #include "Resource.h"
 struct RJSON_Value;
-
+struct json_object_t;
+typedef struct json_object_t JSON_Object;
 
 enum class ComponentType
 {
@@ -27,7 +28,7 @@ class Component
 
 public:
 	Component() {}
-	Component(GameObject* parent) : owner(parent) { UUID = (uint)GenerateUUID; }
+	Component(GameObject* parent) : owner(parent) { UUID = (UID)GenerateUUID; }
 
 	virtual ~Component(){}
 
@@ -51,6 +52,9 @@ public:
 	virtual void Save(RJSON_Value* component) const {}
 	virtual void Load(RJSON_Value* component) {}
 
+	virtual void Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const {};
+	
+
 	//Resource
 	void DroppableSpace(const char* string, bool empty = false, float x = 250, float y = 20);
 	void ResourceExplorerButton(Resource::Type type);
@@ -62,5 +66,5 @@ protected:
 	GameObject* owner = nullptr; 
 	bool active = true; 
 	std::string name; 
-	uint UUID = 0;
+	UID UUID = 0;
 };

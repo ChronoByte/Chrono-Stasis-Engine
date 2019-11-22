@@ -6,6 +6,9 @@
 
 #include "csGlobals.h"
 
+struct json_object_t;
+typedef struct json_object_t JSON_Object;
+
 class Component; 
 class ComponentTransform; 
 enum class ComponentType; 
@@ -56,7 +59,7 @@ public:
 
 	//Parser
 	void Save(RJSON_Value* go);
-
+	void SaveComponents(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const;
 
 private: 
 

@@ -521,3 +521,36 @@ void ComponentMesh::Save(RJSON_Value* component) const
 void ComponentMesh::Load(RJSON_Value* component)
 {
 }
+
+void ComponentMesh::Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const
+{
+	std::string tmp_mesh;
+
+	tmp_mesh = name + "Type";
+	json_object_dotset_number(object, tmp_mesh.c_str(), (double)type);
+	tmp_mesh = name + "UUID";
+	json_object_dotset_number(object, tmp_mesh.c_str(), UUID);
+
+	if (currentResource != nullptr)
+	{
+		if (saveScene == false)
+		{
+			// Save Info of Resource in Prefab (next we use this info for Reimport this prefab)
+			std::string tmp_res;
+			std::string temp = std::to_string(countResources++);
+
+			tmp_res = "Info.Resources.Resource " + temp + ".UUID Resource";
+			json_object_dotset_number(object, tmp_res.c_str(), currentResource->GetUID());
+			tmp_res = "Info.Resources.Resource " + temp + ".Name";
+			json_object_dotset_string(object, tmp_res.c_str(), currentResource->GetName());
+		}
+
+		tmp_mesh = name + "Resource Mesh UUID";
+		json_object_dotset_number(object, tmp_mesh.c_str(), currentResource->GetUID());
+	}
+	else
+	{
+		tmp_mesh = name + "Resource Mesh UUID";
+		json_object_dotset_number(object, tmp_mesh.c_str(), 0);
+	}
+}

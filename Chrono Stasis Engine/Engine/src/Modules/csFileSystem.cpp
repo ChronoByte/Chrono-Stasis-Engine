@@ -622,7 +622,10 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 		else 
 		{
 			LOG("File was imported previously");
+			std::string extension;
+			GetExtensionFile(file_name.c_str(), extension);
 
+			
 			JSON_Value* json_file = nullptr;
 			JSON_Object* root_obj = nullptr;
 
@@ -633,57 +636,58 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 			UID exported_uuid = json_object_get_number(root_obj, "UUID");
 			std::string exported_path = json_object_get_string(root_obj, "UUID_path");
 
-			if (!PHYSFS_exists(exported_path.c_str()))
-			{
-				std::string extension;
-				GetExtensionFile(file_name.c_str(), extension);
-
-				if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+				if (!PHYSFS_exists(exported_path.c_str()))
 				{
-					UID ret;
-					ret = App->resources->ImportFile(file_path.c_str(), Resource::R_SCENE, exported_uuid);
-				}
+					std::string extension;
+					GetExtensionFile(file_name.c_str(), extension);
 
-				else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
-					!extension.compare(".TGA") || !extension.compare(".dds") ||
-					!extension.compare(".jpg") || !extension.compare(".JPG"))
-				{
-					UID ret;
-					ret = App->resources->ImportFile(file_path.c_str(), Resource::R_TEXTURE, exported_uuid);
-				}
+					if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+					{
+						UID ret;
+						//ret = App->resources->ImportFile(file_path.c_str(), Resource::R_MESH, exported_uuid);
+					}
 
+					else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
+						!extension.compare(".TGA") || !extension.compare(".dds") ||
+						!extension.compare(".jpg") || !extension.compare(".JPG"))
+					{
+						UID ret;
+						ret = App->resources->ImportFile(file_path.c_str(), Resource::R_TEXTURE, exported_uuid);
+					}
+
+					else
+					{
+						LOG("Unsupported file format");
+					}
+				}
 				else
 				{
-					LOG("Unsupported file format");
-				}
-			}
-			else
-			{
-				std::string extension;
-				GetExtensionFile(file_name.c_str(), extension);
+					std::string extension;
+					GetExtensionFile(file_name.c_str(), extension);
 
-				if (!extension.compare(".fbx") || !extension.compare(".FBX"))
-				{
-					UID ret;
-					//ret = App->resources->ImportFile(file_path.c_str(), Resource::R_SCENE, exported_uuid);
-				}
+					if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+					{
+						UID ret;
+						//ret = App->resources->ImportFile(file_path.c_str(), Resource::R_MESH, exported_uuid);
+					}
 
-				else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
-					!extension.compare(".TGA") || !extension.compare(".dds") ||
-					!extension.compare(".jpg") || !extension.compare(".JPG"))
-				{
-					UID ret;
-					Resource* res = App->resources->CreateNewResource(Resource::R_TEXTURE,exported_uuid,file_name.c_str(),file_path.c_str() ,exported_path.c_str(), true);
-					if (res)
-						ret = res->GetUID();
-					//ret = App->resources->ImportFile(file_path.c_str(), Resource::R_TEXTURE, exported_uuid);
-				}
+					else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
+						!extension.compare(".TGA") || !extension.compare(".dds") ||
+						!extension.compare(".jpg") || !extension.compare(".JPG"))
+					{
+						UID ret;
+						Resource* res = App->resources->CreateNewResource(Resource::R_TEXTURE, exported_uuid, file_name.c_str(), file_path.c_str(), exported_path.c_str(), true);
+						if (res)
+							ret = res->GetUID();
+						ret = App->resources->ImportFile(file_path.c_str(), Resource::R_TEXTURE, exported_uuid);
+					}
 
-				else
-				{
-					LOG("Unsupported file format");
+					else
+					{
+						LOG("Unsupported file format");
+					}
 				}
-			}
+			
 			
 			//TODO: Check modifications (remove, add, rename,...)
 			// Re-Import new meta

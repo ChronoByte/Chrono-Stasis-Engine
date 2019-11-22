@@ -35,7 +35,7 @@ bool ModuleScene::Start()
 {
 	CreateRoot(); 
 	
-	App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
+	App->fbx->LoadModel("Assets/Models/BakerHouse.FBX");
 
 	CleanSelected(); 
 
@@ -332,9 +332,20 @@ void ModuleScene::SetSelected(GameObject* go)
 	selected = go; 
 }
 
+void ModuleScene::SetRoot(GameObject* go)
+{
+	root = go;
+}
+
 void ModuleScene::CleanSelected()
 {
 	selected = nullptr; 
+}
+
+void ModuleScene::DeleteRoot()
+{
+	delete root;
+	root = nullptr;
 }
 
 void ModuleScene::SetMainCamera(ComponentCamera * camera)

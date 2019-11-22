@@ -22,6 +22,8 @@ public:
 	bool SaveScene(const char* scene_path, std::string dir);
 	bool LoadScene(const char* scene_path, std::string dir);
 	void SaveModel(const GameObject& go, const char* dir, const char* file_path);
+	void SaveModelChildren(JSON_Object* config_node, const GameObject& go, uint& count, uint& countResources);
+
 private:
 	//vars
 	std::string directory;

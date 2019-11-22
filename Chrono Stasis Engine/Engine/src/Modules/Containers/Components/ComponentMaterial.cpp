@@ -112,3 +112,26 @@ void ComponentMaterial::Save(RJSON_Value* component) const
 void ComponentMaterial::Load(RJSON_Value* component)
 {
 }
+
+void ComponentMaterial::Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const
+{
+	std::string tmp_mat;
+
+	tmp_mat = name + "Type";
+	json_object_dotset_number(object, tmp_mat.c_str(), (double)type );
+	float4 tempColor = { color.r, color.g, color.b, color.a };
+	
+
+	tmp_mat = name + "UUID";
+	json_object_dotset_number(object, tmp_mat.c_str(), UUID);
+	if (currentResource != nullptr)
+	{
+		tmp_mat = name + "Resource Material UUID";
+		json_object_dotset_number(object, tmp_mat.c_str(), currentResource->GetUID());
+	}
+	else
+	{
+		tmp_mat = name + "Resource Material UUID";
+		json_object_dotset_number(object, tmp_mat.c_str(), 0);
+	}
+}
