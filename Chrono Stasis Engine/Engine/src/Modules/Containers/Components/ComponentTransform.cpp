@@ -18,7 +18,6 @@ ComponentTransform::~ComponentTransform()
 void ComponentTransform::Update(float dt)
 {
 
-
 	if (toRecalculateTransform) 
 	{
 		if (owner->isStatic())
@@ -29,6 +28,7 @@ void ComponentTransform::Update(float dt)
 
 		ForceParentBoundingBox();
 	}
+
 }
 
 

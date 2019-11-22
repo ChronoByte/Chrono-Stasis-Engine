@@ -7,6 +7,7 @@
 #include "csCamera3D.h"
 #include "csOctree.h"
 
+#include "csViewport.h"
 #include "imGuizmo/ImGuizmo.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
@@ -140,7 +141,6 @@ update_status ModuleCamera3D::Update(float dt)
 		}
 
 	}
-	
 
 	return UPDATE_CONTINUE;
 }
@@ -152,12 +152,10 @@ void ModuleCamera3D::DrawMouseRay()
 		glBegin(GL_LINES);
 		glLineWidth(2.5f);
 		glColor3f(0, 0, 1.f);
-		for (uint i = 0; i < 12; ++i)
-		{
-			glVertex3f(ray.a.x, ray.a.y, ray.a.z);
-			glVertex3f(ray.b.x, ray.b.y, ray.b.z);
-		}
 
+		glVertex3f(ray.a.x, ray.a.y, ray.a.z);
+		glVertex3f(ray.b.x, ray.b.y, ray.b.z);
+		
 		glColor3f(1.f, 1.f, 1.f);
 		glEnd();
 	}
@@ -254,15 +252,11 @@ float4x4 ModuleCamera3D::GetViewMatrix()
 
 void ModuleCamera3D::MousePicking(bool usingOctree)
 {
-	/*float normalizedX = -1.0 + 2.0 * (float)App->input->GetMouseX() / (float)App->window->width;
-	float normalizedY = 1.0 - 2.0 * (float)App->input->GetMouseY() / (float)App->window->height;*/
-	
-	float normalizedX = -1.0 + 2.0 *  App->editor->sceneView->GetMouseXInWindow() / App->editor->sceneView->GetWindowWidth();
-	float normalizedY = 1.0 - 2.0 * App->editor->sceneView->GetMouseYInWindow() / App->editor->sceneView->GetWindowHeight();
+
+	float normalizedX = -(1.0f - (float(App->editor->sceneView->mouseX) * 2.0f) / App->editor->sceneView->width);
+	float normalizedY = 1.0f - (float(App->editor->sceneView->mouseY) * 2.0f) / App->editor->sceneView->height;
 
 	//LOG("Success: Normalized X = %f, Normalized Y = %f", normalizedX, normalizedY);
-	//LOG("Corrected Mouse X: %f Mouse Y: %f", App->editor->sceneView->GetMouseXInWindow(), App->editor->sceneView->GetMouseYInWindow());
-
 
 	// -------------------------
 

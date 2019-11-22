@@ -230,9 +230,6 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	editorViewport->SetSize(width, height);
 	gameViewport->SetSize(width, height);
 
-	gameViewport->CreateBuffers();
-	editorViewport->CreateBuffers(); 
-
 }
 
 void ModuleRenderer3D::ToggleDebugMode()

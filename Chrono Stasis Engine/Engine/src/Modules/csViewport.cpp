@@ -33,6 +33,8 @@ void Viewport::SetSize(const uint & width, const uint & height)
 {
 	this->width = width;
 	this->height = height; 
+
+	CreateBuffers(); 
 }
 
 void Viewport::CreateBuffers()
@@ -111,7 +113,8 @@ void Viewport::SetView()
 		camera->GetNearPlaneDistance(),
 		camera->GetFarPlaneDistance());
 
-	glLoadMatrixf(&ProjectionMatrix);
+	//glLoadMatrixf(&ProjectionMatrix);
+	glLoadMatrixf(camera->GetProjectionMatrix().ptr());
 
 	// Load Model View Matrix
 	glMatrixMode(GL_MODELVIEW);
