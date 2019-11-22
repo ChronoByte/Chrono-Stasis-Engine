@@ -16,7 +16,7 @@ public:
 		unknown
 	};
 
-	ResourceTexture(uint id, Resource::Type type);
+	ResourceTexture(UID id, Resource::Type type);
 	virtual ~ResourceTexture();
 	
 	bool LoadTextureBuffer();

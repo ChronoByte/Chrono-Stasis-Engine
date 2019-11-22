@@ -15,7 +15,7 @@ public:
 		R_SCENE
 	};
 
-	Resource(uint uid, Resource::Type type);
+	Resource(UID uid, Resource::Type type);
 	virtual ~Resource();
 
 	Resource::Type GetType() const;

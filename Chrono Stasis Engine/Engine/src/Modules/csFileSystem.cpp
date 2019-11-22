@@ -593,7 +593,7 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 		file_path += file_name;
 
 		std::string meta_file = file_path + META_EXTENSION;
-
+		
 		if (!PHYSFS_exists(meta_file.c_str()))
 		{
 			std::string extension;
@@ -602,7 +602,7 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 			if (!extension.compare(".fbx") || !extension.compare(".FBX"))
 			{
 				UID ret;
-				//ret = App->resources->ImportFile(file_path.c_str(), Resource::R_MESH);
+				ret = App->resources->ImportFile(file_path.c_str(), Resource::R_MESH);
 			}
 
 			else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||

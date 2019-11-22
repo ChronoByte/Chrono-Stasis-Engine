@@ -297,3 +297,57 @@ void RJSON_Value::SetQuaternion(const char* name, Quat quat)
 	this->value->AddMember(index, a, *allocator);
 
 }
+
+JSON_Status Serializer::json_array_dotset_float3(JSON_Object* object, const char* name, float3 transform)
+{
+	JSON_Value* value = json_value_init_array();
+	if (value == NULL) {
+		return JSONFailure;
+	}
+	JSON_Array* arry = json_value_get_array(value);
+	if (json_object_dotset_value(object, name, value) == JSONFailure)
+	{
+		json_value_free(value);
+		return JSONFailure;
+	}
+	json_array_append_number(arry, transform.x);
+	json_array_append_number(arry, transform.y);
+	json_array_append_number(arry, transform.z);
+	return JSONSuccess;
+}
+
+JSON_Status Serializer::json_array_dotset_float2(JSON_Object* object, const char* name, float2 transform)
+{
+	JSON_Value* value = json_value_init_array();
+	if (value == NULL) {
+		return JSONFailure;
+	}
+	JSON_Array* arry = json_value_get_array(value);
+	if (json_object_dotset_value(object, name, value) == JSONFailure)
+	{
+		json_value_free(value);
+		return JSONFailure;
+	}
+	json_array_append_number(arry, transform.x);
+	json_array_append_number(arry, transform.y);
+	return JSONSuccess;
+}
+
+JSON_Status Serializer::json_array_dotset_float4(JSON_Object* object, const char* name, float4 transform)
+{
+	JSON_Value* value = json_value_init_array();
+	if (value == NULL) {
+		return JSONFailure;
+	}
+	JSON_Array* arry = json_value_get_array(value);
+	if (json_object_dotset_value(object, name, value) == JSONFailure)
+	{
+		json_value_free(value);
+		return JSONFailure;
+	}
+	json_array_append_number(arry, transform.x);
+	json_array_append_number(arry, transform.y);
+	json_array_append_number(arry, transform.z);
+	json_array_append_number(arry, transform.w);
+	return JSONSuccess;
+}

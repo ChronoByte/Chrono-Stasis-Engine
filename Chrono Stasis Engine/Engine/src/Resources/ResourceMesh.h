@@ -18,7 +18,7 @@ class ResourceMesh : public Resource
 {
 public:
 
-	ResourceMesh(uint id, Resource::Type type);
+	ResourceMesh(UID id, Resource::Type type);
 	virtual ~ResourceMesh();
 
 	void LoadMeshVertices(aiMesh* mesh);

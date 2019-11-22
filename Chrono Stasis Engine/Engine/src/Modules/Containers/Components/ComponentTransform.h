@@ -62,6 +62,8 @@ public:
 	void Save(RJSON_Value* component) const;
 	void Load(RJSON_Value* component);
 
+	void Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const;
+
 public:
 
 	float4x4 local_matrix = float4x4::identity;

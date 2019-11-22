@@ -192,3 +192,19 @@ Resource* ModuleResources::GetResourceFromName(const char* texture)
 	}
 	return nullptr;
 }
+
+Resource* ModuleResources::GetResourceFromFile(const char* file)
+{
+	//std::map<uint, Resource*>::iterator it = resources.begin();
+
+	auto it = resources.begin();
+	for (int i = 0; i < resources.size(); i++)
+	{
+		if (strcmp(it->second->file.c_str(), file) == 0)
+		{
+			return it->second;
+		}
+		it++;
+	}
+	return nullptr;
+}

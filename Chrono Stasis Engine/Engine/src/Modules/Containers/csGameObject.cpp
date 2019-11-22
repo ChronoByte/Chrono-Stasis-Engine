@@ -12,12 +12,14 @@
 
 GameObject::GameObject()
 {
+	UUID = GenerateUUID();
 	transform = new ComponentTransform(this);
 	components.push_back(transform);
 }
 
 GameObject::GameObject(GameObject * parent) 
 {
+	UUID = GenerateUUID();
 	SetParent(parent); 
 
 	transform = new ComponentTransform(this);

@@ -480,11 +480,15 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene, std::string& 
 		//textures[scene->mMeshes[node->mMeshes[i]]->mMaterialIndex]
 		if (strcmp(fileName.C_Str(), "") != 0)
 		{
+			filePath = A_TEXTURES_FOLDER;
 			std::string newPath = filePath + fileName.C_Str();
 			ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
 
-			ResourceTexture* resMat = (ResourceTexture*)App->resources->GetResourceFromName(fileName.C_Str());
-
+			/*std::string name;
+			App->fs->GetNameFile(fileName.C_Str(), name);*/
+			
+			ResourceTexture* resMat = (ResourceTexture*)App->resources->GetResourceFromFile(newPath.c_str());
+			//App->resources->GetResourcesFromType();
 			if (resMat)
 			{
 				UID uuid = 0u;
@@ -562,8 +566,8 @@ ComponentMesh* ModuleFBXLoader::ImportMesh(aiMesh* mesh, const aiScene* scene,st
 	// RESOURCE MESH ------------------------
 	res->SetName(name);
 	res->SetFile(assets_path);
-	res->SetExportedFile(library_path.c_str());
-
+	res->SetExportedFile(own_file.c_str());
+	
 	//COMPONENT MESH ---------------------------
 	ComponentMesh* m = new ComponentMesh(nullptr);
 	m->AssignResource(uuid);

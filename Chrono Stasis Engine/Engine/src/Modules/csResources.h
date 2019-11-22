@@ -28,8 +28,8 @@ public:
 	bool DeleteResourceFromUID(UID uid);
 	std::vector<Resource*> GetResourcesFromType(Resource::Type type);
 	Resource* GetResourceFromName(const char* texture);
+	Resource* GetResourceFromFile(const char* file);
 	//uint Find(const char* file) const;
-	
 	
 
 private:

@@ -65,7 +65,7 @@ public:
 
 private: 
 
-	uint UUID = 0;
+	UID UUID = 0;
 	bool active = true; 
 	bool staticGO = false;
 	GameObject* parent = nullptr; 

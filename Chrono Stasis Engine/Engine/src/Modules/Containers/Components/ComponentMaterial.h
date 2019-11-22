@@ -42,4 +42,5 @@ private:
 	TextureInfo* checkersTex = nullptr; 
 
 	bool checkers = false; 
+
 };

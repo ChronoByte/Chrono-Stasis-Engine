@@ -3,6 +3,7 @@
 #include "ResourceTexture.h"
 ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 {
+	UUID = GenerateUUID();
 	type = ComponentType::C_MATERIAL;
 	checkersTex = App->texture->testTexture;
 	name = "Material"; 
@@ -121,17 +122,21 @@ void ComponentMaterial::Save(JSON_Object* object, std::string name, bool saveSce
 	json_object_dotset_number(object, tmp_mat.c_str(), (double)type );
 	float4 tempColor = { color.r, color.g, color.b, color.a };
 	
-
 	tmp_mat = name + "UUID";
 	json_object_dotset_number(object, tmp_mat.c_str(), UUID);
+
 	if (currentResource != nullptr)
 	{
 		tmp_mat = name + "Resource Material UUID";
 		json_object_dotset_number(object, tmp_mat.c_str(), currentResource->GetUID());
+		tmp_mat = name + "Resource Material Path";
+		json_object_dotset_string(object, tmp_mat.c_str(), currentResource->GetExportedFile());
 	}
 	else
 	{
 		tmp_mat = name + "Resource Material UUID";
 		json_object_dotset_number(object, tmp_mat.c_str(), 0);
+		tmp_mat = name + "Resource Material Path";
+		json_object_dotset_string(object, tmp_mat.c_str(), "");
 	}
 }

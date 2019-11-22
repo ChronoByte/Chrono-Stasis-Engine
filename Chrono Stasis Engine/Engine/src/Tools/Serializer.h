@@ -9,6 +9,11 @@
 #include "csGlobals.h"
 #include "MathGeoLib/include/Math/float3.h"
 #include "MathGeoLib/include/Math/Quat.h"
+#include "MathGeoLib/include/Math/float2.h"
+#include "MathGeoLib/include/Math/float4.h"
+
+#include "JSON/parson.h"
+
 struct RJSON_Value {
 
 public:
@@ -32,6 +37,7 @@ public:
 	void SetBoolean(const char* name, bool value);
 	void SetVector3(const char* name, float3 vec);
 	void SetQuaternion(const char* name, Quat quat);
+
 private:
 	rapidjson::Document::AllocatorType* allocator = nullptr;
 	rapidjson::Value* value = nullptr;
@@ -72,8 +78,13 @@ private:
 class Serializer
 {
 public:
+
 	Serializer(){}
 	virtual ~Serializer(){}
+
+	JSON_Status json_array_dotset_float3(JSON_Object* object, const char* name, float3 transform);
+	JSON_Status json_array_dotset_float2(JSON_Object* object, const char* name, float2 transform);
+	JSON_Status json_array_dotset_float4(JSON_Object* object, const char* name, float4 transform);
 
 	RJSON_File* JSONRead(const char* path);
 	RJSON_File* JSONWrite(const char* path);

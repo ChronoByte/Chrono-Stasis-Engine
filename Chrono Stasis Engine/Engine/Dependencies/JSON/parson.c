@@ -1871,6 +1871,7 @@ JSON_Status json_object_dotset_null(JSON_Object *object, const char *name) {
     return JSONSuccess;
 }
 
+
 JSON_Status json_object_remove(JSON_Object *object, const char *name) {
     return json_object_remove_internal(object, name, 1);
 }

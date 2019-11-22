@@ -7,6 +7,7 @@
 
 ComponentMesh::ComponentMesh(GameObject* parent) : Component(parent)
 {
+	UUID = GenerateUUID();
 	type = ComponentType::C_MESH; 
 	name = "Mesh"; 
 }
@@ -547,10 +548,14 @@ void ComponentMesh::Save(JSON_Object* object, std::string name, bool saveScene, 
 
 		tmp_mesh = name + "Resource Mesh UUID";
 		json_object_dotset_number(object, tmp_mesh.c_str(), currentResource->GetUID());
+		tmp_mesh = name + "Resource Mesh Path";
+		json_object_dotset_string(object, tmp_mesh.c_str(), currentResource->GetExportedFile());
 	}
 	else
 	{
 		tmp_mesh = name + "Resource Mesh UUID";
 		json_object_dotset_number(object, tmp_mesh.c_str(), 0);
+		tmp_mesh = name + "Resource Mesh Path";
+		json_object_dotset_string(object, tmp_mesh.c_str(), "");
 	}
 }

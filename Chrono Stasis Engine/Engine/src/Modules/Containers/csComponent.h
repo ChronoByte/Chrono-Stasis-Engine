@@ -28,7 +28,7 @@ class Component
 
 public:
 	Component() {}
-	Component(GameObject* parent) : owner(parent) { UUID = (UID)GenerateUUID; }
+	Component(GameObject* parent) : owner(parent) {}
 
 	virtual ~Component(){}
 

@@ -6,7 +6,7 @@
 #include "DevIL\include\ilu.h"
 #include "DevIL\include\ilut.h"
 
-ResourceTexture::ResourceTexture(uint id, Resource::Type type):Resource(id, type)
+ResourceTexture::ResourceTexture(UID id, Resource::Type type):Resource(id, type)
 {
 
 }

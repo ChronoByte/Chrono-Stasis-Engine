@@ -4,6 +4,7 @@
 
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 {
+	UUID = GenerateUUID();
 	type = ComponentType::C_TRANSFORM;
 	name = "Transform";
 	toRecalculateTransform = true; 
@@ -289,5 +290,23 @@ void ComponentTransform::Save(RJSON_Value* component) const
 
 void ComponentTransform::Load(RJSON_Value* component)
 {
+}
+
+void ComponentTransform::Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const
+{
+	// TRANSFORM -----------
+	std::string tmp_trans;
+
+	tmp_trans = name + "Type";
+	json_object_dotset_number(object, tmp_trans.c_str(), (double)type);
+	// Position
+	tmp_trans = name + "Position";
+	App->json->json_array_dotset_float3(object, tmp_trans.c_str(), GetPosition());
+	// Rotation
+	tmp_trans = name + "Rotation";
+	App->json->json_array_dotset_float4(object, tmp_trans.c_str(), float4(GetRotationQuat().x, GetRotationQuat().y, GetRotationQuat().z, GetRotationQuat().w));
+	// Scale
+	tmp_trans = name + "Scale";
+	App->json->json_array_dotset_float3(object, tmp_trans.c_str(), GetScale());
 }
 

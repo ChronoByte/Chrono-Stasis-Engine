@@ -2,7 +2,7 @@
 #include "ResourceMesh.h"
 #include "Assimp/include/scene.h"
 
-ResourceMesh::ResourceMesh(uint id, Resource::Type type): Resource(id, type)
+ResourceMesh::ResourceMesh(UID id, Resource::Type type): Resource(id, type)
 {
 }
 

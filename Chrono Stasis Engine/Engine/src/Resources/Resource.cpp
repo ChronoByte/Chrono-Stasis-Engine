@@ -1,7 +1,9 @@
 #include "Resource.h"
 
-Resource::Resource(uint uid, Resource::Type type)
+Resource::Resource(UID uid, Resource::Type type)
 {
+	this->uid = uid;
+	this->type = type;
 }
 
 Resource::~Resource()
