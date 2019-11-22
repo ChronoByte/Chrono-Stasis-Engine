@@ -31,6 +31,9 @@ GameObject::~GameObject()
 	if (App->scene->GetSelected() == this)
 		App->scene->CleanSelected(); 
 
+	if (staticGO)
+		App->scene->RemoveFromOctree(this); 
+
 	std::list<GameObject*>::iterator it = childs.begin(); 
 
 	for (it; it != childs.end(); ++it)
@@ -99,6 +102,24 @@ void GameObject::Enable()
 void GameObject::Disable()
 {
 	active = false;
+}
+
+void GameObject::SetStatic(bool stat)
+{
+	// If it already is on this state, don't do anything
+	if (staticGO == stat)
+		return;
+
+	if (stat)
+	{
+		App->scene->InsertInOctree(this);
+		staticGO = true; 
+	}
+	else
+	{
+		App->scene->RemoveFromOctree(this);
+		staticGO = false;
+	}
 }
 
 void GameObject::RemoveChild(GameObject * child)
@@ -304,9 +325,9 @@ void GameObject::DrawInspectorComponents()
 	strcpy(&buffer[0], name.c_str());
 	if (ImGui::InputText("name", buffer, 256, ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_EnterReturnsTrue))
 		SetName(buffer);
-	ImGui::Checkbox("Static", &staticGO);
-	if(ImGui::Button("Insert To Octree"))
-		App->scene->octree->Insert(this);
+	if (ImGui::Checkbox("Static", &staticGO))
+		SetStatic(staticGO);
+
 
 	std::list<Component*>::const_iterator it = components.begin();
 	for (it; it != components.end(); ++it)

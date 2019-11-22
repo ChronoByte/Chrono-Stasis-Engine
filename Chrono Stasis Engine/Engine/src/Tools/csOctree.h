@@ -12,11 +12,13 @@ class OctreeNode
 {
 public: 
 
-	OctreeNode(const AABB& zone); 
+	OctreeNode(const AABB& zone, OctreeNode* parent); 
 	~OctreeNode();
 
 	void Insert(GameObject* go);
-	void Remove(GameObject* go); 
+	void Remove(GameObject* go);
+	void TryToDeleteBrothers();
+
 
 	void Subdivide();
 	void DistributeInChilds();

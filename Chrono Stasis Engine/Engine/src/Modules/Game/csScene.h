@@ -71,7 +71,6 @@ public:
 	void SetSelected(GameObject* go); 
 	void CleanSelected(); 
 
-	void SetRoot(GameObject* go);
 	void DeleteRoot();
 	// ------------ Camera -----------
 	void SetMainCamera(ComponentCamera* camera);
@@ -79,14 +78,22 @@ public:
 	ComponentCamera* GetMainCamera() const; 
 
 	// ------------ Octree ------------
+	void CreateOctree(const float& size);
+
+	void InsertInOctree(GameObject* go); 
+	void RemoveFromOctree(GameObject* go); 
+
+	void ResetOctree(); 
+	void RecreateOctree(); 
+
 	bool isOctreeActive() const; 
 
 public: 
 	ComponentCamera* mainCamera = nullptr; 
-	Octree* octree = nullptr;
 
 	bool drawOctree = true; 
 	bool activeOctree = true;
+	Octree* octree = nullptr;
 
 private:
 	//vars

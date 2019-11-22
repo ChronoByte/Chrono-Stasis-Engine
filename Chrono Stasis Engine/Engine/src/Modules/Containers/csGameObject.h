@@ -30,6 +30,8 @@ public:
 	void Enable();
 	void Disable();
 
+	void SetStatic(bool stat); 
+
 	// Parenting
 	void RemoveChild(GameObject* child); 
 	void SetParent(GameObject* parent); 

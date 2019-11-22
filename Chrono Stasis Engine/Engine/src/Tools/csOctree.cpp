@@ -5,8 +5,8 @@
 
 // --------------------------------------- Octree Node ---------------------------------------
 
-OctreeNode::OctreeNode(const AABB & zone)
-	:zone(zone)
+OctreeNode::OctreeNode(const AABB & zone, OctreeNode* parent)
+	:zone(zone), parent(parent)
 {
 	objects.reserve(MAX_OBJECTS);
 
@@ -29,7 +29,7 @@ OctreeNode::~OctreeNode()
 void OctreeNode::Insert(GameObject * go)
 {
 	objects.push_back(go);
-
+	LOG("Inserting GameObject to Octree"); 
 	// If it tops limit, then subdivide and redistribute
 	if (objects.size() >= MAX_OBJECTS)
 	{
@@ -47,9 +47,13 @@ void OctreeNode::Remove(GameObject * go)
 	{
 		if (objects[i] == go)
 		{
-			// To do delete
-			LOG("Found the object to be removed from the octree"); 
+			LOG("Success removing from octree: Found the object to be removed from the octree"); 
+			// Remove it from the list of objects from that node
+			objects.erase(objects.begin() + i); 
 
+			// Try to delete brothers 
+			TryToDeleteBrothers();
+			 
 			return; 
 		}
 	}
@@ -60,6 +64,27 @@ void OctreeNode::Remove(GameObject * go)
 		{
 			childs[i]->Remove(go);
 		}
+	}
+}
+
+void OctreeNode::TryToDeleteBrothers()
+{
+	if (parent != nullptr)
+	{
+		std::vector<GameObject*> brothersObjects(MAX_OBJECTS); 
+		uint childsObjects = 0;
+		for (uint i = 0; i < 8; ++i)
+		{
+			// Look in each brother, if the objects they have is greater than the max, we cant delete
+			childsObjects += parent->childs[i]->objects.size();
+			if (childsObjects > MAX_OBJECTS)
+			{
+				LOG("There are more than the max objects in the brothers node, can not delete childs");
+				return;
+			}
+			//brothersObjects.insert(brothersObjects.end(), parent->childs[i]->objects.begin(), parent->childs[i]->objects.end());
+		}
+		LOG("You could have deleted the childs of the parent, its free real state");
 	}
 }
 
@@ -80,44 +105,44 @@ void OctreeNode::Subdivide()
 
 	maxPoint = minPoint + float3(halfSize.x, halfSize.y, halfSize.z); 
 	abb.Enclose(LineSegment(minPoint, maxPoint)); 
-	childs[0] = new OctreeNode(abb);
+	childs[0] = new OctreeNode(abb, this);
 	abb.SetNegativeInfinity();
 
 	maxPoint = minPoint + float3(halfSize.x, halfSize.y, -halfSize.z);
 	abb.Enclose(LineSegment(minPoint, maxPoint));
-	childs[1] = new OctreeNode(abb);
+	childs[1] = new OctreeNode(abb, this);
 	abb.SetNegativeInfinity();
 
 	maxPoint = minPoint + float3(-halfSize.x, halfSize.y, halfSize.z);
 	abb.Enclose(LineSegment(minPoint, maxPoint));
-	childs[2] = new OctreeNode(abb);
+	childs[2] = new OctreeNode(abb, this);
 	abb.SetNegativeInfinity();
 
 	maxPoint = minPoint + float3(-halfSize.x, halfSize.y, -halfSize.z);
 	abb.Enclose(LineSegment(minPoint, maxPoint));
-	childs[3] = new OctreeNode(abb);
+	childs[3] = new OctreeNode(abb, this);
 	abb.SetNegativeInfinity();
 
 	// Lower half
 	
 	maxPoint = minPoint + float3(halfSize.x, -halfSize.y, halfSize.z);
 	abb.Enclose(LineSegment(minPoint, maxPoint));
-	childs[4] = new OctreeNode(abb);
+	childs[4] = new OctreeNode(abb, this);
 	abb.SetNegativeInfinity();
 
 	maxPoint = minPoint + float3(halfSize.x, -halfSize.y, -halfSize.z);
 	abb.Enclose(LineSegment(minPoint, maxPoint));
-	childs[5] = new OctreeNode(abb);
+	childs[5] = new OctreeNode(abb, this);
 	abb.SetNegativeInfinity();
 
 	maxPoint = minPoint + float3(-halfSize.x, -halfSize.y, halfSize.z);
 	abb.Enclose(LineSegment(minPoint, maxPoint));
-	childs[6] = new OctreeNode(abb);
+	childs[6] = new OctreeNode(abb, this);
 	abb.SetNegativeInfinity();
 
 	maxPoint = minPoint + float3(-halfSize.x, -halfSize.y, -halfSize.z);
 	abb.Enclose(LineSegment(minPoint, maxPoint));
-	childs[7] = new OctreeNode(abb);
+	childs[7] = new OctreeNode(abb, this);
 	abb.SetNegativeInfinity();
 
 	// ---------
@@ -206,7 +231,7 @@ Octree::Octree()
 
 Octree::Octree(const AABB & zone)
 {
-	root = new OctreeNode(zone);
+	root = new OctreeNode(zone, nullptr);
 }
 
 Octree::~Octree()
@@ -227,7 +252,7 @@ void Octree::SetBoundaries(const AABB & zone)
 {
 	ClearOctree(); 
 
-	root = new OctreeNode(zone);
+	root = new OctreeNode(zone, nullptr);
 
 }
 
@@ -245,9 +270,7 @@ void Octree::Remove(GameObject * go)
 {
 	if (root != nullptr)
 	{
-		AABB goAABB = go->GetTransform()->GetBoundingBox();
-		if (root->zone.Contains(goAABB))
-			root->Remove(go);
+		root->Remove(go);
 	}
 }
 

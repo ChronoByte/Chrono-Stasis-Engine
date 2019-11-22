@@ -34,12 +34,11 @@ bool ModuleScene::Init(JSON_Object* node)
 bool ModuleScene::Start()
 {
 	CreateRoot(); 
-	
+	CreateOctree(100.f);
+
 	App->fbx->LoadModel("Assets/Models/BakerHouse.FBX");
 
 	CleanSelected(); 
-
-	octree = new Octree(AABB(float3(-50.f, -50.f, -50.f), float3(50.f,50.f, 50.f)));
 
 	return true;
 }
@@ -57,6 +56,9 @@ bool ModuleScene::CleanUp()
 
 update_status ModuleScene::PreUpdate(float dt)
 {
+	if (GetSelected() != nullptr && App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
+		GetSelected()->to_delete = true;
+
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
 		App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
 
@@ -159,6 +161,9 @@ void ModuleScene::DrawOriginAxis()
 
 void ModuleScene::DrawOctree()
 {
+	if (octree->GetRoot() == nullptr)
+		return; 
+
 	std::vector<OctreeNode*> nodes;
 	octree->CollectZones(nodes);
 
@@ -173,6 +178,8 @@ void ModuleScene::DrawOctree()
 			glVertex3f(nodes[j]->zone.Edge(i).b.x, nodes[j]->zone.Edge(i).b.y, nodes[j]->zone.Edge(i).b.z);
 		}
 	}
+
+	glColor3f(1.f, 1.f, 1.f);
 
 	glEnd();
 }
@@ -332,11 +339,6 @@ void ModuleScene::SetSelected(GameObject* go)
 	selected = go; 
 }
 
-void ModuleScene::SetRoot(GameObject* go)
-{
-	root = go;
-}
-
 void ModuleScene::CleanSelected()
 {
 	selected = nullptr; 
@@ -347,6 +349,8 @@ void ModuleScene::DeleteRoot()
 	delete root;
 	root = nullptr;
 }
+
+// ------------------ Camera ------------------------
 
 void ModuleScene::SetMainCamera(ComponentCamera * camera)
 {
@@ -385,6 +389,37 @@ void ModuleScene::ClearCamera()
 ComponentCamera * ModuleScene::GetMainCamera() const
 {
 	return mainCamera;
+}
+
+// ------------------ Octree ------------------------
+
+void ModuleScene::CreateOctree(const float & size)
+{
+	octree = new Octree(AABB(float3(-size, -size, -size), float3(size, size, size)));
+}
+
+void ModuleScene::InsertInOctree(GameObject * go)
+{
+	//if (octree->GetRoot() == nullptr)		
+	//	CreateOctree(50); // Recreate Octree
+
+	octree->Insert(go);
+
+}
+
+void ModuleScene::RemoveFromOctree(GameObject * go)
+{
+	octree->Remove(go); 
+}
+
+void ModuleScene::ResetOctree()
+{
+	octree->ClearOctree(); 
+}
+
+void ModuleScene::RecreateOctree()
+{
+
 }
 
 bool ModuleScene::isOctreeActive() const

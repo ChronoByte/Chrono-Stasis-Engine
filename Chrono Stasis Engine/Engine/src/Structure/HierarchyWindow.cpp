@@ -94,8 +94,8 @@ void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 
 		if (ImGui::IsItemClicked())
 		{
-			App->scene->SetSelected(parent); 	// TODO: Handle the situation where a GameObject is deleted and selected at the same time
-			LOG("Selected game object: %s", App->scene->GetSelected()->GetName());
+			App->scene->SetSelected(parent); 	
+			//LOG("Selected game object: %s", App->scene->GetSelected()->GetName());
 		}
 
 		std::list<GameObject*>::const_iterator it = parent->childs.begin();

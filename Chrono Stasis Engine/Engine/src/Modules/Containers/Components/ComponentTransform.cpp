@@ -20,6 +20,9 @@ void ComponentTransform::Update(float dt)
 
 	if (toRecalculateTransform) 
 	{
+		if (owner->isStatic())
+			owner->SetStatic(false); 
+
 		CalculateTransformRecursively(); 
 		toRecalculateTransform = false; 
 
@@ -70,6 +73,7 @@ const float4x4 ComponentTransform::GetLocalTransform() const
 
 const void ComponentTransform::SetLocalTransform(const float4x4& local)
 {
+	local.Decompose(position, rotation_quat, scale); 
 	this->local_matrix = local;
 }
 

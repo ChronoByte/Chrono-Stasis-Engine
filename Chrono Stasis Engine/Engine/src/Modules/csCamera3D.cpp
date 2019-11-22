@@ -290,6 +290,9 @@ void ModuleCamera3D::MousePicking(bool usingOctree)
 		std::multimap<float, GameObject*> candidates; 
 
 		App->scene->octree->CollectCandidates(candidates, ray);
+		
+		for (std::multimap<float, GameObject*>::iterator it = candidates.begin(); it != candidates.end(); ++it)
+			LOG("%f -> %s", (*it).first, (*it).second->GetName());
 
 		GameObject* objectHit = App->scene->CheckRayAgainstTris(ray, candidates);
 
