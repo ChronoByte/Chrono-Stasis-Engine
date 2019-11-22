@@ -16,7 +16,8 @@ public:
 	~SceneViewWindow();
 
 	void Draw() override;
-	
+	void UpdateGuizmo(); 
+
 	float GetWindowWidth() const;
 	float GetWindowHeight() const;
 

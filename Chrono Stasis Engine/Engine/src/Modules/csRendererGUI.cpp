@@ -6,6 +6,8 @@
 #include "imgui/imgui_impl_sdl.h"
 #include "imgui/imgui_impl_opengl3.h"
 
+#include "imGuizmo/ImGuizmo.h"
+
 ModuleUI::ModuleUI(bool start_enabled) : Module(start_enabled)
 {
 	name = "RendererGUI";
@@ -59,6 +61,7 @@ update_status ModuleUI::PreUpdate(float dt)
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
 
 	return UPDATE_CONTINUE;
 }

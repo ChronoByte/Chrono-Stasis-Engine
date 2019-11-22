@@ -7,6 +7,7 @@
 #include "csCamera3D.h"
 #include "csOctree.h"
 
+#include "imGuizmo/ImGuizmo.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)
 {
@@ -134,7 +135,8 @@ update_status ModuleCamera3D::Update(float dt)
 
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
-			MousePicking(App->scene->isOctreeActive());
+			if(!ImGuizmo::IsUsing() && !ImGuizmo::IsOver())
+				MousePicking(App->scene->isOctreeActive());
 		}
 
 	}

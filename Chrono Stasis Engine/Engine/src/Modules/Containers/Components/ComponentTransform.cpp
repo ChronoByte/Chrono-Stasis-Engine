@@ -23,8 +23,7 @@ void ComponentTransform::Update(float dt)
 		CalculateTransformRecursively(); 
 		toRecalculateTransform = false; 
 
-		if (App->renderer3D->drawBoundingBox || drawBoundingBox)
-			ForceParentBoundingBox();
+		ForceParentBoundingBox();
 	}
 }
 
@@ -32,7 +31,7 @@ void ComponentTransform::Update(float dt)
 void ComponentTransform::OnDebugDraw()
 {
 
-	if (App->renderer3D->drawBoundingBox || drawBoundingBox)
+	if (App->renderer3D->drawBoundingBox || drawBoundingBox || App->scene->GetSelected() == owner)
 		DrawBoundingBox();
 
 }

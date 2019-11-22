@@ -27,8 +27,8 @@ public:
 
 	void DrawBoundingBox();
 	const float4x4 GetLocalTransform() const;
-	const void SetLocalTransform(const float4x4& local);
 	const float4x4 GetGlobalTransform() const;
+	const void SetLocalTransform(const float4x4& local);
 
 	void CalculateTransformRecursively();
 	void UpdateBoundingBox();
@@ -68,7 +68,7 @@ public:
 	float4x4 global_matrix = float4x4::identity;
 
 	BoundingBox boundingBox;
-	bool drawBoundingBox = true;
+	bool drawBoundingBox = false;
 
 	bool toRecalculateTransform = false;
 
