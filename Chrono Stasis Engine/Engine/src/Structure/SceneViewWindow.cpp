@@ -17,59 +17,70 @@ SceneViewWindow::~SceneViewWindow()
 
 void SceneViewWindow::Draw()
 {
-	ImGui::Begin("Scene", &active, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
-
-	ImVec2 size = ImGui::GetWindowSize();
-	width = size.x;
-	height = size.y;
-	ImGui::SetCursorPos({ -(App->window->width - size.x) / 2,-(App->window->height - size.y) / 2 });
-
-	//LOG("Scene view width: %f height: %f", width, height);
-
-	mouseX = App->input->GetMouseX();;
-	mouseY = App->input->GetMouseY();
-	//LOG("Mouse X: %f Mouse Y: %f", mouseX, mouseY);
-
-	ImVec2 winPos = ImGui::GetWindowPos();
-	mouseX = mouseX - winPos.x;
-	mouseY = mouseY - winPos.y;
-
-	//LOG("Corrected Mouse X: %f Mouse Y: %f", mouseX, mouseY);
-
-	ImVec2 current_viewport_size = ImGui::GetContentRegionAvail();
-
-	if (!App->renderer3D->displayZBuffer)
-		ImGui::Image((ImTextureID)App->renderer3D->editorViewport->renderTexture, { (float)App->renderer3D->editorViewport->width, (float)App->renderer3D->editorViewport->height }, { 0,1 }, { 1,0 });
-	else
-		ImGui::Image((ImTextureID)App->renderer3D->editorViewport->zBufferTexture, { (float)App->renderer3D->editorViewport->width, (float)App->renderer3D->editorViewport->height }, { 0,1 }, { 1,0 });
-
-	ImGuizmo::SetDrawlist();
-	//ImGuizmo::SetRect(winPos.x, winPos.y, current_viewport_size.x, current_viewport_size.y);
-	ImGuizmo::SetRect(0, 0, current_viewport_size.x, current_viewport_size.y);
-
-	if (App->scene->GetSelected() != nullptr)
+	if (ImGui::Begin("Scene", &active, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse))
 	{
-		ImGuizmo::Enable(true);
-		UpdateGuizmo();
+		//ImGui::SetCursorPos({ -(App->window->width - size.x) / 2,-(App->window->height - size.y) / 2 });
+
+		ImVec2 size = ImGui::GetWindowSize();
+
+		width = size.x;
+		height = size.y;
+
+		// Handle Resizing
+		if (regionX != ImGui::GetContentRegionAvail().x || regionY != ImGui::GetContentRegionAvail().y)
+		{
+			regionX = ImGui::GetContentRegionAvail().x;
+			regionY = ImGui::GetContentRegionAvail().y; 
+
+			App->renderer3D->editorViewport->SetSize(width, height);
+		}
+
+		ImVec2 cursorPos = ImGui::GetCursorScreenPos();
+
+		mouseX = ImGui::GetMousePos().x - cursorPos.x;
+		mouseY = ImGui::GetMousePos().y - cursorPos.y;
+
+		windowPosX = ImGui::GetWindowPos().x;
+		windowPosY = ImGui::GetWindowPos().y;
+
+		//LOG("Corrected Mouse X: %f Mouse Y: %f", ImGui::GetMousePos().x, ImGui::GetMousePos().y);
+
+
+		if (!App->renderer3D->displayZBuffer)
+			ImGui::Image((ImTextureID)App->renderer3D->editorViewport->renderTexture, { width, height }, { 0,1 }, { 1,0 });
+		//ImGui::Image((ImTextureID)App->renderer3D->editorViewport->renderTexture, { (float)App->renderer3D->editorViewport->width, (float)App->renderer3D->editorViewport->height }, { 0,1 }, { 1,0 });
+		else
+			ImGui::Image((ImTextureID)App->renderer3D->editorViewport->zBufferTexture, { (float)App->renderer3D->editorViewport->width, (float)App->renderer3D->editorViewport->height }, { 0,1 }, { 1,0 });
+
+
+		ImGuizmo::SetDrawlist();
+		ImGuizmo::SetRect(cursorPos.x, cursorPos.y, width, height);
+
+		if (App->scene->GetSelected() != nullptr)
+		{
+			ImGuizmo::Enable(true);
+			UpdateGuizmo();
+		}
+		else ImGuizmo::Enable(false);
+
+
+
+		/*int new_width, new_height;
+		App->window->GetWindowSize(new_width, new_height);
+		if (App->window->width != new_width || App->window->height != new_height)
+		{
+
+			App->window->width = new_width;
+			App->window->height = new_height;
+			App->renderer3D->OnResize(new_width, new_height);
+		}*/
+
+
+		if (ImGui::IsWindowHovered())
+			App->camera->cameraControls = true;
+		else
+			App->camera->cameraControls = false;
 	}
-	else ImGuizmo::Enable(false);
-
-
-	int new_width, new_height;
-	App->window->GetWindowSize(new_width, new_height);
-	if (App->window->width != new_width || App->window->height != new_height)
-	{
-
-		App->window->width = new_width;
-		App->window->height = new_height;
-		App->renderer3D->OnResize(new_width, new_height);
-	}
-
-
-	if (ImGui::IsWindowHovered())
-		App->camera->cameraControls = true;
-	else
-		App->camera->cameraControls = false;
 
 	ImGui::End();
 

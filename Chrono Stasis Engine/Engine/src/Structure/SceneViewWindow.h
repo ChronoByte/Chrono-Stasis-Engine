@@ -24,13 +24,19 @@ public:
 	float GetMouseXInWindow() const; 
 	float GetMouseYInWindow() const; 
 
-private:
+public:
 	
 	float width = 0.f;
 	float height = 0.f;
 
+	float regionX = 0.f; 
+	float regionY = 0.f; 
+
 	float mouseX = 0.f;
 	float mouseY = 0.f;
+
+	float windowPosX = 0.f; 
+	float windowPosY = 0.f;
 
 	bool zBuffer = false; 
 };
