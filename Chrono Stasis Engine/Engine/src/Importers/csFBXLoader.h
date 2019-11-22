@@ -8,6 +8,7 @@
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
 #include "ResourceMesh.h"
+#include "ResourceTexture.h"
 class ComponentMesh; 
 class GameObject; 
 

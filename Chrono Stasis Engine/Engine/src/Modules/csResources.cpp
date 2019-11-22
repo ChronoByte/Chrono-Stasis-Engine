@@ -176,3 +176,19 @@ std::vector<Resource*> ModuleResources::GetResourcesFromType(Resource::Type type
 
 	return ret;
 }
+
+Resource* ModuleResources::GetResourceFromName(const char* texture)
+{
+	//std::map<uint, Resource*>::iterator it = resources.begin();
+
+	auto it = resources.begin();
+	for (int i = 0; i < resources.size(); i++)
+	{
+		if (strcmp(it->second->name.c_str(), texture) == 0)
+		{
+			return it->second;
+		}
+		it++;
+	}
+	return nullptr;
+}

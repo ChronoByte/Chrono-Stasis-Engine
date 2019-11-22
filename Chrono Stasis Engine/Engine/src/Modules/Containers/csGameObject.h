@@ -43,6 +43,8 @@ public:
 
 	// Gets
 	uint GetUUID() const;
+	int GetComponentsNum() const;
+	int GetChildrenNum() const;
 	bool isActive() const;
 	bool isStatic() const;
 	GameObject* GetParent() const;

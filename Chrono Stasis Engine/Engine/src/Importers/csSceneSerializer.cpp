@@ -80,3 +80,10 @@ bool ModuleSceneSerializer::LoadScene(const char* scene_path, std::string dir)
 {
 	return true;
 }
+
+void ModuleSceneSerializer::SaveModel(const GameObject& go, const char* dir, const char* file_path)
+{
+
+	LOG("SAVING MODEL %s -----", go.GetName());
+
+}

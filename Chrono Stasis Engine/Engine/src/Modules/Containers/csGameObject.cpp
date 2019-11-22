@@ -285,6 +285,16 @@ uint GameObject::GetUUID() const
 	return UUID;
 }
 
+int GameObject::GetComponentsNum() const
+{
+	return components.size();
+}
+
+int GameObject::GetChildrenNum() const
+{
+	return childs.size();
+}
+
 void GameObject::DrawInspectorComponents()
 {
 

@@ -27,9 +27,10 @@ public:
 	Resource* FindUID(UID uid);
 	bool DeleteResourceFromUID(UID uid);
 	std::vector<Resource*> GetResourcesFromType(Resource::Type type);
+	Resource* GetResourceFromName(const char* texture);
 	//uint Find(const char* file) const;
-	//uint GenerateNewUID();
-	//Resource* AddResource(Resource::Type type, uint forced_uid = 0);
+	
+	
 
 private:
 	std::map <UID, Resource* > resources;

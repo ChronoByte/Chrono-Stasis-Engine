@@ -420,7 +420,7 @@ bool ModuleFBXLoader::Import(const char* assets_path, std::string& library_path,
 		App->fs->GetNameFile(assets_path, name);
 		newGo = App->scene->CreateGameObject(nullptr, name.c_str());
 
-		LOG("----------- Loading FBX Model: %s -----------", name.c_str());
+		LOG("----------- Importing FBX Model: %s -----------", name.c_str());
 		LOG("Path: %s", assets_path);
 
 		//SetBoundingBox(scene);
@@ -444,9 +444,12 @@ bool ModuleFBXLoader::Import(const char* assets_path, std::string& library_path,
 
 		newGo->GetTransform()->SetupTransform(math::float3(position.x, position.y, position.z), math::float3(scale.x, scale.y, scale.z), rot);
 		//-----------------------------------
-
-
-		LOG("----------- Ended Loading FBX Model: %s -----------", name.c_str());
+		
+		App->serialization->SaveModel(*newGo, A_MODELS_FOLDER, assets_path);
+		//TODO: GO needs to be deleted after being serialized into .meta fbx
+		//TODO: NewGo->DeleteGO();
+		
+		LOG("----------- Ended Importing FBX Model: %s -----------", name.c_str());
 		aiReleaseImport(scene);
 
 		return true;
@@ -479,18 +482,23 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene, std::string& 
 			std::string newPath = filePath + fileName.C_Str();
 			ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
 
-			// Try to find the texture in our vector of loaded textures so its not loaded twice 
-			TextureInfo* texture = App->texture->FindLoadedTextureWithPath(newPath.c_str());
-			if (texture != nullptr)
-			{
-				myMaterial->SetTexture(texture);
-				LOG("Assigning texture already loaded in memory: %s", newPath.c_str());
-			}
-			else
-			{
-				myMaterial->SetTexture(App->texture->LoadTexture(newPath.c_str()));
-			}
+			ResourceTexture* resMat = (ResourceTexture*)App->resources->GetResourceFromName(fileName.C_Str());
 
+			if (resMat)
+			{
+				UID uuid;
+				uuid = resMat->GetUID();
+				myMaterial->AssignResource(uuid);
+				LOG("Assigning texture already imported: %s", newPath.c_str());
+			}
+			else 
+			{
+				UID uuid;
+				uuid = App->resources->ImportFile(newPath.c_str(), Resource::R_TEXTURE, uuid);
+				myMaterial->AssignResource(uuid);
+				LOG("Assigning texture embbeded: %s", newPath.c_str());
+			}
+			
 		}
 		else LOG("FBX does not have a embedded Texture");
 
