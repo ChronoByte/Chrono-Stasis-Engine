@@ -158,37 +158,6 @@ bool ComponentCamera::CheckAABBInsideFrustum(const OBB & myAabb)
 	return true;
 }
 
-void ComponentCamera::SetInitially()
-{
-	frustum.type = FrustumType::PerspectiveFrustum;
-
-	if (owner != nullptr) 
-	{
-		UpdateTransform();
-		App->scene->SetMainCamera(this);
-		isMainCamera = true;
-	}
-	else
-	{
-		frustum.pos = float3(1.f, 6.f, 10.f);
-		frustum.front = float3(0.f, 0.f, 1.f);
-		frustum.up = float3(0.f, 1.f, 0.f);
-		bgColor[0] = 0.f;
-		bgColor[1] = 0.f;
-		bgColor[2] = 0.f;
-		bgColor[3] = 0.f;
-	}
-
-	frustum.nearPlaneDistance = 1.f;
-	frustum.farPlaneDistance = 500.f;
-
-	frustum.verticalFov = 60.f * DEGTORAD;
-	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * ((float)App->window->width / (float)App->window->height));
-	aspectRatio = tanf(frustum.verticalFov * 0.5f) / tanf(frustum.horizontalFov * 0.5f);
-
-
-}
-
 void ComponentCamera::UpdateRatio(bool axisVertical, float verticalFOV, float horizontalFOV)
 {
 	if (axisVertical)
@@ -319,6 +288,37 @@ bool ComponentCamera::isCulling() const
 const float* ComponentCamera::GetColor() const
 {
 	return bgColor;
+}
+
+void ComponentCamera::SetInitially()
+{
+	frustum.type = FrustumType::PerspectiveFrustum;
+
+	if (owner != nullptr)
+	{
+		UpdateTransform();
+		App->scene->SetMainCamera(this);
+		isMainCamera = true;
+	}
+	else
+	{
+		frustum.pos = float3(1.f, 6.f, 10.f);
+		frustum.front = float3(0.f, 0.f, 1.f);
+		frustum.up = float3(0.f, 1.f, 0.f);
+		bgColor[0] = 0.f;
+		bgColor[1] = 0.f;
+		bgColor[2] = 0.f;
+		bgColor[3] = 0.f;
+	}
+
+	frustum.nearPlaneDistance = 1.f;
+	frustum.farPlaneDistance = 500.f;
+
+	frustum.verticalFov =  60 * DEGTORAD;
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * ((float)App->window->width / (float)App->window->height));
+	aspectRatio = tanf(frustum.verticalFov * 0.5f) / tanf(frustum.horizontalFov * 0.5f);
+
+
 }
 
 void ComponentCamera::Save(RJSON_Value* component) const
