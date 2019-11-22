@@ -1,4 +1,7 @@
 #pragma once
+
+#include "csGlobals.h"
+#include "csComponent.h"
 #include "Resource.h"
 #include "MathGeoLib/include/Math/float3.h"
 class aiMesh;
@@ -37,6 +40,8 @@ public:
 	const MeshInfo<float> GetMeshTextureCoords() const;
 	const MeshInfo<float> GetMeshNormals() const;
 
+	bool LoadMeshBuffers();
+	bool UnloadMeshBuffers();
 	virtual bool LoadInMemory() override;
 	virtual bool UnloadOutMemory() override;
 

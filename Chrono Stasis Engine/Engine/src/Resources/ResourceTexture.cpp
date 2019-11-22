@@ -16,7 +16,9 @@ ResourceTexture::~ResourceTexture()
 	UnloadOutMemory();
 }
 
-bool ResourceTexture::LoadInMemory()
+
+// ------------ LOAD / UNLOAD BUFFERS ------------ //
+bool ResourceTexture::LoadTextureBuffer()
 {
 	bool ret = false;
 
@@ -63,8 +65,21 @@ bool ResourceTexture::LoadInMemory()
 	return ret;
 }
 
-bool ResourceTexture::UnloadOutMemory()
+bool ResourceTexture::UnloadTextureBuffer()
 {
 	glDeleteTextures(1, &gpu_id);
-	return false;
+	return true;
+}
+
+// ------------  LOAD / UNLOAD COUNTING REFERENCE ------------ //
+bool ResourceTexture::LoadInMemory()
+{
+	bool ret = LoadTextureBuffer();
+	return ret;
+}
+
+bool ResourceTexture::UnloadOutMemory()
+{
+	bool ret = UnloadTextureBuffer();
+	return ret;
 }

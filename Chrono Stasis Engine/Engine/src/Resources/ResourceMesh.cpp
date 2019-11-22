@@ -1,3 +1,4 @@
+#include "csApp.h"
 #include "ResourceMesh.h"
 #include "Assimp/include/scene.h"
 
@@ -7,6 +8,7 @@ ResourceMesh::ResourceMesh(uint id, Resource::Type type): Resource(id, type)
 
 ResourceMesh::~ResourceMesh()
 {
+	UnloadOutMemory();
 }
 
 void ResourceMesh::LoadMeshVertices(aiMesh* mesh)
@@ -204,13 +206,183 @@ const MeshInfo<float> ResourceMesh::GetMeshNormals() const
 	return normals;
 }
 
+bool ResourceMesh::LoadMeshBuffers()
+{
+	bool ret = true;
+	// Vertices Buffer 
+
+	if (vertex.buffer != nullptr)
+	{
+		glGenBuffers(1, &vertex.id);
+		glBindBuffer(GL_ARRAY_BUFFER, vertex.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex.capacity * 3, vertex.buffer, GL_STATIC_DRAW);
+		LOG("Generated vertex buffer with ID: %i and size %i", vertex.id, vertex.capacity);
+	}
+	else 
+	{
+		ret = false;
+		LOG("Error: There's no data to create a vertex buffer");
+	}
+
+
+	// Index Buffer 
+
+	if (index.buffer != nullptr)
+	{
+		glGenBuffers(1, &index.id);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, index.id);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * index.capacity, index.buffer, GL_STATIC_DRAW);
+		LOG("Generated index buffer with ID %i and size %i ", index.id, index.capacity);
+	}
+	else 
+	{ 
+		ret = false;
+		LOG("Error: There's no data to create a index buffer"); 
+	}
+
+	// Normals Buffer
+
+	if (normals.buffer != nullptr)
+	{
+		glGenBuffers(1, &normals.id);
+		glBindBuffer(GL_ARRAY_BUFFER, normals.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * normals.capacity, normals.buffer, GL_STATIC_DRAW);
+		LOG("Generated Normals buffer with ID %i and size %i ", normals.id, normals.capacity);
+	}
+	else 
+	{
+		ret = false;
+		LOG("Error: There's no data to create a index buffer");
+	}
+
+	// Vertex Normals Buffer
+
+	if (vertexNormals.buffer != nullptr)
+	{
+		glGenBuffers(1, &vertexNormals.id);
+		glBindBuffer(GL_ARRAY_BUFFER, vertexNormals.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertexNormals.capacity, vertexNormals.buffer, GL_STATIC_DRAW);
+		LOG("Generated Vertex Normals Buffer buffer with ID %i and size %i ", vertexNormals.id, vertexNormals.capacity);
+	}
+	else
+	{
+		ret = false;
+		LOG("Error: There's no data to create a Vertex Normals Buffer");
+	}
+
+	// Face Normals Buffer
+
+	if (faceNormals.buffer != nullptr)
+	{
+		glGenBuffers(1, &faceNormals.id);
+		glBindBuffer(GL_ARRAY_BUFFER, faceNormals.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * faceNormals.capacity, faceNormals.buffer, GL_STATIC_DRAW);
+		LOG("Generated Face Normals Buffer buffer with ID %i and size %i ", faceNormals.id, faceNormals.capacity);
+	}
+	else 
+	{
+		ret = false;
+		LOG("Error: There's no data to create a Face Normals Buffer");
+	}
+
+	// Texture Coords Buffer
+
+	if (textureCoords.buffer != nullptr)
+	{
+		glGenBuffers(1, &textureCoords.id);
+		glBindBuffer(GL_ARRAY_BUFFER, textureCoords.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * textureCoords.capacity * 2, textureCoords.buffer, GL_STATIC_DRAW);
+		LOG("Generated Texture Coords buffer with ID %i and size %i ", textureCoords.id, textureCoords.capacity);
+	}
+	else 
+	{ 
+		ret = false;
+		LOG("Error: There's no data to create a Texture Coords buffer"); 
+	}
+
+
+	// Colors Buffer
+	if (colors.buffer != nullptr)
+	{
+		glGenBuffers(1, &colors.id);
+		glBindBuffer(GL_ARRAY_BUFFER, colors.id);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * colors.capacity * 4, colors.buffer, GL_STATIC_DRAW);
+		LOG("Generated Colors buffer with ID %i and size %i ", colors.id, colors.capacity);
+	}
+	else 
+	{ 
+		//ret = false;
+		LOG("There's no data to create Colors buffer"); 
+	}
+
+	return ret;
+}
+
+bool ResourceMesh::UnloadMeshBuffers()
+{
+	LOG("Deleting component mesh from %s", this->GetName());
+
+	// Delete vertex
+	if (vertex.buffer != nullptr)
+	{
+		delete[] vertex.buffer;
+		vertex.buffer = nullptr;
+	}
+
+	// Delete Index
+	if (index.buffer != nullptr)
+	{
+		delete[] index.buffer;
+		index.buffer = nullptr;
+	}
+
+	// Delete Colors
+	if (colors.buffer != nullptr)
+	{
+		delete[] colors.buffer;
+		colors.buffer = nullptr;
+	}
+
+	// Delete Normals
+	if (normals.buffer != nullptr)
+	{
+		delete[] normals.buffer;
+		normals.buffer = nullptr;
+	}
+
+	// Delete Face Normals
+	if (faceNormals.buffer != nullptr)
+	{
+		delete[] faceNormals.buffer;
+		faceNormals.buffer = nullptr;
+	}
+
+	// Delete Vertex Normals
+	if (vertexNormals.buffer != nullptr)
+	{
+		delete[] vertexNormals.buffer;
+		vertexNormals.buffer = nullptr;
+	}
+
+	// Delete Texture Coords
+	if (textureCoords.buffer != nullptr)
+	{
+		delete[] textureCoords.buffer;
+		textureCoords.buffer = nullptr;
+	}
+
+	return true;
+}
+
 
 bool ResourceMesh::LoadInMemory()
 {
-	return false;
+	bool ret = LoadMeshBuffers();
+	return ret;
 }
 
 bool ResourceMesh::UnloadOutMemory()
 {
-	return false;
+	bool ret = UnloadMeshBuffers();
+	return ret;
 }
