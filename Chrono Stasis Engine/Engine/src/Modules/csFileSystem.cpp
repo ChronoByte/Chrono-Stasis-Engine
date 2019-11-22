@@ -123,6 +123,7 @@ update_status ModuleFileSystem::Update(float dt)
 	{
 		LOG("FILESYSTEM: Refresh Files");
 		RefreshFiles();
+		LogAssetsInfo(assets);
 	}
 
 	//TODO: Check if new file was added or moified in Assets Folder
@@ -155,6 +156,8 @@ bool ModuleFileSystem::CleanUp()
 {
 	bool ret = false;
 
+	delete assets;
+	assets = nullptr;
 	LOG("FILESYSTEM: Deinitializing PHYSFS...");
 
 	for (uint i = 0; i < directories.size(); ++i)
@@ -599,7 +602,7 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 			if (!extension.compare(".fbx") || !extension.compare(".FBX"))
 			{
 				UID ret;
-				ret = App->resources->ImportFile(file_path.c_str(), Resource::R_SCENE);
+				//ret = App->resources->ImportFile(file_path.c_str(), Resource::R_MESH);
 			}
 
 			else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
@@ -818,9 +821,22 @@ bool ModuleFileSystem::CheckDroppedFile(const char* dropped_file)
 
 void ModuleFileSystem::RefreshFiles()
 {
+	CleanAssets(assets);
 	assets->ClearFiles();
+
 	PushFilesRecursively(assets->name.c_str());
 	ImportFilesRecursively(assets, false);
+
+}
+
+void ModuleFileSystem::CleanAssets(Folder* root)
+{
+	root->files.clear();
+
+	for (uint i = 0u; i < root->folders.size(); i++) {
+		CleanAssets(&root->folders[i]);
+		root->folders.clear();
+	}
 
 }
 

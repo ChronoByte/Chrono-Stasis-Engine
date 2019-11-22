@@ -7,9 +7,10 @@
 #include "Assimp/include/scene.h"
 #include "Assimp/include/postprocess.h"
 #include "Assimp/include/cfileio.h"
-
+#include "ResourceMesh.h"
 class ComponentMesh; 
 class GameObject; 
+
 
 enum FileType
 {
@@ -56,13 +57,17 @@ public:
 
 	ComponentMesh* LoadMesh(aiMesh* mesh,const aiScene* scene);
 	void NodePath(aiNode* node, const aiScene* scene);
+	void NodePath(aiNode* node, const aiScene* scene, std::string& library_path, std::string assets_path, UID uid);
 
 	GameObject* LoadFBXData(const char* fbx_name);
 	void GrowBoundingBox(aiMesh* mesh, float3* min, float3* max);
 	void SetBoundingBox(const aiScene* scene);
-	bool SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data);
-	bool LoadMeshData();
+	//bool SaveMeshData(const char* fbx_name, ComponentMesh* mesh_data);
+	//bool LoadMeshData();
 
+	bool Import(const char* assets_path, std::string& library_path, UID uid);
+	ComponentMesh* ImportMesh(aiMesh* mesh, const aiScene* scene, std::string& library_path, UID uid, const char* name, const char* assets_path);
+	void SaveMesh(ResourceMesh* resource, UID uuid, std::string& library_path);
 private:
 	FBXModel* model = nullptr;
 	GameObject* newGo = nullptr; 

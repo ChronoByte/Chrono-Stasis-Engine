@@ -408,6 +408,7 @@
     <ClInclude Include="Engine\src\Structure\ResourceBrowserWindow.h" />
     <ClInclude Include="Engine\src\Modules\csViewport.h" />
     <ClInclude Include="Engine\src\Tools\csOctree.h" />
+    <ClInclude Include="Engine\src\Resources\ResourceMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -603,6 +604,7 @@
     <ClCompile Include="Engine\src\Modules\Containers\csComponent.cpp" />
     <ClCompile Include="Engine\src\Modules\csViewport.cpp" />
     <ClCompile Include="Engine\src\Tools\csOctree.cpp" />
+    <ClCompile Include="Engine\src\Resources\ResourceMesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
