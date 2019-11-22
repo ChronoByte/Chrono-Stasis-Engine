@@ -14,13 +14,8 @@ class TextureInfo;
 struct BoundingBox;
 struct RJSON_Value;
 
-template<typename T>
-struct MeshInfo
-{
-	uint id = 0u;
-	uint capacity = 0u;
-	T* buffer = nullptr;
-};
+#include "ResourceMesh.h"
+
 
 class ComponentMesh : public Component
 {

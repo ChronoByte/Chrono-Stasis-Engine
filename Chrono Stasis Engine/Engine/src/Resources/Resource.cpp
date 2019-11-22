@@ -33,6 +33,21 @@ const char* Resource::GetExportedFile() const
 	return exported_file.c_str();
 }
 
+void Resource::SetName(const char* name)
+{
+	this->name = name;
+}
+
+void Resource::SetFile(const char* file)
+{
+	this->file = file;
+}
+
+void Resource::SetExportedFile(const char* exported_file)
+{
+	this->exported_file = exported_file;
+}
+
 bool Resource::IsLoadedToMemory() const
 {
 	return (loaded > 0);

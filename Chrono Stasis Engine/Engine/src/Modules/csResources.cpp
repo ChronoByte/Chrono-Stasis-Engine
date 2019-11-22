@@ -1,6 +1,7 @@
 #include "csApp.h"
 #include "csResources.h"
 #include "ResourceTexture.h"
+#include "ResourceMesh.h"
 
 ModuleResources::ModuleResources(bool start_enabled)
 {
@@ -36,12 +37,12 @@ uint ModuleResources::ImportFile(const char* assets_file, Resource::Type type, U
 	//UID uuid = 0; 
 	switch (type) {
 		case Resource::R_TEXTURE: import_ok = App->texture->Import(assets_file, written_file, uuid_to_force); break; // Create Own format file
-		case Resource::R_MESH: import_ok = false; break;
+		case Resource::R_MESH: import_ok = App->fbx->Import(assets_file, written_file, uuid_to_force); break;
 		case Resource::R_SCENE: import_ok = false; break;
 	}
 
 	// Create Resource
-	if (import_ok == true) { 
+	if (import_ok == true && type == Resource::R_TEXTURE) { 
 		Resource* res = CreateNewResource(type, uuid_to_force);
 		res->uid = uuid_to_force;
 		res->name = asset_name;
@@ -72,7 +73,7 @@ Resource* ModuleResources::CreateNewResource(Resource::Type type, UID force_uid,
 
 	switch (type) {
 		case Resource::R_TEXTURE: ret = (Resource*) new ResourceTexture(force_uid,type); break;
-		case Resource::R_MESH: ret = false; break;
+		case Resource::R_MESH: ret = (Resource*) new ResourceMesh(force_uid, type); break;
 		case Resource::R_SCENE: ret = false; break;
 		
 	}

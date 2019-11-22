@@ -25,6 +25,10 @@ public:
 	//const char* GetImportedFile() const;
 	const char* GetExportedFile() const;
 
+	void SetName(const char* name);
+	void SetFile(const char* file);
+	void SetExportedFile(const char* exported_file);
+
 	uint CountReferences() const;
 	bool IsLoadedToMemory() const;
 	bool LoadToMemory();
