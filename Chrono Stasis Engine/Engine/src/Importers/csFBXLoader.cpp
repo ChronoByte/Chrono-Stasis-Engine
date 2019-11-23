@@ -577,8 +577,15 @@ ComponentMesh* ModuleFBXLoader::ImportMesh(aiMesh* mesh, const aiScene* scene,st
 
 void ModuleFBXLoader::SaveMesh(ResourceMesh* res, UID uuid, std::string& library_path)
 {
-	uint ranges[3] = { res->GetVertices(), res->GetIndices(), res->GetNormals() };
-	uint size = sizeof(ranges) + sizeof(float) * res->GetVertices() + sizeof(uint) * res->GetIndices() + sizeof(float) * res->GetNormals() + sizeof(float) * res->GetVertices();
+	uint ranges[4] = { res->GetIndices(), res->GetVertices(), res->GetTextureCoords(), res->GetNormals() };
+
+	uint size_indices = sizeof(uint) * res->GetIndices();
+	uint size_vertices = sizeof(float) * (res->GetVertices());
+	uint size_texCoords = sizeof(float) * (res->GetTextureCoords());
+	uint size_normals = sizeof(float) * (res->GetNormals());
+
+	/*uint size = sizeof(ranges) + sizeof(float) * res->GetVertices() + sizeof(uint) * res->GetIndices() + sizeof(float) * res->GetNormals() + sizeof(float) * res->GetVertices();*/
+	uint size = sizeof(ranges) + size_indices + size_vertices + size_texCoords + size_normals;
 
 	// Allocating all data 
 	char* data = new char[size];
@@ -588,25 +595,27 @@ void ModuleFBXLoader::SaveMesh(ResourceMesh* res, UID uuid, std::string& library
 	uint bytes = sizeof(ranges);
 	memcpy(cursor, ranges, bytes);
 
-	// Storing Vertices
-	cursor += bytes;
-	bytes = sizeof(float) * res->GetVertices();
-	memcpy(cursor, res->vertex.buffer, bytes);
-
 	// Storing Indices
 	cursor += bytes;
-	bytes = sizeof(uint) * res->GetIndices();
+	bytes = size_indices;
 	memcpy(cursor, res->index.buffer, bytes);
+
+	// Storing Vertices
+	cursor += bytes;
+	bytes = size_vertices;
+	memcpy(cursor, res->vertex.buffer, bytes);
 
 	// Storing Normals
 	cursor += bytes;
-	bytes = sizeof(float) * res->GetNormals();
+	bytes = size_normals;
 	memcpy(cursor, res->normals.buffer, bytes);
 
 	// Storing Tex Coords
 	cursor += bytes;
-	bytes = sizeof(float) * res->GetVertices(); //num_tex_coords;
+	bytes = size_texCoords; //num_tex_coords;
 	memcpy(cursor, res->textureCoords.buffer, bytes);
+
+	cursor += bytes;
 
 	// Release all pointers
 	RELEASE_ARRAY(res->vertex.buffer);

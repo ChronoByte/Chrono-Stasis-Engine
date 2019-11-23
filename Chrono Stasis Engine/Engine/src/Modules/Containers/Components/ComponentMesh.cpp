@@ -542,20 +542,27 @@ void ComponentMesh::Save(JSON_Object* object, std::string name, bool saveScene, 
 
 	if (currentResource != nullptr)
 	{
-		if (saveScene == false)
-		{
-			// Save Info of Resource in Prefab (next we use this info for Reimport this prefab)
-			std::string tmp_res;
-			std::string temp = std::to_string(countResources++);
+		//if (saveScene == false)
+		//{
+		//	// Save Info of Resource in Prefab (next we use this info for Reimport this prefab)
+		//	std::string tmp_res;
+		//	std::string temp = std::to_string(countResources++);
 
-			tmp_res = "Info.Resources.Resource " + temp + ".UUID Resource";
-			json_object_dotset_number(object, tmp_res.c_str(), currentResource->GetUID());
-			tmp_res = "Info.Resources.Resource " + temp + ".Name";
-			json_object_dotset_string(object, tmp_res.c_str(), currentResource->GetName());
-		}
+		//	tmp_res = "Info.Resources.Resource " + temp + ".UUID Resource";
+		//	json_object_dotset_number(object, tmp_res.c_str(), currentResource->GetUID());
+		//	tmp_res = "Info.Resources.Resource " + temp + ".Name";
+		//	json_object_dotset_string(object, tmp_res.c_str(), currentResource->GetName());
+		//}
+
+		tmp_mesh = name + "Resource Mesh Name";
+		json_object_dotset_string(object, tmp_mesh.c_str(), currentResource->GetName());
 
 		tmp_mesh = name + "Resource Mesh UUID";
 		json_object_dotset_number(object, tmp_mesh.c_str(), currentResource->GetUID());
+
+		tmp_mesh = name + "Resource Mesh File";
+		json_object_dotset_string(object, tmp_mesh.c_str(), currentResource->GetFile());
+
 		tmp_mesh = name + "Resource Mesh Path";
 		json_object_dotset_string(object, tmp_mesh.c_str(), currentResource->GetExportedFile());
 	}
@@ -581,13 +588,55 @@ void ComponentMesh::Load(const JSON_Object* object, std::string name)
 	tmp_mesh = name + "Resource Mesh Path";
 	std::string exported_file = json_object_dotget_string(object, tmp_mesh.c_str());
 
+	tmp_mesh = name + "Resource Mesh File";
+	std::string file = json_object_dotget_string(object, tmp_mesh.c_str());
+
+	tmp_mesh = name + "Resource Mesh Name";
+	std::string name_file = json_object_dotget_string(object, tmp_mesh.c_str());
+
+
 	if (resUUID > 0)
 	{
 		ResourceMesh* resMesh = (ResourceMesh*)App->resources->GetResource(resUUID);
 		if (resMesh != nullptr)
 		{
 			this->AssignResource(resUUID);
-			resMesh->LoadInMemory();
+			resMesh->LoadToMemory();
+		}
+		else 
+		{
+			resMesh = (ResourceMesh*)App->resources->CreateNewResource(Resource::R_MESH, resUUID, name_file.c_str(), file.c_str(), exported_file.c_str(), true);
+
+			this->AssignResource(resUUID);
+			resMesh->LoadToMemory();
+
+			/*JSON_Value* config_file;
+			JSON_Object* config;
+			JSON_Object* config_node;
+
+			config_file = json_parse_file(App->serialization->model_to_serialize.c_str());
+
+			config = json_value_get_object(config_file);
+			config_node = json_object_get_object(config, "Model");
+			std::string file = json_object_dotget_string(config_node, "Info.Directory Model");
+
+			int ResNum = json_object_dotget_number(config_node, "Info.Resources.Number of Resources");
+			std::string name;
+
+			for (int i = 0; i < ResNum; i++)
+			{
+				std::string tmp_res = "Info.Resources.Resource " + std::to_string(i) + ".UUID Resource";
+				UID tmp_uid = json_object_dotget_number(config_node, tmp_res.c_str());
+
+				if (tmp_uid == resUUID)
+				{
+					tmp_res = "Info.Resources.Resource " + std::to_string(i) + ".Name";
+					name = json_object_dotget_string(config_node, tmp_res.c_str());
+					break;
+				}
+
+			}*/
+
 		}
 	}
 

@@ -216,19 +216,14 @@ bool ResourceMesh::LoadResourceMesh()
 	{
 		char* cursor = buffer;
 
-		uint ranges[3];
+		uint ranges[4];
 		uint bytes = sizeof(ranges);
 		memcpy(ranges, cursor, bytes);
 
-		vertex.capacity = ranges[0];
-		index.capacity = ranges[1];
-		normals.capacity = ranges[2];
-
-		//Load Vertices
-		cursor += bytes;
-		bytes = sizeof(float) * vertex.capacity;
-		vertex.buffer = new float[vertex.capacity];
-		memcpy(vertex.buffer, cursor, bytes);
+		index.capacity = ranges[0];
+		vertex.capacity = ranges[1];
+		textureCoords.capacity = ranges[2];
+		normals.capacity = ranges[3];
 
 		//Load Indices
 		cursor += bytes;
@@ -236,6 +231,19 @@ bool ResourceMesh::LoadResourceMesh()
 		index.buffer = new uint[index.capacity];
 		memcpy(index.buffer, cursor, bytes);
 
+		//Load Vertices
+		cursor += bytes;
+		bytes = sizeof(float) * vertex.capacity;
+		vertex.buffer = new float[vertex.capacity];
+		memcpy(vertex.buffer, cursor, bytes);
+
+		//Load Tex Coords
+		cursor += bytes;
+		bytes = sizeof(float) * textureCoords.capacity;
+		textureCoords.buffer = new float[textureCoords.capacity];
+		memcpy(textureCoords.buffer, cursor, bytes);
+
+		//Load Normals
 		if (normals.capacity > 0)
 		{
 			cursor += bytes;
@@ -243,12 +251,6 @@ bool ResourceMesh::LoadResourceMesh()
 			normals.buffer = new float[normals.capacity];
 			memcpy(normals.buffer, cursor, bytes);
 		}
-
-		//Load Tex Coords
-		cursor += bytes;
-		bytes = sizeof(float) * vertex.capacity;
-		textureCoords.buffer = new float[vertex.capacity];
-		memcpy(textureCoords.buffer, cursor, bytes);
 
 		LoadMeshBuffers();
 

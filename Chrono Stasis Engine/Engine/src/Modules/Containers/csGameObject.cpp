@@ -26,10 +26,16 @@ GameObject::GameObject(GameObject * parent)
 	components.push_back(transform); 
 }
 
-GameObject::GameObject(GameObject* parent, UID uid)
+GameObject::GameObject(GameObject* GOparent, UID uid)
 {
 	this->UUID = uid;
-	this->parent = parent;
+	transform = new ComponentTransform(this);
+	components.push_back(transform);
+
+	if (GOparent->GetParent() == nullptr)
+		GOparent->childs.push_back(this);
+
+	this->parent = GOparent;
 	//SetParent(parent);
 }
 
@@ -420,7 +426,7 @@ void GameObject::LoadComponents(const JSON_Object* object, std::string name, uin
 		case ComponentType::C_NONE:
 			break;
 		case ComponentType::C_TRANSFORM:
-			this->CreateComponent(ComponentType::C_TRANSFORM);
+			//this->CreateComponent(ComponentType::C_TRANSFORM);
 			break;
 		case ComponentType::C_MESH:
 			this->CreateComponent(ComponentType::C_MESH);

@@ -127,8 +127,26 @@ void ComponentMaterial::Save(JSON_Object* object, std::string name, bool saveSce
 
 	if (currentResource != nullptr)
 	{
+		/*if (saveScene == false)
+		{
+			std::string tmp_res;
+			std::string temp = std::to_string(countResources++);
+
+			tmp_res = "Info.Resources.Resource " + temp + ".UUID Resource";
+			json_object_dotset_number(object, tmp_res.c_str(), currentResource->GetUID());
+			tmp_res = "Info.Resources.Resource " + temp + ".Name";
+			json_object_dotset_string(object, tmp_res.c_str(), currentResource->GetName());
+		}*/
+
+		tmp_mat = name + "Resource Material Name";
+		json_object_dotset_string(object, tmp_mat.c_str(), currentResource->GetName());
+
 		tmp_mat = name + "Resource Material UUID";
 		json_object_dotset_number(object, tmp_mat.c_str(), currentResource->GetUID());
+
+		tmp_mat = name + "Resource Material File";
+		json_object_dotset_string(object, tmp_mat.c_str(), currentResource->GetFile());
+
 		tmp_mat = name + "Resource Material Path";
 		json_object_dotset_string(object, tmp_mat.c_str(), currentResource->GetExportedFile());
 	}
@@ -151,13 +169,58 @@ void ComponentMaterial::Load(const JSON_Object* object, std::string name)
 	tmp_mat = name + "Resource Material UUID";
 	UID resUUID = json_object_dotget_number(object, tmp_mat.c_str());
 
+	tmp_mat = name + "Resource Material Path";
+	std::string exported_file = json_object_dotget_string(object, tmp_mat.c_str());
+
+	tmp_mat = name + "Resource Material File";
+	std::string file = json_object_dotget_string(object, tmp_mat.c_str());
+
+	tmp_mat = name + "Resource Material Name";
+	std::string name_file = json_object_dotget_string(object, tmp_mat.c_str());
+
 	if (resUUID > 0)
 	{
 		ResourceTexture* resMat = (ResourceTexture*)App->resources->GetResource(resUUID);
 		if (resMat != nullptr)
 		{
 			this->AssignResource(resUUID);
-			resMat->LoadInMemory();
+			resMat->LoadToMemory();
+		}
+		else 
+		{
+			resMat = (ResourceTexture*)App->resources->CreateNewResource(Resource::R_TEXTURE, resUUID, name_file.c_str(), file.c_str(), exported_file.c_str(), true);
+			this->AssignResource(resUUID);
+			resMat->LoadToMemory();
+
+
+			/*JSON_Value* config_file;
+			JSON_Object* config;
+			JSON_Object* config_node;
+
+			config_file = json_parse_file(App->serialization->model_to_serialize.c_str());
+
+			config = json_value_get_object(config_file);
+			config_node = json_object_get_object(config, "Model");
+			std::string file = json_object_dotget_string(config_node, "Info.Directory Model");
+
+			int ResNum = json_object_dotget_number(config_node, "Info.Resources.Number of Resources");
+			std::string name_file;
+
+			for (int i = 0; i < ResNum; i++)
+			{
+				std::string tmp_res = "Info.Resources.Resource " + std::to_string(i) + ".UUID Resource";
+					UID tmp_uid = json_object_dotget_number(config_node, tmp_res.c_str());
+
+				if (tmp_uid == resUUID)
+				{
+				tmp_res = "Info.Resources.Resource " + std::to_string(i) + ".Name";
+				name_file = json_object_dotget_string(config_node, tmp_res.c_str());
+				break;
+				}
+
+			}*/
+
+
 		}
 	}
 }
