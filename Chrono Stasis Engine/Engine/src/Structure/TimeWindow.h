@@ -21,6 +21,7 @@ public:
 	
 	void PlayButton();
 	void StepButton();
+	void TryToOpenGameWindow();
 	void PauseButton();
 	void DisplayOnPlay();
 	void StopButton();
@@ -28,6 +29,8 @@ public:
 
 private: 
 	bool showOptions = false; 
+	bool wasGameOpen = false; 
+
 };
 
 

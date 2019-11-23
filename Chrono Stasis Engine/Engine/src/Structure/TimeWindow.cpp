@@ -1,5 +1,6 @@
 #include "TimeWindow.h"
 #include "csApp.h"
+#include "GameViewWindow.h"
 
 TimeWindow::TimeWindow(bool startOpened) : Window(startOpened)
 {
@@ -80,6 +81,9 @@ void TimeWindow::StopButton()
 {
 	if (ImGui::Button("STOP"))
 	{
+		// Set game window back at how it was before play
+		App->editor->gameView->SetActive(wasGameOpen); 
+
 		App->SetGameState(GameState::ONSTOP); 
 	}
 }
@@ -98,6 +102,7 @@ void TimeWindow::PlayButton()
 {
 	if (ImGui::Button("PLAY"))
 	{
+		TryToOpenGameWindow();
 		App->SetGameState(GameState::ONPLAY);
 	}
 }
@@ -106,6 +111,7 @@ void TimeWindow::StepButton()
 {
 	if (ImGui::Button("STEP"))
 	{
+		TryToOpenGameWindow();
 		App->toDoStep = true; 
 
 		// If its on stop, start the game
@@ -120,10 +126,19 @@ void TimeWindow::StepButton()
 	}
 }
 
+void TimeWindow::TryToOpenGameWindow()
+{
+	wasGameOpen = App->editor->gameView->GetActive();
+	App->editor->gameView->SetActive(true);
+}
+
 void TimeWindow::PauseButton()
 {
 	if (ImGui::Button("PAUSE"))
 	{
+		if (App->gameState == GameState::ONSTOP)
+			return; 
+
 		App->SetGameState(GameState::ONPAUSE);
 	}
 }

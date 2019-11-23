@@ -46,9 +46,14 @@ GameObject::~GameObject()
 	if (App->scene->GetSelected() == this)
 		App->scene->CleanSelected(); 
 
-	if (staticGO)
-		App->scene->RemoveFromOctree(this); 
+	// --------- Delete From Containers -----------
 
+	if (staticGO)
+		App->scene->RemoveFromOctree(this);
+	else
+		App->scene->RemoveFromDynamic(this); 
+	
+	// --------- Delete Everything its got -----------
 	std::list<GameObject*>::iterator it = childs.begin(); 
 
 	for (it; it != childs.end(); ++it)
@@ -67,6 +72,7 @@ GameObject::~GameObject()
 
 	components.clear();
 
+	// --------------------------------------------
 }
 
 void GameObject::Update(float dt)
@@ -136,11 +142,13 @@ void GameObject::SetStatic(bool stat)
 	if (stat)
 	{
 		App->scene->InsertInOctree(this);
+		App->scene->RemoveFromDynamic(this);
 		staticGO = true;
 	}
 	else
 	{
 		App->scene->RemoveFromOctree(this);
+		App->scene->PushToDynamic(this); 
 		staticGO = false;
 	}
 
@@ -160,11 +168,13 @@ void GameObject::SetStatic(bool stat)
 		if (stat)
 		{
 			App->scene->InsertInOctree(go);
+			App->scene->RemoveFromDynamic(go);
 			go->staticGO = true;
 		}
 		else
 		{
-			App->scene->RemoveFromOctree(this);
+			App->scene->RemoveFromOctree(go);
+			App->scene->PushToDynamic(go);
 			go->staticGO = false;
 		}
 	}
