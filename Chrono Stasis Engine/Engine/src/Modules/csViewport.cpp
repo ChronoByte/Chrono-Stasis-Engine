@@ -31,6 +31,9 @@ void Viewport::SetCamera(ComponentCamera * camera)
 
 void Viewport::SetSize(const uint & width, const uint & height)
 {
+	if(camera != nullptr)
+		camera->SetAspectRatio((float)width / (float)height);
+
 	this->width = width;
 	this->height = height; 
 

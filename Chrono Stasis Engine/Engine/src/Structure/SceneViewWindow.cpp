@@ -50,7 +50,7 @@ void SceneViewWindow::Draw()
 			ImGui::Image((ImTextureID)App->renderer3D->editorViewport->renderTexture, { width, height }, { 0,1 }, { 1,0 });
 		//ImGui::Image((ImTextureID)App->renderer3D->editorViewport->renderTexture, { (float)App->renderer3D->editorViewport->width, (float)App->renderer3D->editorViewport->height }, { 0,1 }, { 1,0 });
 		else
-			ImGui::Image((ImTextureID)App->renderer3D->editorViewport->zBufferTexture, { (float)App->renderer3D->editorViewport->width, (float)App->renderer3D->editorViewport->height }, { 0,1 }, { 1,0 });
+			ImGui::Image((ImTextureID)App->renderer3D->editorViewport->zBufferTexture, { width, height }, { 0,1 }, { 1,0 });
 
 
 		ImGuizmo::SetDrawlist();

@@ -42,6 +42,8 @@ public:
 	// FoV
 	void SetHorizontalFOV(const float& fov); 
 	void SetVerticalFOV(const float& fov); 
+	// Aspect Ratio
+	void SetAspectRatio(const float& ratio); 
 	// Color
 	void SetColor(const Color& set); 
 	// ------------- Gets ------------------

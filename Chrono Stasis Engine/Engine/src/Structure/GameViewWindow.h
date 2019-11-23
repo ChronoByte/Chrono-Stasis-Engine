@@ -18,7 +18,11 @@ public:
 	void Draw() override;
 	
 private:
-	
+	float width = 0.f;
+	float height = 0.f;
+
+	float regionX = 0.f;
+	float regionY = 0.f;
 
 };
 
