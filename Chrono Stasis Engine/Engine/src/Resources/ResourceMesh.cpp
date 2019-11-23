@@ -206,6 +206,59 @@ const MeshInfo<float> ResourceMesh::GetMeshNormals() const
 	return normals;
 }
 
+bool ResourceMesh::LoadResourceMesh()
+{
+	bool ret = true;
+	char* buffer = nullptr;
+	uint size = App->fs->ReadFile(exported_file.c_str(), &buffer);
+
+	if (buffer != nullptr && size > 0)
+	{
+		char* cursor = buffer;
+
+		uint ranges[3];
+		uint bytes = sizeof(ranges);
+		memcpy(ranges, cursor, bytes);
+
+		vertex.capacity = ranges[0];
+		index.capacity = ranges[1];
+		normals.capacity = ranges[2];
+
+		//Load Vertices
+		cursor += bytes;
+		bytes = sizeof(float) * vertex.capacity;
+		vertex.buffer = new float[vertex.capacity];
+		memcpy(vertex.buffer, cursor, bytes);
+
+		//Load Indices
+		cursor += bytes;
+		bytes = sizeof(uint) * index.capacity;
+		index.buffer = new uint[index.capacity];
+		memcpy(index.buffer, cursor, bytes);
+
+		if (normals.capacity > 0)
+		{
+			cursor += bytes;
+			bytes = sizeof(float) * normals.capacity;
+			normals.buffer = new float[normals.capacity];
+			memcpy(normals.buffer, cursor, bytes);
+		}
+
+		//Load Tex Coords
+		cursor += bytes;
+		bytes = sizeof(float) * vertex.capacity;
+		textureCoords.buffer = new float[vertex.capacity];
+		memcpy(textureCoords.buffer, cursor, bytes);
+
+		LoadMeshBuffers();
+
+		LOG("Mesh %s Loaded!", exported_file);
+
+	}
+	RELEASE_ARRAY(buffer);
+	return ret;
+}
+
 bool ResourceMesh::LoadMeshBuffers()
 {
 	bool ret = true;
@@ -377,7 +430,7 @@ bool ResourceMesh::UnloadMeshBuffers()
 
 bool ResourceMesh::LoadInMemory()
 {
-	bool ret = LoadMeshBuffers();
+	bool ret = LoadResourceMesh();
 	return ret;
 }
 

@@ -18,7 +18,7 @@ ResourceTexture::~ResourceTexture()
 
 
 // ------------ LOAD / UNLOAD BUFFERS ------------ //
-bool ResourceTexture::LoadTextureBuffer()
+bool ResourceTexture::LoadTextureResource()
 {
 	bool ret = false;
 
@@ -74,7 +74,7 @@ bool ResourceTexture::UnloadTextureBuffer()
 // ------------  LOAD / UNLOAD COUNTING REFERENCE ------------ //
 bool ResourceTexture::LoadInMemory()
 {
-	bool ret = LoadTextureBuffer();
+	bool ret = LoadTextureResource();
 	return ret;
 }
 

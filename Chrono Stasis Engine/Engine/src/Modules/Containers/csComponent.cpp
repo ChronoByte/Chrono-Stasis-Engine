@@ -43,8 +43,8 @@ void Component::AssignResource(UID uid)
 
 	currentResource = App->resources->GetResource(uid);
 
-	if (currentResource)
-		currentResource->LoadToMemory();
+	/*if (currentResource)
+		currentResource->LoadToMemory();*/
 	
 	
 }

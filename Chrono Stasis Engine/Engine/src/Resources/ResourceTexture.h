@@ -19,7 +19,7 @@ public:
 	ResourceTexture(UID id, Resource::Type type);
 	virtual ~ResourceTexture();
 	
-	bool LoadTextureBuffer();
+	bool LoadTextureResource();
 	bool UnloadTextureBuffer();
 
 	virtual bool LoadInMemory() override;

@@ -40,6 +40,7 @@ public:
 	const MeshInfo<float> GetMeshTextureCoords() const;
 	const MeshInfo<float> GetMeshNormals() const;
 
+	bool LoadResourceMesh();
 	bool LoadMeshBuffers();
 	bool UnloadMeshBuffers();
 	virtual bool LoadInMemory() override;
