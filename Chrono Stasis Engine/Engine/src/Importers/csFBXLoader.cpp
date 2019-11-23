@@ -577,15 +577,15 @@ ComponentMesh* ModuleFBXLoader::ImportMesh(aiMesh* mesh, const aiScene* scene,st
 
 void ModuleFBXLoader::SaveMesh(ResourceMesh* res, UID uuid, std::string& library_path)
 {
-	uint ranges[4] = { res->GetIndices(), res->GetVertices(), res->GetTextureCoords(), res->GetNormals() };
+	uint ranges[4] = { res->GetIndices(), res->GetVertices(), res->GetNormals(), res->GetTextureCoords() };
 
 	uint size_indices = sizeof(uint) * res->GetIndices();
 	uint size_vertices = sizeof(float) * (res->GetVertices());
-	uint size_texCoords = sizeof(float) * (res->GetTextureCoords());
 	uint size_normals = sizeof(float) * (res->GetNormals());
+	uint size_texCoords = sizeof(float) * (res->GetTextureCoords());
 
-	/*uint size = sizeof(ranges) + sizeof(float) * res->GetVertices() + sizeof(uint) * res->GetIndices() + sizeof(float) * res->GetNormals() + sizeof(float) * res->GetVertices();*/
-	uint size = sizeof(ranges) + size_indices + size_vertices + size_texCoords + size_normals;
+	//uint size = sizeof(ranges) + sizeof(float) * res->GetVertices() + sizeof(uint) * res->GetIndices() + sizeof(float) * res->GetNormals() + sizeof(float) * res->GetTextureCoords();
+	uint size = sizeof(ranges) + size_indices + size_vertices + size_normals + size_texCoords;
 
 	// Allocating all data 
 	char* data = new char[size];
@@ -612,15 +612,16 @@ void ModuleFBXLoader::SaveMesh(ResourceMesh* res, UID uuid, std::string& library
 
 	// Storing Tex Coords
 	cursor += bytes;
-	bytes = size_texCoords; //num_tex_coords;
+	bytes = size_texCoords; 
 	memcpy(cursor, res->textureCoords.buffer, bytes);
 
-	cursor += bytes;
+	
 
 	// Release all pointers
 	RELEASE_ARRAY(res->vertex.buffer);
 	RELEASE_ARRAY(res->index.buffer);
 	RELEASE_ARRAY(res->normals.buffer);
+	RELEASE_ARRAY(res->colors.buffer);
 	RELEASE_ARRAY(res->textureCoords.buffer);
 
 	//Create Own format mesh file 
