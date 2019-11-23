@@ -108,19 +108,40 @@ void GameObject::Disable()
 
 void GameObject::SetStatic(bool stat)
 {
-	// If it already is on this state, don't do anything
-	if (staticGO == stat)
-		return;
-
 	if (stat)
 	{
 		App->scene->InsertInOctree(this);
-		staticGO = true; 
+		staticGO = true;
 	}
 	else
 	{
 		App->scene->RemoveFromOctree(this);
 		staticGO = false;
+	}
+
+	// Iteratively set childs
+	std::vector<GameObject*> objects;
+	objects.insert(objects.end(), childs.begin(), childs.end());
+
+	while (!objects.empty())
+	{
+		GameObject* go = objects.back(); 
+		objects.pop_back(); 
+		objects.insert(objects.end(), go->childs.begin(), go->childs.end());
+
+		if (stat == go->staticGO)
+			continue; 
+
+		if (stat)
+		{
+			App->scene->InsertInOctree(go);
+			go->staticGO = true;
+		}
+		else
+		{
+			App->scene->RemoveFromOctree(this);
+			go->staticGO = false;
+		}
 	}
 }
 
