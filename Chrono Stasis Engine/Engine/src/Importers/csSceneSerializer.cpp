@@ -187,3 +187,92 @@ void ModuleSceneSerializer::SaveModelChildren(JSON_Object* config_node, const Ga
 
 	}
 }
+
+void ModuleSceneSerializer::LoadModel(const char* model)
+{
+	LOG("LOADING MODEL %s -----", model);
+
+	JSON_Value* config_file;
+	JSON_Object* config;
+	JSON_Object* config_node;
+
+	config_file = json_parse_file(model);
+	if (config_file != nullptr)
+	{
+		config = json_value_get_object(config_file);
+		config_node = json_object_get_object(config, "Model");
+		int GOnums = json_object_dotget_number(config_node, "Info.Number of GameObjects");
+
+		if (GOnums > 0)
+		{
+		
+			GameObject* parent = nullptr;
+			for (int i = 0; i < GOnums; i++)
+			{
+				std::string name = "GameObject" + std::to_string(i) + ".";//name += ".";
+				std::string tmp_go;
+
+				//Get Basic GO data
+				tmp_go = name + "Name";
+				std::string GOname = json_object_dotget_string(config_node, tmp_go.c_str());
+				tmp_go = name + "UUID";
+				UID uid = json_object_dotget_number(config_node, tmp_go.c_str());
+
+				//Create GameObject
+				GameObject* go = new GameObject(GOname, uid);
+
+				//Load Components
+				tmp_go = name + "Number of Components";
+				int CompNums = json_object_dotget_number(config_node, tmp_go.c_str());
+
+				if (CompNums > 0)
+				{
+					go->LoadComponents(config_node, name + "Components.", CompNums);
+				}
+
+				tmp_go = name + "Parent";
+				int uuid_parent = json_object_dotget_number(config_node, tmp_go.c_str());
+
+				//Add GameObject
+				if (uuid_parent == -1)
+					parent = go;
+				else
+					LoadModelChildren(*parent, *go, uuid_parent);
+				
+			}
+			
+			// Add GameObject
+			App->scene->SetRoot(parent);
+		}
+	}
+	json_value_free(config_file);
+}
+
+void ModuleSceneSerializer::LoadModelChildren(GameObject& GOparent, GameObject& GOchild, int uuidParent)
+{
+	
+	if (GOparent.childs.size() > 0)
+	{
+		for (auto& child : GOparent.childs)
+		{
+			
+			if (GOparent.GetUUID() == uuidParent)
+			{
+				GOparent.LoadGameObjectChild(&GOchild);
+				return;
+			}
+			else
+			{
+				LoadModelChildren(*child, GOchild, uuidParent);
+			}
+		}
+	}
+	else
+	{
+		if (GOparent.GetUUID() == uuidParent)
+		{
+			GOparent.LoadGameObjectChild(&GOchild);
+			return;
+		}
+	}
+}

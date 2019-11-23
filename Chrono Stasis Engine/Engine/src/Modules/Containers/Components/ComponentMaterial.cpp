@@ -140,3 +140,23 @@ void ComponentMaterial::Save(JSON_Object* object, std::string name, bool saveSce
 		json_object_dotset_string(object, tmp_mat.c_str(), "");
 	}
 }
+
+void ComponentMaterial::Load(const JSON_Object* object, std::string name)
+{
+	std::string tmp_mat;
+
+	tmp_mat = name + "UUID";
+	UUID = json_object_dotget_number(object, tmp_mat.c_str());
+
+	tmp_mat = name + "Resource Material UUID";
+	UID resUUID = json_object_dotget_number(object, tmp_mat.c_str());
+
+	if (resUUID > 0)
+	{
+		ResourceMesh* resMat = (ResourceMesh*)App->resources->GetResource(resUUID);
+		if (resMat != nullptr)
+		{
+			this->AssignResource(resUUID);
+		}
+	}
+}

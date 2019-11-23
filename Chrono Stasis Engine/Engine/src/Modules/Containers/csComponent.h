@@ -53,7 +53,7 @@ public:
 	virtual void Load(RJSON_Value* component) {}
 
 	virtual void Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const {};
-	
+	virtual void Load(const JSON_Object* object, std::string name) {};
 
 	//Resource
 	void DroppableSpace(const char* string, bool empty = false, float x = 250, float y = 20);

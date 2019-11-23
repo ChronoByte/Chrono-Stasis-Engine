@@ -20,6 +20,7 @@ public:
 
 	GameObject();
 	GameObject(GameObject* parent); 
+	GameObject(std::string name, UID uid);
 	~GameObject(); 
 
 	// Logic
@@ -62,7 +63,9 @@ public:
 	//Parser
 	void Save(RJSON_Value* go);
 	void SaveComponents(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const;
+	void LoadComponents(const JSON_Object* object, std::string name, uint numComponents);
 
+	void LoadGameObjectChild(GameObject* child);
 private: 
 
 	UID UUID = 0;

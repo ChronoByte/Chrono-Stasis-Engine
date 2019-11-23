@@ -350,6 +350,11 @@ void ModuleScene::DeleteRoot()
 	root = nullptr;
 }
 
+void ModuleScene::SetRoot(GameObject* go)
+{
+	root = go;
+}
+
 // ------------------ Camera ------------------------
 
 void ModuleScene::SetMainCamera(ComponentCamera * camera)

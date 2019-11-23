@@ -559,3 +559,24 @@ void ComponentMesh::Save(JSON_Object* object, std::string name, bool saveScene, 
 		json_object_dotset_string(object, tmp_mesh.c_str(), "");
 	}
 }
+
+void ComponentMesh::Load(const JSON_Object* object, std::string name)
+{
+	std::string tmp_mesh;
+
+	tmp_mesh = name + "UUID";
+	UUID = json_object_dotget_number(object, tmp_mesh.c_str());
+	
+	tmp_mesh = name + "Resource Mesh UUID";
+	UID resUUID = json_object_dotget_number(object, tmp_mesh.c_str());
+
+	if (resUUID > 0)
+	{
+		ResourceMesh* resMesh = (ResourceMesh*)App->resources->GetResource(resUUID);
+		if (resMesh != nullptr)
+		{
+			this->AssignResource(resUUID);
+		}
+	}
+
+}

@@ -23,6 +23,8 @@ public:
 	bool LoadScene(const char* scene_path, std::string dir);
 	void SaveModel(const GameObject& go, const char* dir, const char* file_path);
 	void SaveModelChildren(JSON_Object* config_node, const GameObject& go, uint& count, uint& countResources);
+	void LoadModel(const char* prefab);
+	void LoadModelChildren(GameObject& parent, GameObject& child, int uuidParent);
 
 private:
 	//vars

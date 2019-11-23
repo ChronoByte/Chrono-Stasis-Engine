@@ -85,6 +85,9 @@ public:
 	JSON_Status json_array_dotset_float3(JSON_Object* object, const char* name, float3 transform);
 	JSON_Status json_array_dotset_float2(JSON_Object* object, const char* name, float2 transform);
 	JSON_Status json_array_dotset_float4(JSON_Object* object, const char* name, float4 transform);
+	float3 json_array_dotget_float3_string(const JSON_Object* object, const char* name);
+	float2 json_array_dotget_float2_string(const JSON_Object* object, const char* name);
+	float4 json_array_dotget_float4_string(const JSON_Object* object, const char* name);
 
 	RJSON_File* JSONRead(const char* path);
 	RJSON_File* JSONWrite(const char* path);

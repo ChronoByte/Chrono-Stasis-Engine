@@ -26,6 +26,12 @@ GameObject::GameObject(GameObject * parent)
 	components.push_back(transform); 
 }
 
+GameObject::GameObject(std::string name, UID uid)
+{
+	this->name = name;
+	this->UUID = uid;
+}
+
 GameObject::~GameObject()
 {
 	LOG("Deleting %s", name.c_str());
@@ -373,5 +379,48 @@ void GameObject::SaveComponents(JSON_Object* object, std::string name, bool save
 		i++;
 	}
 	
+}
 
+void GameObject::LoadComponents(const JSON_Object* object, std::string name, uint CompNums)
+{
+	// First Add All components by type
+	for (int i = 0; i < CompNums; i++)
+	{
+		std::string comp = name + "Component " + std::to_string(i) + ".";
+		std::string tmp_comp = comp + "Type";
+
+		ComponentType type = (ComponentType)(int)json_object_dotget_number(object, tmp_comp.c_str());
+
+		switch (type)
+		{
+		case ComponentType::C_NONE:
+			break;
+		case ComponentType::C_TRANSFORM:
+			this->CreateComponent(ComponentType::C_TRANSFORM);
+			break;
+		case ComponentType::C_MESH:
+			this->CreateComponent(ComponentType::C_MESH);
+			break;
+		case ComponentType::C_MATERIAL:
+			this->CreateComponent(ComponentType::C_MATERIAL);
+			break;
+		default:
+			break;
+		}
+	}
+
+	// Now Iterate All components and Load variables
+	int i = 0;
+	for (auto& comp : components)
+	{
+		std::string tmp_it = name + "Component " + std::to_string(i) + ".";
+		comp->Load(object, tmp_it);
+		i++;
+	}
+}
+
+void GameObject::LoadGameObjectChild(GameObject* child)
+{
+	child->parent = this;
+	childs.push_back(child);
 }

@@ -351,3 +351,34 @@ JSON_Status Serializer::json_array_dotset_float4(JSON_Object* object, const char
 	json_array_append_number(arry, transform.w);
 	return JSONSuccess;
 }
+
+float3 Serializer::json_array_dotget_float3_string(const JSON_Object* object, const char* name)
+{
+	JSON_Array* array = json_object_dotget_array(object, name);
+	float3 transform;
+	transform.x = (float)json_value_get_number(json_array_get_value(array, 0));
+	transform.y = (float)json_value_get_number(json_array_get_value(array, 1));
+	transform.z = (float)json_value_get_number(json_array_get_value(array, 2));
+
+	return transform;
+}
+float2 Serializer::json_array_dotget_float2_string(const JSON_Object* object, const char* name)
+{
+	JSON_Array* array = json_object_dotget_array(object, name);
+	float2 transform;
+	transform.x = (float)json_value_get_number(json_array_get_value(array, 0));
+	transform.y = (float)json_value_get_number(json_array_get_value(array, 1));
+
+	return transform;
+}
+float4 Serializer::json_array_dotget_float4_string(const JSON_Object* object, const char* name)
+{
+	JSON_Array* array = json_object_dotget_array(object, name);
+	float4 transform;
+	transform.x = (float)json_value_get_number(json_array_get_value(array, 0));
+	transform.y = (float)json_value_get_number(json_array_get_value(array, 1));
+	transform.z = (float)json_value_get_number(json_array_get_value(array, 2));
+	transform.w = (float)json_value_get_number(json_array_get_value(array, 3));
+
+	return transform;
+}
