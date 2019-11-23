@@ -74,7 +74,30 @@ update_status ModuleScene::Update(float dt)
 
 	UpdateAllGameObjects(root, dt);
 
+	if (App->gameState == GameState::ONPLAY)
+		OnGameUpdate(App->gameDt);
+
+	LOG("---");
+	for (uint i = 0; i < dynamicGameObjects.size(); ++i)
+	{
+		LOG("Dynamic Object: %s", dynamicGameObjects[i]->GetName());
+	}
 	return UPDATE_CONTINUE;
+}
+
+void ModuleScene::OnGameUpdate(float dt)
+{
+	std::vector<GameObject*> objects; 
+	objects.push_back(root); 
+
+	while (!objects.empty())
+	{
+		GameObject* current = objects.back();
+		objects.pop_back(); 
+		objects.insert(objects.end(), current->childs.begin(), current->childs.end()); 
+
+		current->OnGameUpdate(dt); 
+	}
 }
 
 update_status ModuleScene::PostUpdate(float dt)
@@ -312,7 +335,10 @@ GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent
 	par_shapes_free_mesh(shape);
 
 	if (go != nullptr)
+	{
 		SetSelected(go);
+		PushToDynamic(go);
+	}
 	return go;
 }
 
@@ -432,6 +458,26 @@ bool ModuleScene::isOctreeActive() const
 	return activeOctree;
 }
 
+void ModuleScene::PushToDynamic(GameObject * go)
+{
+	dynamicGameObjects.push_back(go);
+}
+
+void ModuleScene::RemoveFromDynamic(GameObject * go)
+{
+	std::vector<GameObject*>::iterator iter = std::find(dynamicGameObjects.begin(), dynamicGameObjects.end(), go);
+	if (iter != dynamicGameObjects.end())
+	{
+		LOG("Found the bastard in dynamic - %s", (*iter)->GetName());
+		dynamicGameObjects.erase(iter); 
+	}
+}
+
+std::vector<GameObject*> ModuleScene::GetDynamicObjects() const
+{
+	return dynamicGameObjects;
+}
+
 GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name, bool import)
 {
 	if (parent == nullptr && import == false)
@@ -440,6 +486,7 @@ GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name,
 	GameObject* go = new GameObject(parent); 
 	go->SetName(name); 
 	SetSelected(go);
+	PushToDynamic(go);
 	return go;
 }
 
@@ -451,6 +498,7 @@ GameObject* ModuleScene::LoadGameObject(GameObject* parent, const char* name, UI
 	GameObject* go = new GameObject(parent, uid);
 	go->SetName(name);
 	SetSelected(go);
+	PushToDynamic(go);
 	return go;
 }
 

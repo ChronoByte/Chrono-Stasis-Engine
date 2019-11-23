@@ -25,6 +25,7 @@ public:
 
 	// Logic
 	void Update(float dt); 
+	void OnGameUpdate(float dt);
 	void OnDraw(); 
 	void OnDebugDraw(); 
 

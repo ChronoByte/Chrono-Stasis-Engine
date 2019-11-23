@@ -31,6 +31,7 @@ class GameViewWindow;
 class FileBrowserWindow;
 class ProjectWindow;
 class ResourceBrowserWindow;
+class TimeWindow;
 class Window;
 struct TextureInfo;
 
@@ -64,19 +65,20 @@ public:
 
 public:
 
-	ConfigWindow*		config = nullptr;
-	CollisionWindow*	collisionWin = nullptr; 
-	AboutWindow*		about = nullptr;
-	ConsoleWindow*		console = nullptr; 
-	RandomWindow*		randomWin = nullptr; 
-	InspectorWindow*	inspector = nullptr;
-	HierarchyWindow*	hierarchy = nullptr; 
-	GeometryWindow*		geometryWin = nullptr; 
-	SceneViewWindow*	sceneView = nullptr;
-	GameViewWindow*		gameView = nullptr;
-	FileBrowserWindow*	browser = nullptr;
-	ProjectWindow*		project = nullptr;
-	ResourceBrowserWindow* resource_browser = nullptr;
+	ConfigWindow*			config = nullptr;
+	CollisionWindow*		collisionWin = nullptr; 
+	AboutWindow*			about = nullptr;
+	ConsoleWindow*			console = nullptr; 
+	RandomWindow*			randomWin = nullptr; 
+	InspectorWindow*		inspector = nullptr;
+	HierarchyWindow*		hierarchy = nullptr; 
+	GeometryWindow*			geometryWin = nullptr; 
+	SceneViewWindow*		sceneView = nullptr;
+	GameViewWindow*			gameView = nullptr;
+	FileBrowserWindow*		browser = nullptr;
+	ProjectWindow*			project = nullptr;
+	ResourceBrowserWindow*	resource_browser = nullptr;
+	TimeWindow*				timeWindow = nullptr; 
 
 	bool show_demo_window = false;
 	bool show_style_window = false;

@@ -150,6 +150,13 @@ void Application::PrepareUpdate()
 	frame_time.Start(); 
 
 	dt = (1 / (float)framerate_cap); // Differential Time
+
+	// Set Game DT
+	if (dtMultiplier <= 0.f || dtMultiplier > MAX_DT_MULTIPLIER)
+		dtMultiplier = 1.f; 
+
+	gameDt = dt * dtMultiplier; 
+
 }
 
 // ---------------------------------------------
@@ -222,6 +229,7 @@ void Application::FinishUpdate()
 	if (chart_memory.size() > MAX_RAM_LOGGED)
 		chart_memory.erase(chart_memory.begin());
 
+	// ---------------------
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -262,6 +270,13 @@ update_status Application::Update()
 
 	if (to_close_app)
 		ret = UPDATE_STOP;
+
+	// Set to pause after step
+	if (toDoStep)
+	{
+		toDoStep = false; 
+		SetGameState(GameState::ONPAUSE);
+	}
 
 	FinishUpdate();
 	return ret;
@@ -374,6 +389,7 @@ std::vector<float> Application::GetMemory() const
 	return chart_memory;
 }
 
+
 uint32 Application::GetCappedMS() const
 {
 	return frame_ms_cap;
@@ -403,10 +419,48 @@ bool Application::GetVSYNC() const
 
 // ---------------------------------------
 
-
 void Application::SendToLink(const char * link) const
 {
 	ShellExecuteA(NULL, "open", link, NULL, NULL, SW_SHOWNORMAL);
+}
+
+// ---------------------------------------
+
+void Application::SetGameState(GameState state)
+{
+	if (state == gameState)
+		return; 
+
+	switch (state)
+	{
+
+	case GameState::ONPLAY:
+		
+		LOG("Starting Game Mode");
+		// TODO Safe Scene
+
+		gameTimer.Start();
+		gameState = GameState::ONPLAY;
+		break;
+
+	case GameState::ONPAUSE:
+		LOG("Pausing Game Mode");
+
+		gameTimer.Pause();
+		gameState = GameState::ONPAUSE;
+		break;
+
+	case GameState::ONSTOP:
+
+		LOG("Exiting Game Mode");
+
+		// TODO Load Scene Back
+
+		gameTimer.Stop();
+		gameState = GameState::ONSTOP;
+		break; 
+
+	}
 }
 
 // ---------------------------------------

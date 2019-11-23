@@ -37,7 +37,8 @@ public:
 	bool Init(JSON_Object* node) override;
 	bool Start() override;
 	update_status PreUpdate(float dt) override;
-	update_status Update(float dt);
+	update_status Update(float dt) override;
+	void OnGameUpdate(float dt); 
 	update_status PostUpdate(float dt) override;
 	bool CleanUp() override;
 
@@ -89,6 +90,10 @@ public:
 
 	bool isOctreeActive() const; 
 
+	// ------------- DynVector -----------
+	void PushToDynamic(GameObject* go); 
+	void RemoveFromDynamic(GameObject* go);
+	std::vector<GameObject*> GetDynamicObjects() const;
 public: 
 	ComponentCamera* mainCamera = nullptr; 
 
@@ -96,7 +101,9 @@ public:
 	bool activeOctree = true;
 	Octree* octree = nullptr;
 
+
 private:
+	std::vector<GameObject*> dynamicGameObjects; 
 	//vars
 	GameObject* root = nullptr; 
 	GameObject* selected = nullptr; 
