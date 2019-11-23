@@ -326,5 +326,6 @@ void ComponentTransform::Load(const JSON_Object* object, std::string name)
 	float3 scale = App->json->json_array_dotget_float3_string(object, tmp_trans.c_str());
 
 	SetupTransform(position, scale, rot);
+	toRecalculateTransform = true;
 }
 

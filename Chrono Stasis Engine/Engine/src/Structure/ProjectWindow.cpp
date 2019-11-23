@@ -196,7 +196,7 @@ void ProjectWindow::TestUnityProject()
 			  ImGui::OpenPopup("WARNING!");
 
 		  if (!extension.compare(".fbx") || !extension.compare(".FBX"))
-			  App->serialization->LoadModel((current_path + (*unit)->name + META_EXTENSION).c_str());
+			  App->serialization->LoadModel((current_path + (*unit)->name + META_EXTENSION + ".json").c_str());
 		}
 	}
 	if (ImGui::BeginPopupContextItem(((*unit)->name + "rightClick").c_str(), 1))

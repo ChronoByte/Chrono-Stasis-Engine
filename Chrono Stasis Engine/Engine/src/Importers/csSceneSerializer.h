@@ -32,4 +32,5 @@ private:
 public:
 	std::string current_scene;
 	std::string scene_to_serialize;
+	std::string model_to_serialize;
 };

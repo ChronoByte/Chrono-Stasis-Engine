@@ -93,7 +93,7 @@ void ModuleSceneSerializer::SaveModel(const GameObject& go, const char* dir, con
 	std::string nameJson = dir;
 	nameJson += "/";
 	nameJson += go.GetName();
-	nameJson += ".fbx.meta";
+	nameJson += ".fbx.meta.json";
 	config_file = json_value_init_object();
 
 	uint count = 0;
@@ -191,6 +191,7 @@ void ModuleSceneSerializer::SaveModelChildren(JSON_Object* config_node, const Ga
 void ModuleSceneSerializer::LoadModel(const char* model)
 {
 	LOG("LOADING MODEL %s -----", model);
+	model_to_serialize = model;
 
 	JSON_Value* config_file;
 	JSON_Object* config;

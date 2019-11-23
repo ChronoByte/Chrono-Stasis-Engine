@@ -119,6 +119,7 @@ void ModuleResources::CreateNewMeta(Resource* resource, const char* file)
 
 	std::string meta_file = resource->file;
 	meta_file.append(META_EXTENSION);
+	meta_file.append(".json");
 
 	json_serialize_to_file(json_file, meta_file.c_str());
 

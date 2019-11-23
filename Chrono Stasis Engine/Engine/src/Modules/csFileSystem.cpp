@@ -592,7 +592,7 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 		std::string file_path = root->files[i].path;
 		file_path += file_name;
 
-		std::string meta_file = file_path + META_EXTENSION;
+		std::string meta_file = file_path + META_EXTENSION + ".json";
 		
 		if (!PHYSFS_exists(meta_file.c_str()))
 		{
@@ -621,6 +621,22 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 		}
 		else 
 		{
+			/*JSON_Value* config_file;
+			JSON_Object* config;
+			JSON_Object* config_node;
+
+			config_file = json_parse_file(meta_file.c_str());
+			if (config_file != nullptr)
+			{
+				config = json_value_get_object(config_file);
+				config_node = json_object_get_object(config, "Model");
+				std::string exported_path = json_object_dotget_string(config_node, "GameObject1.Components.Component1.Resource Mesh Path");
+
+				if (PHYSFS_exists(exported_path.c_str()))
+				{
+
+				}
+			}*/
 			//LOG("File was imported previously");
 			//std::string extension;
 			//GetExtensionFile(file_name.c_str(), extension);

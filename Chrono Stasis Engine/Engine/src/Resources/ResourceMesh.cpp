@@ -186,6 +186,16 @@ const uint ResourceMesh::GetTriangles() const
 	return index.capacity / 3;
 }
 
+const uint ResourceMesh::GetFaceNormals() const
+{
+	return faceNormals.capacity;
+}
+
+const uint ResourceMesh::GetVertexNormals() const
+{
+	return vertexNormals.capacity;
+}
+
 const MeshInfo<uint> ResourceMesh::GetMeshIndex() const
 {
 	return index;
@@ -216,19 +226,16 @@ bool ResourceMesh::LoadResourceMesh()
 	{
 		char* cursor = buffer;
 
-		uint ranges[3];
+		uint ranges[6];
 		uint bytes = sizeof(ranges);
 		memcpy(ranges, cursor, bytes);
 
-		vertex.capacity = ranges[0];
-		index.capacity = ranges[1];
+		index.capacity = ranges[0];
+		vertex.capacity = ranges[1];
 		normals.capacity = ranges[2];
-
-		//Load Vertices
-		cursor += bytes;
-		bytes = sizeof(float) * vertex.capacity;
-		vertex.buffer = new float[vertex.capacity];
-		memcpy(vertex.buffer, cursor, bytes);
+		textureCoords.capacity = ranges[3];
+		faceNormals.capacity = ranges[4];
+		vertexNormals.capacity = ranges[5];
 
 		//Load Indices
 		cursor += bytes;
@@ -236,6 +243,13 @@ bool ResourceMesh::LoadResourceMesh()
 		index.buffer = new uint[index.capacity];
 		memcpy(index.buffer, cursor, bytes);
 
+		//Load Vertices
+		cursor += bytes;
+		bytes = sizeof(float) * vertex.capacity;
+		vertex.buffer = new float[vertex.capacity];
+		memcpy(vertex.buffer, cursor, bytes);
+
+		//Load Normals
 		if (normals.capacity > 0)
 		{
 			cursor += bytes;
@@ -246,9 +260,21 @@ bool ResourceMesh::LoadResourceMesh()
 
 		//Load Tex Coords
 		cursor += bytes;
-		bytes = sizeof(float) * vertex.capacity;
-		textureCoords.buffer = new float[vertex.capacity];
+		bytes = sizeof(float) * textureCoords.capacity;
+		textureCoords.buffer = new float[textureCoords.capacity];
 		memcpy(textureCoords.buffer, cursor, bytes);
+
+		//Load Face Normals
+		cursor += bytes;
+		bytes = sizeof(float) * faceNormals.capacity;
+		faceNormals.buffer = new float[faceNormals.capacity];
+		memcpy(faceNormals.buffer, cursor, bytes);
+
+		//Load Vertex Normals
+		cursor += bytes;
+		bytes = sizeof(float) * vertexNormals.capacity;
+		vertexNormals.buffer = new float[vertexNormals.capacity];
+		memcpy(vertexNormals.buffer, cursor, bytes);
 
 		LoadMeshBuffers();
 
