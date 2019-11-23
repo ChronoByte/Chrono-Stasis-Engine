@@ -26,7 +26,16 @@
 #define MAX_FRAMES_LOGGED 100
 #define MAX_MEMORY_LOGGED 100
 #define MAX_RAM_LOGGED 100
+#define MAX_DT_MULTIPLIER 3
 
+enum class GameState {
+
+	ONPLAY,
+	ONPAUSE,
+	ONSTOP,
+
+	NONE
+};
 
 class Application
 {
@@ -66,7 +75,7 @@ private:
 	uint32				frame_ms_cap = 0;
 
 	uint32				time_to_wait = 0;
-	
+
 	bool cap_frames = false;
 	bool vsync = true;
 
@@ -90,6 +99,9 @@ public:
 
 
 public:
+
+	// -------------------------
+
 	const char* GetTitle() const;
 	const char* GetOrganization() const;
 	const char* GetVersion() const;
@@ -98,6 +110,7 @@ public:
 	void SetOrganization(const char*);
 	void SetVersion(const char*);
 
+	// -------------------------
 	uint GetFPS() const;
 	void SetFPS(uint max_fps);
 	uint32 GetCappedMS() const;
@@ -112,6 +125,11 @@ public:
 	std::vector<float> GetMSCapped() const;
 	std::vector<float> GetMemory() const;
 
+	// -------------------------
+
+	void SetGameState(GameState state);
+
+	// -------------------------
 
 	void SendToLink(const char* link) const;
 
@@ -119,6 +137,12 @@ public:
 	void Load();
 
 public:
+
+	GameState	gameState = GameState::ONSTOP;
+	Timer		gameTimer;
+	float		gameDt = 0.f;
+	float		dtMultiplier = 1.f; 
+	bool		toDoStep = false; 
 
 	std::string engine_title; //Remminder for me: std::string var
 	std::string organization_name;

@@ -76,6 +76,18 @@ void GameObject::Update(float dt)
 
 }
 
+void GameObject::OnGameUpdate(float dt)
+{
+	LOG("Game Playing with dt: %f", dt); 
+	std::list<Component*>::const_iterator it = components.begin();
+
+	for (it; it != components.end(); ++it)
+	{
+		if ((*it)->isActive())
+			(*it)->OnGameUpdate(dt);
+	}
+}
+
 void GameObject::OnDraw()
 {
 

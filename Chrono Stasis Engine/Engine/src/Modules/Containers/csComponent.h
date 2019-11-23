@@ -33,6 +33,7 @@ public:
 	virtual ~Component(){}
 
 	virtual void Update(float dt){}
+	virtual void OnGameUpdate(float dt) {}
 	virtual void OnDraw() {}
 	virtual void OnDebugDraw() {}
 	virtual void Enable() { active = true; }

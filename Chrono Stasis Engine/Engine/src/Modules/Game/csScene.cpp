@@ -74,7 +74,25 @@ update_status ModuleScene::Update(float dt)
 
 	UpdateAllGameObjects(root, dt);
 
+	if (App->gameState == GameState::ONPLAY)
+		OnGameUpdate(App->gameDt);
+
 	return UPDATE_CONTINUE;
+}
+
+void ModuleScene::OnGameUpdate(float dt)
+{
+	std::vector<GameObject*> objects; 
+	objects.push_back(root); 
+
+	while (!objects.empty())
+	{
+		GameObject* current = objects.back();
+		objects.pop_back(); 
+		objects.insert(objects.end(), current->childs.begin(), current->childs.end()); 
+
+		current->OnGameUpdate(dt); 
+	}
 }
 
 update_status ModuleScene::PostUpdate(float dt)

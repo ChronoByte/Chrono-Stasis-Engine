@@ -410,6 +410,7 @@
     <ClInclude Include="Engine\src\Tools\csOctree.h" />
     <ClInclude Include="Engine\Dependencies\imGuizmo\ImGuizmo.h" />
     <ClInclude Include="Engine\src\Resources\ResourceMesh.h" />
+    <ClInclude Include="Engine\src\Structure\TimeWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -607,6 +608,7 @@
     <ClCompile Include="Engine\src\Tools\csOctree.cpp" />
     <ClCompile Include="Engine\Dependencies\imGuizmo\ImGuizmo.cpp" />
     <ClCompile Include="Engine\src\Resources\ResourceMesh.cpp" />
+    <ClCompile Include="Engine\src\Structure\TimeWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
