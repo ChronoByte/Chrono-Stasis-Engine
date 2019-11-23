@@ -24,7 +24,7 @@ public:
 	void SaveModel(const GameObject& go, const char* dir, const char* file_path);
 	void SaveModelChildren(JSON_Object* config_node, const GameObject& go, uint& count, uint& countResources);
 	void LoadModel(const char* prefab);
-	void LoadModelChildren(GameObject& parent, GameObject& child, int uuidParent);
+	void LoadModelChildren(GameObject& parent, GameObject& child, UID uuidParent);
 
 private:
 	//vars

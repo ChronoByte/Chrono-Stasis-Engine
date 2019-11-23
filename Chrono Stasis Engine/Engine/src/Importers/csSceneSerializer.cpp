@@ -157,7 +157,7 @@ void ModuleSceneSerializer::SaveModelChildren(JSON_Object* config_node, const Ga
 	tmp_child = name + "UUID";
 	json_object_dotset_number(config_node, tmp_child.c_str(), go.GetUUID());
 	// Parent UUID------------
-	int uuidParent = -1;
+	UID uuidParent = -1;
 	if (go.GetParent() != nullptr)
 		uuidParent = go.GetParent()->GetUUID();
 	
@@ -233,7 +233,7 @@ void ModuleSceneSerializer::LoadModel(const char* model)
 				}
 
 				tmp_go = name + "Parent";
-				int uuid_parent = json_object_dotget_number(config_node, tmp_go.c_str());
+				UID uuid_parent = json_object_dotget_number(config_node, tmp_go.c_str());
 
 				//Add GameObject
 				if (uuid_parent == -1)
@@ -248,7 +248,7 @@ void ModuleSceneSerializer::LoadModel(const char* model)
 	json_value_free(config_file);
 }
 
-void ModuleSceneSerializer::LoadModelChildren(GameObject& GOparent, GameObject& GOchild, int uuidParent)
+void ModuleSceneSerializer::LoadModelChildren(GameObject& GOparent, GameObject& GOchild, UID uuidParent)
 {
 	
 	if (GOparent.childs.size() > 0)

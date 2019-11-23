@@ -86,104 +86,114 @@ void ComponentMesh::Draw()
 {
 	ResourceMesh* meshRes = (ResourceMesh*)currentResource;
 
+
 	if(App->scene->mainCamera != nullptr && App->scene->mainCamera->isCulling() 
 		&& !App->scene->mainCamera->CheckAABBInsideFrustum(GetOBBTransformed()))
 		return; 
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
+	if (meshRes != nullptr) {
 
-	if (owner->HasComponent(ComponentType::C_MATERIAL))
-	{
-		ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(owner->FindComponent(ComponentType::C_MATERIAL));
-		ResourceTexture* matRes = (ResourceTexture*)mat->GetCurrentResource();
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 
-		glColor3f(mat->GetColor().r, mat->GetColor().g, mat->GetColor().b);
-
-		if (matRes != nullptr && meshRes->textureCoords.buffer != nullptr && mat->isActive()) // Perhaps this conditional should be less strictive
+		if (owner->HasComponent(ComponentType::C_MATERIAL))
 		{
-			// Enable Texture Coord array without a valid textureCoord buffer is boom
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY); 
+			ComponentMaterial* mat = dynamic_cast<ComponentMaterial*>(owner->FindComponent(ComponentType::C_MATERIAL));
+			ResourceTexture* matRes = (ResourceTexture*)mat->GetCurrentResource();
 
-			// Texture Buffer
-			glBindTexture(GL_TEXTURE_2D, matRes->gpu_id);
+			glColor3f(mat->GetColor().r, mat->GetColor().g, mat->GetColor().b);
 
-			// Texture Coords Buffer
-			glBindBuffer(GL_ARRAY_BUFFER, meshRes->textureCoords.id);
-			glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+			if (matRes != nullptr && meshRes->textureCoords.buffer != nullptr && mat->isActive()) // Perhaps this conditional should be less strictive
+			{
+				// Enable Texture Coord array without a valid textureCoord buffer is boom
+				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+				// Texture Buffer
+				glBindTexture(GL_TEXTURE_2D, matRes->gpu_id);
+
+				// Texture Coords Buffer
+				glBindBuffer(GL_ARRAY_BUFFER, meshRes->textureCoords.id);
+				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+			}
 		}
+
+		// Vertex Buffer
+		glBindBuffer(GL_ARRAY_BUFFER, meshRes->vertex.id);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+
+		// Normals Buffer
+		glBindBuffer(GL_ARRAY_BUFFER, meshRes->normals.id);
+		glNormalPointer(GL_FLOAT, 0, NULL);
+
+		glPushMatrix();
+		glMultMatrixf((GLfloat*) & (GetOwner()->GetTransform()->GetGlobalTransform().Transposed()));
+
+		// Index Buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshRes->index.id);
+		glDrawElements(GL_TRIANGLES, meshRes->index.capacity, GL_UNSIGNED_INT, (void*)0);  // Carefull with this unsigned int
+
+		// Reset 
+		glColor3f(1, 1, 1);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glPopMatrix();
+		// Disable Clients
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_NORMAL_ARRAY);
+		glDisableClientState(GL_VERTEX_ARRAY);
 	}
-
-	// Vertex Buffer
-	glBindBuffer(GL_ARRAY_BUFFER, meshRes->vertex.id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-	// Normals Buffer
-	glBindBuffer(GL_ARRAY_BUFFER, meshRes->normals.id);
-	glNormalPointer(GL_FLOAT, 0, NULL);
-	
-	glPushMatrix(); 
-	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform().Transposed())); 
-
-	// Index Buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, meshRes->index.id);
-	glDrawElements(GL_TRIANGLES, meshRes->index.capacity, GL_UNSIGNED_INT, (void*)0);  // Carefull with this unsigned int
-	
-	// Reset 
-	glColor3f(1, 1, 1);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glPopMatrix(); 
-	// Disable Clients
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_NORMAL_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void ComponentMesh::DrawNormals()
 {
 	ResourceMesh* meshRes = (ResourceMesh*)currentResource;
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glColor3f(0.f, 1.f, 0.f);
+	if (meshRes != nullptr) {
 
-	glBindBuffer(GL_ARRAY_BUFFER, meshRes->faceNormals.id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glColor3f(0.f, 1.f, 0.f);
 
-
-	glPushMatrix();
-	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform().Transposed()));
-
-	glDrawArrays(GL_LINES, 0, meshRes->faceNormals.capacity);
-
-	glPopMatrix();
+		glBindBuffer(GL_ARRAY_BUFFER, meshRes->faceNormals.id);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
 
-	glColor3f(1.f, 1.f, 1.f);
-	glDisableClientState(GL_VERTEX_ARRAY);
+		glPushMatrix();
+		glMultMatrixf((GLfloat*) & (GetOwner()->GetTransform()->GetGlobalTransform().Transposed()));
+
+		glDrawArrays(GL_LINES, 0, meshRes->faceNormals.capacity);
+
+		glPopMatrix();
+
+
+		glColor3f(1.f, 1.f, 1.f);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	}
 }
 
 void ComponentMesh::DrawVertexNormals()
 {
-
-	ResourceMesh* meshRes = (ResourceMesh*)currentResource;
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glColor3f(1.f, 0.f, 0.f); 
-
-	glBindBuffer(GL_ARRAY_BUFFER, meshRes->vertexNormals.id);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-
-	glPushMatrix();
-	glMultMatrixf((GLfloat*)&(GetOwner()->GetTransform()->GetGlobalTransform().Transposed()));
+		ResourceMesh* meshRes = (ResourceMesh*)currentResource;
 	
-	glDrawArrays(GL_LINES, 0, meshRes->vertexNormals.capacity);
+		if (meshRes != nullptr) 
+		{
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glColor3f(1.f, 0.f, 0.f);
 
-	glPopMatrix();
+		glBindBuffer(GL_ARRAY_BUFFER, meshRes->vertexNormals.id);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-	
-	glColor3f(1.f, 1.f, 1.f);
-	glDisableClientState(GL_VERTEX_ARRAY);
+
+		glPushMatrix();
+		glMultMatrixf((GLfloat*) & (GetOwner()->GetTransform()->GetGlobalTransform().Transposed()));
+
+		glDrawArrays(GL_LINES, 0, meshRes->vertexNormals.capacity);
+
+		glPopMatrix();
+
+
+		glColor3f(1.f, 1.f, 1.f);
+		glDisableClientState(GL_VERTEX_ARRAY);
+	}
 }
 
 void ComponentMesh::LoadMeshVertices(aiMesh* mesh)
