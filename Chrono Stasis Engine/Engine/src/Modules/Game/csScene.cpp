@@ -36,7 +36,7 @@ bool ModuleScene::Start()
 	CreateRoot(); 
 	CreateOctree(100.f);
 
-	App->fbx->LoadModel("Assets/Models/BakerHouse.FBX");
+	//App->fbx->LoadModel("Assets/Models/BakerHouse.FBX");
 
 	CleanSelected(); 
 

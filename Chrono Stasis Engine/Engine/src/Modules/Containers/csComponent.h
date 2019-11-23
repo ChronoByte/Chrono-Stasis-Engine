@@ -47,6 +47,7 @@ public:
 	ComponentType GetType() const { return type;  }
 	const char* GetName() const { return name.c_str(); }
 	GameObject* GetOwner() const { return owner; }
+	Resource* GetCurrentResource() const { return currentResource; }
 
 	// Parser
 	virtual void Save(RJSON_Value* component) const {}

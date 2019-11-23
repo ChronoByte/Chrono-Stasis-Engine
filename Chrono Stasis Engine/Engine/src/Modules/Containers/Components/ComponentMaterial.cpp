@@ -153,10 +153,11 @@ void ComponentMaterial::Load(const JSON_Object* object, std::string name)
 
 	if (resUUID > 0)
 	{
-		ResourceMesh* resMat = (ResourceMesh*)App->resources->GetResource(resUUID);
+		ResourceTexture* resMat = (ResourceTexture*)App->resources->GetResource(resUUID);
 		if (resMat != nullptr)
 		{
 			this->AssignResource(resUUID);
+			resMat->LoadInMemory();
 		}
 	}
 }

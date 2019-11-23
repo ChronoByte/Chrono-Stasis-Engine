@@ -195,6 +195,8 @@ void ProjectWindow::TestUnityProject()
 		  if(!extension.compare(".scene"))
 			  ImGui::OpenPopup("WARNING!");
 
+		  if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+			  App->serialization->LoadModel((current_path + (*unit)->name + META_EXTENSION).c_str());
 		}
 	}
 	if (ImGui::BeginPopupContextItem(((*unit)->name + "rightClick").c_str(), 1))

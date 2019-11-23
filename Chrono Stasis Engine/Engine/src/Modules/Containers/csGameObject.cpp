@@ -29,7 +29,8 @@ GameObject::GameObject(GameObject * parent)
 GameObject::GameObject(GameObject* parent, UID uid)
 {
 	this->UUID = uid;
-	SetParent(parent);
+	this->parent = parent;
+	//SetParent(parent);
 }
 
 GameObject::~GameObject()
@@ -209,7 +210,9 @@ Component * GameObject::CreateComponent(ComponentType type)
 		break;
 
 	case ComponentType::C_TRANSFORM:
-		LOG("Transform Component Is already created for each Game Object.");
+		component = new ComponentTransform(this);
+		components.push_back(component);
+		//LOG("Transform Component Is already created for each Game Object.");
 		break;
 
 	case ComponentType::C_MATERIAL:

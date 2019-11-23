@@ -28,6 +28,7 @@ public:
 	void LoadMeshVertexNormals();
 	void LoadMeshColors(aiMesh* mesh, int index);
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
+	bool LoadMeshBuffers();
 
 	const uint GetIndices() const;
 	const uint GetVertices() const;
@@ -41,7 +42,6 @@ public:
 	const MeshInfo<float> GetMeshNormals() const;
 
 	bool LoadResourceMesh();
-	bool LoadMeshBuffers();
 	bool UnloadMeshBuffers();
 	virtual bool LoadInMemory() override;
 	virtual bool UnloadOutMemory() override;
