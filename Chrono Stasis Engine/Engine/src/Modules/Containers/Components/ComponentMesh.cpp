@@ -460,18 +460,20 @@ void ComponentMesh::CreateMeshBuffers()
 
 void ComponentMesh::InspectorInfo()
 {
+	ResourceMesh* meshRes = (ResourceMesh*)currentResource;
+
 	if (ImGui::CollapsingHeader("Active Mesh", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::Checkbox("Active", &active);
 
 		ImGui::Text("Total Vertices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetVertices());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetVertices());
 		ImGui::Text("Total Indices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetIndices());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetIndices());
 		ImGui::Text("Total UV:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTextureCoords());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetTextureCoords());
 		ImGui::Text("Total Triangles:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", GetTriangles());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetTriangles());
 
 		ImGui::Checkbox("View Vertex Normals", &drawVertexNormals);
 		ImGui::SameLine(); 

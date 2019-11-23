@@ -57,34 +57,34 @@ void ComponentMaterial::SetMaterial(TextureInfo* texture, float r, float g, floa
 void ComponentMaterial::InspectorInfo()
 {
 	
-	ResourceTexture* texReference = (ResourceTexture*)currentResource;
+	ResourceTexture* matRes = (ResourceTexture*)currentResource;
 
 	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::Checkbox("Active Material", &active); // Can't repeat checkbox name (!!)
 
 		ImGui::Text("Texture:");
-		if (texture != nullptr)
+		if (matRes != nullptr)
 		{
-			DroppableSpace((texReference == nullptr) ? "No Texture" : texReference->GetName(), texReference == nullptr);
+			DroppableSpace((matRes == nullptr) ? "No Texture" : matRes->GetName(), matRes == nullptr);
 			ImGui::SameLine();
 			ResourceExplorerButton(Resource::R_TEXTURE);
 
 
-			ImGui::Image((ImTextureID*)texture->id, ImVec2(150, 150));
+			ImGui::Image((ImTextureID*)((matRes == nullptr) ? 0 : matRes->gpu_id), ImVec2(150, 150));
 			ImGui::Text("Size: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i x", texture->width);
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i x", (matRes == nullptr) ? 0 : matRes->width);
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texture->height);
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (matRes == nullptr) ? 0 :  matRes->height);
 			ImGui::Text("Path: ");
 			ImGui::SameLine();
 			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 1.0f, 0.0f, 1.0f));
-			ImGui::TextWrapped(texture->path.c_str());
+			ImGui::TextWrapped((matRes == nullptr) ? 0 : matRes->path.c_str());
 			ImGui::PopStyleColor(); 
 			ImGui::Text("Reference Counting: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (texReference == nullptr) ? 0 : texReference->CountReferences());
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (matRes == nullptr) ? 0 : matRes->CountReferences());
 			//ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", texture->path.c_str());
 		}
 

@@ -35,6 +35,8 @@ public:
 	const uint GetTextureCoords() const;
 	const uint GetNormals() const;
 	const uint GetTriangles() const;
+	const uint GetFaceNormals() const;
+	const uint GetVertexNormals() const;
 
 	const MeshInfo<uint> GetMeshIndex() const;
 	const MeshInfo<float> GetMeshVertex() const;

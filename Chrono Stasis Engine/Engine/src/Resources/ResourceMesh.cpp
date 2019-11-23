@@ -186,6 +186,16 @@ const uint ResourceMesh::GetTriangles() const
 	return index.capacity / 3;
 }
 
+const uint ResourceMesh::GetFaceNormals() const
+{
+	return faceNormals.capacity;
+}
+
+const uint ResourceMesh::GetVertexNormals() const
+{
+	return vertexNormals.capacity;
+}
+
 const MeshInfo<uint> ResourceMesh::GetMeshIndex() const
 {
 	return index;
@@ -216,7 +226,7 @@ bool ResourceMesh::LoadResourceMesh()
 	{
 		char* cursor = buffer;
 
-		uint ranges[4];
+		uint ranges[6];
 		uint bytes = sizeof(ranges);
 		memcpy(ranges, cursor, bytes);
 
@@ -224,6 +234,8 @@ bool ResourceMesh::LoadResourceMesh()
 		vertex.capacity = ranges[1];
 		normals.capacity = ranges[2];
 		textureCoords.capacity = ranges[3];
+		faceNormals.capacity = ranges[4];
+		vertexNormals.capacity = ranges[5];
 
 		//Load Indices
 		cursor += bytes;
@@ -236,7 +248,6 @@ bool ResourceMesh::LoadResourceMesh()
 		bytes = sizeof(float) * vertex.capacity;
 		vertex.buffer = new float[vertex.capacity];
 		memcpy(vertex.buffer, cursor, bytes);
-
 
 		//Load Normals
 		if (normals.capacity > 0)
@@ -252,6 +263,18 @@ bool ResourceMesh::LoadResourceMesh()
 		bytes = sizeof(float) * textureCoords.capacity;
 		textureCoords.buffer = new float[textureCoords.capacity];
 		memcpy(textureCoords.buffer, cursor, bytes);
+
+		//Load Face Normals
+		cursor += bytes;
+		bytes = sizeof(float) * faceNormals.capacity;
+		faceNormals.buffer = new float[faceNormals.capacity];
+		memcpy(faceNormals.buffer, cursor, bytes);
+
+		//Load Vertex Normals
+		cursor += bytes;
+		bytes = sizeof(float) * vertexNormals.capacity;
+		vertexNormals.buffer = new float[vertexNormals.capacity];
+		memcpy(vertexNormals.buffer, cursor, bytes);
 
 		LoadMeshBuffers();
 

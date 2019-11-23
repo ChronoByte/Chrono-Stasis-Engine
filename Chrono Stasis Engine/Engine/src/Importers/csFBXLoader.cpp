@@ -577,15 +577,18 @@ ComponentMesh* ModuleFBXLoader::ImportMesh(aiMesh* mesh, const aiScene* scene,st
 
 void ModuleFBXLoader::SaveMesh(ResourceMesh* res, UID uuid, std::string& library_path)
 {
-	uint ranges[4] = { res->GetIndices(), res->GetVertices(), res->GetNormals(), res->GetTextureCoords() };
+	uint ranges[6] = { res->GetIndices(), res->GetVertices(), res->GetNormals(), res->GetTextureCoords(), res->GetFaceNormals(), res->GetVertexNormals() };
 
 	uint size_indices = sizeof(uint) * res->GetIndices();
 	uint size_vertices = sizeof(float) * (res->GetVertices());
 	uint size_normals = sizeof(float) * (res->GetNormals());
 	uint size_texCoords = sizeof(float) * (res->GetTextureCoords());
+	uint size_faceN = sizeof(float) * (res->GetFaceNormals());
+	uint size_vertexN = sizeof(float) * (res->GetVertexNormals());
+
 
 	//uint size = sizeof(ranges) + sizeof(float) * res->GetVertices() + sizeof(uint) * res->GetIndices() + sizeof(float) * res->GetNormals() + sizeof(float) * res->GetTextureCoords();
-	uint size = sizeof(ranges) + size_indices + size_vertices + size_normals + size_texCoords;
+	uint size = sizeof(ranges) + size_indices + size_vertices + size_normals + size_texCoords + size_faceN + size_vertexN;
 
 	// Allocating all data 
 	char* data = new char[size];
@@ -615,14 +618,25 @@ void ModuleFBXLoader::SaveMesh(ResourceMesh* res, UID uuid, std::string& library
 	bytes = size_texCoords; 
 	memcpy(cursor, res->textureCoords.buffer, bytes);
 
-	
+	// Storing Face Normals
+	cursor += bytes;
+	bytes = size_faceN;
+	memcpy(cursor, res->faceNormals.buffer, bytes);
 
+	// Storing Vertex Normals
+	cursor += bytes;
+	bytes = size_vertexN;
+	memcpy(cursor, res->vertexNormals.buffer, bytes);
+
+	
 	// Release all pointers
 	RELEASE_ARRAY(res->vertex.buffer);
 	RELEASE_ARRAY(res->index.buffer);
 	RELEASE_ARRAY(res->normals.buffer);
 	RELEASE_ARRAY(res->colors.buffer);
 	RELEASE_ARRAY(res->textureCoords.buffer);
+	RELEASE_ARRAY(res->faceNormals.buffer);
+	RELEASE_ARRAY(res->vertexNormals.buffer);
 
 	//Create Own format mesh file 
 	std::string output_file(L_MESHES_FOLDER + std::to_string(uuid) + MESH_EXTENSION);
