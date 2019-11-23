@@ -26,10 +26,10 @@ GameObject::GameObject(GameObject * parent)
 	components.push_back(transform); 
 }
 
-GameObject::GameObject(std::string name, UID uid)
+GameObject::GameObject(GameObject* parent, UID uid)
 {
-	this->name = name;
 	this->UUID = uid;
+	SetParent(parent);
 }
 
 GameObject::~GameObject()

@@ -219,7 +219,8 @@ void ModuleSceneSerializer::LoadModel(const char* model)
 				UID uid = json_object_dotget_number(config_node, tmp_go.c_str());
 
 				//Create GameObject
-				GameObject* go = new GameObject(GOname, uid);
+				//GameObject* go = new GameObject(GOname, uid);
+				GameObject* go = App->scene->LoadGameObject(parent, GOname.c_str(), uid);
 
 				//Load Components
 				tmp_go = name + "Number of Components";
@@ -241,8 +242,6 @@ void ModuleSceneSerializer::LoadModel(const char* model)
 				
 			}
 			
-			// Add GameObject
-			App->scene->SetRoot(parent);
 		}
 	}
 	json_value_free(config_file);

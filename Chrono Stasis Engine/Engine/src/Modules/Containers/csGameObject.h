@@ -20,7 +20,7 @@ public:
 
 	GameObject();
 	GameObject(GameObject* parent); 
-	GameObject(std::string name, UID uid);
+	GameObject(GameObject* parent, UID uid);
 	~GameObject(); 
 
 	// Logic

@@ -59,13 +59,13 @@ public:
 	GameObject* CheckRayAgainstTris(const LineSegment& ray, const std::multimap<float, GameObject*>& intersected); 
 
 	// Creation
-	GameObject* CreateGameObject(GameObject* parent, const char* name); 
+	GameObject* CreateGameObject(GameObject* parent, const char* name, bool import = false); 
 	GameObject* CreateRoot(); 
 	GameObject* GetRoot() const; 
 
 	GameObject* CreateObject3D(PrimitiveType type, GameObject* parent); 
 	GameObject* CreateCamera(GameObject* parent, const char* name); 
-
+	GameObject* LoadGameObject(GameObject* parent, const char* name, UID uid);
 	// Selection
 	GameObject* GetSelected() const; 
 	void SetSelected(GameObject* go); 

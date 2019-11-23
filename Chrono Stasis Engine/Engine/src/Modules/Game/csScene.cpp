@@ -432,9 +432,9 @@ bool ModuleScene::isOctreeActive() const
 	return activeOctree;
 }
 
-GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name)
+GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name, bool import)
 {
-	if (parent == nullptr)
+	if (parent == nullptr && import == false)
 		parent = root; 
 
 	GameObject* go = new GameObject(parent); 
@@ -442,6 +442,18 @@ GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name)
 	SetSelected(go);
 	return go;
 }
+
+GameObject* ModuleScene::LoadGameObject(GameObject* parent, const char* name, UID uid)
+{
+	if (parent == nullptr)
+		parent = root;
+
+	GameObject* go = new GameObject(parent, uid);
+	go->SetName(name);
+	SetSelected(go);
+	return go;
+}
+
 
 GameObject * ModuleScene::CreateRoot()
 {

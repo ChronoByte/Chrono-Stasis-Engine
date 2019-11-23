@@ -418,7 +418,7 @@ bool ModuleFBXLoader::Import(const char* assets_path, std::string& library_path,
 	{
 		std::string name;
 		App->fs->GetNameFile(assets_path, name);
-		newGo = App->scene->CreateGameObject(nullptr, name.c_str());
+		newGo = App->scene->CreateGameObject(nullptr, name.c_str(), true);
 
 		LOG("----------- Importing FBX Model: %s -----------", name.c_str());
 		LOG("Path: %s", assets_path);
