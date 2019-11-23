@@ -223,6 +223,13 @@ void ComponentCamera::SetVerticalFOV(const float & fov)
 	frustum.verticalFov = fov; 
 }
 
+void ComponentCamera::SetAspectRatio(const float & ratio)
+{
+	aspectRatio = ratio; 
+	frustum.horizontalFov = 2.0f * atanf(tanf(frustum.verticalFov * 0.5f) * aspectRatio); 
+	//LOG("HFOV - %f - VFOV - %f", frustum.horizontalFov, frustum.verticalFov);
+}
+
 void ComponentCamera::SetColor(const Color & set)
 {
 	bgColor[0] = set.r;
