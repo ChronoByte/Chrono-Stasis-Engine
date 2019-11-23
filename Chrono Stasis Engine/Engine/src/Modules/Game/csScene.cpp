@@ -107,7 +107,15 @@ update_status ModuleScene::PostUpdate(float dt)
 
 void ModuleScene::DrawScene()
 {
+	if (App->scene->mainCamera != nullptr)
+	{
+		std::vector<GameObject*> candidates; 
 
+		octree->CollectCandidates(candidates, App->scene->mainCamera->frustum);
+
+		for(uint i = 0; i < candidates.size(); ++i)
+			LOG("Candidate -  %s", candidates[i]->GetName());
+	}
 	DrawAllGameObjects(root);
 
 }

@@ -26,6 +26,9 @@ public:
 	template <typename Type>
 	int CollectCandidates(std::multimap<float, GameObject*>& candidates, const Type& primitive) const;
 
+	template <typename TYPE>
+	int CollectCandidates(std::vector<GameObject*>& candidates, const TYPE& primitive) const;
+	
 	void CollectZones(std::vector<OctreeNode*>& candidates); 
 
 	bool isLeaf = true; 
@@ -54,6 +57,9 @@ public:
 	template <typename TYPE>
 	int CollectCandidates(std::multimap<float, GameObject*>& candidates, const TYPE& primitive) const;
 
+	template <typename TYPE>
+	int CollectCandidates(std::vector<GameObject*>& candidates, const TYPE& primitive) const;
+
 	void CollectZones(std::vector<OctreeNode*>& nodesCollected);
 
 	OctreeNode* GetRoot() const; 
@@ -70,6 +76,15 @@ private:
 
 template<typename TYPE>
 inline int Octree::CollectCandidates(std::multimap<float, GameObject*>& candidates, const TYPE & primitive) const
+{
+	if (root != nullptr && primitive.Intersects(root->zone))
+		root->CollectCandidates(candidates, primitive);
+
+	return 0;
+}
+
+template<typename TYPE>
+inline int Octree::CollectCandidates(std::vector<GameObject*>& candidates, const TYPE & primitive) const
 {
 	if (root != nullptr && primitive.Intersects(root->zone))
 		root->CollectCandidates(candidates, primitive);
@@ -98,6 +113,31 @@ inline int OctreeNode::CollectCandidates(std::multimap<float, GameObject*>& cand
 			for (uint i = 0; i < 8; ++i)
 			{
 				childs[i]->CollectCandidates(candidates, primitive);
+			}
+		}
+	}
+
+	return 0;
+}
+
+template<typename TYPE>
+inline int OctreeNode::CollectCandidates(std::vector<GameObject*>& candidates, const TYPE & primitive) const
+{
+	if (primitive.Intersects(this->zone))
+	{
+		if (primitive.Intersects(zone))
+		{
+			for (uint i = 0; i < objects.size(); i++)
+			{
+				candidates.push_back(objects[i]);
+			}
+
+			if (!isLeaf)
+			{
+				for (uint i = 0; i < 8; ++i)
+				{
+					childs[i]->CollectCandidates(candidates, primitive);
+				}
 			}
 		}
 	}

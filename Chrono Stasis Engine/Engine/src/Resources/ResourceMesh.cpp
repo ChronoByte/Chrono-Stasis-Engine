@@ -24,11 +24,13 @@ void ResourceMesh::LoadMeshIndices(aiMesh* mesh)
 {
 	index.capacity = mesh->mNumFaces * 3;
 	index.buffer = new uint[index.capacity];
+	bool toLoad = true; 
 
 	for (uint i = 0; i < mesh->mNumFaces; ++i)
 	{
 		if (mesh->mFaces[i].mNumIndices != 3) {
 			LOG("WARNING, geometry face with != 3 indices!");
+			toLoad = false; 
 		}
 
 		else memcpy(&index.buffer[i * 3], mesh->mFaces[i].mIndices, 3 * sizeof(uint));
@@ -36,7 +38,7 @@ void ResourceMesh::LoadMeshIndices(aiMesh* mesh)
 	//LOG("New mesh loaded with %d indices", index.capacity);
 
 	// ---------- Load Face Normals  ----------
-	if (mesh->HasFaces())
+	if (mesh->HasFaces() && toLoad)
 		LoadMeshFaceNormals();
 }
 
