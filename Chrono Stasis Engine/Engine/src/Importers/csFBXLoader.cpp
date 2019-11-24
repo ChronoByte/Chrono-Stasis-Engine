@@ -418,7 +418,7 @@ bool ModuleFBXLoader::Import(const char* assets_path, std::string& library_path,
 	{
 		std::string name;
 		App->fs->GetNameFile(assets_path, name);
-		newGo = App->scene->CreateGameObject(nullptr, name.c_str(), true);
+		newGo = App->scene->CreateGameObject(nullptr, name.c_str());
 
 		LOG("----------- Importing FBX Model: %s -----------", name.c_str());
 		LOG("Path: %s", assets_path);
@@ -452,7 +452,8 @@ bool ModuleFBXLoader::Import(const char* assets_path, std::string& library_path,
 		
 		LOG("----------- Ended Importing FBX Model: %s -----------", name.c_str());
 		aiReleaseImport(scene);
-
+		
+		delete newGo; 
 		return true;
 	}
 	else

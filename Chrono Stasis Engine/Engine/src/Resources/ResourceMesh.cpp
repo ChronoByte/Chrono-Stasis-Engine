@@ -170,12 +170,12 @@ const uint ResourceMesh::GetIndices() const
 
 const uint ResourceMesh::GetVertices() const
 {
-	return vertex.capacity;
+	return vertex.capacity * 3;
 }
 
 const uint ResourceMesh::GetTextureCoords() const
 {
-	return textureCoords.capacity;
+	return textureCoords.capacity * 2;
 }
 
 const uint ResourceMesh::GetNormals() const
