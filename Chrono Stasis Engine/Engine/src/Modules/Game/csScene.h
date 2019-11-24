@@ -6,6 +6,7 @@
 
 #include <map>
 
+#define OCTREE_SIZE 100.f
 class GameObject;
 class BoundingBox;
 class ComponentCamera; 
@@ -43,6 +44,8 @@ public:
 	bool CleanUp() override;
 
 	void DrawScene();
+	void DrawCullingAllObjects();
+	void DrawCullingObjectsWithOctree();
 	void DebugDrawScene(); 
 
 	void DrawGrid();
@@ -93,17 +96,26 @@ public:
 	// ------------- DynVector -----------
 	void PushToDynamic(GameObject* go); 
 	void RemoveFromDynamic(GameObject* go);
-	std::vector<GameObject*> GetDynamicObjects() const;
+	std::list<GameObject*> GetDynamicObjects() const;	
+	
+	// ------------- StaticVector -----------
+	void PushToStatic(GameObject* go); 
+	void RemoveFromStatic(GameObject* go);
+	std::list<GameObject*> GetStaticObjects() const;
+
+
 public: 
 	ComponentCamera* mainCamera = nullptr; 
 
 	bool drawOctree = true; 
 	bool activeOctree = true;
+	bool toRecreateOctree = false; 
 	Octree* octree = nullptr;
 
 
 private:
-	std::vector<GameObject*> dynamicGameObjects; 
+	std::list<GameObject*> dynamicGameObjects; 
+	std::list<GameObject*> staticGameObjects; 
 	//vars
 	GameObject* root = nullptr; 
 	GameObject* selected = nullptr; 

@@ -46,7 +46,9 @@ public:
 
 	Octree(); 
 	Octree(const AABB& zone); 
-	~Octree(); 
+	~Octree();
+	void DeleteOctree();
+
 
 	void ClearOctree(); 
 	void SetBoundaries(const AABB& rect);
@@ -123,21 +125,19 @@ inline int OctreeNode::CollectCandidates(std::multimap<float, GameObject*>& cand
 template<typename TYPE>
 inline int OctreeNode::CollectCandidates(std::vector<GameObject*>& candidates, const TYPE & primitive) const
 {
-	if (primitive.Intersects(this->zone))
+	
+	if (primitive.Intersects(zone))
 	{
-		if (primitive.Intersects(zone))
+		for (uint i = 0; i < objects.size(); i++)
 		{
-			for (uint i = 0; i < objects.size(); i++)
-			{
-				candidates.push_back(objects[i]);
-			}
+			candidates.push_back(objects[i]);
+		}
 
-			if (!isLeaf)
+		if (!isLeaf)
+		{
+			for (uint i = 0; i < 8; ++i)
 			{
-				for (uint i = 0; i < 8; ++i)
-				{
-					childs[i]->CollectCandidates(candidates, primitive);
-				}
+				childs[i]->CollectCandidates(candidates, primitive);
 			}
 		}
 	}

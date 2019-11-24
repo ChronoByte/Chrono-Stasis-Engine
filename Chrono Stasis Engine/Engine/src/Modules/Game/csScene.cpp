@@ -34,8 +34,9 @@ bool ModuleScene::Init(JSON_Object* node)
 bool ModuleScene::Start()
 {
 	CreateRoot(); 
-	CreateOctree(100.f);
+	CreateOctree(OCTREE_SIZE);
 
+	CreateCamera(nullptr, "Main Camera");
 	//App->fbx->LoadModel("Assets/Models/BakerHouse.FBX");
 
 	CleanSelected(); 
@@ -65,6 +66,12 @@ update_status ModuleScene::PreUpdate(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		activeOctree = !activeOctree;
 
+	if (toRecreateOctree)
+	{
+		toRecreateOctree = false;
+		RecreateOctree(); 
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -77,11 +84,15 @@ update_status ModuleScene::Update(float dt)
 	if (App->gameState == GameState::ONPLAY)
 		OnGameUpdate(App->gameDt);
 
-	LOG("---");
-	for (uint i = 0; i < dynamicGameObjects.size(); ++i)
+	/*LOG("---");
+	for (std::list<GameObject*>::iterator iter = dynamicGameObjects.begin(); iter != dynamicGameObjects.end(); ++iter)
 	{
-		LOG("Dynamic Object: %s", dynamicGameObjects[i]->GetName());
+		LOG("Dynamic Object: %s", (*iter)->GetName());
 	}
+	for (std::list<GameObject*>::iterator iter = staticGameObjects.begin(); iter != staticGameObjects.end(); ++iter)
+	{
+		LOG("Static Object: %s", (*iter)->GetName());
+	}*/
 	return UPDATE_CONTINUE;
 }
 
@@ -98,6 +109,8 @@ void ModuleScene::OnGameUpdate(float dt)
 
 		current->OnGameUpdate(dt); 
 	}
+
+	objects.clear(); 
 }
 
 update_status ModuleScene::PostUpdate(float dt)
@@ -107,17 +120,62 @@ update_status ModuleScene::PostUpdate(float dt)
 
 void ModuleScene::DrawScene()
 {
-	if (App->scene->mainCamera != nullptr)
+	if (App->scene->mainCamera != nullptr && App->scene->mainCamera->isCulling())
 	{
-		std::vector<GameObject*> candidates; 
+		if(isOctreeActive())
+			DrawCullingObjectsWithOctree();
+		else
+			DrawCullingAllObjects();
 
-		octree->CollectCandidates(candidates, App->scene->mainCamera->frustum);
-
-		for(uint i = 0; i < candidates.size(); ++i)
-			LOG("Candidate -  %s", candidates[i]->GetName());
 	}
-	DrawAllGameObjects(root);
+	else DrawAllGameObjects(root);
 
+}
+
+void ModuleScene::DrawCullingAllObjects()
+{
+	int intersections = 0;
+	std::vector<GameObject*> objects;
+	objects.push_back(root);
+
+	while (!objects.empty())
+	{
+		GameObject* current = objects.back();
+		objects.pop_back();
+		objects.insert(objects.end(), current->childs.begin(), current->childs.end());
+
+		if (App->scene->mainCamera->CheckAABBInsideFrustum(current->GetTransform()->GetBoundingBox()))
+			current->OnDraw();
+
+		intersections++;
+	}
+	LOG("Checking %i intersections without octree", intersections);
+}
+
+void ModuleScene::DrawCullingObjectsWithOctree()
+{
+	std::vector<GameObject*> candidates;
+	octree->CollectCandidates(candidates, App->scene->mainCamera->frustum);
+	int intersections = 0; 
+
+	for (uint i = 0; i < candidates.size(); ++i)
+	{
+		if (App->scene->mainCamera->CheckAABBInsideFrustum(candidates[i]->GetTransform()->GetBoundingBox()))
+			candidates[i]->OnDraw();
+
+		intersections++;
+	}
+
+	for (std::list<GameObject*>::const_iterator iter = dynamicGameObjects.begin(); iter != dynamicGameObjects.end(); ++iter)
+	{
+		if (App->scene->mainCamera->CheckAABBInsideFrustum((*iter)->GetTransform()->GetBoundingBox()))
+			(*iter)->OnDraw();
+
+		intersections++;
+
+	}
+	LOG("Checking %i intersections with octree", intersections);
+	candidates.clear();
 }
 
 void ModuleScene::DebugDrawScene()
@@ -133,6 +191,35 @@ void ModuleScene::DebugDrawScene()
 
 	if(isOctreeActive() && drawOctree)
 		DrawOctree();
+
+}
+
+void ModuleScene::DrawAllGameObjects(GameObject * parent)
+{
+	if (!parent->isActive())
+		return;
+
+	parent->OnDraw();
+
+	std::list<GameObject*>::iterator it = parent->childs.begin();
+	for (it; it != parent->childs.end(); ++it)
+	{
+		DrawAllGameObjects((*it));
+	}
+}
+
+void ModuleScene::DebugDrawAllGameObjects(GameObject * parent)
+{
+	if (!parent->isActive())
+		return;
+
+	parent->OnDebugDraw();
+
+	std::list<GameObject*>::iterator it = parent->childs.begin();
+	for (it; it != parent->childs.end(); ++it)
+	{
+		DebugDrawAllGameObjects((*it));
+	}
 
 }
 
@@ -209,6 +296,7 @@ void ModuleScene::DrawOctree()
 			glVertex3f(nodes[j]->zone.Edge(i).b.x, nodes[j]->zone.Edge(i).b.y, nodes[j]->zone.Edge(i).b.z);
 		}
 	}
+	nodes.clear(); 
 
 	glColor3f(1.f, 1.f, 1.f);
 
@@ -360,7 +448,7 @@ GameObject * ModuleScene::CreateCamera(GameObject * parent, const char * name)
 	go->GetTransform()->SetPosition(float3(0.f, 10.f, -20.f));
 	go->GetTransform()->SetRotationEuler(float3(20.f, 0.f, 0.f));
 
-	return go;
+return go;
 }
 
 GameObject * ModuleScene::GetSelected() const
@@ -370,12 +458,12 @@ GameObject * ModuleScene::GetSelected() const
 
 void ModuleScene::SetSelected(GameObject* go)
 {
-	selected = go; 
+	selected = go;
 }
 
 void ModuleScene::CleanSelected()
 {
-	selected = nullptr; 
+	selected = nullptr;
 }
 
 void ModuleScene::DeleteRoot()
@@ -394,31 +482,31 @@ void ModuleScene::SetRoot(GameObject* go)
 void ModuleScene::SetMainCamera(ComponentCamera * camera)
 {
 	if (camera == nullptr)
-		return; 
+		return;
 
 	if (mainCamera != nullptr)
 		mainCamera->isMainCamera = false;
 
-	mainCamera = camera; 
-	mainCamera->isMainCamera = true; 
+	mainCamera = camera;
+	mainCamera->isMainCamera = true;
 
 	// Set game viewport camera
 	if (App->renderer3D->gameViewport != nullptr)
-		App->renderer3D->gameViewport->SetCamera(mainCamera); 
+		App->renderer3D->gameViewport->SetCamera(mainCamera);
 
 	// Open window
-	App->editor->gameView->SetActive(true); 
+	App->editor->gameView->SetActive(true);
 }
 
 void ModuleScene::ClearCamera()
 {
 	if (mainCamera != nullptr)
-		mainCamera->isMainCamera = false; 
+		mainCamera->isMainCamera = false;
 
 	mainCamera = nullptr;
 
 	// Set game viewport camera
-	if(App->renderer3D->gameViewport != nullptr)
+	if (App->renderer3D->gameViewport != nullptr)
 		App->renderer3D->gameViewport->SetCamera(nullptr);
 
 	// Close window
@@ -439,8 +527,8 @@ void ModuleScene::CreateOctree(const float & size)
 
 void ModuleScene::InsertInOctree(GameObject * go)
 {
-	//if (octree->GetRoot() == nullptr)		
-	//	CreateOctree(50); // Recreate Octree
+	if (octree->GetRoot() == nullptr)		
+		CreateOctree(OCTREE_SIZE); // Recreate Octree
 
 	octree->Insert(go);
 
@@ -448,17 +536,22 @@ void ModuleScene::InsertInOctree(GameObject * go)
 
 void ModuleScene::RemoveFromOctree(GameObject * go)
 {
-	octree->Remove(go); 
+	octree->Remove(go);
 }
 
 void ModuleScene::ResetOctree()
 {
-	octree->ClearOctree(); 
+	octree->ClearOctree();
 }
 
 void ModuleScene::RecreateOctree()
 {
-
+	octree->ClearOctree(); 
+	std::list<GameObject*>::const_iterator iter = staticGameObjects.begin();
+	for (iter; iter != staticGameObjects.end(); ++iter)
+	{
+		InsertInOctree((*iter)); 
+	}
 }
 
 bool ModuleScene::isOctreeActive() const
@@ -473,17 +566,29 @@ void ModuleScene::PushToDynamic(GameObject * go)
 
 void ModuleScene::RemoveFromDynamic(GameObject * go)
 {
-	std::vector<GameObject*>::iterator iter = std::find(dynamicGameObjects.begin(), dynamicGameObjects.end(), go);
-	if (iter != dynamicGameObjects.end())
-	{
-		LOG("Found the bastard in dynamic - %s", (*iter)->GetName());
-		dynamicGameObjects.erase(iter); 
-	}
+	dynamicGameObjects.remove(go);
 }
 
-std::vector<GameObject*> ModuleScene::GetDynamicObjects() const
+std::list<GameObject*> ModuleScene::GetDynamicObjects() const
 {
 	return dynamicGameObjects;
+}
+
+void ModuleScene::PushToStatic(GameObject * go)
+{
+	staticGameObjects.push_back(go); 
+	toRecreateOctree = true; 
+}
+
+void ModuleScene::RemoveFromStatic(GameObject * go)
+{
+	staticGameObjects.remove(go); 
+	toRecreateOctree = true;
+}
+
+std::list<GameObject*> ModuleScene::GetStaticObjects() const
+{
+	return staticGameObjects;
 }
 
 GameObject * ModuleScene::CreateGameObject(GameObject* parent, const char* name, bool import)
@@ -544,35 +649,6 @@ void ModuleScene::UpdateAllGameObjects(GameObject * parent, float dt)
 			it++;
 		}
 	}
-}
-
-void ModuleScene::DrawAllGameObjects(GameObject * parent)
-{
-	if (!parent->isActive())
-		return;
-
-	parent->OnDraw();
-
-	std::list<GameObject*>::iterator it = parent->childs.begin();
-	for (it; it != parent->childs.end(); ++it)
-	{
-		DrawAllGameObjects((*it)); 
-	}
-}
-
-void ModuleScene::DebugDrawAllGameObjects(GameObject * parent)
-{
-	if (!parent->isActive())
-		return;
-
-	parent->OnDebugDraw();
-
-	std::list<GameObject*>::iterator it = parent->childs.begin();
-	for (it; it != parent->childs.end(); ++it)
-	{
-		DebugDrawAllGameObjects((*it));
-	}
-
 }
 
 void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected, int& tests)

@@ -24,6 +24,7 @@ OctreeNode::~OctreeNode()
 	}
 
 	// Should we clear our objects? 
+	objects.clear(); 
 }
 
 void OctreeNode::Insert(GameObject * go)
@@ -72,18 +73,18 @@ void OctreeNode::TryToDeleteBrothers()
 	if (parent != nullptr)
 	{
 		std::vector<GameObject*> brothersObjects(MAX_OBJECTS); 
-		uint childsObjects = 0;
 		for (uint i = 0; i < 8; ++i)
 		{
 			// Look in each brother, if the objects they have is greater than the max, we cant delete
-			childsObjects += parent->childs[i]->objects.size();
-			if (childsObjects > MAX_OBJECTS)
+			brothersObjects.insert(brothersObjects.end(), parent->childs[i]->objects.begin(), parent->childs[i]->objects.end());
+			if (brothersObjects.size() > MAX_OBJECTS)
 			{
 				LOG("There are more than the max objects in the brothers node, can not delete childs");
+				brothersObjects.clear(); 
 				return;
 			}
-			//brothersObjects.insert(brothersObjects.end(), parent->childs[i]->objects.begin(), parent->childs[i]->objects.end());
 		}
+		//parent->chi
 		LOG("You could have deleted the childs of the parent, its free real state");
 	}
 }
@@ -188,6 +189,7 @@ void OctreeNode::DistributeInChilds()
 			{
 				childs[childNum[i]]->Insert(currentGo);
 			}
+			childNum.clear(); 
 			objects.pop_back();
 		}
 
@@ -236,10 +238,10 @@ Octree::Octree(const AABB & zone)
 
 Octree::~Octree()
 {
-	ClearOctree(); 
+	DeleteOctree();
 }
 
-void Octree::ClearOctree()
+void Octree::DeleteOctree()
 {
 	if (root != nullptr)
 	{
@@ -248,9 +250,26 @@ void Octree::ClearOctree()
 	}
 }
 
+void Octree::ClearOctree()
+{
+	if (root != nullptr)
+	{
+		for (uint i = 0; i < 8; ++i)
+		{
+			if (root->childs[i] != nullptr)
+			{
+				delete root->childs[i];
+				root->childs[i] = nullptr; 
+			}
+		}
+		root->isLeaf = true;
+		root->objects.clear(); 
+	}
+}
+
 void Octree::SetBoundaries(const AABB & zone)
 {
-	ClearOctree(); 
+	DeleteOctree(); 
 
 	root = new OctreeNode(zone, nullptr);
 

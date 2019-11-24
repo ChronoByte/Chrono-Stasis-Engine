@@ -90,7 +90,7 @@ void ComponentTransform::CalculateTransformRecursively()
 	if (parent == nullptr) 	// Root is trying to acces here // TODO: Handle root locking
 		return;
 
-	LOG("Recalculating Transform from: %s", owner->GetName());
+	//LOG("Recalculating Transform from: %s", owner->GetName());
 
 	local_matrix = float4x4::FromTRS(position, rotation_quat, scale);
 	global_matrix = parent->GetTransform()->GetGlobalTransform() * local_matrix;

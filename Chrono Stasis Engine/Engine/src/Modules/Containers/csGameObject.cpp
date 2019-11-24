@@ -49,7 +49,8 @@ GameObject::~GameObject()
 	// --------- Delete From Containers -----------
 
 	if (staticGO)
-		App->scene->RemoveFromOctree(this);
+		App->scene->RemoveFromStatic(this);
+		//App->scene->RemoveFromOctree(this);
 	else
 		App->scene->RemoveFromDynamic(this); 
 	
@@ -141,13 +142,15 @@ void GameObject::SetStatic(bool stat)
 {
 	if (stat)
 	{
-		App->scene->InsertInOctree(this);
+		//App->scene->InsertInOctree(this);
+		App->scene->PushToStatic(this); 
 		App->scene->RemoveFromDynamic(this);
 		staticGO = true;
 	}
 	else
 	{
-		App->scene->RemoveFromOctree(this);
+		//App->scene->RemoveFromOctree(this);
+		App->scene->RemoveFromStatic(this);
 		App->scene->PushToDynamic(this); 
 		staticGO = false;
 	}
@@ -167,13 +170,15 @@ void GameObject::SetStatic(bool stat)
 
 		if (stat)
 		{
-			App->scene->InsertInOctree(go);
+			//App->scene->InsertInOctree(go);
+			App->scene->PushToStatic(go);
 			App->scene->RemoveFromDynamic(go);
 			go->staticGO = true;
 		}
 		else
 		{
-			App->scene->RemoveFromOctree(go);
+			//App->scene->RemoveFromOctree(go);
+			App->scene->RemoveFromStatic(go);
 			App->scene->PushToDynamic(go);
 			go->staticGO = false;
 		}

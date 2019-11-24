@@ -70,6 +70,7 @@ bool ModuleEditor::Start()
 	
 	iconFolder = App->texture->LoadTextureIcon("Assets/Icons/folder.png");
 	iconFile = App->texture->LoadTextureIcon("Assets/Icons/file2.png");
+
 	return ret;
 }
 
@@ -95,6 +96,12 @@ bool ModuleEditor::CleanUp()
 	hierarchy = nullptr; 
 	geometryWin = nullptr; 
 	sceneView = nullptr;
+
+	delete iconFolder;
+	iconFolder = nullptr; 
+
+	delete iconFile; 
+	iconFile = nullptr; 
 
 	return true;
 }
