@@ -65,8 +65,6 @@ update_status ModuleScene::PreUpdate(float dt)
 	if (GetSelected() != nullptr && App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
 		GetSelected()->to_delete = true;
 
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_DOWN)
-		App->fbx->LoadModel("Assets/Models/BakerHouse/BakerHouse.FBX");
 
 	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		activeOctree = !activeOctree;
@@ -302,6 +300,7 @@ void ModuleScene::DrawOctree()
 			glVertex3f(nodes[j]->zone.Edge(i).b.x, nodes[j]->zone.Edge(i).b.y, nodes[j]->zone.Edge(i).b.z);
 		}
 	}
+
 	nodes.clear(); 
 
 	glColor3f(1.f, 1.f, 1.f);

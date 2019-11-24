@@ -20,12 +20,12 @@ ComponentMaterial::~ComponentMaterial()
 
 void ComponentMaterial::Update(float dt)
 {
-	ResourceTexture* texReference = (ResourceTexture*)currentResource;
+	/*ResourceTexture* texReference = (ResourceTexture*)currentResource;
 
 	if (texReference != nullptr)
 		glBindTexture(GL_TEXTURE_2D, texReference->gpu_id);
 	else
-		glColor3f(1, 1, 1);
+		glColor3f(1, 1, 1);*/
 }
 
 void ComponentMaterial::SetColor(float r, float g, float b, float a)
