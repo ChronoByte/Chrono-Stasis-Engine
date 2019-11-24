@@ -36,8 +36,11 @@ bool ModuleScene::Start()
 	CreateRoot(); 
 	CreateOctree(OCTREE_SIZE);
 
-	CreateCamera(nullptr, "Main Camera");
-	//App->fbx->LoadModel("Assets/Models/BakerHouse.FBX");
+	//CreateCamera(nullptr, "Main Camera");
+
+	ClearScene();
+	App->serialization->LoadScene("Assets/Scenes/StreetScene.scene.json");
+	
 
 	CleanSelected(); 
 
