@@ -30,6 +30,8 @@ public:
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 	bool LoadMeshBuffers();
 
+	void LoadMeshFromParShape(par_shapes_mesh* mesh); 
+
 	const uint GetVertexNum() const; 
 	const uint GetIndicesSize() const;
 	const uint GetIndexNum() const;

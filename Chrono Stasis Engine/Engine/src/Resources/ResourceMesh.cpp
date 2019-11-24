@@ -411,6 +411,47 @@ bool ResourceMesh::LoadMeshBuffers()
 	return ret;
 }
 
+void ResourceMesh::LoadMeshFromParShape(par_shapes_mesh * shape)
+{
+	par_shapes_unweld(shape, true);
+	par_shapes_compute_normals(shape);
+
+	// Vertex Buffer
+	vertex.capacity = shape->npoints * 3;
+	vertex.buffer = new float[vertex.capacity];
+	memcpy(vertex.buffer, shape->points, sizeof(float) * vertex.capacity);
+
+	// Index Buffer
+	index.capacity = shape->ntriangles * 3;
+	index.buffer = new uint[index.capacity];
+	memcpy(index.buffer, shape->triangles, sizeof(uint) * index.capacity);
+
+	// Normal Buffer
+	if (shape->normals != nullptr)
+	{
+		normals.capacity = shape->npoints * 3;
+		normals.buffer = new float[normals.capacity];
+		memcpy(normals.buffer, shape->normals, sizeof(float) * normals.capacity);
+	}
+
+	// Texture Coords
+	if (shape->tcoords != nullptr)
+	{
+		textureCoords.capacity = shape->npoints * 2;
+		textureCoords.buffer = new float[textureCoords.capacity];
+		memcpy(textureCoords.buffer, shape->tcoords, sizeof(float) * textureCoords.capacity);
+	}
+
+	// Vertex Normals
+	LoadMeshVertexNormals();
+
+	// Face Normals
+	LoadMeshFaceNormals();
+
+	LoadMeshBuffers();
+
+}
+
 bool ResourceMesh::UnloadMeshBuffers()
 {
 	LOG("Deleting component mesh from %s", this->GetName());

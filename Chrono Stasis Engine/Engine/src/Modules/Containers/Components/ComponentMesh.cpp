@@ -176,10 +176,10 @@ void ComponentMesh::DrawNormals()
 
 void ComponentMesh::DrawVertexNormals()
 {
-		ResourceMesh* meshRes = (ResourceMesh*)currentResource;
+	ResourceMesh* meshRes = (ResourceMesh*)currentResource;
 	
-		if (meshRes != nullptr) 
-		{
+	if (meshRes != nullptr) 
+	{
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glColor3f(1.f, 0.f, 0.f);
 
@@ -385,6 +385,7 @@ void ComponentMesh::LoadMeshFromParShape(par_shapes_mesh * shape)
 	LoadMeshVertexNormals(); 
 
 	// Face Normals
+	
 	LoadMeshFaceNormals(); 
 
 	CreateMeshBuffers();
