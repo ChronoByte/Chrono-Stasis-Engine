@@ -82,5 +82,5 @@ enum update_status
 // Own format files --------------
 #define MESH_EXTENSION ".mesh"
 #define TEXTURES_EXTENSION ".dds"
-#define SCENES_EXTENSION ".scene"
-#define META_EXTENSION ".meta"
+#define SCENES_EXTENSION ".scene.json"
+#define META_EXTENSION ".meta.json"

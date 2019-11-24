@@ -104,14 +104,16 @@ void FileBrowserWindow::Draw()
 		if (name == "Save")
 		{
 			App->serialization->scene_to_serialize = current_path + App->serialization->current_scene;
-			App->serialization->SaveScene(App->serialization->scene_to_serialize.c_str(), "ASSET");
+			//App->serialization->SaveScene(App->serialization->scene_to_serialize.c_str(), "ASSET");
+			App->serialization->SaveScene(App->serialization->scene_to_serialize.c_str());
+
 			LOG("Scene &s Saved successfully", App->serialization->current_scene.c_str());
 		}
 	
 		else if (name == "Load") 
 		{
 			App->serialization->scene_to_serialize = current_path + App->serialization->current_scene;
-			App->serialization->LoadScene(App->serialization->scene_to_serialize.c_str(), "ASSET");
+			//App->serialization->LoadScene(App->serialization->scene_to_serialize.c_str(), "ASSET");
 			LOG("Scene %s Loaded successfully", App->serialization->current_scene.c_str());
 		}
 
@@ -125,6 +127,7 @@ void FileBrowserWindow::Draw()
 
 void FileBrowserWindow::OpenBrowser(const BrowserState& state)
 {
+	
 
 	switch (state) {
 	case BrowserState::SAVE_SCENE:

@@ -366,7 +366,7 @@ ComponentTransform * GameObject::GetTransform() const
 	return transform;
 }
 
-uint GameObject::GetUUID() const
+UID GameObject::GetUUID() const
 {
 	return UUID;
 }

@@ -76,9 +76,139 @@ bool ModuleSceneSerializer::SaveScene(const char* scene_path, std::string dir)
 	return true;
 }
 
-bool ModuleSceneSerializer::LoadScene(const char* scene_path, std::string dir)
+
+
+void ModuleSceneSerializer::SaveScene(const char* scene_path)
 {
-	return true;
+	LOG("SAVING SCENE -----");
+
+	std::string extension = SCENES_EXTENSION;
+	//extension.append(".json"); // to view in tree json
+	std::string scene_file = scene_path + extension;
+
+	uint count = 0;
+	uint countResources = 0;
+
+	JSON_Value* config_file;
+	JSON_Object* config;
+	JSON_Object* config_node;
+
+	config_file = json_value_init_object();
+
+	if (config_file != nullptr)
+	{
+		config = json_value_get_object(config_file);
+		json_object_clear(config);
+		json_object_dotset_number(config, "Scene.Info.Number of GameObjects", App->scene->GetRoot()->childs.size());
+		config_node = json_object_get_object(config, "Scene");
+
+		// Update GameObjects
+		for (auto go : App->scene->GetRoot()->childs)
+		{
+			std::string name = "GameObject" + std::to_string(count++);
+			std::string tmp_go;
+			name += ".";
+
+			// UUID--------
+			tmp_go = name + "UUID";
+			json_object_dotset_number(config_node, tmp_go.c_str(), go->GetUUID());
+			// Parent UUID------------
+			tmp_go = name + "ParentUUID";
+			json_object_dotset_number(config_node, tmp_go.c_str(), -1);
+			// Name --------
+			tmp_go = name + "Name";
+			json_object_dotset_string(config_node, tmp_go.c_str(), go->GetName());
+			// Active ---------
+			tmp_go = name + "Active";
+			json_object_dotset_boolean(config_node, tmp_go.c_str(), go->isActive());
+			// Static ---------
+			tmp_go = name + "Static";
+			json_object_dotset_boolean(config_node, tmp_go.c_str(), go->isStatic());
+
+			// Components  ------------
+			std::string components = name;
+			std::string tmp_comp = components + "Number of Components";
+			json_object_dotset_number(config_node, tmp_comp.c_str(), go->components.size());
+
+			if (go->components.size() > 0)
+			{
+				components += "Components.";
+				go->SaveComponents(config_node, components, true, countResources);
+			}
+
+			// Children GO -------------
+			if (go->childs.size() > 0)
+			{
+				for (auto child : go->childs)
+				{
+					SaveGameObjects(config_node, *child, count, countResources);
+				}
+			}
+		}
+		
+		json_object_dotset_number(config_node, "Info.Number of GameObjects", count);
+		json_serialize_to_file(config_file, scene_file.c_str());
+	}
+
+	json_value_free(config_file);
+
+}
+
+void ModuleSceneSerializer::LoadScene(const char* scene_path)
+{
+	LOG("LOADING SCENE -----");
+}
+
+void ModuleSceneSerializer::SaveGameObjects(JSON_Object* config_node, const GameObject& GOchild, uint& count, uint& countResources)
+{
+	// Update GameObjects
+	std::string name = "GameObject" + std::to_string(count++);
+	std::string tmp_go_child;
+	name += ".";
+	// UUID--------
+	tmp_go_child = name + "UUID";
+	json_object_dotset_number(config_node, tmp_go_child.c_str(), GOchild.GetUUID());
+
+	// Parent UUID------------
+	UID ParentUUID = -1;
+	if (GOchild.GetParent() != nullptr)
+	{
+		ParentUUID = GOchild.GetParent()->GetUUID();
+	}
+	tmp_go_child = name + "ParentUUID";
+	json_object_dotset_number(config_node, tmp_go_child.c_str(), ParentUUID);
+
+	// Name- --------
+	tmp_go_child = name + "Name";
+	json_object_dotset_string(config_node, tmp_go_child.c_str(), GOchild.GetName());
+
+	// Active ---------
+	tmp_go_child = name + "Active";
+	json_object_dotset_boolean(config_node, tmp_go_child.c_str(), GOchild.isActive());
+
+	// Static ---------
+	tmp_go_child = name + "Static";
+	json_object_dotset_boolean(config_node, tmp_go_child.c_str(), GOchild.isStatic());
+
+	// Components  ------------
+	std::string components = name;
+	std::string tmp_comp = components + "Number of Components";
+	json_object_dotset_number(config_node, tmp_comp.c_str(), GOchild.components.size());
+	
+	if (GOchild.components.size() > 0)
+	{
+		components += "Components.";
+		GOchild.SaveComponents(config_node, components, true, countResources);
+	}
+
+	// Children GO -------------
+	if (GOchild.childs.size() > 0)
+	{
+		for (auto child : GOchild.childs)
+		{
+			SaveGameObjects(config_node, child, count, countResources);
+		}
+	}
 }
 
 void ModuleSceneSerializer::SaveModel(const GameObject& go, const char* dir, const char* file_path)
