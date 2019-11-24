@@ -481,8 +481,12 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene, std::string& 
 		//textures[scene->mMeshes[node->mMeshes[i]]->mMaterialIndex]
 		if (strcmp(fileName.C_Str(), "") != 0)
 		{
+			std::string extension; 
+			std::string name; 
+			App->fs->GetNameFile(fileName.C_Str(), name); 
+			App->fs->GetExtensionFile(fileName.C_Str(), extension); 
 			filePath = A_TEXTURES_FOLDER;
-			std::string newPath = filePath + fileName.C_Str();
+			std::string newPath = filePath + name + extension; 
 			ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
 
 			/*std::string name;
