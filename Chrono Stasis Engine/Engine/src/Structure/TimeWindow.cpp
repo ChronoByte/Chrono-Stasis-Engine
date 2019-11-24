@@ -16,6 +16,9 @@ void TimeWindow::Draw()
 
 	if (ImGui::Begin("Game Logic", nullptr, flags))
 	{
+		ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.8f,0.37f,0.0f,0.7f });
+		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.95f,0.5f,0.0f,0.7f });
+
 		if (App->gameState == GameState::ONSTOP)
 		{
 			DisplayOnStopped(); 
@@ -24,6 +27,7 @@ void TimeWindow::Draw()
 		{
 			DisplayOnPlay();
 		}
+		ImGui::PopStyleColor(2);
 
 		ImGui::SameLine();
 		ImGui::Checkbox("Options", &showOptions); 
@@ -32,7 +36,7 @@ void TimeWindow::Draw()
 		{
 			ShowOptions();
 		}
-	
+
 	}
 	ImGui::End();
 

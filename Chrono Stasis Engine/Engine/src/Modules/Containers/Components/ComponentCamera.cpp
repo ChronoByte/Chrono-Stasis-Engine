@@ -297,6 +297,67 @@ const float* ComponentCamera::GetColor() const
 	return bgColor;
 }
 
+float4 ComponentCamera::GetBGColor() const
+{
+	return float4(bgColor[0], bgColor[1], bgColor[2], bgColor[3] );
+}
+
+void ComponentCamera::Save(JSON_Object * object, std::string name, bool saveScene, uint & countResources) const
+{
+	std::string tmp_cam;
+
+	tmp_cam = name + "Type";
+	json_object_dotset_number(object, tmp_cam.c_str(), (double)type);
+
+	tmp_cam = name + "Position"; 
+	App->json->json_array_dotset_float3(object, tmp_cam.c_str(), GetPos());
+
+	tmp_cam = name + "Front";
+	App->json->json_array_dotset_float3(object, tmp_cam.c_str(), GetFrontVector());
+
+	tmp_cam = name + "Up";
+	App->json->json_array_dotset_float3(object, tmp_cam.c_str(), GetUpVector());
+
+	tmp_cam = name + "Color";
+	App->json->json_array_dotset_float4(object, tmp_cam.c_str(), GetBGColor());
+
+	tmp_cam = name + "VFOV"; 
+	json_object_dotset_number(object, tmp_cam.c_str(), (double)GetVerticalFOV());
+
+	tmp_cam = name + "HFOV";
+	json_object_dotset_number(object, tmp_cam.c_str(), (double)GetHorizontalFOV());
+
+	tmp_cam = name + "Ratio";
+	json_object_dotset_number(object, tmp_cam.c_str(), (double)aspectRatio);
+}
+
+void ComponentCamera::Load(const JSON_Object * object, std::string name)
+{
+	std::string tmp_cam;
+
+	tmp_cam = name + "Position";
+	frustum.pos = App->json->json_array_dotget_float3_string(object, tmp_cam.c_str());
+
+	tmp_cam = name + "Front";
+	frustum.front = App->json->json_array_dotget_float3_string(object, tmp_cam.c_str());
+
+	tmp_cam = name + "Up";
+	frustum.up = App->json->json_array_dotget_float3_string(object, tmp_cam.c_str());
+	
+	tmp_cam = name + "Color";
+	float4 bg = App->json->json_array_dotget_float4_string(object, tmp_cam.c_str());
+
+	tmp_cam = name + "VFOV";
+	frustum.verticalFov = json_object_dotget_number(object, tmp_cam.c_str());
+
+	tmp_cam = name + "HFOV";
+	frustum.horizontalFov = json_object_dotget_number(object, tmp_cam.c_str());
+
+	tmp_cam = name + "Ratio";
+	aspectRatio = json_object_dotget_number(object, tmp_cam.c_str());
+
+}
+
 void ComponentCamera::SetInitially()
 {
 	frustum.type = FrustumType::PerspectiveFrustum;
@@ -327,19 +388,3 @@ void ComponentCamera::SetInitially()
 
 
 }
-
-void ComponentCamera::Save(RJSON_Value* component) const
-{
-	/*RJSON_Value* transform = component->CreateValue(rapidjson::kObjectType);
-
-	transform->SetVector3("Position", GetPosition());
-	transform->SetVector3("Rotation", GetRotationEuler());
-	transform->SetVector3("Scale", GetScale());
-
-	component->AddValue("Transformation", *transform);*/
-}
-
-void ComponentCamera::Load(RJSON_Value* component)
-{
-}
-
