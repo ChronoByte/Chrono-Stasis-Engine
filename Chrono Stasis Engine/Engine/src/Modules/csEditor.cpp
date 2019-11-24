@@ -184,12 +184,13 @@ update_status ModuleEditor::Update(float dt)
 			if (ImGui::MenuItem("Load")) App->Load();*/
 			if (ImGui::MenuItem("New Scene")) { browser->OpenBrowser(BrowserState::NEW_SCENE); }
 			if (ImGui::MenuItem("Save Scene")) { browser->OpenBrowser(BrowserState::SAVE_SCENE); }
-			if (ImGui::MenuItem("Save Scene As")) { browser->OpenBrowser(BrowserState::SAVE_SCENE_AS); }
+			//if (ImGui::MenuItem("Save Scene As")) { browser->OpenBrowser(BrowserState::SAVE_SCENE_AS); }
 			if (ImGui::MenuItem("Load Scene")) { browser->OpenBrowser(BrowserState::LOAD_SCENE); }
 			if (ImGui::MenuItem("Close", "Ctrl+W", &show_exit_window)) {}
 			
 			ImGui::EndMenu();
 		}
+
 		if (ImGui::BeginMenu("Windows"))
 		{
 			if (ImGui::MenuItem("Demo Window", "", &show_demo_window)) {}

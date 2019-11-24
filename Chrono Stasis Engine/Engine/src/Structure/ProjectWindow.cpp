@@ -248,6 +248,7 @@ void ProjectWindow::TestUnityProject()
 		ImGui::SetCursorScreenPos(new_btn_pos);
 		if (ImGui::Button("LOAD", ImVec2(120, 40)))
 		{
+			App->scene->ClearScene();
 			App->serialization->LoadScene(App->serialization->scene_to_serialize.c_str());
 			ImGui::CloseCurrentPopup();
 		}

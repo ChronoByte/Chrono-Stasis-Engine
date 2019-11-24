@@ -134,8 +134,11 @@ void ModuleSceneSerializer::LoadScene(const char* scene_path)
 		if (NUmberGameObjects > 0)
 		{
 			
+			GameObject* go = nullptr;
+			GameObject* lastParent = nullptr;
 			for (int i = 0; i < NUmberGameObjects; i++)
 			{
+
 				std::string name = "GameObject" + std::to_string(i);
 				name += ".";
 				std::string tmp_go;
@@ -145,8 +148,18 @@ void ModuleSceneSerializer::LoadScene(const char* scene_path)
 				std::string nameGO = json_object_dotget_string(config_node, tmp_go.c_str());
 				tmp_go = name + "UUID";
 				UID uid = json_object_dotget_number(config_node, tmp_go.c_str());
+				tmp_go = name + "ParentUUID";
+				long long  parentUUID = json_object_dotget_number(config_node, tmp_go.c_str());
 
-				GameObject* go = App->scene->LoadGameObject(nullptr, nameGO.c_str(), uid);
+				if (parentUUID == -1)
+				{
+					 go = App->scene->LoadGameObject(nullptr, nameGO.c_str(), uid);
+
+				}
+				else 
+				{
+					 go = App->scene->LoadGameObject(lastParent, nameGO.c_str(), uid);
+				}
 
 				// Set Static -------
 				tmp_go = name + "Static";
@@ -167,14 +180,12 @@ void ModuleSceneSerializer::LoadScene(const char* scene_path)
 				{
 					go->LoadComponents(config_node, name + "Components.", CompNums);
 				}
-				tmp_go = name + "ParentUUID";
-				UID parentUUID = json_object_dotget_number(config_node, tmp_comp.c_str());
 
 				
 				//Add GameObject
 				if (parentUUID == -1)
 				{
-					//parent = go
+					lastParent = go;
 				}
 				else
 				{

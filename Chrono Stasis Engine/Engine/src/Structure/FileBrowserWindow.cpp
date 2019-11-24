@@ -14,7 +14,7 @@ void FileBrowserWindow::Draw()
 	ImGui::SetNextWindowSize(ImVec2(400,500));
 	ImGui::Begin((std::string("Scene Browser:") + this->name).c_str(), &active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse);
 	static char text[120];
-
+	static std::string tmp_text;
 	ImGui::BeginMenuBar();
 	if (ImGui::ArrowButton("Back", ImGuiDir_Left))
 	{
@@ -34,7 +34,7 @@ void FileBrowserWindow::Draw()
 		switch ((*unit)->type)
 		{
 		case StorageUnit::FOLDER:
-			//ImGui::Text((*unit)->name.c_str());
+			
 			ImGui::PushStyleColor(ImGuiCol_Button, { 1.0f,1.0f,1.0f,0.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.8f,0.37f,0.0f,0.0f });
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.95f,0.5f,0.0f,0.0f });
@@ -45,8 +45,16 @@ void FileBrowserWindow::Draw()
 			ImGui::Selectable((*unit)->name.c_str(), false, 0, {ImGui::GetWindowWidth(),24});
 			break;
 		case StorageUnit::FILE:
-			//ImGui::Text((*unit)->name.c_str());
-			ImGui::Selectable((*unit)->name.c_str());
+			ImGui::PushStyleColor(ImGuiCol_Button, { 1.0f,1.0f,1.0f,0.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.8f,0.37f,0.0f,0.0f });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.95f,0.5f,0.0f,0.0f });
+			ImGui::ImageButton((ImTextureID)(App->editor->iconFile->id), { 24, 24 });
+			ImGui::PopStyleColor(3);
+			ImGui::SameLine();
+			ImGui::SetCursorPos({ ImGui::GetCursorPosX() - 2, ImGui::GetCursorPosY() + 8 });
+			
+			ImGui::Selectable((*unit)->name.c_str(), false, 0, { ImGui::GetWindowWidth(),24 });
+			
 			break;
 		}
 
@@ -66,6 +74,7 @@ void FileBrowserWindow::Draw()
 			if ((*unit)->type == StorageUnit::FILE)
 			{
 				App->serialization->current_scene = (*unit)->name; // TO LOAD
+				inputText = App->serialization->current_scene.c_str();
 			}
 		}
 
@@ -78,7 +87,7 @@ void FileBrowserWindow::Draw()
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() - 90);
 	ImGui::Text("Name: ");
 	ImGui::SameLine();
-	if (ImGui::InputText("", text, 120, ImGuiInputTextFlags_AutoSelectAll)) 
+	if (ImGui::InputText("", (char*)inputText.c_str(), 120, ImGuiInputTextFlags_AutoSelectAll)) 
 	{
 		App->serialization->current_scene = text; // TO SAVE AS NEW
 		//scene += SCENES_EXTENSION;
@@ -110,6 +119,7 @@ void FileBrowserWindow::Draw()
 	
 		else if (name == "Load") 
 		{
+			App->scene->ClearScene();
 			App->serialization->scene_to_serialize = current_path + App->serialization->current_scene;
 			App->serialization->LoadScene(App->serialization->scene_to_serialize.c_str());
 			LOG("Scene %s Loaded successfully", App->serialization->current_scene.c_str());
@@ -150,7 +160,7 @@ void FileBrowserWindow::SaveScene(const char* path, const char* extension)
 	this->name = std::string("Save");
 	this->current_path = path;
 	this->extension = extension;
-
+	this->inputText = "";
 	ClearStorage();
 	App->fs->GetStorageResources(path, storage, extension, META_EXTENSION);
 }
@@ -160,13 +170,14 @@ void FileBrowserWindow::LoadScene(const char* path, const char* extension)
 	this->name = std::string("Load");
 	this->current_path = path;
 	this->extension = extension;
-
+	this->inputText = "";
 	ClearStorage();
 	App->fs->GetStorageResources(path, storage, extension, META_EXTENSION);
 }
 
 void FileBrowserWindow::NewScene()
 {
+	App->scene->ClearScene();
 }
 
 void FileBrowserWindow::SaveSceneAs()
