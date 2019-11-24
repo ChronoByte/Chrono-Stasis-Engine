@@ -26,8 +26,23 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Docking for model windows and Scene
 * Framebuffer to renders the world scene as a texture
 * Editor Windows (Console, Configuration, About)
+* GameObjects Transformations from Inspector Window
+* Inspector show all properties for each component on selected GameObject
+* GameObjects can be picked from the world using Mouse Picking with ImGuizmo
+* Internal list of static Gameobjects that is accelerated using a quadtree visualized in the editor.
+* Camera is a component with modificable FOV
+* Scene/Game rendering window adapts to the new aspect ratio
+* AABB implementation in all meshes that can be discarded using Frustum Culling visualized in the editor.
+* Meshes and Textures saved in an own format file on Library/
+* Scene and Model Serialization into json file that can be loaded.
+* Resource Management (Material and Mesh resource)
+* Counting Reference
+* Engine can Start / Pause / Stop properly and recover its original state
+* Assets Project window that display all assets file (not meta data)
+* Folders management:  create / remove / rename folders
+* Resources not managed inside Assets and are dropped to engine, are copied and metadata + own format files are generated automatically
 
-## Authors Tasks
+## Members Task
 
 * Carlos Peña
     * Development of own format files
