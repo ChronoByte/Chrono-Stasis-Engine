@@ -115,7 +115,7 @@ void ModuleEditor::Log(char * log) const
 void ModuleEditor::ExitWindow()
 {
 	ImGui::SetNextWindowSize(ImVec2(500, 250));
-	ImGui::SetNextWindowPos(ImVec2(App->window->GetWidth() / 2 - 250, App->window->GetHeight() / 2 - 250));
+	ImGui::SetNextWindowPos(ImVec2(App->window->GetWidth() - 250, App->window->GetHeight() - 600));
 
 	ImGui::Begin("Exit Window", &show_exit_window, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse |ImGuiWindowFlags_NoMove );
 	
@@ -150,7 +150,8 @@ void ModuleEditor::ExitWindow()
 	ImGui::SetCursorPosX(35);
 	if (ImGui::Button("Save", ImVec2(120, 30)))
 	{
-		
+		App->editor->browser->OpenBrowser(BrowserState::SAVE_SCENE);
+		show_exit_window = false;
 	}
 	ImGui::SameLine();
 	ImGui::SetCursorPosX(190);
