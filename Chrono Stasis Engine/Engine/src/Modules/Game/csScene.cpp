@@ -150,7 +150,7 @@ void ModuleScene::DrawCullingAllObjects()
 
 		intersections++;
 	}
-	LOG("Checking %i intersections without octree", intersections);
+	//LOG("Checking %i intersections without octree", intersections);
 }
 
 void ModuleScene::DrawCullingObjectsWithOctree()
@@ -666,7 +666,7 @@ void ModuleScene::UpdateAllGameObjects(GameObject * parent, float dt)
 	}
 }
 
-void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected, int& tests)
+void ModuleScene::CheckRayAgainstAABBSRecursive(GameObject * parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected, int& tests)
 {
 	float nearDist = 0;
 	float farDist = 0;
@@ -679,7 +679,7 @@ void ModuleScene::CheckRayAgainstAABBS(GameObject * parent, const LineSegment& r
 	
 	for (std::list<GameObject*>::iterator it = parent->childs.begin(); it != parent->childs.end(); ++it)
 	{
-		CheckRayAgainstAABBS((*it), ray, objectsIntersected, tests);
+		CheckRayAgainstAABBSRecursive((*it), ray, objectsIntersected, tests);
 	}
 }
 
@@ -693,17 +693,22 @@ GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, const std::
 	for (iter; iter != intersected.end(); ++iter)
 	{
 		GameObject* gameObject = (*iter).second; 
-		ComponentMesh* mesh = dynamic_cast<ComponentMesh*>(gameObject->FindComponent(ComponentType::C_MESH));
-		bool hit = false; 
 
+		ComponentMesh* cmesh = dynamic_cast<ComponentMesh*>(gameObject->FindComponent(ComponentType::C_MESH));
+		if (cmesh == nullptr)
+			continue; 
+
+		ResourceMesh* mesh = (ResourceMesh*)cmesh->GetCurrentResource();
 		if (mesh == nullptr)
 			continue; 
+
+		bool hit = false; 
 
 		// Transform ray into local space
 		float4x4 inverted_m = gameObject->GetTransform()->GetGlobalTransform().Inverted();
 		LineSegment rayLocal = inverted_m * ray;
 
-		for (uint i = 0; i < mesh->index.capacity / 3;)
+		for (uint i = 0; i < mesh->GetIndicesSize();)
 		{
 			float3 a, b, c;
 
@@ -719,10 +724,10 @@ GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, const std::
 
 			if (hit)
 			{
-				LOG("Hit with a triangle in the mesh of %s and at distance: %f and hitpoint %f", gameObject->GetName(), distanceHit);
+				//LOG("Hit with a triangle in the mesh of %s and at distance: %f and hitpoint %f", gameObject->GetName(), distanceHit);
 				if (distanceHit < minDist)
 				{
-					LOG("New lowest distance ^");
+					//LOG("New lowest distance ^");
 					minDist = distanceHit;
 					firstObjectHit = gameObject; 
 				}
@@ -730,7 +735,7 @@ GameObject* ModuleScene::CheckRayAgainstTris(const LineSegment& ray, const std::
 			}
 		}
 
-		// If a triangle is hit, there's no need to look further
+		// If a triangle is hit in this game object, there's no need to look further
 		if (hit)
 			break; 
 	}
