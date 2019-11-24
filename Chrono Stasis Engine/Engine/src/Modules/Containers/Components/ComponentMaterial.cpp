@@ -100,20 +100,6 @@ void ComponentMaterial::InspectorInfo()
 	//TODO: Set more info
 }
 
-void ComponentMaterial::Save(RJSON_Value* component) const
-{
-	RJSON_Value* texture = component->CreateValue(rapidjson::kObjectType);
-
-	texture->SetUint("UUID", UUID);
-	component->AddValue("Material", *texture);
-
-	//TODO: MAKE A TEXTURE RESOURCE
-		//texture->SetString("texture", file);
-}
-
-void ComponentMaterial::Load(RJSON_Value* component)
-{
-}
 
 void ComponentMaterial::Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const
 {

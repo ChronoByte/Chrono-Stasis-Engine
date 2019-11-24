@@ -192,8 +192,10 @@ void ProjectWindow::TestUnityProject()
 		  std::string extension;
 		  App->fs->GetExtensionFile((*unit)->name.c_str(), extension );
 
-		  if(!extension.compare(".scene"))
+		  if (!extension.compare(".json")) {
+			  App->serialization->scene_to_serialize = current_path + (*unit)->name;
 			  ImGui::OpenPopup("WARNING!");
+		  }
 
 		  if (!extension.compare(".fbx") || !extension.compare(".FBX"))
 			  App->serialization->LoadModel((current_path + (*unit)->name + META_EXTENSION).c_str());
@@ -237,16 +239,16 @@ void ProjectWindow::TestUnityProject()
 		ImGui::Text("ALTO AHI PAJILLERO!");
 		ImVec2 new_txt_pos2(ImGui::GetWindowPos().x + 175.0f, ImGui::GetCursorScreenPos().y);
 		ImGui::SetCursorScreenPos(new_txt_pos2);
-		ImGui::Text("Estas accediendo a zonas no programadas todavia, ten paciencia!");
+		ImGui::Text("Vas a cargar una scene to guapa ahi lokassoooo");
 		//ImGui::NewLine();
 		ImGui::Separator();
 		ImGui::Separator();
 		ImGui::Spacing();
 		ImVec2 new_btn_pos(ImGui::GetWindowPos().x + (800.0f / 2.0f - 350.0f / 2.0f), ImGui::GetCursorScreenPos().y);
 		ImGui::SetCursorScreenPos(new_btn_pos);
-		if (ImGui::Button("TU PUTA MADRE", ImVec2(120, 40)))
+		if (ImGui::Button("LOAD", ImVec2(120, 40)))
 		{
-			//LOAD SCENE
+			App->serialization->LoadScene(App->serialization->scene_to_serialize.c_str());
 			ImGui::CloseCurrentPopup();
 		}
 		ImGui::SameLine();

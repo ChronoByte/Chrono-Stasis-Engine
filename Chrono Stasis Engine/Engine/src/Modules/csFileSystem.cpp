@@ -352,6 +352,22 @@ void ModuleFileSystem::GetExtensionFile(const char* file, std::string& extension
 
 }
 
+void ModuleFileSystem::GetJSONExtensionFile(const char* file, std::string& extension)
+{
+	std::string ref = file;
+	//extension = file;
+
+	uint position = ref.find_first_of(".");
+
+	if (position != std::string::npos)
+	{
+		extension = file;
+		extension = extension.substr(position);
+	}
+
+
+}
+
 void ModuleFileSystem::GetNameFile(const char* file, std::string& name)
 {
 	name = file;
@@ -452,16 +468,34 @@ void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUn
 		std::string currentPath = std::string(path) + *i; //TODO: check if it has "/"
 		std::string fileName;
 		std::string fileExtension;
+		std::string jsonExtension;
 
 		GetNameFile(currentPath.c_str(), fileName);
 		GetExtensionFile(currentPath.c_str(), fileExtension);
-
+		GetJSONExtensionFile(currentPath.c_str(), jsonExtension);
 		if (fileExtension.length() > 0)					
 			fileName += fileExtension;
 		
+		// READ .SCENE FILES
+		if (jsonExtension != ".scene.json")
+		{
+			if ((".meta" + fileExtension == metaExtension) && (metaExtension != nullptr)) { continue; }
+		}
+		else 
+		{
+			StorageUnit* newResource = new StorageUnit();
+			newResource->name = fileName;
 
-		if ((".meta" + fileExtension == metaExtension) && (metaExtension != nullptr)) { continue; }
+			if (PHYSFS_isDirectory(currentPath.c_str()))
+				newResource->type = StorageUnit::FOLDER;
+			else
+				newResource->type = StorageUnit::FILE;
 
+			storage.push_back(newResource);
+			continue;
+		}
+
+		//READ .META FILES
 		if (!PHYSFS_isDirectory(currentPath.c_str()) && (fileExtension == desiredExtension) || PHYSFS_isDirectory(currentPath.c_str()) || !PHYSFS_isDirectory(currentPath.c_str()) && desiredExtension == "all")
 		{
 			StorageUnit* newResource = new StorageUnit();

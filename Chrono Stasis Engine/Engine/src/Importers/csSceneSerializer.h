@@ -19,15 +19,14 @@ public:
 	bool CleanUp();
 
 	// Parser
-	bool SaveScene(const char* scene_path, std::string dir);
-	bool LoadScene(const char* scene_path, std::string dir);
 	void SaveScene(const char* scene_path);
 	void LoadScene(const char* scene_path);
 	void SaveGameObjects(JSON_Object* config_node, const GameObject& gameObject, uint& count, uint& countResources);
+	void LoadGameObjects(GameObject& parent, GameObject& child, int uuidParent);
 
 	void SaveModel(const GameObject& go, const char* dir, const char* file_path);
-	void SaveModelChildren(JSON_Object* config_node, const GameObject& go, uint& count, uint& countResources);
 	void LoadModel(const char* prefab);
+	void SaveModelChildren(JSON_Object* config_node, const GameObject& go, uint& count, uint& countResources);
 	void LoadModelChildren(GameObject& parent, GameObject& child, UID uuidParent);
 
 private:

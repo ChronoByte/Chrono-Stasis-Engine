@@ -38,6 +38,7 @@ public:
 	bool DeleteDirectory(const char* file_dir_name);
 
 	void GetExtensionFile(const char* file, std::string& extension);
+	void GetJSONExtensionFile(const char* file, std::string& extension);
 	void GetNameFile(const char* file, std::string& name);
 	std::string GetDirectoryPath(const char* file); 
 	std::string NormalizeSlashSymbol(const char* path);

@@ -33,6 +33,7 @@ public:
 	void Disable();
 
 	void SetStatic(bool stat); 
+	void SetActive(bool active);
 
 	// Parenting
 	void RemoveChild(GameObject* child); 
@@ -62,11 +63,9 @@ public:
 	void DrawInspectorComponents();
 
 	//Parser
-	void Save(RJSON_Value* go);
+	void LoadGameObjectChild(GameObject* child);
 	void SaveComponents(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const;
 	void LoadComponents(const JSON_Object* object, std::string name, uint numComponents);
-
-	void LoadGameObjectChild(GameObject* child);
 private: 
 
 	UID UUID = 0;

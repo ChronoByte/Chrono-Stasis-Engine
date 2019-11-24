@@ -185,6 +185,11 @@ void GameObject::SetStatic(bool stat)
 	}
 }
 
+void GameObject::SetActive(bool active)
+{
+	this->active = active;
+}
+
 void GameObject::RemoveChild(GameObject * child)
 {
 	childs.remove(child);
@@ -404,27 +409,6 @@ void GameObject::DrawInspectorComponents()
 	
 }
 
-void GameObject::Save(RJSON_Value* gos)
-{
-	RJSON_Value* gameObject = gos->CreateValue(rapidjson::kObjectType);
-
-	gameObject->SetUint("UUID", GetUUID());
-	gameObject->SetUint("Parent UUID", GetParent()->GetUUID());
-	gameObject->SetString("Name", GetName());
-	gameObject->SetBoolean("Active", isActive());
-	gameObject->SetBoolean("Static", isStatic());
-
-	RJSON_Value* comps = gameObject->CreateValue(rapidjson::kArrayType);
-
-	for (auto& comp : components) // Serialize each GameObject Component
-			comp->Save(comps);
-
-	gameObject->AddValue("Components", *comps);
-	gos->AddValue("", *gameObject);
-
-	for (auto& child : childs) // Serialize GameObject Children
-		child->Save(gos);
-}
 
 void GameObject::SaveComponents(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const
 {

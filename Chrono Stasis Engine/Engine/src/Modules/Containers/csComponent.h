@@ -51,17 +51,11 @@ public:
 	Resource* GetCurrentResource() const { return currentResource; }
 
 	// Parser
-	virtual void Save(RJSON_Value* component) const {}
-	virtual void Load(RJSON_Value* component) {}
-
 	virtual void Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const {};
 	virtual void Load(const JSON_Object* object, std::string name) {};
 
-	//Resource
-	void DroppableSpace(const char* string, bool empty = false, float x = 250, float y = 20);
-	void ResourceExplorerButton(Resource::Type type);
-
 	void AssignResource(UID uid);
+
 protected:
 	Resource* currentResource = nullptr;
 	ComponentType type = ComponentType::C_NONE; 

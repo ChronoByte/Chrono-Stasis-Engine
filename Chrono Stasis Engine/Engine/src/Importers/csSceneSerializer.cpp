@@ -40,43 +40,6 @@ bool ModuleSceneSerializer::CleanUp()
 	return true;
 }
 
-bool ModuleSceneSerializer::SaveScene(const char* scene_path, std::string dir)
-{
-
-	std::string extension = SCENES_EXTENSION;
-	std::string directory = A_SCENES_FOLDER;
-	std::string path;
-
-	if(!dir.compare("ASSET"))
-		path = scene_path + extension;
-
-	if (!dir.compare("LIBRARY")) 
-	{
-		App->fs->GetNameFile(scene_path, path);
-		path = directory + path + extension;
-	}
-
-	RJSON_File* scene = App->json->JSONWrite(path.c_str());
-
-	if (scene != nullptr)
-	{
-		RJSON_Value* gameObjects = scene->CreateValue(rapidjson::kArrayType);
-		GameObject* rootGO = App->scene->GetRoot();
-		
-		for (auto& child : rootGO->childs)
-			child->Save(gameObjects);
-
-		scene->AddValue("GameObjects", *gameObjects);
-		scene->WriteFile();
-
-	}
-
-	App->json->JSONClose(scene);
-	LOG("Scene &s Serialized successfully", App->serialization->current_scene.c_str());
-	return true;
-}
-
-
 
 void ModuleSceneSerializer::SaveScene(const char* scene_path)
 {
@@ -157,6 +120,77 @@ void ModuleSceneSerializer::SaveScene(const char* scene_path)
 void ModuleSceneSerializer::LoadScene(const char* scene_path)
 {
 	LOG("LOADING SCENE -----");
+	JSON_Value* config_file;
+	JSON_Object* config;
+	JSON_Object* config_node;
+
+	config_file = json_parse_file(scene_path);
+
+	if (config_file != nullptr)
+	{
+		config = json_value_get_object(config_file);
+		config_node = json_object_get_object(config, "Scene");
+		int NUmberGameObjects = json_object_dotget_number(config_node, "Info.Number of GameObjects");
+		if (NUmberGameObjects > 0)
+		{
+			
+			for (int i = 0; i < NUmberGameObjects; i++)
+			{
+				std::string name = "GameObject" + std::to_string(i);
+				name += ".";
+				std::string tmp_go;
+
+				// Create Game Object + Set Name & UUID ------
+				tmp_go = name + "Name";
+				std::string nameGO = json_object_dotget_string(config_node, tmp_go.c_str());
+				tmp_go = name + "UUID";
+				UID uid = json_object_dotget_number(config_node, tmp_go.c_str());
+
+				GameObject* go = App->scene->LoadGameObject(nullptr, nameGO.c_str(), uid);
+
+				// Set Static -------
+				tmp_go = name + "Static";
+				bool staticGO = json_object_dotget_boolean(config_node, tmp_go.c_str());
+				go->SetStatic(staticGO);
+
+				// Set Active -------
+				tmp_go = name + "Active";
+				bool activeGO = json_object_dotget_boolean(config_node, tmp_go.c_str());
+				go->SetActive(activeGO);
+
+				//Load Components -----
+				std::string tmp_comp;
+				tmp_comp = name + "Number of Components";
+				int CompNums = json_object_dotget_number(config_node, tmp_comp.c_str());
+
+				if (CompNums > 0)
+				{
+					go->LoadComponents(config_node, name + "Components.", CompNums);
+				}
+				tmp_go = name + "ParentUUID";
+				UID parentUUID = json_object_dotget_number(config_node, tmp_comp.c_str());
+
+				
+				//Add GameObject
+				if (parentUUID == -1)
+				{
+					//parent = go
+				}
+				else
+				{
+					GameObject* parent = App->scene->GetRoot();
+					for (auto& child : parent->childs)
+					{
+						LoadModelChildren(*child, *go, parentUUID);
+
+					}
+				}
+					
+				
+			}
+		}
+	}
+	json_value_free(config_file);
 }
 
 void ModuleSceneSerializer::SaveGameObjects(JSON_Object* config_node, const GameObject& GOchild, uint& count, uint& countResources)
@@ -209,6 +243,10 @@ void ModuleSceneSerializer::SaveGameObjects(JSON_Object* config_node, const Game
 			SaveGameObjects(config_node, child, count, countResources);
 		}
 	}
+}
+
+void ModuleSceneSerializer::LoadGameObjects(GameObject& parent, GameObject& child, int uuidParent)
+{
 }
 
 void ModuleSceneSerializer::SaveModel(const GameObject& go, const char* dir, const char* file_path)
@@ -336,7 +374,7 @@ void ModuleSceneSerializer::LoadModel(const char* model)
 
 		if (GOnums > 0)
 		{
-		
+
 			GameObject* parent = nullptr;
 			for (int i = 0; i < GOnums; i++)
 			{
@@ -370,9 +408,9 @@ void ModuleSceneSerializer::LoadModel(const char* model)
 					parent = go;
 				else
 					LoadModelChildren(*parent, *go, uuid_parent);
-				
+
 			}
-			
+
 		}
 	}
 	json_value_free(config_file);
