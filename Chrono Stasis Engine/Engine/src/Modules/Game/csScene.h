@@ -59,7 +59,7 @@ public:
 
 
 	// Mouse picking
-	void CheckRayAgainstAABBS(GameObject* parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected, int& tests);
+	void CheckRayAgainstAABBSRecursive(GameObject* parent, const LineSegment& ray, std::multimap<float, GameObject*>& objectsIntersected, int& tests);
 	GameObject* CheckRayAgainstTris(const LineSegment& ray, const std::multimap<float, GameObject*>& intersected); 
 
 	// Creation
@@ -109,7 +109,7 @@ public:
 	ComponentCamera* mainCamera = nullptr; 
 
 	bool drawOctree = true; 
-	bool activeOctree = true;
+	bool activeOctree = false;
 	bool toRecreateOctree = false; 
 	Octree* octree = nullptr;
 

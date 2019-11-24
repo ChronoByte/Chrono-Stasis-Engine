@@ -154,7 +154,7 @@ void ComponentTransform::ForceParentBoundingBox()
 	if (!greaterParent->HasComponent(ComponentType::C_MESH))
 	{
 		greaterParent->GetTransform()->UpdateParentBoundingBox();
-		LOG("Forcing parent to Update BBox: ---- %s", greaterParent->GetName());
+		//LOG("Forcing parent to Update BBox: ---- %s", greaterParent->GetName());
 	}
 }
 

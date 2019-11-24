@@ -137,7 +137,7 @@ update_status ModuleCamera3D::Update(float dt)
 		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 		{
 			if(!ImGuizmo::IsUsing() && !ImGuizmo::IsOver())
-				MousePicking(App->scene->isOctreeActive());
+				MousePicking();
 		}
 
 	}
@@ -250,7 +250,7 @@ float4x4 ModuleCamera3D::GetViewMatrix()
 	return fakeCamera->GetViewMatrix();
 }
 
-void ModuleCamera3D::MousePicking(bool usingOctree)
+void ModuleCamera3D::MousePicking()
 {
 
 	float normalizedX = -(1.0f - (float(App->editor->sceneView->mouseX) * 2.0f) / App->editor->sceneView->width);
@@ -260,40 +260,62 @@ void ModuleCamera3D::MousePicking(bool usingOctree)
 
 	// -------------------------
 
+	Timer timer; 
+
 	ray = LineSegment(fakeCamera->frustum.UnProjectLineSegment(normalizedX, normalizedY));
-	Timer timer;
+	int tests = 0; 
 
-	if(!usingOctree)
+	timer.Start(); 
+
+	if (App->scene->isOctreeActive())
 	{
-		timer.Start(); 
-		int tests = 0;
-		std::multimap<float, GameObject*> intersected;
-
-		App->scene->CheckRayAgainstAABBS(App->scene->GetRoot(), ray, intersected, tests);
-		LOG("Mouse picking took %i Intersection tests without Octree", tests);
-
-		GameObject* objectHit = App->scene->CheckRayAgainstTris(ray, intersected);
-
-		App->scene->SetSelected(objectHit);
-		LOG("Mouse Picking without octree took: %f ms", timer.Read());
-	}
-	else
-	{
-		timer.Start();
-
-		std::multimap<float, GameObject*> candidates; 
+		// -------------------------- Collect Octree Objects -----------------------------
+		std::multimap<float, GameObject*> candidates;
 
 		App->scene->octree->CollectCandidates(candidates, ray);
-		
-		for (std::multimap<float, GameObject*>::iterator it = candidates.begin(); it != candidates.end(); ++it)
-			LOG("%f -> %s", (*it).first, (*it).second->GetName());
 
+		/*for (std::multimap<float, GameObject*>::iterator it = candidates.begin(); it != candidates.end(); ++it)
+			LOG("%f -> %s", (*it).first, (*it).second->GetName());*/
+
+		// ------------------------ Collect Dynamic Objects --------------------------------
+		std::list<GameObject*> dyn = App->scene->GetDynamicObjects(); 
+
+		std::list<GameObject*>::iterator it = dyn.begin();
+		for (; it != dyn.end(); ++it)
+		{
+			float nearDist = 0.f;
+			float farDist = 0.f; 
+
+			if (ray.Intersects((*it)->GetTransform()->GetBoundingBox(), nearDist, farDist))
+				candidates.insert(std::pair<float, GameObject*>(nearDist, (*it)));
+
+			tests++;
+		}
+
+		// ---------------------------------------------------------------------------------
+
+		// With the objects collected check against treees
 		GameObject* objectHit = App->scene->CheckRayAgainstTris(ray, candidates);
 
 		App->scene->SetSelected(objectHit);
 
-		LOG("Mouse Picking with octree took: %f ms", timer.Read());
+		//float time = timer.Read();
+		//if (time > 0.0005f)
+		//	LOG("Mouse Picking WITH octree took: %.2f ms", time);
 	}
+	else
+	{
+		std::multimap<float, GameObject*> intersected;
 
+		App->scene->CheckRayAgainstAABBSRecursive(App->scene->GetRoot(), ray, intersected, tests);
+
+		GameObject* objectHit = App->scene->CheckRayAgainstTris(ray, intersected);
+
+		App->scene->SetSelected(objectHit);
+
+		/*float time = timer.Read(); 
+		if (time > 0.0005f)
+			LOG("Mouse Picking WITHOUT octree took: %.2f ms", time);*/
+	}
 }
 
