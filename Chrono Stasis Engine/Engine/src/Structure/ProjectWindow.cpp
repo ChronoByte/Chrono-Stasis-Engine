@@ -236,10 +236,10 @@ void ProjectWindow::TestUnityProject()
 		ImGui::Separator();
 		ImVec2 new_txt_pos(ImGui::GetWindowPos().x + 330.0f, ImGui::GetCursorScreenPos().y);
 		ImGui::SetCursorScreenPos(new_txt_pos);
-		ImGui::Text("ALTO AHI PAJILLERO!");
+		ImGui::Text("WARNING!");
 		ImVec2 new_txt_pos2(ImGui::GetWindowPos().x + 175.0f, ImGui::GetCursorScreenPos().y);
 		ImGui::SetCursorScreenPos(new_txt_pos2);
-		ImGui::Text("Vas a cargar una scene to guapa ahi lokassoooo");
+		ImGui::Text("We recommend to save your scene before loading another one");
 		//ImGui::NewLine();
 		ImGui::Separator();
 		ImGui::Separator();

@@ -69,7 +69,6 @@ public:
 	// --------------------------------------------
 
 
-
 	// Parser
 	void Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const override; 
 	void Load(const JSON_Object* object, std::string name) override;

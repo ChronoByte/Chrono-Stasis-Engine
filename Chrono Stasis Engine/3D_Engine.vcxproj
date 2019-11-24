@@ -293,7 +293,6 @@
     <ClInclude Include="Engine\src\Tools\csOctree.h" />
     <ClInclude Include="Engine\src\Tools\FileManager.h" />
     <ClInclude Include="Engine\src\Tools\PseudoRandom.h" />
-    <ClInclude Include="Engine\src\Tools\Serializer.h" />
     <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
     <ClInclude Include="Engine\src\Tools\Timer.h" />
   </ItemGroup>
@@ -345,7 +344,6 @@
     <ClCompile Include="Engine\src\Structure\SceneViewWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\TimeWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\csOctree.cpp" />
-    <ClCompile Include="Engine\src\Tools\Serializer.cpp" />
     <ClCompile Include="Engine\src\Tools\log.cpp" />
     <ClCompile Include="Engine\src\Core\csMain.cpp" />
     <ClCompile Include="Engine\src\Modules\csCamera3D.cpp" />

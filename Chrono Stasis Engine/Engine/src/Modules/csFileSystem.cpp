@@ -409,55 +409,6 @@ std::string ModuleFileSystem::NormalizeSlashSymbol(const char* path)
 	return str.c_str();
 }
 
-std::string ModuleFileSystem::GetFullPath(const char* path, const char* folder, const char* extension)
-{
-	std::string full_path = path;
-	std::string directory;
-
-	
-	if (folder != nullptr || extension != nullptr)
-		SplitPath(path, &directory, &full_path, nullptr);
-
-	if (folder != nullptr)
-		full_path = folder + full_path;
-	else
-		full_path = directory + full_path;
-	if (extension != nullptr)
-		full_path += extension;
-
-	return full_path.c_str();
-}
-
-void ModuleFileSystem::SplitPath(const char* full_path, std::string* path, std::string* filename, std::string* extension)
-{
-	std::string str = NormalizeSlashSymbol(full_path);
-	uint pos_slash = str.find_last_of('/');
-	uint pos_dot = str.find_last_of('.');
-
-	if (path != nullptr)
-	{
-		if (pos_slash < str.length())
-			*path = str.substr(0, pos_slash + 1);
-		else
-			path->clear();
-	}
-
-	if (filename != nullptr)
-	{
-		if (pos_slash < str.length())
-			*filename = str.substr(pos_slash + 1, pos_dot - pos_slash - 1);
-		else
-			*filename = str.substr(0, pos_dot);
-	}
-
-	if (extension != nullptr)
-	{
-		if (pos_dot < str.length())
-			*extension = str.substr(pos_dot + 1);
-		else
-			extension->clear();
-	}
-}
 
 void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension, const char* metaExtension)
 {
@@ -914,9 +865,6 @@ void ModuleFileSystem::CleanAssets(Folder* root)
 }
 
 
-
-
-
 int ModuleFileSystem::GetLastModTime(const char* path) const
 {
 	PHYSFS_Stat stat;
@@ -928,6 +876,89 @@ int ModuleFileSystem::GetLastModTime(const char* path) const
 	return 0;
 }
 
+JSON_Status ModuleFileSystem::json_array_dotset_float3(JSON_Object* object, const char* name, float3 transform)
+{
+	JSON_Value* value = json_value_init_array();
+	if (value == NULL) {
+		return JSONFailure;
+	}
+	JSON_Array* arry = json_value_get_array(value);
+	if (json_object_dotset_value(object, name, value) == JSONFailure)
+	{
+		json_value_free(value);
+		return JSONFailure;
+	}
+	json_array_append_number(arry, transform.x);
+	json_array_append_number(arry, transform.y);
+	json_array_append_number(arry, transform.z);
+	return JSONSuccess;
+}
 
+JSON_Status ModuleFileSystem::json_array_dotset_float2(JSON_Object* object, const char* name, float2 transform)
+{
+	JSON_Value* value = json_value_init_array();
+	if (value == NULL) {
+		return JSONFailure;
+	}
+	JSON_Array* arry = json_value_get_array(value);
+	if (json_object_dotset_value(object, name, value) == JSONFailure)
+	{
+		json_value_free(value);
+		return JSONFailure;
+	}
+	json_array_append_number(arry, transform.x);
+	json_array_append_number(arry, transform.y);
+	return JSONSuccess;
+}
+
+JSON_Status ModuleFileSystem::json_array_dotset_float4(JSON_Object* object, const char* name, float4 transform)
+{
+	JSON_Value* value = json_value_init_array();
+	if (value == NULL) {
+		return JSONFailure;
+	}
+	JSON_Array* arry = json_value_get_array(value);
+	if (json_object_dotset_value(object, name, value) == JSONFailure)
+	{
+		json_value_free(value);
+		return JSONFailure;
+	}
+	json_array_append_number(arry, transform.x);
+	json_array_append_number(arry, transform.y);
+	json_array_append_number(arry, transform.z);
+	json_array_append_number(arry, transform.w);
+	return JSONSuccess;
+}
+
+float3 ModuleFileSystem::json_array_dotget_float3_string(const JSON_Object* object, const char* name)
+{
+	JSON_Array* array = json_object_dotget_array(object, name);
+	float3 transform;
+	transform.x = (float)json_value_get_number(json_array_get_value(array, 0));
+	transform.y = (float)json_value_get_number(json_array_get_value(array, 1));
+	transform.z = (float)json_value_get_number(json_array_get_value(array, 2));
+
+	return transform;
+}
+float2 ModuleFileSystem::json_array_dotget_float2_string(const JSON_Object* object, const char* name)
+{
+	JSON_Array* array = json_object_dotget_array(object, name);
+	float2 transform;
+	transform.x = (float)json_value_get_number(json_array_get_value(array, 0));
+	transform.y = (float)json_value_get_number(json_array_get_value(array, 1));
+
+	return transform;
+}
+float4 ModuleFileSystem::json_array_dotget_float4_string(const JSON_Object* object, const char* name)
+{
+	JSON_Array* array = json_object_dotget_array(object, name);
+	float4 transform;
+	transform.x = (float)json_value_get_number(json_array_get_value(array, 0));
+	transform.y = (float)json_value_get_number(json_array_get_value(array, 1));
+	transform.z = (float)json_value_get_number(json_array_get_value(array, 2));
+	transform.w = (float)json_value_get_number(json_array_get_value(array, 3));
+
+	return transform;
+}
 
 

@@ -26,7 +26,6 @@ Application::Application()
 	scene		= new ModuleScene();
 	fs			= new ModuleFileSystem();
 
-	json		= new Serializer();
 	serialization = new ModuleSceneSerializer();
 
 	resources	= new ModuleResources();
@@ -79,7 +78,6 @@ Application::~Application()
 	scene		= nullptr;
 	fs			= nullptr;
 	serialization = nullptr;
-	json = nullptr;
 	resources = nullptr;
 	
 }

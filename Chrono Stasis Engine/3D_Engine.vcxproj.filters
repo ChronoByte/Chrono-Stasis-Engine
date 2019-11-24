@@ -394,7 +394,6 @@
     <ClInclude Include="Engine\Dependencies\rapidjson\stream.h" />
     <ClInclude Include="Engine\Dependencies\rapidjson\stringbuffer.h" />
     <ClInclude Include="Engine\Dependencies\rapidjson\writer.h" />
-    <ClInclude Include="Engine\src\Tools\Serializer.h" />
     <ClInclude Include="Engine\src\Tools\PseudoRandom.h" />
     <ClInclude Include="Engine\src\Importers\csSceneSerializer.h" />
     <ClInclude Include="Engine\src\Structure\FileBrowserWindow.h" />
@@ -593,7 +592,6 @@
     <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\SceneViewWindow.cpp" />
     <ClCompile Include="Engine\src\Tools\PseudoRandom.cpp" />
-    <ClCompile Include="Engine\src\Tools\Serializer.cpp" />
     <ClCompile Include="Engine\src\Importers\csSceneSerializer.cpp" />
     <ClCompile Include="Engine\src\Structure\FileBrowserWindow.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentCamera.cpp" />

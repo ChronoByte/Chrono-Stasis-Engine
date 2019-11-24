@@ -15,7 +15,6 @@
 #include "csScene.h"
 #include "csFileSystem.h"
 
-#include "Serializer.h"
 #include "csSceneSerializer.h"
 
 #include "csResources.h"
@@ -51,7 +50,6 @@ public:
 	ModuleScene*			scene = nullptr;
 	ModuleFileSystem*		fs = nullptr;
 
-	Serializer*				json = nullptr;
 	ModuleSceneSerializer*	serialization = nullptr;
 
 	ModuleResources*		resources = nullptr;	

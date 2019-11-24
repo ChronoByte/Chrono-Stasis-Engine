@@ -6,6 +6,12 @@
 #include "../Structure/FileBrowserWindow.h"
 
 #include "FileManager.h"
+#include "MathGeoLib/include/Math/float3.h"
+#include "MathGeoLib/include/Math/Quat.h"
+#include "MathGeoLib/include/Math/float2.h"
+#include "MathGeoLib/include/Math/float4.h"
+
+#include "JSON/parson.h"
 //#define LIBRARY_DIR "Library"
 //#define MESH_DIR "/Library/Meshes"
 //#define MATERIAL_DIR "/Library/Materials"
@@ -42,9 +48,14 @@ public:
 	void GetNameFile(const char* file, std::string& name);
 	std::string GetDirectoryPath(const char* file); 
 	std::string NormalizeSlashSymbol(const char* path);
-	std::string GetFullPath(const char* path, const char* folder = nullptr, const char* extension = nullptr);
-	void SplitPath(const char* full_path, std::string* path, std::string* filename, std::string* extension);
-
+	
+	JSON_Status json_array_dotset_float3(JSON_Object* object, const char* name, float3 transform);
+	JSON_Status json_array_dotset_float2(JSON_Object* object, const char* name, float2 transform);
+	JSON_Status json_array_dotset_float4(JSON_Object* object, const char* name, float4 transform);
+	float3 json_array_dotget_float3_string(const JSON_Object* object, const char* name);
+	float2 json_array_dotget_float2_string(const JSON_Object* object, const char* name);
+	float4 json_array_dotget_float4_string(const JSON_Object* object, const char* name);
+	
 	void GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension, const char* metaExtension = nullptr);
 	bool CopyToAssets(const char* src_file_path);
 	void PushFilesRecursively(const char* folder_name);
@@ -62,10 +73,15 @@ public:
 	bool CheckDroppedFile(const char* dropped_file);
 	void RefreshFiles();
 	void CleanAssets(Folder* root);
+
 private:
+
+
 	std::array<const char*, PATHS_AMOUNT> directories = {ASSETS_FOLDER,LIBRARY_FOLDER,SETTINGS_FOLDER,L_MESHES_FOLDER,L_TEXTURES_FOLDER,L_SCENES_FOLDER};
 	std::array<const char*, 4> library_directories = { LIBRARY_FOLDER, L_MESHES_FOLDER,L_TEXTURES_FOLDER,L_SCENES_FOLDER };
 	Folder* assets = nullptr;
 	Timer refresh_timer;
 	float refresh_delay = 1.0f; //Seconds
+public:
+
 };

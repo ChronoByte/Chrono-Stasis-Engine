@@ -277,20 +277,7 @@ void ComponentTransform::InspectorInfo()
 	// TODO: More info like bounding box..
 }
 
-void ComponentTransform::Save(RJSON_Value* component) const
-{
-	RJSON_Value* transform = component->CreateValue(rapidjson::kObjectType);
 
-	transform->SetVector3("Position", GetPosition());
-	transform->SetVector3("Rotation", GetRotationEuler());
-	transform->SetVector3("Scale", GetScale());
-
-	component->AddValue("Transformation", *transform);
-}
-
-void ComponentTransform::Load(RJSON_Value* component)
-{
-}
 
 void ComponentTransform::Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const
 {
@@ -301,13 +288,13 @@ void ComponentTransform::Save(JSON_Object* object, std::string name, bool saveSc
 	json_object_dotset_number(object, tmp_trans.c_str(), (double)type);
 	// Position
 	tmp_trans = name + "Position";
-	App->json->json_array_dotset_float3(object, tmp_trans.c_str(), GetPosition());
+	App->fs->json_array_dotset_float3(object, tmp_trans.c_str(), GetPosition());
 	// Rotation
 	tmp_trans = name + "Rotation";
-	App->json->json_array_dotset_float4(object, tmp_trans.c_str(), float4(GetRotationQuat().x, GetRotationQuat().y, GetRotationQuat().z, GetRotationQuat().w));
+	App->fs->json_array_dotset_float4(object, tmp_trans.c_str(), float4(GetRotationQuat().x, GetRotationQuat().y, GetRotationQuat().z, GetRotationQuat().w));
 	// Scale
 	tmp_trans = name + "Scale";
-	App->json->json_array_dotset_float3(object, tmp_trans.c_str(), GetScale());
+	App->fs->json_array_dotset_float3(object, tmp_trans.c_str(), GetScale());
 }
 
 void ComponentTransform::Load(const JSON_Object* object, std::string name)
@@ -316,14 +303,14 @@ void ComponentTransform::Load(const JSON_Object* object, std::string name)
 	std::string tmp_trans;
 	// Position
 	tmp_trans = name + "Position";
-	float3 position = App->json->json_array_dotget_float3_string(object, tmp_trans.c_str());
+	float3 position = App->fs->json_array_dotget_float3_string(object, tmp_trans.c_str());
 	// Rotation
 	tmp_trans = name + "Rotation";
-	float4 rotation = App->json->json_array_dotget_float4_string(object, tmp_trans.c_str());
+	float4 rotation = App->fs->json_array_dotget_float4_string(object, tmp_trans.c_str());
 	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
 	// Scale
 	tmp_trans = name + "Scale";
-	float3 scale = App->json->json_array_dotget_float3_string(object, tmp_trans.c_str());
+	float3 scale = App->fs->json_array_dotget_float3_string(object, tmp_trans.c_str());
 
 	SetupTransform(position, scale, rot);
 	toRecalculateTransform = true;

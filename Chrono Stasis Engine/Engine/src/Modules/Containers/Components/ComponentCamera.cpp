@@ -310,16 +310,16 @@ void ComponentCamera::Save(JSON_Object * object, std::string name, bool saveScen
 	json_object_dotset_number(object, tmp_cam.c_str(), (double)type);
 
 	tmp_cam = name + "Position"; 
-	App->json->json_array_dotset_float3(object, tmp_cam.c_str(), GetPos());
+	App->fs->json_array_dotset_float3(object, tmp_cam.c_str(), GetPos());
 
 	tmp_cam = name + "Front";
-	App->json->json_array_dotset_float3(object, tmp_cam.c_str(), GetFrontVector());
+	App->fs->json_array_dotset_float3(object, tmp_cam.c_str(), GetFrontVector());
 
 	tmp_cam = name + "Up";
-	App->json->json_array_dotset_float3(object, tmp_cam.c_str(), GetUpVector());
+	App->fs->json_array_dotset_float3(object, tmp_cam.c_str(), GetUpVector());
 
 	tmp_cam = name + "Color";
-	App->json->json_array_dotset_float4(object, tmp_cam.c_str(), GetBGColor());
+	App->fs->json_array_dotset_float4(object, tmp_cam.c_str(), GetBGColor());
 
 	tmp_cam = name + "VFOV"; 
 	json_object_dotset_number(object, tmp_cam.c_str(), (double)GetVerticalFOV());
@@ -336,16 +336,16 @@ void ComponentCamera::Load(const JSON_Object * object, std::string name)
 	std::string tmp_cam;
 
 	tmp_cam = name + "Position";
-	frustum.pos = App->json->json_array_dotget_float3_string(object, tmp_cam.c_str());
+	frustum.pos = App->fs->json_array_dotget_float3_string(object, tmp_cam.c_str());
 
 	tmp_cam = name + "Front";
-	frustum.front = App->json->json_array_dotget_float3_string(object, tmp_cam.c_str());
+	frustum.front = App->fs->json_array_dotget_float3_string(object, tmp_cam.c_str());
 
 	tmp_cam = name + "Up";
-	frustum.up = App->json->json_array_dotget_float3_string(object, tmp_cam.c_str());
+	frustum.up = App->fs->json_array_dotget_float3_string(object, tmp_cam.c_str());
 	
 	tmp_cam = name + "Color";
-	float4 bg = App->json->json_array_dotget_float4_string(object, tmp_cam.c_str());
+	float4 bg = App->fs->json_array_dotget_float4_string(object, tmp_cam.c_str());
 
 	tmp_cam = name + "VFOV";
 	frustum.verticalFov = json_object_dotget_number(object, tmp_cam.c_str());
