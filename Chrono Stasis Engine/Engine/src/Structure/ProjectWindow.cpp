@@ -14,7 +14,7 @@ bool ProjectWindow::Start()
 {
 	current_path = ASSETS_FOLDER;
 	extension = META_EXTENSION;
-	extension += ".json";
+	//extension += ".json";
 	ClearStorage();
 	App->fs->GetStorageResources(current_path.c_str(), storage, nullptr, extension.c_str());
 	return true;
@@ -196,7 +196,7 @@ void ProjectWindow::TestUnityProject()
 			  ImGui::OpenPopup("WARNING!");
 
 		  if (!extension.compare(".fbx") || !extension.compare(".FBX"))
-			  App->serialization->LoadModel((current_path + (*unit)->name + META_EXTENSION + ".json").c_str());
+			  App->serialization->LoadModel((current_path + (*unit)->name + META_EXTENSION).c_str());
 		}
 	}
 	if (ImGui::BeginPopupContextItem(((*unit)->name + "rightClick").c_str(), 1))

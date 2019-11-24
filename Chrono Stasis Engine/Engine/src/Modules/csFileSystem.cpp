@@ -601,7 +601,7 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 		std::string file_path = root->files[i].path;
 		file_path += file_name;
 
-		std::string meta_file = file_path + META_EXTENSION + ".json";
+		std::string meta_file = file_path + META_EXTENSION;
 		
 		if (!PHYSFS_exists(meta_file.c_str()))
 		{

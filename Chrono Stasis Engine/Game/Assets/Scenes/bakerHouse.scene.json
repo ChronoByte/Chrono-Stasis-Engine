@@ -1,0 +1,155 @@
+{
+    "Scene": {
+        "Info": {
+            "Number of GameObjects": 4
+        },
+        "GameObject0": {
+            "UUID": 3925459466,
+            "ParentUUID": -1,
+            "Name": "Main Camera",
+            "Active": true,
+            "Static": false,
+            "Number of Components": 2,
+            "Components": {
+                "Component 0": {
+                    "Type": 1,
+                    "Position": [
+                        0,
+                        10,
+                        -20
+                    ],
+                    "Rotation": [
+                        0.17364819347858429,
+                        0,
+                        0,
+                        0.98480784893035889
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            }
+        },
+        "GameObject1": {
+            "UUID": 1565281583,
+            "ParentUUID": -1,
+            "Name": "BakerHouse",
+            "Active": true,
+            "Static": false,
+            "Number of Components": 1,
+            "Components": {
+                "Component 0": {
+                    "Type": 1,
+                    "Position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            }
+        },
+        "GameObject2": {
+            "UUID": 3047732906,
+            "ParentUUID": 1565281583,
+            "Name": "Chimney",
+            "Active": true,
+            "Static": false,
+            "Number of Components": 3,
+            "Components": {
+                "Component 0": {
+                    "Type": 1,
+                    "Position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0.7071068286895752,
+                        0,
+                        0,
+                        0.70710670948028564
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                "Component 1": {
+                    "Type": 2,
+                    "UUID": 606342267,
+                    "Resource Mesh Name": "Chimney",
+                    "Resource Mesh UUID": 391449725,
+                    "Resource Mesh File": "Assets\/Models\/BakerHouse.fbx",
+                    "Resource Mesh Path": "Library\/Meshes\/391449725.mesh"
+                },
+                "Component 2": {
+                    "Type": 3,
+                    "UUID": 4183840523,
+                    "Resource Material Name": "Baker_house",
+                    "Resource Material UUID": 1722280331,
+                    "Resource Material File": "Assets\/Textures\/Baker_house.png",
+                    "Resource Material Path": "Library\/Textures\/1722280331.dds"
+                }
+            }
+        },
+        "GameObject3": {
+            "UUID": 3626770795,
+            "ParentUUID": 1565281583,
+            "Name": "Baker_house",
+            "Active": true,
+            "Static": false,
+            "Number of Components": 3,
+            "Components": {
+                "Component 0": {
+                    "Type": 1,
+                    "Position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "Rotation": [
+                        -0.7071068286895752,
+                        0,
+                        0,
+                        0.70710670948028564
+                    ],
+                    "Scale": [
+                        1,
+                        1,
+                        1
+                    ]
+                },
+                "Component 1": {
+                    "Type": 2,
+                    "UUID": 2959385228,
+                    "Resource Mesh Name": "Baker_house",
+                    "Resource Mesh UUID": 3305408662,
+                    "Resource Mesh File": "Assets\/Models\/BakerHouse.fbx",
+                    "Resource Mesh Path": "Library\/Meshes\/3305408662.mesh"
+                },
+                "Component 2": {
+                    "Type": 3,
+                    "UUID": 4005450885,
+                    "Resource Material Name": "Baker_house",
+                    "Resource Material UUID": 1722280331,
+                    "Resource Material File": "Assets\/Textures\/Baker_house.png",
+                    "Resource Material Path": "Library\/Textures\/1722280331.dds"
+                }
+            }
+        }
+    }
+}

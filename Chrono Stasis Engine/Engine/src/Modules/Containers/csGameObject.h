@@ -49,7 +49,7 @@ public:
 	void FindComponentsInAllChilds(ComponentType type, std::vector<Component*>& compsfound);
 
 	// Gets
-	uint GetUUID() const;
+	UID GetUUID() const;
 	int GetComponentsNum() const;
 	int GetChildrenNum() const;
 	bool isActive() const;
