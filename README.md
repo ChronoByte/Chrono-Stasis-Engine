@@ -46,6 +46,7 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 
 * We recommend to drop textures files before dropping fbx files if those files havent his textures embbeded internally and are imported before, its respectively textures will not be imported and will be displayed with none texture.
 
+* We recommend to not manipulate and resize docked windows. This is still a work in progress. If the "Game" window is NOT docked, do as you please.
     
 ## Members Task
 
