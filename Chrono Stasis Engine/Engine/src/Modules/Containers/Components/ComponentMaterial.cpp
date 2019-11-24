@@ -66,9 +66,9 @@ void ComponentMaterial::InspectorInfo()
 		ImGui::Text("Texture:");
 		if (matRes != nullptr)
 		{
-			DroppableSpace((matRes == nullptr) ? "No Texture" : matRes->GetName(), matRes == nullptr);
-			ImGui::SameLine();
-			ResourceExplorerButton(Resource::R_TEXTURE);
+			//DroppableSpace((matRes == nullptr) ? "No Texture" : matRes->GetName(), matRes == nullptr);
+			//ImGui::SameLine();
+			//ResourceExplorerButton(Resource::R_TEXTURE);
 
 
 			ImGui::Image((ImTextureID*)((matRes == nullptr) ? 0 : matRes->gpu_id), ImVec2(150, 150));
@@ -95,6 +95,7 @@ void ComponentMaterial::InspectorInfo()
 			ImGui::ColorEdit3("", (float*)&color);
 			ImGui::TreePop();
 		}
+
 	}
 	//TODO: Set more info
 }

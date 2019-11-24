@@ -14,6 +14,7 @@ Timer::Timer()
 // ---------------------------------------------
 void Timer::Start()
 {
+	
 	started_at = SDL_GetTicks();
 	isPaused = false; 
 }
@@ -23,6 +24,7 @@ void Timer::Stop()
 	started_at = 0;
 	paused_at = 0; 
 	isPaused = true; 
+	
 }
 
 // ---------------------------------------------
@@ -41,6 +43,7 @@ void Timer::Pause()
 
 	paused_at = SDL_GetTicks() - started_at;
 	isPaused = true; 
+	
 }
 
 // ---------------------------------------------
@@ -52,6 +55,7 @@ void Timer::Resume()
 
 	started_at = SDL_GetTicks() - paused_at;
 	isPaused = false; 
+	
 }
 
 // ---------------------------------------------
@@ -59,3 +63,5 @@ float Timer::ReadSec() const
 {
 	return isPaused ? float(paused_at / 1000.0f) : float(SDL_GetTicks() - started_at) / 1000.0f;
 }
+
+

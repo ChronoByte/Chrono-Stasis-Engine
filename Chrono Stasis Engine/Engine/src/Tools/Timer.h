@@ -20,12 +20,13 @@ public:
 
 	uint32 Read() const;
 	float ReadSec() const;
-
+	
 private:
 
 	uint32 paused_at = 0;
 	uint32	started_at = 0;
 	bool isPaused = true; 
+	
 };
 
 #endif //__TIMER_H__

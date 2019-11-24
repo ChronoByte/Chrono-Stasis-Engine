@@ -31,6 +31,7 @@ public:
 
 	void InspectorInfo();
 
+	
 	// Parser
 	void Save(RJSON_Value* component) const;
 	void Load(RJSON_Value* component);
@@ -44,5 +45,5 @@ private:
 	TextureInfo* checkersTex = nullptr; 
 
 	bool checkers = false; 
-
+	bool selectMaterial = false;
 };

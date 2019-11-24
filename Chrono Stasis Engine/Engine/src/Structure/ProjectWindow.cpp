@@ -14,7 +14,7 @@ bool ProjectWindow::Start()
 {
 	current_path = ASSETS_FOLDER;
 	extension = META_EXTENSION;
-
+	extension += ".json";
 	ClearStorage();
 	App->fs->GetStorageResources(current_path.c_str(), storage, nullptr, extension.c_str());
 	return true;

@@ -8,8 +8,6 @@ ModuleFileSystem::ModuleFileSystem()
 {
 	name = "FileSystem";
 
-	
-	
 }
 
 ModuleFileSystem::~ModuleFileSystem()
@@ -59,6 +57,8 @@ bool ModuleFileSystem::Init(JSON_Object* node)
 
 bool ModuleFileSystem::Start()
 {
+	refresh_timer.Start();
+
 	assets = new Folder();
 	assets->name = ASSETS_FOLDER;
 
@@ -94,6 +94,15 @@ bool ModuleFileSystem::Start()
 
 update_status ModuleFileSystem::Update(float dt)
 {
+
+	if (refresh_timer.ReadSec() >= refresh_delay)
+	{
+		LOG("FILESYSTEM: Refresh Files");
+		RefreshFiles();
+		LogAssetsInfo(assets);
+		refresh_timer.Start();
+	}
+
 
 	if (App->input->dropped && App->input->file != nullptr)
 	{
@@ -447,11 +456,11 @@ void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUn
 		GetNameFile(currentPath.c_str(), fileName);
 		GetExtensionFile(currentPath.c_str(), fileExtension);
 
-		if (fileExtension.length() > 0) //if is not a folder, add dot and extension 
+		if (fileExtension.length() > 0)					
 			fileName += fileExtension;
+		
 
-
-		if ((fileExtension == metaExtension) && (metaExtension != nullptr)) { continue; }
+		if ((".meta" + fileExtension == metaExtension) && (metaExtension != nullptr)) { continue; }
 
 		if (!PHYSFS_isDirectory(currentPath.c_str()) && (fileExtension == desiredExtension) || PHYSFS_isDirectory(currentPath.c_str()) || !PHYSFS_isDirectory(currentPath.c_str()) && desiredExtension == "all")
 		{
