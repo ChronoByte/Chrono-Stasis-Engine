@@ -65,6 +65,7 @@ update_status ModuleScene::PreUpdate(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		activeOctree = !activeOctree;
+	
 
 	if (toRecreateOctree)
 	{
@@ -470,6 +471,20 @@ void ModuleScene::DeleteRoot()
 {
 	delete root;
 	root = nullptr;
+}
+
+void ModuleScene::ClearScene()
+{
+	for (std::list<GameObject*>::iterator it = root->childs.begin(); it != root->childs.end(); ++it)
+	{
+		if ((*it) != nullptr)
+		{
+			delete (*it); 
+			(*it) = nullptr; 
+		}
+	}
+	root->childs.clear();
+
 }
 
 void ModuleScene::SetRoot(GameObject* go)
