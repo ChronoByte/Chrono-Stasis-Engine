@@ -481,8 +481,12 @@ void ModuleFBXLoader::NodePath(aiNode* node, const aiScene* scene, std::string& 
 		//textures[scene->mMeshes[node->mMeshes[i]]->mMaterialIndex]
 		if (strcmp(fileName.C_Str(), "") != 0)
 		{
+			std::string extension; 
+			std::string name; 
+			App->fs->GetNameFile(fileName.C_Str(), name); 
+			App->fs->GetExtensionFile(fileName.C_Str(), extension); 
 			filePath = A_TEXTURES_FOLDER;
-			std::string newPath = filePath + fileName.C_Str();
+			std::string newPath = filePath + name + extension; 
 			ComponentMaterial* myMaterial = dynamic_cast<ComponentMaterial*>(go->CreateComponent(ComponentType::C_MATERIAL));
 
 			/*std::string name;
@@ -578,14 +582,14 @@ ComponentMesh* ModuleFBXLoader::ImportMesh(aiMesh* mesh, const aiScene* scene,st
 
 void ModuleFBXLoader::SaveMesh(ResourceMesh* res, UID uuid, std::string& library_path)
 {
-	uint ranges[6] = { res->GetIndices(), res->GetVertices(), res->GetNormals(), res->GetTextureCoords(), res->GetFaceNormals(), res->GetVertexNormals() };
+	uint ranges[6] = { res->GetIndicesSize(), res->GetVerticesSize(), res->GetNormalsSize(), res->GetTextureCoordsSize(), res->GetFaceNormalsSize(), res->GetVertexNormalsSize() };
 
-	uint size_indices = sizeof(uint) * res->GetIndices();
-	uint size_vertices = sizeof(float) * (res->GetVertices());
-	uint size_normals = sizeof(float) * (res->GetNormals());
-	uint size_texCoords = sizeof(float) * (res->GetTextureCoords());
-	uint size_faceN = sizeof(float) * (res->GetFaceNormals());
-	uint size_vertexN = sizeof(float) * (res->GetVertexNormals());
+	uint size_indices = sizeof(uint) * res->GetIndicesSize();
+	uint size_vertices = sizeof(float) * (res->GetVerticesSize());
+	uint size_normals = sizeof(float) * (res->GetNormalsSize());
+	uint size_texCoords = sizeof(float) * (res->GetTextureCoordsSize());
+	uint size_faceN = sizeof(float) * (res->GetFaceNormalsSize());
+	uint size_vertexN = sizeof(float) * (res->GetVertexNormalsSize());
 
 
 	//uint size = sizeof(ranges) + sizeof(float) * res->GetVertices() + sizeof(uint) * res->GetIndices() + sizeof(float) * res->GetNormals() + sizeof(float) * res->GetTextureCoords();
@@ -608,7 +612,7 @@ void ModuleFBXLoader::SaveMesh(ResourceMesh* res, UID uuid, std::string& library
 	cursor += bytes;
 	bytes = size_vertices;
 	memcpy(cursor, res->vertex.buffer, bytes);
-
+	LOG("Saving %i space for vertices", bytes); 
 	// Storing Normals
 	cursor += bytes;
 	bytes = size_normals;

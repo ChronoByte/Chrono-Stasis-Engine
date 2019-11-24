@@ -175,7 +175,7 @@ void ModuleScene::DrawCullingObjectsWithOctree()
 		intersections++;
 
 	}
-	LOG("Checking %i intersections with octree", intersections);
+	//LOG("Checking %i intersections with octree", intersections);
 	candidates.clear();
 }
 
