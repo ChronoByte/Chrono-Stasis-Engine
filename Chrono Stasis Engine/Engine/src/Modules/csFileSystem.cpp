@@ -364,9 +364,10 @@ void ModuleFileSystem::GetJSONExtensionFile(const char* file, std::string& exten
 		extension = file;
 		extension = extension.substr(position);
 	}
-
-
+	
 }
+
+
 
 void ModuleFileSystem::GetNameFile(const char* file, std::string& name)
 {
@@ -633,6 +634,15 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 		
 		std::string file_name = root->files[i].name;
 		std::string file_path = root->files[i].path;
+
+		//Check if is meta file
+		std::string tmp_ext = "";
+		GetExtensionFile(file_name.c_str(), tmp_ext);
+		
+		if (tmp_ext == ".json")
+			continue;
+
+		//If isn't check for its meta file
 		file_path += file_name;
 
 		std::string meta_file = file_path + META_EXTENSION;
@@ -658,7 +668,7 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 
 			else
 			{
-				LOG("Unsupported file format");
+				LOG("Unsupported file format: [%s]", extension);
 			}
 
 		}
