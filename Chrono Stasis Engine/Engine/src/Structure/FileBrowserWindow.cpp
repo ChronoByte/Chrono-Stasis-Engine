@@ -89,7 +89,7 @@ void FileBrowserWindow::Draw()
 	ImGui::SameLine();
 	if (ImGui::InputText("", (char*)inputText.c_str(), 120, ImGuiInputTextFlags_AutoSelectAll)) 
 	{
-		App->serialization->current_scene = text; // TO SAVE AS NEW
+		App->serialization->current_scene = inputText.c_str(); // TO SAVE AS NEW
 		//scene += SCENES_EXTENSION;
 	}
 
