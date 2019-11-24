@@ -27,10 +27,42 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Framebuffer to renders the world scene as a texture
 * Editor Windows (Console, Configuration, About)
 
+## Authors Tasks
+
+* Carlos Peña
+    * Development of own format files
+    * Resource Management 
+    * Model Serialization into json file
+    * Scene Serialization into json file
+    * File System implementation to generate directories & files 
+    * Refresh System to detect new droppable files (Textures, FBX, etc)
+    * Resource Mesh & Material loading own format files from memory 
+    * Counting Reference implementation to check own format files used at every component of every GameObject
+    * Assets Project Window to display Assets files
+    * Creation, renaming and deletion of folders into Project Window
+    * .Meta checking system to detect new files and generate his own format files + meta + resources
+    
+* Sebastián López
+    * Real time view of the z-buffer
+    * Implementation of a static Octree system
+    * Component Camera with Frustum Culling (optimizable with Octree)
+    * System that renders in real time multiple views of the scene
+    * Bounding Box functionality
+    * Mouse picking functionality (optimizable with Octree)
+    * Game mode that can Start / Pause / Step with a speed modifier (dt modifier).
+    * ImGuizmo implementation
+
+
 ## Innovation 
 * Free costumization of **ambient color, diffuse color and specular color on lighting render** at runtime. You can find it and use it in configuration window at renderer section.
 * Free costumization of **Material Color** into GameObject material section. You can find it and use it in inspector window at material component section.
 * Free customization of **GUI theme and size styles**. You can find it and use it in configuration window at GUI section.
+* Octree Development
+* Real time view of Z-buffer
+* Project Asset Panel to display the file management in a visual way
+* Refresh file system to new droppable files detection. When a file is dropped, that file is copied if isn't found in Assets folder and copied to Models folder. In the next refresh time, the file is added to file system internally and its own format files are generated with his uuid's and meta file respectively.
+* Adaptable docking resolution for mouse picking raycast
+* Updatable Parenting Bounding Box
 
 
 ## Installation
