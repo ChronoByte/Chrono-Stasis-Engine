@@ -95,13 +95,13 @@ bool ModuleFileSystem::Start()
 update_status ModuleFileSystem::Update(float dt)
 {
 
-	if (refresh_timer.ReadSec() >= refresh_delay)
-	{
-		LOG("FILESYSTEM: Refresh Files");
-		RefreshFiles();
-		LogAssetsInfo(assets);
-		refresh_timer.Start();
-	}
+	//if (refresh_timer.ReadSec() >= refresh_delay)
+	//{
+	//	LOG("FILESYSTEM: Refresh Files");
+	//	RefreshFiles();
+	//	LogAssetsInfo(assets);
+	//	refresh_timer.Start();
+	//}
 
 
 	if (App->input->dropped && App->input->file != nullptr)

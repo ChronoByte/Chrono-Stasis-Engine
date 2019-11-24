@@ -30,13 +30,15 @@ public:
 	void LoadMeshTextureCoords(aiMesh* mesh, int index);
 	bool LoadMeshBuffers();
 
-	const uint GetIndices() const;
-	const uint GetVertices() const;
-	const uint GetTextureCoords() const;
-	const uint GetNormals() const;
+	const uint GetVertexNum() const; 
+	const uint GetIndicesSize() const;
+	const uint GetIndexNum() const;
+	const uint GetVerticesSize() const;
+	const uint GetTextureCoordsSize() const;
+	const uint GetNormalsSize() const;
 	const uint GetTriangles() const;
-	const uint GetFaceNormals() const;
-	const uint GetVertexNormals() const;
+	const uint GetFaceNormalsSize() const;
+	const uint GetVertexNormalsSize() const;
 
 	const MeshInfo<uint> GetMeshIndex() const;
 	const MeshInfo<float> GetMeshVertex() const;

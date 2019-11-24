@@ -13,9 +13,9 @@ ResourceMesh::~ResourceMesh()
 
 void ResourceMesh::LoadMeshVertices(aiMesh* mesh)
 {
-	vertex.capacity = mesh->mNumVertices;
-	vertex.buffer = new float[vertex.capacity * 3];
-	memcpy(vertex.buffer, mesh->mVertices, sizeof(float) * vertex.capacity * 3);
+	vertex.capacity = mesh->mNumVertices * 3;
+	vertex.buffer = new float[vertex.capacity];
+	memcpy(vertex.buffer, mesh->mVertices, sizeof(float) * vertex.capacity);
 
 	//LOG("New mesh loaded with %d vertices", vertex.capacity);
 }
@@ -144,16 +144,16 @@ void ResourceMesh::LoadMeshVertexNormals()
 
 void ResourceMesh::LoadMeshColors(aiMesh* mesh, int index)
 {
-	colors.capacity = mesh->mNumVertices;
-	colors.buffer = new float[colors.capacity * 4]; // (r,g,b,a) for each vertex
-	memcpy(colors.buffer, mesh->mColors[index], sizeof(float) * colors.capacity * 4);
+	colors.capacity = mesh->mNumVertices * 4;
+	colors.buffer = new float[colors.capacity]; // (r,g,b,a) for each vertex
+	memcpy(colors.buffer, mesh->mColors[index], sizeof(float) * colors.capacity);
 	//LOG("New mesh loaded with %d colors", colors.capacity);
 }
 
 void ResourceMesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 {
-	textureCoords.capacity = mesh->mNumVertices;
-	textureCoords.buffer = new float[textureCoords.capacity * 2]; // 2 Coords (x,y) for each vertex
+	textureCoords.capacity = mesh->mNumVertices * 2;
+	textureCoords.buffer = new float[textureCoords.capacity]; // 2 Coords (x,y) for each vertex
 	uint j = 0;
 	for (uint i = 0; i < mesh->mNumVertices; ++i) {
 
@@ -165,22 +165,32 @@ void ResourceMesh::LoadMeshTextureCoords(aiMesh* mesh, int index)
 	//LOG("New mesh loaded with %d Texture Coords", textureCoords.capacity);
 }
 
-const uint ResourceMesh::GetIndices() const
+const uint ResourceMesh::GetVertexNum() const
+{
+	return vertex.capacity / 3.f;
+}
+
+const uint ResourceMesh::GetIndicesSize() const
 {
 	return index.capacity;
 }
 
-const uint ResourceMesh::GetVertices() const
+const uint ResourceMesh::GetIndexNum() const
 {
-	return vertex.capacity * 3;
+	return  index.capacity / 3;
 }
 
-const uint ResourceMesh::GetTextureCoords() const
+const uint ResourceMesh::GetVerticesSize() const
 {
-	return textureCoords.capacity * 2;
+	return vertex.capacity;
 }
 
-const uint ResourceMesh::GetNormals() const
+const uint ResourceMesh::GetTextureCoordsSize() const
+{
+	return textureCoords.capacity;
+}
+
+const uint ResourceMesh::GetNormalsSize() const
 {
 	return normals.capacity;
 }
@@ -190,12 +200,12 @@ const uint ResourceMesh::GetTriangles() const
 	return index.capacity / 3;
 }
 
-const uint ResourceMesh::GetFaceNormals() const
+const uint ResourceMesh::GetFaceNormalsSize() const
 {
 	return faceNormals.capacity;
 }
 
-const uint ResourceMesh::GetVertexNormals() const
+const uint ResourceMesh::GetVertexNormalsSize() const
 {
 	return vertexNormals.capacity;
 }
@@ -298,7 +308,7 @@ bool ResourceMesh::LoadMeshBuffers()
 	{
 		glGenBuffers(1, &vertex.id);
 		glBindBuffer(GL_ARRAY_BUFFER, vertex.id);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex.capacity * 3, vertex.buffer, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertex.capacity, vertex.buffer, GL_STATIC_DRAW);
 		LOG("Generated vertex buffer with ID: %i and size %i", vertex.id, vertex.capacity);
 	}
 	else 
@@ -374,7 +384,7 @@ bool ResourceMesh::LoadMeshBuffers()
 	{
 		glGenBuffers(1, &textureCoords.id);
 		glBindBuffer(GL_ARRAY_BUFFER, textureCoords.id);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * textureCoords.capacity * 2, textureCoords.buffer, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * textureCoords.capacity, textureCoords.buffer, GL_STATIC_DRAW);
 		LOG("Generated Texture Coords buffer with ID %i and size %i ", textureCoords.id, textureCoords.capacity);
 	}
 	else 
@@ -389,7 +399,7 @@ bool ResourceMesh::LoadMeshBuffers()
 	{
 		glGenBuffers(1, &colors.id);
 		glBindBuffer(GL_ARRAY_BUFFER, colors.id);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * colors.capacity * 4, colors.buffer, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * colors.capacity, colors.buffer, GL_STATIC_DRAW);
 		LOG("Generated Colors buffer with ID %i and size %i ", colors.id, colors.capacity);
 	}
 	else 

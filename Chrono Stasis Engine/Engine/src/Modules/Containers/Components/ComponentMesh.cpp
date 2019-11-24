@@ -16,13 +16,17 @@ ComponentMesh::~ComponentMesh()
 {
 	LOG("Deleting component mesh from %s", owner->GetName());
 
-	// Delete vertex
+	if(currentResource != nullptr)
+		currentResource->UnloadFromMemory(); 
+	
+	// Delete Vertex
+
 	if (vertex.buffer != nullptr)
 	{
 		delete[] vertex.buffer;
 		vertex.buffer = nullptr;
 	}
-	
+
 	// Delete Index
 	if (index.buffer != nullptr)
 	{
@@ -477,17 +481,20 @@ void ComponentMesh::InspectorInfo()
 		ImGui::Checkbox("Active", &active);
 
 		ImGui::Text("Total Vertices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetVertices());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetVertexNum());
 		ImGui::Text("Total Indices:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetIndices());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetIndexNum());
 		ImGui::Text("Total UV:"); ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetTextureCoords());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetTextureCoordsSize());
 		ImGui::Text("Total Triangles:"); ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->GetTriangles());
 
 		ImGui::Checkbox("View Vertex Normals", &drawVertexNormals);
 		ImGui::SameLine(); 
 		ImGui::Checkbox("View Face Normals", &drawFaceNormals);
+		ImGui::Text("Reference Counting: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (meshRes == nullptr) ? 0 : meshRes->CountReferences());
 	}
 	//TODO: Add more info like normal checkbox, uv checkbox ...
 }
@@ -514,10 +521,15 @@ const uint ComponentMesh::GetTriangles() const
 
 AABB ComponentMesh::GetAABB() const
 {
-	AABB aabb;
-	aabb.SetNegativeInfinity();
-	aabb.Enclose((float3*)vertex.buffer, vertex.capacity);
-	return aabb;
+	ResourceMesh* res = (ResourceMesh*)currentResource; 
+
+	if (res != nullptr)
+	{
+		AABB aabb;
+		aabb.SetNegativeInfinity();
+		aabb.Enclose((float3*)res->vertex.buffer, res->GetVertexNum());
+		return aabb;
+	}
 }
 
 OBB ComponentMesh::GetOBBTransformed() const
@@ -606,34 +618,6 @@ void ComponentMesh::Load(const JSON_Object* object, std::string name)
 
 			this->AssignResource(resUUID);
 			resMesh->LoadToMemory();
-
-			/*JSON_Value* config_file;
-			JSON_Object* config;
-			JSON_Object* config_node;
-
-			config_file = json_parse_file(App->serialization->model_to_serialize.c_str());
-
-			config = json_value_get_object(config_file);
-			config_node = json_object_get_object(config, "Model");
-			std::string file = json_object_dotget_string(config_node, "Info.Directory Model");
-
-			int ResNum = json_object_dotget_number(config_node, "Info.Resources.Number of Resources");
-			std::string name;
-
-			for (int i = 0; i < ResNum; i++)
-			{
-				std::string tmp_res = "Info.Resources.Resource " + std::to_string(i) + ".UUID Resource";
-				UID tmp_uid = json_object_dotget_number(config_node, tmp_res.c_str());
-
-				if (tmp_uid == resUUID)
-				{
-					tmp_res = "Info.Resources.Resource " + std::to_string(i) + ".Name";
-					name = json_object_dotget_string(config_node, tmp_res.c_str());
-					break;
-				}
-
-			}*/
-
 		}
 	}
 
