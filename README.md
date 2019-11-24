@@ -127,7 +127,32 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * **SHIFT:** Duplicates movement speed.
 
 ## Updates & Changelog
-
+* 0.6.0
+     * Generate a stable & operative release Build for Second Assignment
+* 0.5.5
+     * Scene Serialization
+     * Octree development
+     * Real-time z-buffer
+     * Project Assests windows
+     * Folder management to creation, renaming and deletion
+     * metadata files + own format file system when importing a model / texture
+     * Counting reference
+* 0.5.0
+     * Game mode (Start / Pause / Step) with a speed modifier (dt modifier).
+     * Model Serialization
+     * Resource Material implementation
+     * Resource Texture implementation
+     * Resource core system implementation
+* 0.4.5
+     * Own format file 
+     * Mouse Picking to meshes AABB with a raycast
+* 0.4.0
+     * Camera Culling and Frustum implementation
+     * Updatable AABB for all meshes development 
+     * Parenting AABB
+* 0.3.5
+     * Inspector transformations applies to all GameObjects
+     * Hierarchy selction options like deletetion and child creation
 * 0.3.0
      * Generate a stable & operative release Build for First Assignment
 * 0.2.9
