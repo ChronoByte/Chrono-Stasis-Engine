@@ -42,6 +42,11 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Folders management:  create / remove / rename folders
 * Resources not managed inside Assets and are dropped to engine, are copied and metadata + own format files are generated automatically
 
+## Instructions
+
+* We recommend to drop textures files before dropping fbx files if those files havent his textures embbeded internally and are imported before, its respectively textures will not be imported and will be displayed with none texture.
+
+    
 ## Members Task
 
 * Carlos Peña
@@ -58,6 +63,7 @@ Metaphorically for us (software engineers and game developers), we live in a chr
     * .Meta checking system to detect new files and generate his own format files + meta + resources
     
 * Sebastián López
+    * GameObjects transformations from Inspector window
     * Real time view of the z-buffer
     * Implementation of a static Octree system
     * Component Camera with Frustum Culling (optimizable with Octree)
