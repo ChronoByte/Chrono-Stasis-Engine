@@ -9,6 +9,7 @@
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "ComponentBillboard.h"
 
 GameObject::GameObject()
 {
@@ -270,6 +271,10 @@ Component * GameObject::CreateComponent(ComponentType type)
 	case ComponentType::C_LIGHT:
 
 		break;
+
+	case ComponentType::C_BILLBOARD:
+		component = new ComponentBillboard(this);
+		components.push_back(component);
 
 	default:
 		break; 

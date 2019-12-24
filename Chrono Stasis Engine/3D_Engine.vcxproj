@@ -184,6 +184,7 @@
     <ClInclude Include="Engine\src\Importers\csFBXLoader.h" />
     <ClInclude Include="Engine\src\Importers\csSceneSerializer.h" />
     <ClInclude Include="Engine\src\Importers\csTextureLoader.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentBillboard.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentCamera.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMaterial.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentTransform.h" />
@@ -308,6 +309,7 @@
     <ClCompile Include="Engine\src\Importers\csFBXLoader.cpp" />
     <ClCompile Include="Engine\src\Importers\csSceneSerializer.cpp" />
     <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentBillboard.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentCamera.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMaterial.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentTransform.cpp" />

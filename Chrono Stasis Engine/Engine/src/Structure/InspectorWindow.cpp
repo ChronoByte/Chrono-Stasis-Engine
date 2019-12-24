@@ -35,6 +35,7 @@ void InspectorWindow::Draw()
 
 					if (ImGui::MenuItem("Add Camera")) { go_selected->CreateComponent(ComponentType::C_CAMERA); }
 
+					if (ImGui::MenuItem("Add Billboard")) { go_selected->CreateComponent(ComponentType::C_BILLBOARD); }
 
 					ImGui::EndMenu();
 				}
