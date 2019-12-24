@@ -414,7 +414,7 @@ GameObject * ModuleScene::CreateCamera(GameObject * parent, const char * name)
 	go->GetTransform()->SetPosition(float3(0.f, 10.f, -20.f));
 	go->GetTransform()->SetRotationEuler(float3(20.f, 0.f, 0.f));
 
-return go;
+	return go;
 }
 
 GameObject * ModuleScene::GetSelected() const

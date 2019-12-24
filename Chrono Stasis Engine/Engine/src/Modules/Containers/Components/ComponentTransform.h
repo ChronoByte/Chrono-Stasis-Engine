@@ -35,10 +35,11 @@ public:
 	void UpdateParentBoundingBox();
 	void ForceParentBoundingBox();
 
-	const void SetPosition(const float3& pos);
-	const void SetRotationEuler(const float3& euler);
-	const void SetRotationQuat(const Quat& quat);
-	const void SetScale(const float3& scale);
+	void SetPosition(const float3& pos);
+	void SetRotationEuler(const float3& euler);
+	void SetRotationQuat(const Quat& quat);
+
+	void SetScale(const float3& scale);
 
 	const float3 GetPosition() const;
 	const float3 GetRotationEuler() const;

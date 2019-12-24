@@ -136,8 +136,6 @@ void SceneViewWindow::UpdateGuizmo()
 		selected->GetTransform()->SetPosition(pos);
 		selected->GetTransform()->SetRotationQuat(rot);
 		selected->GetTransform()->SetScale(scale);
-
-		selected->GetTransform()->toRecalculateTransform = true;
 	}
 }
 

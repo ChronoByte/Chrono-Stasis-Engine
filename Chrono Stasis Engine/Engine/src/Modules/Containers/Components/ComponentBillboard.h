@@ -33,4 +33,5 @@ public:
 private: 
 
 	BillboardType bbtype = BillboardType::NONE;
+	int currentSelected = (int)bbtype;
 };

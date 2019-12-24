@@ -158,27 +158,30 @@ void ComponentTransform::ForceParentBoundingBox()
 	}
 }
 
-const void ComponentTransform::SetPosition(const float3& pos)
+void ComponentTransform::SetPosition(const float3& pos)
 {
 	this->position = pos;
+	toRecalculateTransform = true;
 }
 
-const void ComponentTransform::SetRotationEuler(const float3& euler)
+void ComponentTransform::SetRotationEuler(const float3& euler)
 {
 	this->rotation_euler = euler;
 	this->rotation_quat = Quat::FromEulerXYZ(euler.x * DEGTORAD, euler.y * DEGTORAD, euler.z * DEGTORAD);
-	
+	toRecalculateTransform = true;
 }
 
-const void ComponentTransform::SetRotationQuat(const Quat& quat)
+void ComponentTransform::SetRotationQuat(const Quat& quat)
 {
 	this->rotation_quat = quat;
 	this->rotation_euler = rotation_quat.ToEulerXYZ() * RADTODEG;
+	toRecalculateTransform = true;
 }
 
-const void ComponentTransform::SetScale(const float3& scale)
+void ComponentTransform::SetScale(const float3& scale)
 {
 	this->scale = scale;
+	toRecalculateTransform = true;
 }
 
 const float3 ComponentTransform::GetPosition() const
@@ -254,22 +257,16 @@ void ComponentTransform::InspectorInfo()
 	if (ImGui::CollapsingHeader("Local Transformation", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (ImGui::DragFloat3("Position", (float*)&position, 0.5f))
-		{
 			SetPosition(position);
-			toRecalculateTransform = true; 
-		}
+
 
 		if (ImGui::DragFloat3("Rotation", (float*)&rotation_euler, 0.5f))
-		{ 
 			SetRotationEuler(rotation_euler);
-			toRecalculateTransform = true;
-		}
+
 
 		if (ImGui::DragFloat3("Scale", (float*)&scale, 0.5f))
-		{
 			SetScale(scale);
-			toRecalculateTransform = true;
-		}
+		
 
 		if(!boundingBox.aabb.Size().IsZero())
 			ImGui::Checkbox("View Bounding Box", &drawBoundingBox);
@@ -313,6 +310,5 @@ void ComponentTransform::Load(const JSON_Object* object, std::string name)
 	float3 scale = App->fs->json_array_dotget_float3_string(object, tmp_trans.c_str());
 
 	SetupTransform(position, scale, rot);
-	toRecalculateTransform = true;
 }
 

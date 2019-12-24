@@ -1,7 +1,8 @@
 #include "ComponentBillboard.h"
 #include "ComponentTransform.h"
+#include "ComponentCamera.h"
 #include "csApp.h"
-#include "ResourceTexture.h"
+
 
 ComponentBillboard::ComponentBillboard(GameObject* parent) : Component(parent)
 {
@@ -19,22 +20,33 @@ void ComponentBillboard::Update(float dt)
 {
 	ComponentTransform* transform = GetOwner()->GetTransform();
 
+	// For the moment, debug with editor camera:
+	ComponentCamera* camera = App->camera->fakeCamera;
+
 	switch (bbtype)
 	{
-	case BillboardType::AXIS:
-		// Do calcs
-
-		break;
-
 	case BillboardType::SCREEN:
 		// Do calcs
-		
+	{
+		float4x4 viewMatrix = camera->GetViewMatrix();
+		float3x3 rot = float3x3(viewMatrix.WorldX(), viewMatrix.WorldY(), viewMatrix.WorldZ());
+
+		transform->SetRotationQuat(rot.ToQuat()); 
+	}
 		break;
+
 
 	case BillboardType::WORLD:
 		// Do calcs
-		
+
 		break;
+
+	case BillboardType::AXIS:
+	
+		break;
+
+
+	
 
 	case BillboardType::NONE:
 		break;
@@ -49,10 +61,9 @@ void ComponentBillboard::InspectorInfo()
 	{
 		ImGui::Checkbox("Active Billboard", &active); // Can't repeat checkbox name (!!)
 
-		static int currentItem = (int)bbtype;
-		if (ImGui::Combo("Billboard Type", &currentItem, "Screen Aligned\0World Aligned\0Axially Aligned\0None\0\0"))
+		if (ImGui::Combo("Billboard Type", &currentSelected, "Screen Aligned\0World Aligned\0Axially Aligned\0None\0\0"))
 		{
-			bbtype = (BillboardType)currentItem; 
+			bbtype = (BillboardType)currentSelected;
 		}
 
 	}
@@ -84,5 +95,6 @@ void ComponentBillboard::Load(const JSON_Object * object, std::string name)
 
 	tmp_bb = name + "BillboardType";
 	bbtype = (BillboardType)(int)json_object_dotget_number(object, tmp_bb.c_str());
+	currentSelected = (int)bbtype;
 }
 
