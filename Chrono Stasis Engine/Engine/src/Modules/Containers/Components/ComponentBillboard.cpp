@@ -22,31 +22,35 @@ void ComponentBillboard::Update(float dt)
 
 	// For the moment, debug with editor camera:
 	ComponentCamera* camera = App->camera->fakeCamera;
-
+	float4x4 viewMatrix = camera->GetViewMatrix();
+	
 	switch (bbtype)
 	{
 	case BillboardType::SCREEN:
-		// Do calcs
 	{
-		float4x4 viewMatrix = camera->GetViewMatrix();
 		float3x3 rot = float3x3(viewMatrix.WorldX(), viewMatrix.WorldY(), viewMatrix.WorldZ());
-
-		transform->SetRotationQuat(rot.ToQuat()); 
+		transform->SetRotationQuat(rot.ToQuat());
 	}
-		break;
+	break;
 
 
 	case BillboardType::WORLD:
-		// Do calcs
+	{
+		//float3 front = (camera->GetPos() - transform->GetBoundingBox().CenterPoint()).Normalized(); // The object may not have BoundingBox (?)
+		float3 front = (camera->GetPos() - transform->GetPosition()).Normalized();
+		float3 up = viewMatrix.WorldY();
+		float3 right = up.Cross(front);
+		up = front.Cross(right);
 
+		float3x3 rot = float3x3(right, up, front);
+
+		transform->SetRotationQuat(rot.ToQuat());
+	}
 		break;
 
 	case BillboardType::AXIS:
 	
 		break;
-
-
-	
 
 	case BillboardType::NONE:
 		break;
