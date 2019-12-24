@@ -24,7 +24,7 @@ void ComponentBillboard::Update(float dt)
 	ComponentCamera* camera = App->camera->fakeCamera;
 	float4x4 viewMatrix = camera->GetViewMatrix();
 	
-	switch (bbtype)
+	switch (bbType)
 	{
 	case BillboardType::SCREEN:
 	{
@@ -49,7 +49,17 @@ void ComponentBillboard::Update(float dt)
 		break;
 
 	case BillboardType::AXIS:
-	
+	{
+		// TODO:: Maybe find another way to handle this && take other axis into account
+		float3 front = (camera->GetPos() - transform->GetPosition()).Normalized();
+
+		float3 up = float3::unitY;
+		float3 right = up.Cross(front);
+		front = right.Cross(up);
+
+		float3x3 rot = float3x3(right, up, front);
+		transform->SetRotationQuat(rot.ToQuat());
+	}
 		break;
 
 	case BillboardType::NONE:
@@ -67,9 +77,15 @@ void ComponentBillboard::InspectorInfo()
 
 		if (ImGui::Combo("Billboard Type", &currentSelected, "Screen Aligned\0World Aligned\0Axially Aligned\0None\0\0"))
 		{
-			bbtype = (BillboardType)currentSelected;
+			bbType = (BillboardType)currentSelected;
 		}
 
+		if (bbType == BillboardType::AXIS)
+		{
+			ImGui::RadioButton("X Axis", &axisLocked, 0); ImGui::SameLine();
+			ImGui::RadioButton("Y Axis", &axisLocked, 1); ImGui::SameLine();
+			ImGui::RadioButton("Z Axis", &axisLocked, 2);
+		}
 	}
 }
 
@@ -86,7 +102,7 @@ void ComponentBillboard::Save(JSON_Object * object, std::string name, bool saveS
 	json_object_dotset_number(object, tmp_bb.c_str(), UUID);
 
 	tmp_bb = name + "BillboardType";
-	json_object_dotset_number(object, tmp_bb.c_str(), (double)bbtype);
+	json_object_dotset_number(object, tmp_bb.c_str(), (double)bbType);
 
 
 }
@@ -98,7 +114,7 @@ void ComponentBillboard::Load(const JSON_Object * object, std::string name)
 	std::string tmp_bb;
 
 	tmp_bb = name + "BillboardType";
-	bbtype = (BillboardType)(int)json_object_dotget_number(object, tmp_bb.c_str());
-	currentSelected = (int)bbtype;
+	bbType = (BillboardType)(int)json_object_dotget_number(object, tmp_bb.c_str());
+	currentSelected = (int)bbType;
 }
 

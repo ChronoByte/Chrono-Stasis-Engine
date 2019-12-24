@@ -32,6 +32,8 @@ public:
 
 private: 
 
-	BillboardType bbtype = BillboardType::NONE;
-	int currentSelected = (int)bbtype;
+	BillboardType bbType = BillboardType::NONE;
+	int currentSelected = (int)bbType;
+	int axisLocked = 0;
+
 };
