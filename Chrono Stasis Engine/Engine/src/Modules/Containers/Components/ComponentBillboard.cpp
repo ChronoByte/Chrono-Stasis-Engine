@@ -13,59 +13,72 @@ ComponentBillboard::ComponentBillboard(GameObject* parent) : Component(parent)
 
 ComponentBillboard::~ComponentBillboard()
 {
-	
 }
 
 void ComponentBillboard::Update(float dt)
 {
-	ComponentTransform* transform = GetOwner()->GetTransform();
 
 	// For the moment, debug with editor camera:
+
 	ComponentCamera* camera = App->camera->fakeCamera;
-	float4x4 viewMatrix = camera->GetViewMatrix();
 	
 	switch (bbType)
 	{
-	case BillboardType::SCREEN:
-	{
-		float3x3 rot = float3x3(viewMatrix.WorldX(), viewMatrix.WorldY(), viewMatrix.WorldZ());
-		transform->SetRotationQuat(rot.ToQuat());
-	}
-	break;
+	case BillboardType::SCREEN:	
+		AlignToScreen(camera);
+		break;
 
 
 	case BillboardType::WORLD:
-	{
-		//float3 front = (camera->GetPos() - transform->GetBoundingBox().CenterPoint()).Normalized(); // The object may not have BoundingBox (?)
-		float3 front = (camera->GetPos() - transform->GetPosition()).Normalized();
-		float3 up = viewMatrix.WorldY();
-		float3 right = up.Cross(front);
-		up = front.Cross(right);
-
-		float3x3 rot = float3x3(right, up, front);
-
-		transform->SetRotationQuat(rot.ToQuat());
-	}
+		AlignToWorld(camera);
 		break;
 
 	case BillboardType::AXIS:
-	{
-		// TODO:: Maybe find another way to handle this && take other axis into account
-		float3 front = (camera->GetPos() - transform->GetPosition()).Normalized();
-
-		float3 up = float3::unitY;
-		float3 right = up.Cross(front);
-		front = right.Cross(up);
-
-		float3x3 rot = float3x3(right, up, front);
-		transform->SetRotationQuat(rot.ToQuat());
-	}
+		AlignToAxis(camera);
 		break;
 
 	case BillboardType::NONE:
 		break;
 	}
 
+}
+void ComponentBillboard::AlignToScreen(ComponentCamera * camera)
+{
+	ComponentTransform* transform = GetOwner()->GetTransform();
+
+	float4x4 viewMatrix = camera->GetViewMatrix();
+
+	float3x3 rot = float3x3(viewMatrix.WorldX(), viewMatrix.WorldY(), viewMatrix.WorldZ());
+	transform->SetRotationQuat(rot.ToQuat());
+}
+
+void ComponentBillboard::AlignToWorld(ComponentCamera * camera)
+{
+	ComponentTransform* transform = GetOwner()->GetTransform();
+
+	//float3 front = (camera->GetPos() - transform->GetBoundingBox().CenterPoint()).Normalized(); // The object may not have BoundingBox (?)
+	float3 front = (camera->GetPos() - transform->GetPosition()).Normalized();
+	float3 up = camera->GetViewMatrix().WorldY();
+	float3 right = up.Cross(front);
+	up = front.Cross(right);
+
+	float3x3 rot = float3x3(right, up, front);
+	transform->SetRotationQuat(rot.ToQuat());
+}
+
+void ComponentBillboard::AlignToAxis(ComponentCamera * camera, int axisLocked)
+{
+	ComponentTransform* transform = GetOwner()->GetTransform();
+
+	// TODO:: Maybe find another way to handle this && take other axis into account
+	float3 front = (camera->GetPos() - transform->GetPosition()).Normalized();
+
+	float3 up = float3::unitY;
+	float3 right = up.Cross(front);
+	front = right.Cross(up);
+
+	float3x3 rot = float3x3(right, up, front);
+	transform->SetRotationQuat(rot.ToQuat());
 }
 
 void ComponentBillboard::InspectorInfo()
