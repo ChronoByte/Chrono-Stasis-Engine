@@ -25,29 +25,35 @@ class ParticleEmmitter {
 
 public :  
 
-	ParticleEmmitter(ParticleSystem* owner);
+	ParticleEmmitter();
 	~ParticleEmmitter();
-
-	void DebugDrawEmmitter(); 
-	void ChangeShape(Emmitter_Shape shape);
-
+	
 	// Discuss if the emmiter does logic, or the particle system itself does it for him (taking into account its data)
 	bool Update(float dt);
 
-private: 
+	void Reset(); 
+	bool isActive() const; 
+
+	void DebugDrawEmmitter();
+	void ChangeShape(Emmitter_Shape shape);
+
+public: 
 
 	ParticleSystem* particleSystem = nullptr; 
+
+private: 
+
 
 	Emmitter_Shape shape; 
 
 	Timer spawnTimer; 
-	float spawnRate = 0.f; 
+	float spawnRate = 2.f; 
 
-	float maxLifeTime = 0.f; 
+	float maxLifeTime = 10.f; 
 	float lifeTime = 0.f;  
 	float delay = 0.f; 
 
-	bool loop = true; 
+	bool loop = false; 
 
 	// ----- Position Respect Game Object ------
 

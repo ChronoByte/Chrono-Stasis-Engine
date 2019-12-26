@@ -1,6 +1,6 @@
 #include "Particle.h"
 
-Particle::Particle()
+Particle::Particle(ParticleSystem * owner, float3 position, float3 speed) : owner(owner), position(position), speed(speed)
 {
 }
 
@@ -17,10 +17,19 @@ void Particle::PreUpdate(float dt)
 
 void Particle::Update(float dt)
 {
+	// Apply forces
+	//speed += force * dt; 
+
 	// Move
+	position += speed * dt; 
 }
 
 void Particle::PostUpdate(float dt)
 {
 	// Interpolate ?
+}
+
+float3 Particle::GetPosition() const
+{
+	return position;
 }

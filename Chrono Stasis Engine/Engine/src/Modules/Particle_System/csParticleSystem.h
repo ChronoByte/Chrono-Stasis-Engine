@@ -5,9 +5,10 @@
 #include "Particle.h"
 #include "ParticleEmmitter.h"
 
+#define MAX_PARTICLES 10000
+
 class ParticleSystem
 {
-	friend class ParticleEmmitter;
 
 public: 
 
@@ -18,12 +19,16 @@ public:
 	bool Update(float dt);
 	bool PostUpdate(float dt);
 
+	void CreateParticle(float3 position, float3 speed);
 	void DrawParticles(); 
+	void DrawEmmitter(); 
+
+	void ResetSystem(); 
 
 private: 
 
 	std::vector<Particle*> particles; 
-	ParticleEmmitter* emmitter = nullptr; 
+	ParticleEmmitter emmitter; 
 	uint totalParticles = 0u;
 
 };

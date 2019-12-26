@@ -1,22 +1,15 @@
 #include "csParticleSystem.h"
-
+#include "GL/gl.h"
 ParticleSystem::ParticleSystem()
 {
-	// Create an emmitter
-	emmitter = new ParticleEmmitter(this); 
+	particles.reserve(MAX_PARTICLES);
+	emmitter.particleSystem = this; 
 }
 
 ParticleSystem::~ParticleSystem()
 {
-	// Delete emmmitter
-	if (emmitter != nullptr)
-	{
-		delete emmitter;
-		emmitter = nullptr; 
-	}
-
 	// Delete all particles
-	for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end();)
+	for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end(); ++iter)
 	{
 		delete (*iter);
 		(*iter) = nullptr; 
@@ -28,7 +21,7 @@ ParticleSystem::~ParticleSystem()
 bool ParticleSystem::PreUpdate(float dt)
 {
 	// Spawn option from particle system 
-
+	
 	for (uint i = 0; i < particles.size(); ++i)
 	{
 		particles[i]->PreUpdate(dt);
@@ -39,6 +32,9 @@ bool ParticleSystem::PreUpdate(float dt)
 
 bool ParticleSystem::Update(float dt)
 {
+	if(emmitter.isActive())
+		emmitter.Update(dt);
+
 	for (uint i = 0; i < particles.size(); ++i)
 	{
 		particles[i]->Update(dt); 
@@ -59,6 +55,7 @@ bool ParticleSystem::PostUpdate(float dt)
 			delete (*iter);
 			(*iter) = nullptr;
 			iter = particles.erase(iter);
+			totalParticles--;
 		}
 		else
 			iter++; 
@@ -67,7 +64,54 @@ bool ParticleSystem::PostUpdate(float dt)
 	return true;
 }
 
+void ParticleSystem::CreateParticle(float3 position, float3 speed)
+{
+	if (totalParticles > MAX_PARTICLES)
+		return; 
+
+	particles.push_back(new Particle(this, position, speed));
+	totalParticles++;
+}
+
 void ParticleSystem::DrawParticles()
 {
-	// And Render Lights !
+	glBegin(GL_POINTS);
+	glColor3f(0.f, 0.f, 1.f);
+
+	LOG("Drawing Particles: %i", totalParticles);
+	for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end(); ++iter)
+	{
+
+		// Draw Particle
+		float3 particlePos = (*iter)->GetPosition();
+		glVertex3f(particlePos.x, particlePos.y, particlePos.z);
+
+		// Render light if any
+		(*iter)->light.Render(); // Don't know how we'll handle this in mesh mode 
+
+	}
+
+	glColor3f(1.f, 1.f, 1.f);
+	glEnd(); 
+
+}
+
+void ParticleSystem::DrawEmmitter()
+{
+	emmitter.DebugDrawEmmitter(); 
+}
+
+void ParticleSystem::ResetSystem()
+{
+	// Reset Emmitter
+	emmitter.Reset(); 
+
+	// Delete all particles
+	for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end(); ++iter)
+	{
+		delete (*iter);
+		(*iter) = nullptr;
+	}
+
+	particles.clear();
 }

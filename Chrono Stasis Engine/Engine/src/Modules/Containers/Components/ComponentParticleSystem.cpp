@@ -30,7 +30,7 @@ void ComponentParticleSystem::OnDraw()
 
 void ComponentParticleSystem::OnDebugDraw()
 {
-	// particleSystem->DrawEmmitter();
+	particleSystem->DrawEmmitter();
 }
 
 void ComponentParticleSystem::InspectorInfo()
