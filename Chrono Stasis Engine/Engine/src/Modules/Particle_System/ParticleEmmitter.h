@@ -35,7 +35,35 @@ public :
 	bool isActive() const; 
 
 	void DebugDrawEmmitter();
-	void ChangeShape(Emmitter_Shape shape);
+
+	// ----- Modify Emmitter -----
+
+	void SetShape(Emmitter_Shape shape);
+	void SetMaxLife(float maxLife); 
+	void SetSpawnRate(float spawnRate);
+	void SetDelay(float delay);
+	void SetLoop(bool isLoop);
+
+	void SetPosition(float3 position);
+	void SetRotation(Quat rotation);
+	void SetRotation(float3 rotation);
+	void SetScale(float3 scale);
+
+	// ---------------------------
+
+	// ----- Get Emmitter -----
+
+	Emmitter_Shape GetShape() const;
+	float GetMaxLife() const;
+	float GetSpawnRate() const;
+	float GetDelay() const;
+	bool GetLoop() const;
+
+	float3 GetPosition() const; 
+	float3 GetRotation() const; 
+	float3 GetScale() const; 
+
+	// ---------------------------
 
 public: 
 

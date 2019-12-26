@@ -30,7 +30,8 @@ void ComponentParticleSystem::OnDraw()
 
 void ComponentParticleSystem::OnDebugDraw()
 {
-	particleSystem->DrawEmmitter();
+	if(drawEmmitter)
+		particleSystem->DrawEmmitter();
 }
 
 void ComponentParticleSystem::InspectorInfo()
@@ -42,14 +43,21 @@ void ComponentParticleSystem::InspectorInfo()
 
 		if (ImGui::TreeNode("Emmitter"))
 		{
+			ParticleEmmitter* emmitter = &particleSystem->emmitter; 
+
 			ImGui::Checkbox("Draw Emmitter", &drawEmmitter);
-			// Emmiter shape, pos etc
-			// Example
-			static int currentSelected = 0;
-			if (ImGui::Combo("Shape", &currentSelected, "Sphere\0Hemisphere\0Cube\0Cone\0Plane\0\0"))
-			{
-				// particleSystem->ChangeShape(); 
-			}
+
+			bool loop = emmitter->GetLoop(); 
+			if(ImGui::Checkbox("Loop", &loop)) { emmitter->SetLoop(loop); }
+
+			if (ImGui::Combo("Shape", &shapeSelected, "Sphere\0Hemisphere\0Cube\0Cone\0Plane\0\0"))	{ emmitter->SetShape((Emmitter_Shape)shapeSelected); }
+
+			int spawnRate = emmitter->GetSpawnRate();
+			if (ImGui::InputInt("Spawn Rate", &spawnRate)) { emmitter->SetSpawnRate(spawnRate); }
+
+			float3 pos = particleSystem->emmitter.GetPosition(); 
+			if (ImGui::DragFloat3("Position", (float*)&pos)) { emmitter->SetPosition(pos); }
+
 			ImGui::TreePop();
 		}
 		

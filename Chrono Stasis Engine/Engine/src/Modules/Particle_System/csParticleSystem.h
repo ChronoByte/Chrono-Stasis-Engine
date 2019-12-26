@@ -25,10 +25,13 @@ public:
 
 	void ResetSystem(); 
 
+public: 
+
+	ParticleEmmitter emmitter; 
+
 private: 
 
 	std::vector<Particle*> particles; 
-	ParticleEmmitter emmitter; 
 	uint totalParticles = 0u;
 
 };
