@@ -69,4 +69,5 @@ bool ParticleSystem::PostUpdate(float dt)
 
 void ParticleSystem::DrawParticles()
 {
+	// And Render Lights !
 }

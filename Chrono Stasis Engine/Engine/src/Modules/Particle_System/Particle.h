@@ -1,5 +1,6 @@
 #pragma once
 #include "csGlobals.h"
+#include "Light.h"
 
 #include "MathGeoLib/include/Math/float3.h"
 #include "MathGeoLib/include/Math/quat.h"
@@ -35,5 +36,5 @@ private:
 	float maxLifeTime = 0.f;
 	float currentLifeTime = 0.f; 
 
-
+	Light light; 
 };
