@@ -27,5 +27,5 @@ private:
 	ParticleSystem* particleSystem = nullptr; 
 	bool drawEmmitter = true; 
 	int shapeSelected = 0;
-
+	int bbTypeSelected = 0;
 };

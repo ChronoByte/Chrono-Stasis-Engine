@@ -20,7 +20,9 @@ public:
 	bool PostUpdate(float dt);
 
 	void CreateParticle(float3 position, float3 speed);
-	void DrawParticles(); 
+	void DrawParticles();
+	void DrawPointsForParticles();
+
 	void DrawEmmitter(); 
 
 	void ResetSystem(); 

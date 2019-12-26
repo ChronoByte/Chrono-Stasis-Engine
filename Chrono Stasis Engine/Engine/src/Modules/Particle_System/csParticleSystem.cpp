@@ -88,6 +88,17 @@ void ParticleSystem::CreateParticle(float3 position, float3 speed)
 
 void ParticleSystem::DrawParticles()
 {
+	DrawPointsForParticles();
+
+	for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end(); ++iter)
+	{
+		(*iter)->Orientate(); 
+		(*iter)->Draw(); 
+	}
+}
+
+void ParticleSystem::DrawPointsForParticles()
+{
 	glBegin(GL_POINTS);
 	glColor3f(0.f, 0.f, 1.f);
 
@@ -105,8 +116,7 @@ void ParticleSystem::DrawParticles()
 	}
 
 	glColor3f(1.f, 1.f, 1.f);
-	glEnd(); 
-
+	glEnd();
 }
 
 void ParticleSystem::DrawEmmitter()

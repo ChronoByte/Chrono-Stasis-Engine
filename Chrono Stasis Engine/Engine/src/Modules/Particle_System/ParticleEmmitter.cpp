@@ -1,9 +1,11 @@
 #include "ParticleEmmitter.h"
 #include "csParticleSystem.h"
+#include "ComponentBillboard.h"
 
 ParticleEmmitter::ParticleEmmitter() : particleSystem()
 {
 	spawnTimer.Start();
+	bbtype = BillboardType::SCREEN;
 }
 
 ParticleEmmitter::~ParticleEmmitter()
@@ -82,6 +84,11 @@ void ParticleEmmitter::SetShape(Emmitter_Shape shape)
 	this->shape = shape;
 }
 
+void ParticleEmmitter::SetBillboardType(BillboardType type)
+{
+	this->bbtype = type;
+}
+
 void ParticleEmmitter::SetMaxLife(float maxLife)
 {
 	this->maxLifeTime = maxLife;
@@ -128,6 +135,11 @@ void ParticleEmmitter::SetScale(float3 scale)
 Emmitter_Shape ParticleEmmitter::GetShape() const
 {
 	return shape;
+}
+
+BillboardType ParticleEmmitter::GetBillboardType() const
+{
+	return bbtype;
 }
 
 float ParticleEmmitter::GetMaxLife() const

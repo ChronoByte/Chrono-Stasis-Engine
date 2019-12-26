@@ -20,6 +20,7 @@ enum class Emmitter_Shape{
 };
 
 class ParticleSystem; 
+enum class BillboardType; 
 
 class ParticleEmmitter {
 
@@ -40,6 +41,7 @@ public :
 	// ----- Modify Emmitter -----
 
 	void SetShape(Emmitter_Shape shape);
+	void SetBillboardType(BillboardType type);
 	void SetMaxLife(float maxLife); 
 	void SetSpawnRate(float spawnRate);
 	void SetDelay(float delay);
@@ -55,6 +57,7 @@ public :
 	// ----- Get Emmitter -----
 
 	Emmitter_Shape GetShape() const;
+	BillboardType GetBillboardType() const; 
 	float GetMaxLife() const;
 	float GetCurrentLife() const; 
 	float GetSpawnRate() const;
@@ -75,6 +78,7 @@ private:
 
 
 	Emmitter_Shape shape; 
+	BillboardType bbtype; 
 
 	Timer spawnTimer; 
 	float currentSpawnTime = 0.f; 

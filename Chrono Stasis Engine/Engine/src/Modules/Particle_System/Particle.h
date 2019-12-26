@@ -5,6 +5,7 @@
 #include "MathGeoLib/include/Math/float3.h"
 #include "MathGeoLib/include/Math/float4.h"
 #include "MathGeoLib/include/Math/quat.h"
+#include "MathGeoLib/include/Math/float4x4.h"
 
 class ParticleSystem; 
 
@@ -13,6 +14,7 @@ struct ParticleMutableInfo
 	float4 color; 
 	float size = 1.f; 
 	float4 lightColor; 
+	float3 force;
 };
 
 
@@ -28,6 +30,9 @@ public:
 	void Update(float dt);
 	void PostUpdate(float dt);
 
+	void Draw();
+	void Orientate(); 
+
 	float3 GetPosition() const; 
 
 
@@ -39,17 +44,18 @@ public:
 private: 
 
 	ParticleMutableInfo startInfo;
-	ParticleMutableInfo finalInfo; 
+	ParticleMutableInfo endInfo; 
 
 	ParticleSystem* owner = nullptr; 
 
 	float3 position = float3::zero;
 	Quat rotation = Quat::identity;
-	float3 scale = float3::zero; 
-	float size = 1.f; 
-
 	float3 speed = float3::zero;
-	float3 force = float3::zero; 
+	
+	float4 currentColor;
+	float currentSize = 1.f;
+	float4 currentLightColor;
+	float3 currentForce;
 
 	float maxLifeTime = 0.f;
 	float currentLifeTime = 0.f; 
