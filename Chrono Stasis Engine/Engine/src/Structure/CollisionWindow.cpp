@@ -1,6 +1,7 @@
 #include "CollisionWindow.h"
 #include "csApp.h"
 #include "csWindow.h"
+#include "csEditor.h"
 
 CollisionWindow::CollisionWindow(bool startOpened) : Window(startOpened)
 {	

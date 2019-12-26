@@ -2,7 +2,7 @@
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 #include "csApp.h"
-
+#include "csCamera3D.h"
 
 ComponentBillboard::ComponentBillboard(GameObject* parent) : Component(parent)
 {

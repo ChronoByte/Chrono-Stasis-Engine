@@ -1,7 +1,5 @@
-
 #include "csGlobals.h"
 #include <gl/GL.h>
-#include <gl/GLU.h>
 #include "Primitive.h"
 //#include "glut/glut.h"
 //

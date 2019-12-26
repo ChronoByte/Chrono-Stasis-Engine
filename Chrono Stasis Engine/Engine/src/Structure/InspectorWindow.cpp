@@ -1,6 +1,6 @@
 #include "InspectorWindow.h"
 #include "csApp.h"
-#include "HierarchyWindow.h"
+#include "csScene.h"
 #include "csGameObject.h"
 #include "csComponent.h"
 

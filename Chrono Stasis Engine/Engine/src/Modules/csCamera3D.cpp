@@ -1,13 +1,14 @@
 #include "csGlobals.h"
 #include "csApp.h"
-#include "../Structure/HierarchyWindow.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
 #include "src/Structure/SceneViewWindow.h"
 #include "csCamera3D.h"
 #include "csOctree.h"
+#include "csScene.h"
+#include "csInput.h"
+#include "csEditor.h"
 
-#include "csViewport.h"
 #include "imGuizmo/ImGuizmo.h"
 
 ModuleCamera3D::ModuleCamera3D(bool start_enabled) : Module(start_enabled)

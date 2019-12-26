@@ -4,7 +4,8 @@
 #include "csComponent.h"
 #include "Resource.h"
 #include "MathGeoLib/include/Math/float3.h"
-class aiMesh;
+#include "par/par_shapes.h"
+struct aiMesh;
 
 template<typename T>
 struct MeshInfo

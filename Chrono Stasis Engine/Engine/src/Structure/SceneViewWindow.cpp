@@ -1,6 +1,11 @@
 #include "SceneViewWindow.h"
 #include "csApp.h"
 #include "csViewport.h"
+#include "csRenderer3D.h"
+#include "csScene.h"
+#include "csCamera3D.h"
+#include "csInput.h"
+
 #include "ImGuizmo/ImGuizmo.h"
 
 #include "ComponentTransform.h"

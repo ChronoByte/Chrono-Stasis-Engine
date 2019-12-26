@@ -3,7 +3,7 @@
 #include "csModule.h"
 #include "csGlobals.h"
 
-
+class GameObject;
 
 class ModuleSceneSerializer : public Module
 {

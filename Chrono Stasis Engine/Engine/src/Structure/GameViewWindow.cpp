@@ -2,6 +2,8 @@
 #include "csApp.h"
 #include "csViewport.h"
 #include "ComponentCamera.h"
+#include "csRenderer3D.h"
+#include "csScene.h"
 
 GameViewWindow::GameViewWindow(bool startOpened) : Window(startOpened)
 {

@@ -1,6 +1,10 @@
 #include "ComponentMaterial.h"
 #include "csApp.h"
+#include "csTextureLoader.h"
+#include "csResources.h"
 #include "ResourceTexture.h"
+#include "MathGeoLib/include/Math/float4.h"
+
 ComponentMaterial::ComponentMaterial(GameObject* parent) : Component(parent)
 {
 	UUID = GenerateUUID();

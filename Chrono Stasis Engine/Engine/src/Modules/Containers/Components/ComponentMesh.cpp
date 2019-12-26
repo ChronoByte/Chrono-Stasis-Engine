@@ -1,6 +1,15 @@
 #include "ComponentMesh.h"
 #include "Assimp/include/scene.h"
 #include "csApp.h"
+
+#include "GLEW/include/GL/glew.h"
+#include "GL/gl.h"
+
+#include "csRenderer3D.h"
+#include "csResources.h"
+#include "ResourceTexture.h"
+#include "csScene.h"
+
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"

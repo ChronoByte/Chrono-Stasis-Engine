@@ -4,6 +4,10 @@
 #include "src/Structure/SceneViewWindow.h"
 #include "ComponentCamera.h"
 #include "csViewport.h"
+#include "csScene.h"
+#include "csWindow.h"
+#include "csInput.h"
+#include "csCamera3D.h"
 
 #include "glew/include/GL/glew.h"
 #include "SDL\include\SDL_opengl.h"

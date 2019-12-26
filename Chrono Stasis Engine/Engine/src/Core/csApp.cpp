@@ -5,6 +5,24 @@
 #include "JSON/parson.h"
 #include "PseudoRandom.h"
 
+
+// --- Modules 
+
+#include "csWindow.h"
+#include "csInput.h"
+#include "csEditor.h"
+#include "csRenderer3D.h"
+#include "csCamera3D.h"
+#include "csRendererGUI.h"
+#include "csFBXLoader.h"
+#include "csTextureLoader.h"
+#include "csScene.h"
+#include "csFileSystem.h"
+#include "csSceneSerializer.h"
+#include "csResources.h"
+
+// ---
+
 Application::Application()
 {
 	

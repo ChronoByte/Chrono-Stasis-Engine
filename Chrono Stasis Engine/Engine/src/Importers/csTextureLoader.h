@@ -4,6 +4,9 @@
 #include "csGlobals.h"
 #include "PseudoRandom.h"
 
+#include "GLEW/include/GL/glew.h"
+#include "GL/gl.h"
+
 struct TextureInfo
 {
 	GLubyte* image = nullptr;

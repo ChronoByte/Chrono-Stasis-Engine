@@ -1,6 +1,9 @@
 #include "csGlobals.h"
 #include "csApp.h"
 #include "csInput.h"
+#include "csRenderer3D.h"
+#include "csEditor.h"
+
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"
 #include "csGameObject.h"

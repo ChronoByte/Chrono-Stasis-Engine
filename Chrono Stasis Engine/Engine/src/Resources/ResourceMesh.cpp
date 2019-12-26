@@ -1,6 +1,12 @@
 #include "csApp.h"
 #include "ResourceMesh.h"
+
+#include "GLEW/include/GL/glew.h"
+#include "GL/gl.h"
+
 #include "Assimp/include/scene.h"
+#include "csFileSystem.h"
+#include "par/par_shapes.h"
 
 ResourceMesh::ResourceMesh(UID id, Resource::Type type): Resource(id, type)
 {

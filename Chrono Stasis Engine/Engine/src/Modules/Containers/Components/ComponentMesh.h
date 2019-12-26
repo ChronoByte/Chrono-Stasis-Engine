@@ -9,8 +9,8 @@
 #include "MathGeoLib/include/Math/float3.h"
 //struct par_shapes_mesh; 
 
-class aiMesh; 
-class TextureInfo; 
+struct aiMesh; 
+struct TextureInfo; 
 struct BoundingBox;
 struct RJSON_Value;
 

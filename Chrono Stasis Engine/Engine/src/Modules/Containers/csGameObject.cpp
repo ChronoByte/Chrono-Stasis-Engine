@@ -1,6 +1,7 @@
 #include "csGameObject.h"
 #include "csGlobals.h"
 #include "csApp.h"
+#include "csScene.h"
 #include "src/Structure/HierarchyWindow.h"
 
 // -----------

@@ -1,6 +1,9 @@
 #include "csApp.h"
 #include "csFBXLoader.h"
 #include "csFileSystem.h"
+#include "csScene.h"
+#include "csResources.h"
+#include "csSceneSerializer.h"
 
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"

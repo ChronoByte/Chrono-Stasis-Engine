@@ -5,6 +5,9 @@
 #include "DevIL\include\il.h"
 #include "DevIL\include\ilu.h"
 
+#include "gl/GL.h"
+#include "csFileSystem.h"
+
 #pragma comment (lib, "Engine/Dependencies/DevIL/libx86/DevIL.lib") 
 #pragma comment (lib, "Engine/Dependencies/DevIL/libx86/ILU.lib")
 #pragma comment (lib, "Engine/Dependencies/DevIL/libx86/ILUT.lib")

@@ -2,6 +2,7 @@
 
 #include "JSON/parson.h"
 #include <string>
+#include "csGlobals.h"
 
 class Application;
 

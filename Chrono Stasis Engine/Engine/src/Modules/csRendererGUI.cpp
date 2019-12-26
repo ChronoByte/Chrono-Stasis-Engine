@@ -1,6 +1,8 @@
 #include "csGlobals.h"
 #include "csApp.h"
 #include "csRendererGUI.h"
+#include "csWindow.h"
+#include "csRenderer3D.h"
 
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_sdl.h"

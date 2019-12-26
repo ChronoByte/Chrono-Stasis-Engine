@@ -1,5 +1,10 @@
 #include "csApp.h"
 #include "ProjectWindow.h"
+#include "csFileSystem.h"
+#include "csEditor.h"
+#include "csTextureLoader.h"
+#include "csSceneSerializer.h"
+#include "csScene.h"
 
 ProjectWindow::ProjectWindow(bool startOpened) : Window(startOpened)
 {

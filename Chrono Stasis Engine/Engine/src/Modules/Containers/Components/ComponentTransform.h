@@ -3,8 +3,8 @@
 #include "csComponent.h"
 #include "csGlobals.h"
 
-#include "MathGeoLib\include\MathBuildConfig.h"
 #include "MathGeoLib\include\MathGeoLib.h"
+#include "MathGeoLib\include\MathBuildConfig.h"
 
 #include "SDL/include/SDL_rect.h"
 

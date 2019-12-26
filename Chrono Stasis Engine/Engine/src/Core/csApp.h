@@ -1,31 +1,28 @@
 #pragma once
 
-#include "csGlobals.h"
-#include "Timer.h"
-#include "csModule.h"
-#include "csWindow.h"
-#include "csInput.h"
-
-#include "csEditor.h"
-#include "csRenderer3D.h"
-#include "csCamera3D.h"
-#include "csRendererGUI.h"
-#include "csFBXLoader.h"
-#include "csTextureLoader.h"
-#include "csScene.h"
-#include "csFileSystem.h"
-
-#include "csSceneSerializer.h"
-
-#include "csResources.h"
-
 #include <list>
 #include <vector>
+#include "csModule.h"
+#include "csGlobals.h"
+#include "Timer.h"
 
 #define MAX_FRAMES_LOGGED 100
 #define MAX_MEMORY_LOGGED 100
 #define MAX_RAM_LOGGED 100
 #define MAX_DT_MULTIPLIER 3
+
+class ModuleWindow;
+class ModuleInput;
+class ModuleEditor;
+class ModuleRenderer3D; 
+class ModuleCamera3D;
+class ModuleUI; 
+class ModuleFBXLoader; 
+class ModuleTextureLoader;
+class ModuleScene;
+class ModuleFileSystem; 
+class ModuleSceneSerializer; 
+class ModuleResources; 
 
 enum class GameState {
 

@@ -1,6 +1,11 @@
 #include "ComponentTransform.h"
-#include "ComponentMesh.h"
 #include "csApp.h"
+#include "csRenderer3D.h"
+#include "csScene.h"
+#include "csFileSystem.h"
+#include "ComponentMesh.h"
+
+#include "GL/gl.h"
 
 ComponentTransform::ComponentTransform(GameObject* parent) : Component(parent)
 {

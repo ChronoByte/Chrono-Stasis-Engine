@@ -1,5 +1,10 @@
 #include "csApp.h"
 #include "FileBrowserWindow.h"
+#include "csSceneSerializer.h"
+#include "csFileSystem.h"
+#include "csScene.h"
+#include "csEditor.h"
+#include "csTextureLoader.h"
 
 FileBrowserWindow::FileBrowserWindow(bool startOpened) : Window(startOpened)
 {

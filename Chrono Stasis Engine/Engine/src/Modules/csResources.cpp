@@ -1,4 +1,8 @@
 #include "csApp.h"
+#include "csFileSystem.h"
+#include "csTextureLoader.h"
+#include "csFBXLoader.h"
+
 #include "csResources.h"
 #include "ResourceTexture.h"
 #include "ResourceMesh.h"

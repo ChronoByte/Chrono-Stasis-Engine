@@ -3,6 +3,7 @@
 #include "csWindow.h"
 #include "PhysFS/include/physfs.h"
 
+#include "GLEW/include/GL/glew.h"
 
 AboutWindow::AboutWindow(bool startOpened) : Window(startOpened)
 {	

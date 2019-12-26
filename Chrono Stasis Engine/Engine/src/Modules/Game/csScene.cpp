@@ -1,8 +1,12 @@
-
 #include "csApp.h"
 #include "csScene.h"
 #include "csFBXLoader.h"
 #include "csTextureLoader.h"
+#include "csSceneSerializer.h"
+#include "csInput.h"
+#include "csRenderer3D.h"
+#include "csCamera3D.h"
+#include "csEditor.h"
 
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"

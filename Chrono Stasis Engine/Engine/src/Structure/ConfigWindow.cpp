@@ -1,8 +1,12 @@
 #include "ConfigWindow.h"
 #include "csApp.h"
+#include "csRenderer3D.h"
+#include "csInput.h"
+#include "csScene.h"
 #include "csWindow.h"
+#include "csRendererGUI.h"
 
-
+#include "GLEW/include/GL/glew.h"
 #include "SDL/include/SDL_cpuinfo.h"
 #include "SDL/include/SDL_version.h"
 #include "gpudetect/DeviceId.h"

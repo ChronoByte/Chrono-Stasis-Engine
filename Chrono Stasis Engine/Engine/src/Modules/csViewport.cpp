@@ -2,6 +2,7 @@
 #include "glew/include/GL/glew.h"
 #include "csApp.h"
 #include "ComponentCamera.h"
+#include "Dependencies/glm/glmath.h"
 
 Viewport::Viewport()
 {

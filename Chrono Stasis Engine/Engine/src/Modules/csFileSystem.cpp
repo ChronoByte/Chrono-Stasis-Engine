@@ -1,4 +1,6 @@
 #include "csApp.h"
+#include "csInput.h"
+#include "csResources.h"
 #include "csFileSystem.h"
 #include <fstream> 
 #include "PhysFS\include\physfs.h"

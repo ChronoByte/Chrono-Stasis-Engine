@@ -1,6 +1,7 @@
 #include "csApp.h"
 #include "ResourceBrowserWindow.h"
 #include "csResources.h"
+#include "csComponent.h"
 
 ResourceBrowserWindow::ResourceBrowserWindow(bool startOpened) : Window(startOpened)
 {

@@ -1,6 +1,7 @@
 #include "TimeWindow.h"
 #include "csApp.h"
 #include "GameViewWindow.h"
+#include "csEditor.h"
 
 TimeWindow::TimeWindow(bool startOpened) : Window(startOpened)
 {

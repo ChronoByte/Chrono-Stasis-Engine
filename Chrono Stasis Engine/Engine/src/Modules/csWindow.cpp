@@ -1,6 +1,7 @@
 #include "csGlobals.h"
 #include "csApp.h"
 #include "csWindow.h"
+#include "csRenderer3D.h"
 
 ModuleWindow::ModuleWindow(bool start_enabled) : Module(start_enabled)
 {

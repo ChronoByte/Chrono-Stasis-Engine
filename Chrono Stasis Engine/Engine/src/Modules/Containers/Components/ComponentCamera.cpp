@@ -1,5 +1,11 @@
 #include "ComponentCamera.h"
 #include "csApp.h"
+#include "csScene.h"
+
+#include "GL/gl.h"
+#include "csRenderer3D.h"
+#include "csWindow.h"
+#include "csFileSystem.h"
 
 #include "ComponentTransform.h"
 #include "csViewport.h"

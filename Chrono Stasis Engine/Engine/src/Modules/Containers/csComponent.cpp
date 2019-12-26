@@ -1,4 +1,5 @@
 #include "csApp.h"
+#include "csResources.h"
 #include "csComponent.h"
 
 

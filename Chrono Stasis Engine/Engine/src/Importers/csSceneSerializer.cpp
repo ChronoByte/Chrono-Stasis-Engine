@@ -1,6 +1,7 @@
 #include "csApp.h"
 #include "csSceneSerializer.h"
 #include "csGameObject.h"
+#include "csScene.h"
 
 ModuleSceneSerializer::ModuleSceneSerializer(bool start_enabled)
 {
