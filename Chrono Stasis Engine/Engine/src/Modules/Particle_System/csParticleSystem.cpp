@@ -32,13 +32,26 @@ bool ParticleSystem::PreUpdate(float dt)
 
 bool ParticleSystem::Update(float dt)
 {
-	if(emmitter.isActive())
-		emmitter.Update(dt);
+	// --------------- Emmitter -----------------
 
+	if (emmitter.isActive()) // If its active, update it, and check if it has to spawn
+	{
+		if (emmitter.Update(dt)) // if its time to spawn a particle
+		{
+			CreateParticle(emmitter.GetSpawnPosition(), float3(0, 1, 0));
+		}
+	}
+
+	// ------------------------------------------
+
+
+	// --------------- Update Particles -----------------
 	for (uint i = 0; i < particles.size(); ++i)
 	{
 		particles[i]->Update(dt); 
 	}
+
+	// ------------------------------------------
 
 	return true;
 }

@@ -28,13 +28,14 @@ public :
 	ParticleEmmitter();
 	~ParticleEmmitter();
 	
-	// Discuss if the emmiter does logic, or the particle system itself does it for him (taking into account its data)
+	// Updates emmitter lifetime and returns true if its time to spawn a particle
 	bool Update(float dt);
 
 	void Reset(); 
 	bool isActive() const; 
 
 	void DebugDrawEmmitter();
+	float3 GetSpawnPosition() const; 
 
 	// ----- Modify Emmitter -----
 
@@ -55,6 +56,7 @@ public :
 
 	Emmitter_Shape GetShape() const;
 	float GetMaxLife() const;
+	float GetCurrentLife() const; 
 	float GetSpawnRate() const;
 	float GetDelay() const;
 	bool GetLoop() const;
@@ -75,7 +77,8 @@ private:
 	Emmitter_Shape shape; 
 
 	Timer spawnTimer; 
-	float spawnRate = 2.f; 
+	float currentSpawnTime = 0.f; 
+	float spawnRate = 1.f; 
 
 	float maxLifeTime = 10.f; 
 	float lifeTime = 0.f;  

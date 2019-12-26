@@ -41,19 +41,31 @@ void ComponentParticleSystem::InspectorInfo()
 	{
 		ImGui::Checkbox("Active System", &active); // Can't repeat checkbox name (!!)
 
-		if (ImGui::TreeNode("Emmitter"))
+		if (ImGui::TreeNodeEx("Emmitter", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			ParticleEmmitter* emmitter = &particleSystem->emmitter; 
 
 			ImGui::Checkbox("Draw Emmitter", &drawEmmitter);
 
-			bool loop = emmitter->GetLoop(); 
-			if(ImGui::Checkbox("Loop", &loop)) { emmitter->SetLoop(loop); }
+			if (ImGui::TreeNode("Shape Options"))
+			{
+				if (ImGui::Combo("Shape", &shapeSelected, "Sphere\0Hemisphere\0Cube\0Cone\0Plane\0\0")) { emmitter->SetShape((Emmitter_Shape)shapeSelected); }
 
-			if (ImGui::Combo("Shape", &shapeSelected, "Sphere\0Hemisphere\0Cube\0Cone\0Plane\0\0"))	{ emmitter->SetShape((Emmitter_Shape)shapeSelected); }
+				// Radius,
+				// Size, 
+				// etc? 
+
+				ImGui::TreePop();
+			}
+
+			float duration = emmitter->GetMaxLife();
+			if (ImGui::DragFloat("Duration", &duration, 1.0F, 0.0F, FLT_MAX)) { emmitter->SetMaxLife(duration); }
+
+			bool loop = emmitter->GetLoop();
+			if (ImGui::Checkbox("Looping", &loop)) { emmitter->SetLoop(loop); }			
 
 			int spawnRate = emmitter->GetSpawnRate();
-			if (ImGui::InputInt("Spawn Rate", &spawnRate)) { emmitter->SetSpawnRate(spawnRate); }
+			if (ImGui::DragInt("Spawn Rate", &spawnRate)) { emmitter->SetSpawnRate(spawnRate); }
 
 			float3 pos = particleSystem->emmitter.GetPosition(); 
 			if (ImGui::DragFloat3("Position", (float*)&pos)) { emmitter->SetPosition(pos); }
@@ -61,13 +73,13 @@ void ComponentParticleSystem::InspectorInfo()
 			ImGui::TreePop();
 		}
 		
-		if (ImGui::TreeNode("Particle"))
+		if (ImGui::TreeNodeEx("Particle", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			// Initial State || Final State
 			ImGui::TreePop();
 		}
 		
-		if (ImGui::TreeNode("Renderer"))
+		if (ImGui::TreeNodeEx("Renderer", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			// Billboarding ?
 			ImGui::TreePop();

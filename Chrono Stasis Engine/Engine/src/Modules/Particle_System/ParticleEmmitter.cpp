@@ -15,19 +15,53 @@ void ParticleEmmitter::DebugDrawEmmitter()
 
 }
 
+float3 ParticleEmmitter::GetSpawnPosition() const
+{
+	float3 spawnPos = position; 
+
+	switch (shape)
+	{
+	case Emmitter_Shape::Sphere:
+
+		break; 
+
+	case Emmitter_Shape::Hemisphere:
+
+		break;
+
+	case Emmitter_Shape::Cube:
+
+		break;
+
+	case Emmitter_Shape::Cone:
+
+		break;
+
+	case Emmitter_Shape::Plane:
+
+		break;
+
+	default: 
+		break;
+	}
+
+	return spawnPos; 
+}
+
 bool ParticleEmmitter::Update(float dt)
 {
 	lifeTime += dt; 
+	currentSpawnTime += dt; 
 
-	if (spawnTimer.Read() >= spawnRate)
+	if (isActive() && currentSpawnTime >= spawnRate)
 	{
-		// Spawn ?
 		LOG("Spawning particle");
-		particleSystem->CreateParticle(position, float3(0, 1, 0));
 		spawnTimer.Start();
+		currentSpawnTime = 0.f;
+		return true; 
 	}
 
-	return true;
+	return false;
 }
 
 void ParticleEmmitter::Reset()
@@ -55,7 +89,7 @@ void ParticleEmmitter::SetMaxLife(float maxLife)
 
 void ParticleEmmitter::SetSpawnRate(float spawnRate)
 {
-	this->spawnRate = spawnRate;
+	this->spawnRate = 1.f / spawnRate;
 }
 
 void ParticleEmmitter::SetDelay(float delay)
@@ -101,9 +135,14 @@ float ParticleEmmitter::GetMaxLife() const
 	return maxLifeTime;
 }
 
+float ParticleEmmitter::GetCurrentLife() const
+{
+	return lifeTime;
+}
+
 float ParticleEmmitter::GetSpawnRate() const
 {
-	return spawnRate;
+	return 1.f / spawnRate;
 }
 
 float ParticleEmmitter::GetDelay() const
