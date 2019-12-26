@@ -415,6 +415,7 @@
     <ClInclude Include="Engine\src\Modules\Particle_System\csParticleSystem.h" />
     <ClInclude Include="Engine\src\Modules\Particle_System\Particle.h" />
     <ClInclude Include="Engine\src\Modules\Particle_System\ParticleEmmitter.h" />
+    <ClInclude Include="Engine\src\Tools\Billboard.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -617,6 +618,7 @@
     <ClCompile Include="Engine\src\Modules\Particle_System\csParticleSystem.cpp" />
     <ClCompile Include="Engine\src\Modules\Particle_System\Particle.cpp" />
     <ClCompile Include="Engine\src\Modules\Particle_System\ParticleEmmitter.cpp" />
+    <ClCompile Include="Engine\src\Tools\Billboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

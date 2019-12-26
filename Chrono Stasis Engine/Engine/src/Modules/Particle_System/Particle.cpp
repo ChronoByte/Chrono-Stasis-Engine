@@ -58,33 +58,29 @@ void Particle::Draw()
 
 }
 
-void Particle::Orientate()
+void Particle::Orientate(ComponentCamera * camera)
 {
 	switch (owner->emmitter.GetBillboardType())
 	{
-		case BillboardType::SCREEN:
-		{
-			float4x4 viewMatrix = App->camera->GetViewMatrix();
+	case BillboardType::SCREEN:
+		rotation = Billboard::AlignToScreen(camera);
+		break;
 
-			float3x3 rot = float3x3(viewMatrix.WorldX(), viewMatrix.WorldY(), viewMatrix.WorldZ());
-			rotation = rot.ToQuat();
-		}
-			break;
+	case BillboardType::WORLD:
+		rotation = Billboard::AlignToWorld(camera, position);
+		break;
 
-		case BillboardType::WORLD:
+	case BillboardType::AXIS:
+		rotation = Billboard::AlignToAxis(camera, position);
 
-			break;
+		break;
 
-		case BillboardType::AXIS:
+	case BillboardType::NONE:
 
-			break;
+		break;
 
-		case BillboardType::NONE:
-
-			break;
-
-		default:
-			break;
+	default:
+		break;
 	}
 }
 

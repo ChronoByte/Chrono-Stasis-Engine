@@ -1,5 +1,10 @@
 #include "csParticleSystem.h"
+#include "csApp.h"
+#include "ComponentCamera.h"
+#include "csCamera3D.h"
+
 #include "GL/gl.h"
+
 ParticleSystem::ParticleSystem()
 {
 	particles.reserve(MAX_PARTICLES);
@@ -92,7 +97,7 @@ void ParticleSystem::DrawParticles()
 
 	for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end(); ++iter)
 	{
-		(*iter)->Orientate(); 
+		(*iter)->Orientate(App->camera->fakeCamera); // For the moment, we use the editor camera
 		(*iter)->Draw(); 
 	}
 }

@@ -8,6 +8,7 @@
 #include "MathGeoLib/include/Math/float4x4.h"
 
 class ParticleSystem; 
+class ComponentCamera; 
 
 struct ParticleMutableInfo
 {
@@ -31,7 +32,7 @@ public:
 	void PostUpdate(float dt);
 
 	void Draw();
-	void Orientate(); 
+	void Orientate(ComponentCamera* camera); 
 
 	float3 GetPosition() const; 
 
