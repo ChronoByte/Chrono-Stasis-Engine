@@ -37,6 +37,8 @@ void InspectorWindow::Draw()
 
 					if (ImGui::MenuItem("Add Billboard")) { go_selected->CreateComponent(ComponentType::C_BILLBOARD); }
 
+					if (ImGui::MenuItem("Add Particle System")) { go_selected->CreateComponent(ComponentType::C_PARTICLE_SYSTEM); }
+
 					ImGui::EndMenu();
 				}
 				ImGui::EndMenuBar();

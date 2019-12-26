@@ -1,6 +1,5 @@
 #pragma once
 #include "csComponent.h"
-#include "Color.h"
 #include "csGlobals.h"
 
 enum class BillboardType

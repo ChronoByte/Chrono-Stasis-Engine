@@ -411,6 +411,10 @@
     <ClInclude Include="Engine\src\Resources\ResourceMesh.h" />
     <ClInclude Include="Engine\src\Structure\TimeWindow.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentBillboard.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentParticleSystem.h" />
+    <ClInclude Include="Engine\src\Modules\Particle_System\csParticleSystem.h" />
+    <ClInclude Include="Engine\src\Modules\Particle_System\Particle.h" />
+    <ClInclude Include="Engine\src\Modules\Particle_System\ParticleEmmitter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -609,6 +613,10 @@
     <ClCompile Include="Engine\src\Resources\ResourceMesh.cpp" />
     <ClCompile Include="Engine\src\Structure\TimeWindow.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentBillboard.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentParticleSystem.cpp" />
+    <ClCompile Include="Engine\src\Modules\Particle_System\csParticleSystem.cpp" />
+    <ClCompile Include="Engine\src\Modules\Particle_System\Particle.cpp" />
+    <ClCompile Include="Engine\src\Modules\Particle_System\ParticleEmmitter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">

@@ -10,6 +10,8 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 #include "ComponentBillboard.h"
+#include "ComponentParticleSystem.h"
+// -----------
 
 GameObject::GameObject()
 {
@@ -275,6 +277,12 @@ Component * GameObject::CreateComponent(ComponentType type)
 	case ComponentType::C_BILLBOARD:
 		component = new ComponentBillboard(this);
 		components.push_back(component);
+		break; 
+
+	case ComponentType::C_PARTICLE_SYSTEM:
+		component = new ComponentParticleSystem(this);
+		components.push_back(component);
+		break; 
 
 	default:
 		break; 

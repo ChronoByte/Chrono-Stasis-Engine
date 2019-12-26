@@ -417,6 +417,15 @@ GameObject * ModuleScene::CreateCamera(GameObject * parent, const char * name)
 	return go;
 }
 
+GameObject * ModuleScene::CreateParticleSystem(GameObject * parent, const char * name)
+{
+	GameObject* go = CreateGameObject(parent, name);
+	go->CreateComponent(ComponentType::C_PARTICLE_SYSTEM);
+	SetSelected(go);
+
+	return go;
+}
+
 GameObject * ModuleScene::GetSelected() const
 {
 	return selected;

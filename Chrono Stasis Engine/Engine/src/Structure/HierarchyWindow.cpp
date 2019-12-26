@@ -40,6 +40,8 @@ void HierarchyWindow::Draw()
 				ImGui::EndMenu();
 			}
 			if (ImGui::MenuItem("Camera", "")) { App->scene->CreateCamera(nullptr, "Camera"); }
+			if (ImGui::MenuItem("Particle System", "")) { App->scene->CreateParticleSystem(nullptr, "Particle System"); }
+
 			ImGui::EndMenu();
 		}		
 		ImGui::EndMenuBar();
@@ -89,6 +91,8 @@ void HierarchyWindow::CreateRecursiveTreeNodes(GameObject * parent)
 				ImGui::EndMenu();
 			}
 			if (ImGui::MenuItem("Camera", "")) { App->scene->CreateCamera(parent, "Camera"); }
+			if (ImGui::MenuItem("Particle System", "")) { App->scene->CreateParticleSystem(parent, "Particle System"); }
+
 			ImGui::EndPopup();
 		}
 

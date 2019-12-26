@@ -187,11 +187,13 @@
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentBillboard.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentCamera.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMaterial.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentParticleSystem.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentTransform.h" />
     <ClInclude Include="Engine\src\Modules\Containers\csComponent.h" />
     <ClInclude Include="Engine\src\Modules\Containers\csGameObject.h" />
     <ClInclude Include="Engine\src\Modules\csFileSystem.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMesh.h" />
+    <ClInclude Include="Engine\src\Modules\Particle_System\csParticleSystem.h" />
     <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
     <ClInclude Include="Engine\Dependencies\glm\glmath.h" />
     <ClInclude Include="Engine\src\Core\csGlobals.h" />
@@ -273,6 +275,8 @@
     <ClInclude Include="Engine\Dependencies\pcg\pcg C\include\pcg_variants.h" />
     <ClInclude Include="Engine\src\Helpers\Primitive.h" />
     <ClInclude Include="Engine\src\Modules\Game\csScene.h" />
+    <ClInclude Include="Engine\src\Modules\Particle_System\Particle.h" />
+    <ClInclude Include="Engine\src\Modules\Particle_System\ParticleEmmitter.h" />
     <ClInclude Include="Engine\src\Resources\Resource.h" />
     <ClInclude Include="Engine\src\Resources\ResourceMesh.h" />
     <ClInclude Include="Engine\src\Resources\ResourceTexture.h" />
@@ -312,6 +316,7 @@
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentBillboard.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentCamera.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMaterial.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentParticleSystem.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentTransform.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\csComponent.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\csGameObject.cpp" />
@@ -328,6 +333,9 @@
     <ClCompile Include="Engine\src\Modules\csResources.cpp" />
     <ClCompile Include="Engine\src\Modules\csViewport.cpp" />
     <ClCompile Include="Engine\src\Modules\Game\csScene.cpp" />
+    <ClCompile Include="Engine\src\Modules\Particle_System\csParticleSystem.cpp" />
+    <ClCompile Include="Engine\src\Modules\Particle_System\Particle.cpp" />
+    <ClCompile Include="Engine\src\Modules\Particle_System\ParticleEmmitter.cpp" />
     <ClCompile Include="Engine\src\Resources\Resource.cpp" />
     <ClCompile Include="Engine\src\Resources\ResourceMesh.cpp" />
     <ClCompile Include="Engine\src\Resources\ResourceTexture.cpp" />
