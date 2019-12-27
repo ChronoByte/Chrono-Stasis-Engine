@@ -652,5 +652,6 @@
     <None Include="Engine\Dependencies\Assimp\include\quaternion.inl" />
     <None Include="Engine\Dependencies\Assimp\include\vector2.inl" />
     <None Include="Engine\Dependencies\Assimp\include\vector3.inl" />
+    <None Include="Game\Shaders\Light.shader" />
   </ItemGroup>
 </Project>

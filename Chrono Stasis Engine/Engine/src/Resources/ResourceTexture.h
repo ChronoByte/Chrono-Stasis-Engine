@@ -32,6 +32,8 @@ public:
 	uint mips = 0;
 	uint bytes = 0;
 	uint gpu_id = 0;
+	float transparency = 1.0f;
+
 	std::string path;
 	Format format = unknown;
 };

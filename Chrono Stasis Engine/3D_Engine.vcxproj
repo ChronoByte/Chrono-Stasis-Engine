@@ -421,6 +421,7 @@
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="Engine\Dependencies\MathGeoLib\include\Math\Matrix.inl" />
+    <None Include="Game\Shaders\Light.shader" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

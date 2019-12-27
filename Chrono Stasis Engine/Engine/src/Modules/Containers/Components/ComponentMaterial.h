@@ -43,4 +43,8 @@ private:
 
 	bool checkers = false; 
 	bool selectMaterial = false;
+
+public:
+
+	bool alpha_test = false;
 };

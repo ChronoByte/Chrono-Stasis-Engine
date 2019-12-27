@@ -62,6 +62,10 @@ void ComponentMesh::Draw()
 
 			if (matRes != nullptr && meshRes->textureCoords.buffer != nullptr && mat->isActive()) // Perhaps this conditional should be less strictive
 			{
+				// Blending Texture
+				/*glEnable(GL_BLEND);
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);*/
+
 				// Enable Texture Coord array without a valid textureCoord buffer is boom
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -71,6 +75,13 @@ void ComponentMesh::Draw()
 				// Texture Coords Buffer
 				glBindBuffer(GL_ARRAY_BUFFER, meshRes->textureCoords.id);
 				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+				if(mat->alpha_test)
+				{
+					glColor4f(1.0f, 1.0f, 1.0f, matRes->transparency);
+					glEnable(GL_ALPHA_TEST);
+					//glAlphaFunc(GL_GREATER, matRes->transparency);
+				}
 			}
 		}
 

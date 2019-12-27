@@ -86,6 +86,12 @@ void ComponentMaterial::InspectorInfo()
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (matRes == nullptr) ? 0 : matRes->CountReferences());
 			//ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", texture->path.c_str());
+
+			ImGui::Checkbox("Transparency", &alpha_test);
+			if (alpha_test)
+			{
+				ImGui::SliderFloat(" ", &matRes->transparency, 0.0f, 1.0f);
+			}
 		}
 
 		ImGui::Checkbox("Checkers Texture", &checkers);
