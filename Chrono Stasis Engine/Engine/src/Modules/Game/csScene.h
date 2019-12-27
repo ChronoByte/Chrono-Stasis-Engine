@@ -69,6 +69,7 @@ public:
 
 	GameObject* CreateObject3D(PrimitiveType type, GameObject* parent); 
 	GameObject* CreateCamera(GameObject* parent, const char* name); 
+	GameObject* CreateParticleSystem(GameObject* parent, const char* name); 
 	GameObject* LoadGameObject(GameObject* parent, const char* name, UID uid);
 	// Selection
 	GameObject* GetSelected() const; 

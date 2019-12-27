@@ -20,6 +20,7 @@ enum class ComponentType
 	C_CAMERA,
 	C_LIGHT,
 	C_BILLBOARD,
+	C_PARTICLE_SYSTEM,
 
 	C_MAX
 };

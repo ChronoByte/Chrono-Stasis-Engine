@@ -1,18 +1,7 @@
 #pragma once
 #include "csComponent.h"
-#include "Color.h"
 #include "csGlobals.h"
-
-enum class BillboardType
-{
-	SCREEN = 0,
-	WORLD,
-	AXIS,
-
-	// ----
-
-	NONE
-};
+#include "Billboard.h"
 
 class ComponentCamera;
 
@@ -30,12 +19,6 @@ public:
 	// Parser
 	void Save(JSON_Object* object, std::string name, bool saveScene, uint& countResources) const;
 	void Load(const JSON_Object* object, std::string name);
-
-private:
-
-	void AlignToScreen(ComponentCamera * camera);
-	void AlignToWorld(ComponentCamera * camera);
-	void AlignToAxis(ComponentCamera * camera, int axisLocked = 0);
 
 private: 
 

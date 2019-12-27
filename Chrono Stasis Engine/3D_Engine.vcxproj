@@ -186,12 +186,15 @@
     <ClInclude Include="Engine\src\Importers\csTextureLoader.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentBillboard.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentCamera.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentLight.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMaterial.h" />
+    <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentParticleSystem.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentTransform.h" />
     <ClInclude Include="Engine\src\Modules\Containers\csComponent.h" />
     <ClInclude Include="Engine\src\Modules\Containers\csGameObject.h" />
     <ClInclude Include="Engine\src\Modules\csFileSystem.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentMesh.h" />
+    <ClInclude Include="Engine\src\Modules\Particle_System\csParticleSystem.h" />
     <ClInclude Include="Engine\src\Modules\csRendererGUI.h" />
     <ClInclude Include="Engine\Dependencies\glm\glmath.h" />
     <ClInclude Include="Engine\src\Core\csGlobals.h" />
@@ -273,6 +276,8 @@
     <ClInclude Include="Engine\Dependencies\pcg\pcg C\include\pcg_variants.h" />
     <ClInclude Include="Engine\src\Helpers\Primitive.h" />
     <ClInclude Include="Engine\src\Modules\Game\csScene.h" />
+    <ClInclude Include="Engine\src\Modules\Particle_System\Particle.h" />
+    <ClInclude Include="Engine\src\Modules\Particle_System\ParticleEmmitter.h" />
     <ClInclude Include="Engine\src\Resources\Resource.h" />
     <ClInclude Include="Engine\src\Resources\ResourceMesh.h" />
     <ClInclude Include="Engine\src\Resources\ResourceTexture.h" />
@@ -291,10 +296,12 @@
     <ClInclude Include="Engine\src\Structure\SceneViewWindow.h" />
     <ClInclude Include="Engine\src\Structure\TimeWindow.h" />
     <ClInclude Include="Engine\src\Structure\Window.h" />
+    <ClInclude Include="Engine\src\Tools\Billboard.h" />
     <ClInclude Include="Engine\src\Tools\csOctree.h" />
     <ClInclude Include="Engine\src\Tools\FileManager.h" />
     <ClInclude Include="Engine\src\Tools\PseudoRandom.h" />
     <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
+    <ClInclude Include="Engine\src\Tools\Shader.h" />
     <ClInclude Include="Engine\src\Tools\Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -311,7 +318,9 @@
     <ClCompile Include="Engine\src\Importers\csTextureLoader.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentBillboard.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentCamera.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentLight.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentMaterial.cpp" />
+    <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentParticleSystem.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentTransform.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\csComponent.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\csGameObject.cpp" />
@@ -328,6 +337,9 @@
     <ClCompile Include="Engine\src\Modules\csResources.cpp" />
     <ClCompile Include="Engine\src\Modules\csViewport.cpp" />
     <ClCompile Include="Engine\src\Modules\Game\csScene.cpp" />
+    <ClCompile Include="Engine\src\Modules\Particle_System\csParticleSystem.cpp" />
+    <ClCompile Include="Engine\src\Modules\Particle_System\Particle.cpp" />
+    <ClCompile Include="Engine\src\Modules\Particle_System\ParticleEmmitter.cpp" />
     <ClCompile Include="Engine\src\Resources\Resource.cpp" />
     <ClCompile Include="Engine\src\Resources\ResourceMesh.cpp" />
     <ClCompile Include="Engine\src\Resources\ResourceTexture.cpp" />
@@ -345,6 +357,7 @@
     <ClCompile Include="Engine\src\Structure\ResourceBrowserWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\SceneViewWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\TimeWindow.cpp" />
+    <ClCompile Include="Engine\src\Tools\Billboard.cpp" />
     <ClCompile Include="Engine\src\Tools\csOctree.cpp" />
     <ClCompile Include="Engine\src\Tools\log.cpp" />
     <ClCompile Include="Engine\src\Core\csMain.cpp" />
@@ -389,6 +402,7 @@
     <ClCompile Include="Engine\src\Helpers\Primitive.cpp" />
     <ClCompile Include="Engine\src\Tools\PerfTimer.cpp" />
     <ClCompile Include="Engine\src\Tools\PseudoRandom.cpp" />
+    <ClCompile Include="Engine\src\Tools\Shader.cpp" />
     <ClCompile Include="Engine\src\Tools\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
