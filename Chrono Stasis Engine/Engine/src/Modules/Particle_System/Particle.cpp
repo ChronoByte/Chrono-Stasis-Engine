@@ -24,10 +24,10 @@ void Particle::PreUpdate(float dt)
 void Particle::Update(float dt)
 {
 	// Apply forces
-	particleInfo.speed += particleInfo.force * dt;
+	particleInfo.velocity += particleInfo.force * dt;
 
 	// Move
-	particleInfo.position += particleInfo.speed * dt;
+	particleInfo.position += particleInfo.velocity * dt;
 }
 
 void Particle::PostUpdate(float dt)

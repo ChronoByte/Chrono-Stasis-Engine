@@ -85,14 +85,14 @@ void ComponentParticleSystem::InspectorInfo()
 		if (ImGui::TreeNodeEx("Particle", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			ImGui::DragFloat("Life Time", &particleSystem->particleInfo.maxLifeTime, 1.0f, 0.0f, FLT_MAX);
+			ImGui::DragFloat("Speed", (float*)&particleSystem->particleInfo.speed, 0.2f);
 
 			// Initial State || Final State
 			if (ImGui::TreeNodeEx("Start State", ImGuiTreeNodeFlags_DefaultOpen))
 			{
 				ImGui::ColorPicker4("Color", (float*)&particleSystem->particleInfo.color, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
 				ImGui::DragFloat("Size", (float*)&particleSystem->particleInfo.size, 0.1f, 0.0f, FLT_MAX);
-				ImGui::DragFloat3("Speed", (float*)&particleSystem->particleInfo.speed);
-				ImGui::DragFloat3("Force", (float*)&particleSystem->particleInfo.force);
+				ImGui::DragFloat3("Gravity", (float*)&particleSystem->particleInfo.force);
 
 				ImGui::TreePop();
 			}
@@ -102,7 +102,7 @@ void ComponentParticleSystem::InspectorInfo()
 				ImGui::ColorPicker4("Color", (float*)&particleSystem->endInfo.color,
 					ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
 				ImGui::DragFloat("Size", (float*)&particleSystem->endInfo.size, 0.1f, 0.0f, FLT_MAX);
-				ImGui::DragFloat3("Force", (float*)&particleSystem->endInfo.force);
+				ImGui::DragFloat3("Gravity", (float*)&particleSystem->endInfo.force);
 
 				ImGui::TreePop();
 			}

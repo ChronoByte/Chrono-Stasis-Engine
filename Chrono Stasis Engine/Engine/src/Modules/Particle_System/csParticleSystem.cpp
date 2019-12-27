@@ -43,7 +43,7 @@ bool ParticleSystem::Update(float dt)
 	{
 		if (emmitter.Update(dt)) // if its time to spawn a particle
 		{
-			particleInfo.position = emmitter.GetSpawnPosition();
+			emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed);
 			CreateParticle(particleInfo, startInfo, endInfo);
 		}
 	}

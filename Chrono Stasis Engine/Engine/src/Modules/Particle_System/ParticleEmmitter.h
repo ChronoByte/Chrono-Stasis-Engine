@@ -36,7 +36,8 @@ public :
 	bool isActive() const; 
 
 	void DebugDrawEmmitter();
-	float3 GetSpawnPosition() const; 
+	// Get an initial position and an initial velocity given the emmiter type
+	void GetInitialValues(float3& position, float3& velocity, float speed);
 
 	// ----- Modify Emmitter -----
 
@@ -77,12 +78,12 @@ public:
 private: 
 
 
-	Emmitter_Shape shape; 
+	Emmitter_Shape shape = Emmitter_Shape::Sphere; 
 	BillboardType bbtype; 
 
 	Timer spawnTimer; 
 	float currentSpawnTime = 0.f; 
-	float spawnRate = 1.f; 
+	float spawnRate = 0.05f; 
 
 	float maxLifeTime = 10.f; 
 	float lifeTime = 0.f;  
