@@ -38,23 +38,43 @@ void Particle::PostUpdate(float dt)
 void Particle::Draw()
 {
 	glColor4f(particleInfo.color.x, particleInfo.color.y, particleInfo.color.z, particleInfo.color.w);
+	//glColor4f(1.f, 1.f, 1.f, 1.f);
 
 	glPushMatrix();
-	glMultMatrixf((GLfloat*) & (float4x4::FromTRS(particleInfo.position, particleInfo.rotation, float3(1.f,1.f,1.f)).Transposed()));
+	glMultMatrixf((GLfloat*) & (float4x4::FromTRS(particleInfo.position, particleInfo.rotation, float3(1.f, 1.f, 1.f)).Transposed()));
 
+	glBindTexture(GL_TEXTURE_2D, 2);
 	glBegin(GL_TRIANGLES);
 
+	// -------------------
+
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-0.5f * particleInfo.size, -0.5f * particleInfo.size, 0.f);
+
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(0.5f * particleInfo.size, 0.5f * particleInfo.size, 0.f);
+
+	glTexCoord2f(0.0f, 1.0f);
 	glVertex3f(-0.5f * particleInfo.size, 0.5f * particleInfo.size, 0.f);
 
+
+	// -------------------
+
+	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(-0.5f * particleInfo.size, -0.5f * particleInfo.size, 0.f);
+
+	glTexCoord2f(1.0f, 0.0f);
 	glVertex3f(0.5f * particleInfo.size, -0.5f * particleInfo.size, 0.f);
+
+	glTexCoord2f(1.0f, 1.0f);
 	glVertex3f(0.5f * particleInfo.size, 0.5f * particleInfo.size, 0.f);
 
-	glEnd(); 
+	// -------------------
 
-	glPopMatrix(); 
+	glEnd();
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glPopMatrix();
 	glColor4f(1.f, 1.f, 1.f, 1.f);
 
 }

@@ -41,7 +41,7 @@ public:
 	ParticleMutableInfo startInfo;
 	ParticleMutableInfo endInfo;
 
-	uint textureId = 0u;
+	uint textureId = 8u; // Hardcoded for the moment
 
 private: 
 

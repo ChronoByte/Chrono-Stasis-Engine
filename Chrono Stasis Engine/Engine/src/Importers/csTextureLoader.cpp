@@ -155,6 +155,7 @@ TextureInfo* ModuleTextureLoader::LoadTexture(const char* tex_file)
 			t->path = tex_file; 
 
 			textures.push_back(t);
+			LOG("Successfully loaded texture - Texture ID: %i", t->id);
 		}
 		else
 			LOG("Image could not be converted, error: %s", iluErrorString(ilGetError()));		

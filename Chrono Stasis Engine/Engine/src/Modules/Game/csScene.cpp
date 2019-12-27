@@ -42,7 +42,8 @@ bool ModuleScene::Start()
 
 	ClearScene();
 	App->serialization->LoadScene("Assets/Scenes/StreetScene.scene.json");
-	
+	App->texture->LoadTexture("Assets/Textures/standard_particle.png");
+	App->texture->LoadTexture("Assets/Textures/standard_particle_white.png");
 
 	CleanSelected(); 
 
