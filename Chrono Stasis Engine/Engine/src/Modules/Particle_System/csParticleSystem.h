@@ -7,7 +7,7 @@
 #include "ParticleEmmitter.h"
 
 #define MAX_PARTICLES 10000
-
+#define MAX_PARTICLES_TO_BURST 300
 
 class ParticleSystem
 {
@@ -22,6 +22,7 @@ public:
 	bool PostUpdate(float dt);
 
 	void CreateParticle(ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo);
+	void BurstParticles();
 	void DrawParticles();
 	void DrawPointsForParticles();
 

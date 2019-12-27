@@ -10,6 +10,25 @@ ParticleEmmitter::~ParticleEmmitter()
 {
 }
 
+bool ParticleEmmitter::Update(float dt)
+{
+	lifeTime += dt;
+	currentSpawnTime += dt;
+
+	if (loop && lifeTime >= maxLifeTime)
+		Reset();
+
+	if (isActive() && currentSpawnTime >= spawnRate)
+	{
+		LOG("Spawning particle");
+		spawnTimer.Start();
+		currentSpawnTime = 0.f;
+		return true;
+	}
+
+	return false;
+}
+
 void ParticleEmmitter::DebugDrawEmmitter()
 {
 	switch (shape)
@@ -76,30 +95,20 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 
 }
 
-bool ParticleEmmitter::Update(float dt)
+bool ParticleEmmitter::hasToBurst() const
 {
-	lifeTime += dt; 
-	currentSpawnTime += dt; 
-
-	if (isActive() && currentSpawnTime >= spawnRate)
-	{
-		LOG("Spawning particle");
-		spawnTimer.Start();
-		currentSpawnTime = 0.f;
-		return true; 
-	}
-
-	return false;
+	return burst.active && !burst.hasBursted && lifeTime >= burst.timeToBurst;
 }
 
 void ParticleEmmitter::Reset()
 {
 	lifeTime = 0.f; 
+	burst.hasBursted = false; 
 }
 
 bool ParticleEmmitter::isActive() const
 {
-	return lifeTime < maxLifeTime || loop;
+	return lifeTime < maxLifeTime;
 }
 
 
@@ -113,6 +122,9 @@ void ParticleEmmitter::SetShape(Emmitter_Shape shape)
 void ParticleEmmitter::SetMaxLife(float maxLife)
 {
 	this->maxLifeTime = maxLife;
+
+	if (burst.timeToBurst > maxLifeTime)
+		burst.timeToBurst = maxLifeTime;
 }
 
 void ParticleEmmitter::SetSpawnRate(float spawnRate)

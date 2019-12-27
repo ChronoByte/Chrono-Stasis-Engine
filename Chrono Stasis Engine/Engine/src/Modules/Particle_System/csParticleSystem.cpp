@@ -46,6 +46,10 @@ bool ParticleSystem::Update(float dt)
 			emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed);
 			CreateParticle(particleInfo, startInfo, endInfo);
 		}
+
+		if (emmitter.hasToBurst())
+			BurstParticles();
+		
 	}
 
 	// ------------------------------------------
@@ -90,6 +94,16 @@ void ParticleSystem::CreateParticle(ParticleInfo info, ParticleMutableInfo start
 
 	particles.push_back(new Particle(this, info, startInfo, endInfo));
 	totalParticles++;
+}
+
+void ParticleSystem::BurstParticles()
+{
+	for (uint i = 0; i < emmitter.burst.partsToInstantiate; ++i)
+	{
+		emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed);
+		CreateParticle(particleInfo, startInfo, endInfo);
+	}
+	emmitter.burst.hasBursted = true;
 }
 
 void ParticleSystem::DrawParticles()

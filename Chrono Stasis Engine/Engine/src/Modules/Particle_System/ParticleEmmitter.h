@@ -19,6 +19,16 @@ enum class Emmitter_Shape{
 	None
 };
 
+struct Burst
+{
+	float timeToBurst = 0.f; 
+	int partsToInstantiate = 60; 
+	bool hasBursted = false;
+	bool active = false; 
+
+	void Reset() { hasBursted = false; }
+};
+
 class ParticleSystem; 
 
 class ParticleEmmitter {
@@ -37,6 +47,7 @@ public :
 	void DebugDrawEmmitter();
 	// Get an initial position and an initial velocity given the emmiter type
 	void GetInitialValues(float3& position, float3& velocity, float speed);
+	bool hasToBurst() const; 
 
 	// ----- Modify Emmitter -----
 
@@ -74,6 +85,8 @@ public :
 public: 
 
 	ParticleSystem* particleSystem = nullptr; 
+	//std::vector<Burst*> burstList; // Maybe for later, let's keep it simple for now
+	Burst burst; 
 
 private: 
 

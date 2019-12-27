@@ -96,6 +96,15 @@ void ComponentParticleSystem::InspectorInfo()
 			float3 pos = particleSystem->emmitter.GetRelativePosition(); 
 			if (ImGui::DragFloat3("Position", (float*)&pos)) { emmitter->SetRelativePosition(pos); }
 
+			if (ImGui::TreeNodeEx("Burst"))
+			{
+				ImGui::Checkbox("Activate Burst", &emmitter->burst.active);
+				ImGui::DragFloat("Time", &emmitter->burst.timeToBurst, 0.1f, 0, emmitter->GetMaxLife());
+				ImGui::DragInt("Particles", &emmitter->burst.partsToInstantiate, 1.0f, 0, MAX_PARTICLES_TO_BURST);
+
+				ImGui::TreePop();
+			}
+
 			ImGui::TreePop();
 		}
 		
