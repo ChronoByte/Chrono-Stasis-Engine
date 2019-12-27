@@ -25,7 +25,7 @@
 #define MAX_FRAMES_LOGGED 100
 #define MAX_MEMORY_LOGGED 100
 #define MAX_RAM_LOGGED 100
-#define MAX_DT_MULTIPLIER 3
+#define MAX_DT_MULTIPLIER 5
 
 enum class GameState {
 
@@ -126,6 +126,7 @@ public:
 	// -------------------------
 
 	void SetGameState(GameState state);
+	GameState GetGameState() const; 
 
 	// -------------------------
 

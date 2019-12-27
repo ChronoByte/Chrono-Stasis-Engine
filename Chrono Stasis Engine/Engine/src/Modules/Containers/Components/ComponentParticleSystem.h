@@ -13,6 +13,8 @@ public:
 	~ComponentParticleSystem();
 
 	void Update(float dt) override;
+
+	void OnGameUpdate(float dt) override; 
 	void OnDraw() override; 
 	void OnDebugDraw() override; 
 

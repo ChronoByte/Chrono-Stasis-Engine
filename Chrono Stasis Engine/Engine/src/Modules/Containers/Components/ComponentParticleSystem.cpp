@@ -20,7 +20,18 @@ ComponentParticleSystem::~ComponentParticleSystem()
 
 void ComponentParticleSystem::Update(float dt)
 {
+	if (App->GetGameState() != GameState::ONSTOP)
+		return;
+
 	// TODO: Separate this 
+	particleSystem->PreUpdate(dt);
+	particleSystem->Update(dt);
+	particleSystem->PostUpdate(dt);
+}
+
+void ComponentParticleSystem::OnGameUpdate(float dt)
+{
+	// TODO: reset properly
 	particleSystem->PreUpdate(dt);
 	particleSystem->Update(dt);
 	particleSystem->PostUpdate(dt);

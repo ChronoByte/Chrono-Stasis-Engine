@@ -145,9 +145,9 @@ void Application::PrepareUpdate()
 
 	frame_count++;
 	last_sec_frame_count++;
-	frame_time.Start(); 
 
-	dt = (1 / (float)framerate_cap); // Differential Time
+	dt = frame_time.ReadSec(); // Differential Time
+	frame_time.Start();
 
 	// Set Game DT
 	if (dtMultiplier <= 0.f || dtMultiplier > MAX_DT_MULTIPLIER)
@@ -459,6 +459,11 @@ void Application::SetGameState(GameState state)
 		break; 
 
 	}
+}
+
+GameState Application::GetGameState() const
+{
+	return gameState;
 }
 
 // ---------------------------------------
