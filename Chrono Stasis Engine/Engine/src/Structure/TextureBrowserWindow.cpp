@@ -15,7 +15,7 @@ void TextureBrowserWindow::Draw()
 {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoCollapse;
 
-	std::vector<Resource*> resources = App->resources->GetResourcesFromType(Resource::R_TEXTURE);
+	resources = App->resources->GetResourcesFromType(Resource::R_TEXTURE);
 
 	if (ImGui::Begin("Textures", &active, flags))
 	{
@@ -31,3 +31,5 @@ void TextureBrowserWindow::Draw()
 	ImGui::End();
 
 }
+
+

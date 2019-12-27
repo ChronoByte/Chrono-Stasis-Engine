@@ -59,6 +59,7 @@ void ComponentParticleSystem::OnDebugDraw()
 
 void ComponentParticleSystem::InspectorInfo()
 {
+	ResourceTexture* resMat = (ResourceTexture*)currentResource;
 
 	if (ImGui::CollapsingHeader("Particle System", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -141,6 +142,30 @@ void ComponentParticleSystem::InspectorInfo()
 				particleSystem->SetBillboardType((BillboardType)bbTypeSelected);
 			}
 			ImGui::TreePop();
+
+			
+			// Material
+			if (resMat != nullptr)
+			{
+				ImGui::Text(resMat->GetName());
+				ImGui::SameLine();
+				if (ImGui::Button("Texture", ImVec2(50, 80)))
+				{
+					App->editor->textureBrowser->SwitchActive();
+					
+				}
+			}
+			else
+			{
+				ImGui::Text("No Texture");
+				ImGui::SameLine();
+				if (ImGui::Button("Select", ImVec2(60,20)))
+				{
+					App->editor->textureBrowser->SwitchActive();
+					
+				}
+			}
+
 		}
 
 	}

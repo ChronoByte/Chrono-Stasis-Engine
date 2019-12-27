@@ -7,6 +7,8 @@
 #include "MathGeoLib/include/Math/quat.h"
 #include "MathGeoLib/include/Math/float4x4.h"
 
+#include "ResourceTexture.h"
+
 class ParticleSystem; 
 class ComponentCamera; 
 
@@ -57,6 +59,8 @@ public:
 	Light light;
 
 private: 
+	ResourceTexture* resMat = nullptr;
+
 	ParticleSystem* owner = nullptr; 
 
 	ParticleInfo particleInfo; 

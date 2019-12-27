@@ -52,7 +52,7 @@ bool ModuleEditor::Init(JSON_Object* node)
 	windows.push_back(project = new ProjectWindow(true));
 	windows.push_back(resource_browser = new ResourceBrowserWindow(false));
 	windows.push_back(timeWindow = new TimeWindow(true));
-	windows.push_back(textureBrowser = new TextureBrowserWindow(true));
+	windows.push_back(textureBrowser = new TextureBrowserWindow(false));
 
 	LOG("-------------- Application Init --------------");	// This is stuffed here so it logs into the console, which was not created previously
 

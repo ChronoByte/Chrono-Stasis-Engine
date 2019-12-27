@@ -43,7 +43,17 @@ void Particle::Draw()
 	glPushMatrix();
 	glMultMatrixf((GLfloat*) & (float4x4::FromTRS(particleInfo.position, particleInfo.rotation, float3(1.f, 1.f, 1.f)).Transposed()));
 
-	glBindTexture(GL_TEXTURE_2D, 2);
+
+	if (resMat != nullptr)
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		glEnable(GL_ALPHA_TEST);
+		glBindTexture(GL_TEXTURE_2D, resMat->gpu_id);
+	}
+	else
+		glBindTexture(GL_TEXTURE_2D, 2);
 	glBegin(GL_TRIANGLES);
 
 	// -------------------
