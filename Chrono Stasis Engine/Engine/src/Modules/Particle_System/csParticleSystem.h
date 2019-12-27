@@ -19,7 +19,7 @@ public:
 	bool Update(float dt);
 	bool PostUpdate(float dt);
 
-	void CreateParticle(float3 position, float3 speed);
+	void CreateParticle(ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo);
 	void DrawParticles();
 	void DrawPointsForParticles();
 
@@ -30,6 +30,10 @@ public:
 public: 
 
 	ParticleEmmitter emmitter; 
+
+	ParticleInfo particleInfo;
+	ParticleMutableInfo startInfo;
+	ParticleMutableInfo endInfo;
 
 private: 
 

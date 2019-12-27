@@ -43,7 +43,8 @@ bool ParticleSystem::Update(float dt)
 	{
 		if (emmitter.Update(dt)) // if its time to spawn a particle
 		{
-			CreateParticle(emmitter.GetSpawnPosition(), float3(0, 1, 0));
+			particleInfo.position = emmitter.GetSpawnPosition();
+			CreateParticle(particleInfo, startInfo, endInfo);
 		}
 	}
 
@@ -82,12 +83,12 @@ bool ParticleSystem::PostUpdate(float dt)
 	return true;
 }
 
-void ParticleSystem::CreateParticle(float3 position, float3 speed)
+void ParticleSystem::CreateParticle(ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo)
 {
 	if (totalParticles > MAX_PARTICLES)
 		return; 
 
-	particles.push_back(new Particle(this, position, speed));
+	particles.push_back(new Particle(this, info, startInfo, endInfo));
 	totalParticles++;
 }
 

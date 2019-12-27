@@ -88,7 +88,7 @@ private:
 	float lifeTime = 0.f;  
 	float delay = 0.f; 
 
-	bool loop = false; 
+	bool loop = true; 
 
 	// ----- Position Respect Game Object ------
 

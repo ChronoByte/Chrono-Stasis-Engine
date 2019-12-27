@@ -20,7 +20,10 @@ ComponentParticleSystem::~ComponentParticleSystem()
 
 void ComponentParticleSystem::Update(float dt)
 {
+	// TODO: Separate this 
+	particleSystem->PreUpdate(dt);
 	particleSystem->Update(dt);
+	particleSystem->PostUpdate(dt);
 }
 
 void ComponentParticleSystem::OnDraw()
@@ -40,6 +43,9 @@ void ComponentParticleSystem::InspectorInfo()
 	if (ImGui::CollapsingHeader("Particle System", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::Checkbox("Active System", &active); // Can't repeat checkbox name (!!)
+
+
+		// ----------------------------------- Emmitter ----------------------------------------
 
 		if (ImGui::TreeNodeEx("Emmitter", ImGuiTreeNodeFlags_DefaultOpen))
 		{
@@ -64,8 +70,8 @@ void ComponentParticleSystem::InspectorInfo()
 			bool loop = emmitter->GetLoop();
 			if (ImGui::Checkbox("Looping", &loop)) { emmitter->SetLoop(loop); }			
 
-			int spawnRate = emmitter->GetSpawnRate();
-			if (ImGui::DragInt("Spawn Rate", &spawnRate)) { emmitter->SetSpawnRate(spawnRate); }
+			float spawnRate = emmitter->GetSpawnRate();
+			if (ImGui::DragFloat("Spawn Rate", &spawnRate, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetSpawnRate(spawnRate); }
 
 			float3 pos = particleSystem->emmitter.GetPosition(); 
 			if (ImGui::DragFloat3("Position", (float*)&pos)) { emmitter->SetPosition(pos); }
@@ -73,12 +79,40 @@ void ComponentParticleSystem::InspectorInfo()
 			ImGui::TreePop();
 		}
 		
+		// ----------------------------------- Particle ----------------------------------------
+
+
 		if (ImGui::TreeNodeEx("Particle", ImGuiTreeNodeFlags_DefaultOpen))
 		{
+			ImGui::DragFloat("Life Time", &particleSystem->particleInfo.maxLifeTime, 1.0f, 0.0f, FLT_MAX);
+
 			// Initial State || Final State
+			if (ImGui::TreeNodeEx("Start State", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				ImGui::ColorPicker4("Color", (float*)&particleSystem->particleInfo.color, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
+				ImGui::DragFloat("Size", (float*)&particleSystem->particleInfo.size, 0.1f, 0.0f, FLT_MAX);
+				ImGui::DragFloat3("Speed", (float*)&particleSystem->particleInfo.speed);
+				ImGui::DragFloat3("Force", (float*)&particleSystem->particleInfo.force);
+
+				ImGui::TreePop();
+			}
+
+			if (ImGui::TreeNodeEx("Final State", ImGuiTreeNodeFlags_DefaultOpen))
+			{
+				ImGui::ColorPicker4("Color", (float*)&particleSystem->endInfo.color,
+					ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
+				ImGui::DragFloat("Size", (float*)&particleSystem->endInfo.size, 0.1f, 0.0f, FLT_MAX);
+				ImGui::DragFloat3("Force", (float*)&particleSystem->endInfo.force);
+
+				ImGui::TreePop();
+			}
+			
+
 			ImGui::TreePop();
 		}
 		
+		// ----------------------------------- Renderer ----------------------------------------
+
 		if (ImGui::TreeNodeEx("Renderer", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			// Billboarding ?
@@ -88,6 +122,7 @@ void ComponentParticleSystem::InspectorInfo()
 			}
 			ImGui::TreePop();
 		}
+
 	}
 }
 

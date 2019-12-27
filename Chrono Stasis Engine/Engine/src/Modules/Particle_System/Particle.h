@@ -12,19 +12,32 @@ class ComponentCamera;
 
 struct ParticleMutableInfo
 {
-	float4 color; 
+	float4 color = float4(1.0f, 0.0f, 1.0f, 1.0f);
 	float size = 1.f; 
 	float4 lightColor; 
-	float3 force;
+	float3 force = float3(0.f, -10.f, 0.f);  // float3::zero;
 };
 
+struct ParticleInfo
+{
+	float3 position = float3::zero;
+	Quat rotation = Quat::identity;
+	float3 speed = float3(0.f, 5.f, 0.f); // float3::zero;
+	float3 force = float3(0.f, -10.f, 0.f); // float3::zero;
+
+	float4 color = float4(1.0f, 0.0f, 1.0f, 1.0f); 
+	float size = 1.f;
+	float4 lightColor = float4::zero;
+	
+	float maxLifeTime = 5.f;
+};
 
 class Particle
 {
 
 public: 
 
-	Particle(ParticleSystem* owner, float3 position, float3 speed);
+	Particle(ParticleSystem* owner, ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo);
 	~Particle();
 
 	void PreUpdate(float dt);
@@ -43,22 +56,11 @@ public:
 	Light light;
 
 private: 
+	ParticleSystem* owner = nullptr; 
 
+	ParticleInfo particleInfo; 
 	ParticleMutableInfo startInfo;
 	ParticleMutableInfo endInfo; 
 
-	ParticleSystem* owner = nullptr; 
-
-	float3 position = float3::zero;
-	Quat rotation = Quat::identity;
-	float3 speed = float3::zero;
-	
-	float4 currentColor;
-	float currentSize = 1.f;
-	float4 currentLightColor;
-	float3 currentForce;
-
-	float maxLifeTime = 0.f;
 	float currentLifeTime = 0.f; 
-
 };
