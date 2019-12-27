@@ -89,8 +89,11 @@ bool ModuleTextureLoader::CleanUp()
 {
 	DeleteTextures();
 
-	delete testTexture;
-	testTexture = nullptr; 
+	/*if (testTexture != nullptr)
+	{
+		delete testTexture;
+		testTexture = nullptr; 
+	}*/
 
 	return true;
 }
@@ -116,7 +119,9 @@ void ModuleTextureLoader::LoadCheckeredTexture()
 	testTexture->height = checker_height;
 	testTexture->path = "Checkers Texture"; 
 
+
 	CreateTextureBuffers(testTexture); 
+	textures.push_back(testTexture);
 }
 
 TextureInfo * ModuleTextureLoader::GetCheckersTexture() const
@@ -205,9 +210,10 @@ void ModuleTextureLoader::StorageTextureData(TextureInfo* tex)
 
 void ModuleTextureLoader::DeleteTextures()
 {
-	for (int i = 0; i < textures.size(); ++i)
+	for (std::vector<TextureInfo*>::iterator iter = textures.begin(); iter != textures.end(); ++iter)
 	{
-		delete textures[i];
+		delete (*iter);
+		(*iter) = nullptr; 
 	}
 	textures.clear();
 }

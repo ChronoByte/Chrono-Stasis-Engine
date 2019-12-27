@@ -1,6 +1,8 @@
 #include "ComponentParticleSystem.h"
-#include "csApp.h"
 #include "Particle_System/csParticleSystem.h"
+#include "csApp.h"
+#include "csEditor.h"
+#include "src/Structure/TextureBrowserWindow.h"
 
 ComponentParticleSystem::ComponentParticleSystem(GameObject* parent) : Component(parent)
 {
@@ -97,7 +99,7 @@ void ComponentParticleSystem::InspectorInfo()
 		{
 			ImGui::DragFloat("Life Time", &particleSystem->particleInfo.maxLifeTime, 1.0f, 0.0f, FLT_MAX);
 			ImGui::DragFloat("Speed", (float*)&particleSystem->particleInfo.speed, 0.2f);
-
+			if(ImGui::Button("Chose Texture")) App->editor->textureBrowser->SetActive(true);
 			// Initial State || Final State
 			if (ImGui::TreeNodeEx("Start State", ImGuiTreeNodeFlags_DefaultOpen))
 			{

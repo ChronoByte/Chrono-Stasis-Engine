@@ -41,6 +41,8 @@ public:
 	ParticleMutableInfo startInfo;
 	ParticleMutableInfo endInfo;
 
+	uint textureId = 0u;
+
 private: 
 
 	std::vector<Particle*> particles; 
