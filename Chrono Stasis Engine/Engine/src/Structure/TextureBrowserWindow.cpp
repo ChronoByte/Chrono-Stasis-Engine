@@ -23,7 +23,11 @@ void TextureBrowserWindow::Draw()
 		for (std::vector<Resource*>::iterator texs = resources.begin(); texs != resources.end(); ++texs)
 		{
 			ResourceTexture* texResource = (ResourceTexture*)(*texs);
-			ImGui::Image((ImTextureID)texResource->gpu_id, ImVec2(PREVIEW_SIZE, PREVIEW_SIZE), { 0,1 }, { 1,0 });
+			if(ImGui::ImageButton((ImTextureID)texResource->gpu_id, ImVec2(PREVIEW_SIZE, PREVIEW_SIZE), { 0,1 }, { 1,0 }))
+			{
+				callback->AssignResource(texResource->GetUID());
+			}
+
 			ImGui::Text("%i", texResource->gpu_id);
 		}
 	}

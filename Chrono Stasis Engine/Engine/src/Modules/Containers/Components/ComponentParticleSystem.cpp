@@ -161,6 +161,7 @@ void ComponentParticleSystem::InspectorInfo()
 				if (ImGui::Button("Texture", ImVec2(50, 80)))
 				{
 					App->editor->textureBrowser->SwitchActive();
+					App->editor->textureBrowser->callback = this;
 					
 				}
 			}
@@ -171,7 +172,7 @@ void ComponentParticleSystem::InspectorInfo()
 				if (ImGui::Button("Select", ImVec2(60,20)))
 				{
 					App->editor->textureBrowser->SwitchActive();
-					
+					App->editor->textureBrowser->callback = this;
 				}
 			}
 

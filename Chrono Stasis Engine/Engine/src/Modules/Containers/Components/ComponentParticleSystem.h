@@ -1,7 +1,7 @@
 #pragma once
 #include "csComponent.h"
 #include "csGlobals.h"
-#include "Resource.h"
+
 class ParticleSystem;
 
 class ComponentParticleSystem : public Component
@@ -26,7 +26,7 @@ public:
 
 private: 
 
-	Resource* currentResource = nullptr;
+	
 	ParticleSystem* particleSystem = nullptr; 
 	bool drawEmmitter = true; 
 	int shapeSelected = 0;

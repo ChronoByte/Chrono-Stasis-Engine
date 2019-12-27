@@ -5,6 +5,7 @@
 #include "imgui/imgui.h"
 #include "Resource.h"
 #include <vector>
+#include "csComponent.h"
 #define PREVIEW_SIZE 75
 
 class TextureBrowserWindow : public Window
@@ -20,6 +21,8 @@ public:
 
 private:
 	std::vector<Resource*> resources;
+public:
+	Component* callback = nullptr;
 };
 
 
