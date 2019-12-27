@@ -130,6 +130,16 @@ void ParticleSystem::DrawEmmitter()
 	emmitter.DebugDrawEmmitter(); 
 }
 
+void ParticleSystem::SetBillboardType(BillboardType type)
+{
+	bbType = type; 
+}
+
+BillboardType ParticleSystem::GetBillboardType() const
+{
+	return bbType;
+}
+
 void ParticleSystem::ResetSystem()
 {
 	// Reset Emmitter

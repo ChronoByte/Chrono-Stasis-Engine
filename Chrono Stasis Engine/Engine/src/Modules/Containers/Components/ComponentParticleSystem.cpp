@@ -129,7 +129,7 @@ void ComponentParticleSystem::InspectorInfo()
 			// Billboarding ?
 			if (ImGui::Combo("Billboard" , &bbTypeSelected, "Screen Aligned\0World Aligned\0Axially Aligned\0None\0\0"))
 			{
-				particleSystem->emmitter.SetBillboardType((BillboardType)bbTypeSelected);
+				particleSystem->SetBillboardType((BillboardType)bbTypeSelected);
 			}
 			ImGui::TreePop();
 		}

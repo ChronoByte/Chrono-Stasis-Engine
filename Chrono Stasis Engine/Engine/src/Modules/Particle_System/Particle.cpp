@@ -61,7 +61,7 @@ void Particle::Draw()
 
 void Particle::Orientate(ComponentCamera * camera)
 {
-	switch (owner->emmitter.GetBillboardType())
+	switch (owner->GetBillboardType())
 	{
 	case BillboardType::SCREEN:
 		particleInfo.rotation = Billboard::AlignToScreen(camera);
