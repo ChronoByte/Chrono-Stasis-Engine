@@ -301,6 +301,7 @@
     <ClInclude Include="Engine\src\Tools\FileManager.h" />
     <ClInclude Include="Engine\src\Tools\PseudoRandom.h" />
     <ClInclude Include="Engine\src\Tools\PerfTimer.h" />
+    <ClInclude Include="Engine\src\Tools\Shader.h" />
     <ClInclude Include="Engine\src\Tools\Timer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -401,6 +402,7 @@
     <ClCompile Include="Engine\src\Helpers\Primitive.cpp" />
     <ClCompile Include="Engine\src\Tools\PerfTimer.cpp" />
     <ClCompile Include="Engine\src\Tools\PseudoRandom.cpp" />
+    <ClCompile Include="Engine\src\Tools\Shader.cpp" />
     <ClCompile Include="Engine\src\Tools\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>

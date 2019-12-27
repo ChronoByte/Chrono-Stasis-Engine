@@ -34,7 +34,7 @@ void ComponentLight::InspectorInfo()
 		ImGui::Checkbox("Active Light", &active); // Can't repeat checkbox name (!!)
 
 		
-		if (ImGui::Combo("Light Type", &currentSelected, "Screen Aligned\0World Aligned\0Axially Aligned\0None\0\0"))
+		if (ImGui::Combo("Light Type", &currentSelected, "Directional Light\0Point Light\0Spot Light\0None\0\0"))
 		{
 			lightType = (LightType)currentSelected;
 		}
