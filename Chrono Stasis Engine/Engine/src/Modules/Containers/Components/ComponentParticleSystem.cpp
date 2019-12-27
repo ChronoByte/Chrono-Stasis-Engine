@@ -2,6 +2,7 @@
 #include "Particle_System/csParticleSystem.h"
 #include "csApp.h"
 #include "csEditor.h"
+#include "ComponentTransform.h"
 #include "src/Structure/TextureBrowserWindow.h"
 
 ComponentParticleSystem::ComponentParticleSystem(GameObject* parent) : Component(parent)
@@ -29,6 +30,9 @@ void ComponentParticleSystem::Update(float dt)
 	particleSystem->PreUpdate(dt);
 	particleSystem->Update(dt);
 	particleSystem->PostUpdate(dt);
+
+	particleSystem->emmitter.SetPosition(owner->GetTransform()->GetPosition());
+	particleSystem->emmitter.SetRotation(owner->GetTransform()->GetRotationQuat());
 }
 
 void ComponentParticleSystem::OnGameUpdate(float dt)
@@ -37,6 +41,9 @@ void ComponentParticleSystem::OnGameUpdate(float dt)
 	particleSystem->PreUpdate(dt);
 	particleSystem->Update(dt);
 	particleSystem->PostUpdate(dt);
+
+	particleSystem->emmitter.SetPosition(owner->GetTransform()->GetPosition());
+	particleSystem->emmitter.SetRotation(owner->GetTransform()->GetRotationQuat());
 }
 
 void ComponentParticleSystem::OnDraw()

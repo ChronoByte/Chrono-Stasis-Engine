@@ -1,6 +1,7 @@
 #include "TextureBrowserWindow.h"
 #include "csApp.h"
-#include "csTextureLoader.h"
+#include "csResources.h"
+#include "ResourceTexture.h"
 
 TextureBrowserWindow::TextureBrowserWindow(bool startOpened) : Window(startOpened)
 {
@@ -14,14 +15,16 @@ void TextureBrowserWindow::Draw()
 {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoCollapse;
 
-	std::vector<TextureInfo*> textures = App->texture->textures;
+	std::vector<Resource*> resources = App->resources->GetResourcesFromType(Resource::R_TEXTURE);
 
 	if (ImGui::Begin("Textures", &active, flags))
 	{
-		ImGui::Text("%i", textures.size());
-		for (std::vector<TextureInfo*>::iterator texs = textures.begin(); texs != textures.end(); ++texs)
+		ImGui::Text("%i", resources.size());
+		for (std::vector<Resource*>::iterator texs = resources.begin(); texs != resources.end(); ++texs)
 		{
-			ImGui::Image((ImTextureID)(*texs)->id, ImVec2(PREVIEW_SIZE, PREVIEW_SIZE), { 0,1 }, { 1,0 });
+			ResourceTexture* texResource = (ResourceTexture*)(*texs);
+			ImGui::Image((ImTextureID)texResource->gpu_id, ImVec2(PREVIEW_SIZE, PREVIEW_SIZE), { 0,1 }, { 1,0 });
+			ImGui::Text("%i", texResource->gpu_id);
 		}
 	}
 
