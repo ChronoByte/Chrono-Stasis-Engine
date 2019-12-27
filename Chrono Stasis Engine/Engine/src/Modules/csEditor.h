@@ -33,6 +33,8 @@ class ProjectWindow;
 class ResourceBrowserWindow;
 class TimeWindow;
 class Window;
+class TextureBrowserWindow;
+
 struct TextureInfo;
 
 enum WindowType
@@ -79,6 +81,7 @@ public:
 	ProjectWindow*			project = nullptr;
 	ResourceBrowserWindow*	resource_browser = nullptr;
 	TimeWindow*				timeWindow = nullptr; 
+	TextureBrowserWindow*	textureBrowser = nullptr; 
 
 	bool show_demo_window = false;
 	bool show_style_window = false;

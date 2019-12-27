@@ -24,6 +24,7 @@
 #include "src/Structure/ProjectWindow.h"
 #include "src/Structure/ResourceBrowserWindow.h"
 #include "src/Structure/TimeWindow.h"
+#include "src/Structure/TextureBrowserWindow.h"
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
@@ -51,6 +52,7 @@ bool ModuleEditor::Init(JSON_Object* node)
 	windows.push_back(project = new ProjectWindow(true));
 	windows.push_back(resource_browser = new ResourceBrowserWindow(false));
 	windows.push_back(timeWindow = new TimeWindow(true));
+	windows.push_back(textureBrowser = new TextureBrowserWindow(true));
 
 	LOG("-------------- Application Init --------------");	// This is stuffed here so it logs into the console, which was not created previously
 

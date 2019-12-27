@@ -418,6 +418,7 @@
     <ClInclude Include="Engine\src\Tools\Billboard.h" />
     <ClInclude Include="Engine\src\Modules\Containers\Components\ComponentLight.h" />
     <ClInclude Include="Engine\src\Tools\Shader.h" />
+    <ClInclude Include="Engine\src\Structure\TextureBrowserWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\src\Core\csApp.cpp">
@@ -623,6 +624,7 @@
     <ClCompile Include="Engine\src\Tools\Billboard.cpp" />
     <ClCompile Include="Engine\src\Modules\Containers\Components\ComponentLight.cpp" />
     <ClCompile Include="Engine\src\Tools\Shader.cpp" />
+    <ClCompile Include="Engine\src\Structure\TextureBrowserWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Dependencies\MathGeoLib\include\Geometry\KDTree.inl">
