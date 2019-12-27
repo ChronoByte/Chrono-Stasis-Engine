@@ -93,8 +93,8 @@ void ComponentParticleSystem::InspectorInfo()
 			float spawnRate = emmitter->GetSpawnRate();
 			if (ImGui::DragFloat("Spawn Rate", &spawnRate, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetSpawnRate(spawnRate); }
 
-			float3 pos = particleSystem->emmitter.GetPosition(); 
-			if (ImGui::DragFloat3("Position", (float*)&pos)) { emmitter->SetPosition(pos); }
+			float3 pos = particleSystem->emmitter.GetRelativePosition(); 
+			if (ImGui::DragFloat3("Position", (float*)&pos)) { emmitter->SetRelativePosition(pos); }
 
 			ImGui::TreePop();
 		}

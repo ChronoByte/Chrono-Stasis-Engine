@@ -46,7 +46,7 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 	switch (shape)
 	{
 	case Emmitter_Shape::Sphere:
-		position = this->position; 
+		position = GetWorldPosition();
 		velocity = float3::RandomDir(lcg, 1.0f) * speed;
 		break;
 
@@ -55,17 +55,17 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 		break;
 
 	case Emmitter_Shape::Cube:
-		position = this->position;
+		position = GetWorldPosition();
 
 		break;
 
 	case Emmitter_Shape::Cone:
-		position = this->position;
+		position = GetWorldPosition();
 
 		break;
 
 	case Emmitter_Shape::Plane:
-		position = this->position;
+		position = GetWorldPosition();
 
 		break;
 
@@ -135,6 +135,11 @@ void ParticleEmmitter::SetPosition(float3 position)
 	this->position = position;
 }
 
+void ParticleEmmitter::SetRelativePosition(float3 position)
+{
+	relativePosition = position; 
+}
+
 void ParticleEmmitter::SetRotation(Quat rotation)
 {
 	this->rotation = rotation;
@@ -186,6 +191,16 @@ bool ParticleEmmitter::GetLoop() const
 float3 ParticleEmmitter::GetPosition() const
 {
 	return position;
+}
+
+float3 ParticleEmmitter::GetRelativePosition() const
+{
+	return relativePosition;
+}
+
+float3 ParticleEmmitter::GetWorldPosition() const
+{
+	return position + relativePosition;
 }
 
 float3 ParticleEmmitter::GetRotation() const

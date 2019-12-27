@@ -47,6 +47,7 @@ public :
 	void SetLoop(bool isLoop);
 
 	void SetPosition(float3 position);
+	void SetRelativePosition(float3 position);
 	void SetRotation(Quat rotation);
 	void SetRotation(float3 rotation);
 	void SetScale(float3 scale);
@@ -63,6 +64,8 @@ public :
 	bool GetLoop() const;
 
 	float3 GetPosition() const; 
+	float3 GetRelativePosition() const;
+	float3 GetWorldPosition() const; 
 	float3 GetRotation() const; 
 	float3 GetScale() const; 
 
@@ -90,6 +93,7 @@ private:
 	// ----- Position Respect Game Object ------
 
 	float3 position = float3::zero; 
+	float3 relativePosition = float3::zero;
 	Quat rotation = Quat::identity;
 	float3 scale = float3::zero; 
 
