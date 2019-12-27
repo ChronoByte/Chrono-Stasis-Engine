@@ -19,6 +19,16 @@ enum class Emmitter_Shape{
 	None
 };
 
+struct Burst
+{
+	float timeToBurst = 0.f; 
+	int partsToInstantiate = 60; 
+	bool hasBursted = false;
+	bool active = false; 
+
+	void Reset() { hasBursted = false; }
+};
+
 class ParticleSystem; 
 
 class ParticleEmmitter {
@@ -37,6 +47,7 @@ public :
 	void DebugDrawEmmitter();
 	// Get an initial position and an initial velocity given the emmiter type
 	void GetInitialValues(float3& position, float3& velocity, float speed);
+	bool hasToBurst() const; 
 
 	// ----- Modify Emmitter -----
 
@@ -47,6 +58,7 @@ public :
 	void SetLoop(bool isLoop);
 
 	void SetPosition(float3 position);
+	void SetRelativePosition(float3 position);
 	void SetRotation(Quat rotation);
 	void SetRotation(float3 rotation);
 	void SetScale(float3 scale);
@@ -63,6 +75,8 @@ public :
 	bool GetLoop() const;
 
 	float3 GetPosition() const; 
+	float3 GetRelativePosition() const;
+	float3 GetWorldPosition() const; 
 	float3 GetRotation() const; 
 	float3 GetScale() const; 
 
@@ -71,6 +85,8 @@ public :
 public: 
 
 	ParticleSystem* particleSystem = nullptr; 
+	//std::vector<Burst*> burstList; // Maybe for later, let's keep it simple for now
+	Burst burst; 
 
 private: 
 
@@ -90,6 +106,7 @@ private:
 	// ----- Position Respect Game Object ------
 
 	float3 position = float3::zero; 
+	float3 relativePosition = float3::zero;
 	Quat rotation = Quat::identity;
 	float3 scale = float3::zero; 
 

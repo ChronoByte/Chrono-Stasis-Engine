@@ -46,6 +46,7 @@ bool ModuleScene::Start()
 	App->texture->LoadTexture("Assets/Textures/standard_particle_white.png");
 
 	CleanSelected(); 
+	CreateParticleSystem(nullptr, "Particle System");
 
 	return true;
 }
