@@ -4,6 +4,7 @@
 #include "mmgr/mmgr.h"
 #include "JSON/parson.h"
 #include "PseudoRandom.h"
+#include "Event.h"
 
 Application::Application()
 {
@@ -437,6 +438,7 @@ void Application::SetGameState(GameState state)
 		LOG("Starting Game Mode");
 		// TODO Safe Scene
 
+		CastEvent(EventType::ON_PLAY);
 		gameTimer.Start();
 		gameState = GameState::ONPLAY;
 		break;
@@ -444,6 +446,7 @@ void Application::SetGameState(GameState state)
 	case GameState::ONPAUSE:
 		LOG("Pausing Game Mode");
 
+		CastEvent(EventType::ON_PAUSE);
 		gameTimer.Pause();
 		gameState = GameState::ONPAUSE;
 		break;
@@ -454,11 +457,18 @@ void Application::SetGameState(GameState state)
 
 		// TODO Load Scene Back
 
+		CastEvent(EventType::ON_STOP);
 		gameTimer.Stop();
 		gameState = GameState::ONSTOP;
 		break; 
 
 	}
+}
+
+void Application::CastEvent(EventType eventType)
+{
+	for(std::list<Module*>::iterator iter = list_modules.begin(); iter != list_modules.end(); ++iter)
+		(*iter)->HandleEvent(eventType);
 }
 
 GameState Application::GetGameState() const

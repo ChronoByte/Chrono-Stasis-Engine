@@ -4,6 +4,7 @@
 #include <string>
 
 class Application;
+enum class EventType; 
 
 class Module
 {
@@ -80,4 +81,6 @@ public:
 	{
 		return true;
 	}
+
+	virtual void HandleEvent(EventType eventType) {}
 };

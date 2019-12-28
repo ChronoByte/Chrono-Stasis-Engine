@@ -25,6 +25,10 @@ public:
 
 	// Logic
 	void Update(float dt); 
+
+	void OnPlay();
+	void OnPause(); 
+	void OnStop(); 
 	void OnGameUpdate(float dt);
 	void OnDraw(); 
 	void OnDebugDraw(); 

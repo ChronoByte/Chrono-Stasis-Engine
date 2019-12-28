@@ -27,6 +27,8 @@
 #define MAX_RAM_LOGGED 100
 #define MAX_DT_MULTIPLIER 5
 
+enum class EventType;
+
 enum class GameState {
 
 	ONPLAY,
@@ -95,6 +97,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void CastEvent(EventType eventType);
 
 public:
 

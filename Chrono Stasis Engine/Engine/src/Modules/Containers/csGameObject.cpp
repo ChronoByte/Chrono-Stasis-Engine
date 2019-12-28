@@ -104,6 +104,39 @@ void GameObject::OnGameUpdate(float dt)
 	}
 }
 
+void GameObject::OnPlay()
+{
+	std::list<Component*>::const_iterator it = components.begin();
+
+	for (it; it != components.end(); ++it)
+	{
+		if ((*it)->isActive())
+			(*it)->OnPlay();
+	}
+}
+
+void GameObject::OnPause()
+{
+	std::list<Component*>::const_iterator it = components.begin();
+
+	for (it; it != components.end(); ++it)
+	{
+		if ((*it)->isActive())
+			(*it)->OnPause();
+	}
+}
+
+void GameObject::OnStop()
+{
+	std::list<Component*>::const_iterator it = components.begin();
+
+	for (it; it != components.end(); ++it)
+	{
+		if ((*it)->isActive())
+			(*it)->OnStop();
+	}
+}
+
 void GameObject::OnDraw()
 {
 

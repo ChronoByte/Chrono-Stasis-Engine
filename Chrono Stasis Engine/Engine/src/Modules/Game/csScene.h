@@ -10,6 +10,7 @@
 class GameObject;
 class BoundingBox;
 class ComponentCamera; 
+enum class EventType; 
 
 enum class PrimitiveType
 {
@@ -51,6 +52,8 @@ public:
 	void DrawGrid();
 	void DrawOriginAxis(); 
 	void DrawOctree(); 
+	 
+	void HandleEvent(EventType eventType) override; 
 
 	// --------- Game Objects ---------
 	void UpdateAllGameObjects(GameObject* parent, float dt); 

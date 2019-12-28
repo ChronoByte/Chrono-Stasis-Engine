@@ -35,9 +35,14 @@ public:
 	virtual ~Component(){}
 
 	virtual void Update(float dt){}
+
+	virtual void OnPlay() {}
+	virtual void OnPause() {}
+	virtual void OnStop() {}
 	virtual void OnGameUpdate(float dt) {}
 	virtual void OnDraw() {}
 	virtual void OnDebugDraw() {}
+
 	virtual void Enable() { active = true; }
 	virtual void Disable() { active = false; }
 	

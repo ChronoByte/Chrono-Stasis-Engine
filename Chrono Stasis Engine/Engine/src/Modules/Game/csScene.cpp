@@ -1,5 +1,6 @@
 
 #include "csApp.h"
+#include "Event.h"
 #include "csScene.h"
 #include "csFBXLoader.h"
 #include "csTextureLoader.h"
@@ -308,6 +309,38 @@ void ModuleScene::DrawOctree()
 	glColor3f(1.f, 1.f, 1.f);
 
 	glEnd();
+}
+
+void ModuleScene::HandleEvent(EventType eventType)
+{
+	std::vector<GameObject*> objects;
+	objects.push_back(root);
+
+	while (!objects.empty())
+	{
+		GameObject* current = objects.back();
+		objects.pop_back();
+		objects.insert(objects.end(), current->childs.begin(), current->childs.end());
+		
+		switch (eventType)
+		{
+		case EventType::ON_PLAY: 
+			current->OnPlay(); 
+			break; 
+
+		// Dont need this for the moment, so lets not waste cpu xd
+
+		/*case EventType::ON_PAUSE:
+			current->OnPause();
+			break;
+
+		case EventType::ON_STOP:
+			current->OnStop();
+			break;*/
+		}
+	}
+
+	objects.clear();
 }
 
 GameObject * ModuleScene::CreateObject3D(PrimitiveType type, GameObject * parent)

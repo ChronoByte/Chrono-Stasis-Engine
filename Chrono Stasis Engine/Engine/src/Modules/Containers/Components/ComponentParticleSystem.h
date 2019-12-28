@@ -14,6 +14,7 @@ public:
 
 	void Update(float dt) override;
 
+	void OnPlay() override; 
 	void OnGameUpdate(float dt) override; 
 	void OnDraw() override; 
 	void OnDebugDraw() override; 

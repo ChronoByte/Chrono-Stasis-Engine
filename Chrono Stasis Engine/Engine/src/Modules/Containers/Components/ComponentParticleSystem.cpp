@@ -35,6 +35,11 @@ void ComponentParticleSystem::Update(float dt)
 	particleSystem->emmitter.SetRotation(owner->GetTransform()->GetRotationQuat());
 }
 
+void ComponentParticleSystem::OnPlay()
+{
+	particleSystem->ResetSystem(); 
+}
+
 void ComponentParticleSystem::OnGameUpdate(float dt)
 {
 	// TODO: reset properly
@@ -64,7 +69,6 @@ void ComponentParticleSystem::InspectorInfo()
 	if (ImGui::CollapsingHeader("Particle System", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::Checkbox("Active System", &active); // Can't repeat checkbox name (!!)
-
 
 		// ----------------------------------- Emmitter ----------------------------------------
 
@@ -177,6 +181,8 @@ void ComponentParticleSystem::InspectorInfo()
 			}
 
 		}
+
+		if (ImGui::Button("Restart Particle System")) particleSystem->ResetSystem();
 
 	}
 }
