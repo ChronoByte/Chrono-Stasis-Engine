@@ -59,7 +59,7 @@ public:
 	Light light;
 
 private: 
-	ResourceTexture* resMat = nullptr;
+	//ResourceTexture* resMat = nullptr;
 
 	ParticleSystem* owner = nullptr; 
 

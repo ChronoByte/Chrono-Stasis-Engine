@@ -62,6 +62,7 @@ public:
 	virtual void Load(const JSON_Object* object, std::string name) {};
 
 	void AssignResource(UID uid);
+	void AssignParticleResource(UID uid);
 
 protected:
 	Resource* currentResource = nullptr;

@@ -2,6 +2,7 @@
 #include "csApp.h"
 #include "csResources.h"
 #include "ResourceTexture.h"
+#include "ComponentParticleSystem.h"
 
 TextureBrowserWindow::TextureBrowserWindow(bool startOpened) : Window(startOpened)
 {
@@ -25,7 +26,8 @@ void TextureBrowserWindow::Draw()
 			ResourceTexture* texResource = (ResourceTexture*)(*texs);
 			if(ImGui::ImageButton((ImTextureID)texResource->gpu_id, ImVec2(PREVIEW_SIZE, PREVIEW_SIZE), { 0,1 }, { 1,0 }))
 			{
-				callback->AssignResource(texResource->GetUID());
+				callback->AssignParticleResource(texResource->GetUID());
+				//(ComponentParticleSystem*)callba
 			}
 
 			ImGui::Text("%i", texResource->gpu_id);

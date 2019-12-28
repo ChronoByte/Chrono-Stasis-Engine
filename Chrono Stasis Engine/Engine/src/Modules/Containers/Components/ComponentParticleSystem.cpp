@@ -65,6 +65,7 @@ void ComponentParticleSystem::OnDebugDraw()
 void ComponentParticleSystem::InspectorInfo()
 {
 	ResourceTexture* resMat = (ResourceTexture*)currentResource;
+	particleSystem->resMat = resMat;
 
 	if (ImGui::CollapsingHeader("Particle System", ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -154,32 +155,72 @@ void ComponentParticleSystem::InspectorInfo()
 			{
 				particleSystem->SetBillboardType((BillboardType)bbTypeSelected);
 			}
-			ImGui::TreePop();
+			
 
 			
 			// Material
 			if (resMat != nullptr)
 			{
-				ImGui::Text(resMat->GetName());
-				ImGui::SameLine();
-				if (ImGui::Button("Texture", ImVec2(50, 80)))
+				
+				if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0Color\0\0"))
 				{
-					App->editor->textureBrowser->SwitchActive();
-					App->editor->textureBrowser->callback = this;
-					
+					switch (matTypeSelected)
+					{
+						case 0: //None
+						{
+
+						break;
+						}
+						case 1: //Texture
+						{
+							App->editor->textureBrowser->SwitchActive();
+							App->editor->textureBrowser->callback = this;
+							break;
+						}
+						case 2: //Color
+						{
+							break;
+						}
+
+					}
 				}
+
+				
+				ImGui::Spacing();
+				ImGui::Text(resMat->GetName());
+				ImGui::Image((ImTextureID)resMat->gpu_id, ImVec2(ImVec2(PREVIEW_SIZE*3, PREVIEW_SIZE*3)), { 0,1 }, { 1,0 });
 			}
 			else
 			{
-				ImGui::Text("No Texture");
-				ImGui::SameLine();
-				if (ImGui::Button("Select", ImVec2(60,20)))
+				
+				if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0Color\0\0"))
 				{
-					App->editor->textureBrowser->SwitchActive();
-					App->editor->textureBrowser->callback = this;
-				}
-			}
+					switch (matTypeSelected)
+					{
+						case 0: //None
+						{
+						
+							break;
+						}
+						case 1: //Texture
+						{
+							App->editor->textureBrowser->SwitchActive();
+							App->editor->textureBrowser->callback = this;
+							break;
+						}
+						case 2: //Color
+						{
+							break;
+						}
 
+					}
+				}
+				
+				ImGui::Spacing();
+				ImGui::Text("No Texture");
+				ImGui::Image((ImTextureID)2, ImVec2(ImVec2(PREVIEW_SIZE * 3, PREVIEW_SIZE * 3)), { 0,1 }, { 1,0 });
+			}
+			ImGui::TreePop();
 		}
 
 		if (ImGui::Button("Restart Particle System")) particleSystem->ResetSystem();
