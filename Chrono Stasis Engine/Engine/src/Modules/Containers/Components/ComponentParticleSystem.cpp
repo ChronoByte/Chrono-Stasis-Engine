@@ -168,7 +168,8 @@ void ComponentParticleSystem::InspectorInfo()
 					{
 						case 0: //None
 						{
-
+							App->editor->textureBrowser->callback->AssignResource(0);
+							App->editor->textureBrowser->callback = nullptr;
 						break;
 						}
 						case 1: //Texture
@@ -189,6 +190,9 @@ void ComponentParticleSystem::InspectorInfo()
 				ImGui::Spacing();
 				ImGui::Text(resMat->GetName());
 				ImGui::Image((ImTextureID)resMat->gpu_id, ImVec2(ImVec2(PREVIEW_SIZE*3, PREVIEW_SIZE*3)), { 0,1 }, { 1,0 });
+				ImGui::Text("Reference Counting: ");
+				ImGui::SameLine();
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences());
 			}
 			else
 			{
@@ -199,7 +203,8 @@ void ComponentParticleSystem::InspectorInfo()
 					{
 						case 0: //None
 						{
-						
+							App->editor->textureBrowser->callback->AssignResource(0);
+							App->editor->textureBrowser->callback = nullptr;
 							break;
 						}
 						case 1: //Texture
@@ -219,6 +224,9 @@ void ComponentParticleSystem::InspectorInfo()
 				ImGui::Spacing();
 				ImGui::Text("No Texture");
 				ImGui::Image((ImTextureID)2, ImVec2(ImVec2(PREVIEW_SIZE * 3, PREVIEW_SIZE * 3)), { 0,1 }, { 1,0 });
+				ImGui::Text("Reference Counting: ");
+				ImGui::SameLine();
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences());
 			}
 			ImGui::TreePop();
 		}

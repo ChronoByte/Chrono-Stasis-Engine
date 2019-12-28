@@ -26,8 +26,8 @@ void TextureBrowserWindow::Draw()
 			ResourceTexture* texResource = (ResourceTexture*)(*texs);
 			if(ImGui::ImageButton((ImTextureID)texResource->gpu_id, ImVec2(PREVIEW_SIZE, PREVIEW_SIZE), { 0,1 }, { 1,0 }))
 			{
-				callback->AssignParticleResource(texResource->GetUID());
-				//(ComponentParticleSystem*)callba
+				callback->AssignResource(texResource->GetUID());
+				active = false;
 			}
 
 			ImGui::Text("%i", texResource->gpu_id);
