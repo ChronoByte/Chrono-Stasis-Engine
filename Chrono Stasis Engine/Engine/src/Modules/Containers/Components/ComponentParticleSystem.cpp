@@ -205,14 +205,161 @@ void ComponentParticleSystem::InspectorInfo()
 
 				
 				ImGui::Text("Blending Color: ");
-				if (ImGui::Combo("Source", &eqTypeSelected, "ZERO\0ONE\0SRC_COLOR\0\0"))
+				if (ImGui::Combo("Source", &funcTypeSource, "ZERO\0ONE\0SRC_COLOR\0ONE_MINUS_SRC_COLOR\0DST_COLOR\0ONE_MINUS_DST_COLOR\0SRC_ALPHA\0ONE_MINUS_SRC_ALPHA\0DST_ALPHA\0ONE_MINUS_DST_ALPHA\0CONSTANT_COLOR\0ONE_MINUS_CONSTANT_COLOR\0CONSTANT_ALPHA\0ONE_MINUS_CONSTANT_ALPHA\0\0"))
 				{
+					switch (funcTypeSource)
+					{
+					case 0: 
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::ZERO;
+						break;
+					}
+					case 1: 
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::ONE;
+						break;
+					}
+					case 2: 
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::SRC_COLOR;
+						break;
+					}
+					case 3:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::ONE_MINUS_SRC_COLOR;
+						break;
+					}
+					case 4:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::DST_COLOR;
+						break;
+					}
+					case 5:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::ONE_MINUS_DST_COLOR;
+						break;
+					}
+					case 6:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::SRC_ALPHA;
+						break;
+					}
+					case 7:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::ONE_MINUS_SRC_ALPHA;
+						break;
+					}
+					case 8:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::DST_ALPHA;
+						break;
+					}
+					case 9:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::ONE_MINUS_DST_ALPHA;
+						break;
+					}
+					case 10:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::CONSTANT_COLOR;
+						break;
+					}
+					case 11:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::ONE_MINUS_CONSTANT_COLOR;
+						break;
+					}
+					case 12:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::CONSTANT_ALPHA;
+						break;
+					}
+					case 13:
+					{
+						particleSystem->funcBlendSource = FunctionBlendType::ONE_MINUS_CONSTANT_ALPHA;
+						break;
+					}
 
+					}
 				}
 					
 
-				if (ImGui::Combo("Destination", &eqTypeSelected, "ZERO\0ONE\0SRC_COLOR\0\0"))
+				if (ImGui::Combo("Destination", &funcTypeDest, "ZERO\0ONE\0SRC_COLOR\0ONE_MINUS_SRC_COLOR\0DST_COLOR\0ONE_MINUS_DST_COLOR\0SRC_ALPHA\0ONE_MINUS_SRC_ALPHA\0DST_ALPHA\0ONE_MINUS_DST_ALPHA\0CONSTANT_COLOR\0ONE_MINUS_CONSTANT_COLOR\0CONSTANT_ALPHA\0ONE_MINUS_CONSTANT_ALPHA\0\0"))
 				{
+					switch (funcTypeDest)
+					{
+					case 0:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::ZERO;
+						break;
+					}
+					case 1:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::ONE;
+						break;
+					}
+					case 2:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::SRC_COLOR;
+						break;
+					}
+					case 3:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::ONE_MINUS_SRC_COLOR;
+						break;
+					}
+					case 4:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::DST_COLOR;
+						break;
+					}
+					case 5:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::ONE_MINUS_DST_COLOR;
+						break;
+					}
+					case 6:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::SRC_ALPHA;
+						break;
+					}
+					case 7:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::ONE_MINUS_SRC_ALPHA;
+						break;
+					}
+					case 8:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::DST_ALPHA;
+						break;
+					}
+					case 9:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::ONE_MINUS_DST_ALPHA;
+						break;
+					}
+					case 10:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::CONSTANT_COLOR;
+						break;
+					}
+					case 11:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::ONE_MINUS_CONSTANT_COLOR;
+						break;
+					}
+					case 12:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::CONSTANT_ALPHA;
+						break;
+					}
+					case 13:
+					{
+						particleSystem->funcBlendDest = FunctionBlendType::ONE_MINUS_CONSTANT_ALPHA;
+						break;
+					}
+
+					}
 				}
 					
 				ImGui::Spacing();
