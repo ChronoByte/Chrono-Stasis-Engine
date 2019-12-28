@@ -21,6 +21,7 @@ public:
 
 private:
 	std::vector<Resource*> resources;
+	size_t lastNumResources = 0;
 public:
 	Component* callback = nullptr;
 };

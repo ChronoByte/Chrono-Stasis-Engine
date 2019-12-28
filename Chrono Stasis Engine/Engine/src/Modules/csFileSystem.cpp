@@ -625,6 +625,40 @@ void ModuleFileSystem::ImportFilesRecursively(Folder* root, bool start)
 		}
 		else 
 		{
+			std::string extension;
+			GetExtensionFile(file_name.c_str(), extension);
+
+			if (!extension.compare(".fbx") || !extension.compare(".FBX"))
+			{
+				//UID ret;
+				//ret = App->resources->ImportFile(file_path.c_str(), Resource::R_MESH);
+			}
+
+			else if (!extension.compare(".png") || !extension.compare(".PNG") || !extension.compare(".tga") ||
+				!extension.compare(".TGA") || !extension.compare(".dds") ||
+				!extension.compare(".jpg") || !extension.compare(".JPG"))
+			{
+				
+				ResourceTexture* resMat = (ResourceTexture*)App->resources->GetResourceFromFile(file_path.c_str());
+
+				if(resMat == nullptr)
+				{
+					JSON_Value * json_file = nullptr;
+					JSON_Object* root_obj = nullptr;
+
+					json_file = json_parse_file(meta_file.c_str());
+					root_obj = json_value_get_object(json_file);
+
+					UID exported_uuid = json_object_get_number(root_obj, "UUID");
+					//std::string exported_path = json_object_get_string(root_obj, "UUID_path");
+
+					UID ret;
+					ret = App->resources->ImportFile(file_path.c_str(), Resource::R_TEXTURE, exported_uuid);
+				}
+
+
+			}
+
 			/*JSON_Value* config_file;
 			JSON_Object* config;
 			JSON_Object* config_node;

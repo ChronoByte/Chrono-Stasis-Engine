@@ -18,20 +18,41 @@ void TextureBrowserWindow::Draw()
 
 	resources = App->resources->GetResourcesFromType(Resource::R_TEXTURE);
 
-	if (ImGui::Begin("Textures", &active, flags))
+	if (ImGui::Begin("Textures", &active))
 	{
-		ImGui::Text("%i", resources.size());
+		ImGui::Text("Total Materials: ");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", resources.size());
+		ImGui::Separator();
 		for (std::vector<Resource*>::iterator texs = resources.begin(); texs != resources.end(); ++texs)
 		{
 			ResourceTexture* texResource = (ResourceTexture*)(*texs);
+
+			if (lastNumResources != resources.size())
+			{
+				if (texResource->gpu_id == 0)
+					texResource->LoadToMemory();
+				
+			}
+
 			if(ImGui::ImageButton((ImTextureID)texResource->gpu_id, ImVec2(PREVIEW_SIZE, PREVIEW_SIZE), { 0,1 }, { 1,0 }))
 			{
 				callback->AssignResource(texResource->GetUID());
 				active = false;
 			}
 
-			ImGui::Text("%i", texResource->gpu_id);
+			ImGui::SameLine();
+			ImGui::Text("Texture Name: ");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texResource->GetName());
+			
+			ImGui::Text("Buffer ID: ");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texResource->gpu_id);
+
+			ImGui::Separator();
 		}
+		lastNumResources = resources.size();
 	}
 
 	ImGui::End();
