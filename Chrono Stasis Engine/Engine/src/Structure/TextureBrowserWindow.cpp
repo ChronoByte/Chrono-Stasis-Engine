@@ -44,7 +44,7 @@ void TextureBrowserWindow::Draw()
 			ImGui::SameLine();
 			ImGui::Text("Texture Name: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texResource->GetName());
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", texResource->GetName());
 			
 			ImGui::Text("Buffer ID: ");
 			ImGui::SameLine();
