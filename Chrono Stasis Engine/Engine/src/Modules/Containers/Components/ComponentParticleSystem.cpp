@@ -141,7 +141,9 @@ void ComponentParticleSystem::InspectorInfo()
 						ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
 					ImGui::DragFloat("Size", (float*)&particleSystem->endInfo.size, 0.1f, 0.0f, FLT_MAX);
 					ImGui::DragFloat3("Gravity", (float*)&particleSystem->endInfo.force);
-
+					ImVec2 size = ImGui::GetItemRectSize();
+					if (ImGui::Button("Equalize Values", size))	
+						particleSystem->endInfo = particleSystem->particleInfo;
 					ImGui::TreePop();
 				}
 			}

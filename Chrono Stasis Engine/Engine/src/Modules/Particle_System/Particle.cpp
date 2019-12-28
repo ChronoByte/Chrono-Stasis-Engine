@@ -127,6 +127,7 @@ void Particle::InterpolateValues(float dt)
 		t += rateToLerp * dt;
 		particleInfo.color = float4::Lerp(startInfo.color, endInfo.color, t);
 		particleInfo.size = Lerp(startInfo.size, endInfo.size, t);
+		particleInfo.force = float3::Lerp(startInfo.force, endInfo.force, t);
 	}
 
 }
