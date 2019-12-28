@@ -48,5 +48,6 @@ private:
 
 	std::vector<Particle*> particles; 
 	uint totalParticles = 0u;
-
+public:
+	ResourceTexture* resMat = nullptr;
 };

@@ -13,3 +13,8 @@ void Component::AssignResource(UID uid)
 		currentResource->LoadToMemory();*/
 	
 }
+
+void Component::AssignParticleResource(UID uid)
+{
+	currentResource = App->resources->GetResource(uid);
+}

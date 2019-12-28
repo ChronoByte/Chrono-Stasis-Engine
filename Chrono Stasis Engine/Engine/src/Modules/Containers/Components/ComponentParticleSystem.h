@@ -31,4 +31,6 @@ private:
 	bool drawEmmitter = true; 
 	int shapeSelected = 0;
 	int bbTypeSelected = 0;
+	int matTypeSelected = 0;
+
 };
