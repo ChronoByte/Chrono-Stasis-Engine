@@ -87,5 +87,5 @@ private:
 
 	float rateToLerp = 0.f; 
 	float t = 0.0f; 
-
+	
 };

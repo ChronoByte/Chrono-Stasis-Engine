@@ -36,5 +36,7 @@ private:
 	int bbTypeSelected = 0;
 	int matTypeSelected = 0;
 	int eqTypeSelected = 0;
+	int funcTypeSource = 6;
+	int funcTypeDest = 7;
 
 };
