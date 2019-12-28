@@ -7,6 +7,7 @@
 
 ComponentParticleSystem::ComponentParticleSystem(GameObject* parent) : Component(parent)
 {
+	UUID = GenerateUUID();
 	type = ComponentType::C_PARTICLE_SYSTEM;
 	name = "Particle System";
 	particleSystem = new ParticleSystem(); 
@@ -448,6 +449,131 @@ ParticleSystem * ComponentParticleSystem::GetSystem() const
 void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool saveScene, uint & countResources) const
 {
 
+	// --------------- General Info -------------------- //
+	std::string tmp_ps;
+
+	tmp_ps = name + "Type";
+	json_object_dotset_number(object, tmp_ps.c_str(), (double)type);
+	//float4 tempColor = { color.r, color.g, color.b, color.a };
+
+	tmp_ps = name + "UUID";
+	json_object_dotset_number(object, tmp_ps.c_str(), UUID);
+
+	// --------------- Particle System Start Info -------------------- //
+
+	// Position
+	tmp_ps = name + "Start.Position";
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->particleInfo.position);
+	// Rotation
+	tmp_ps = name + "Start.Rotation";
+	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->particleInfo.rotation.x, particleSystem->particleInfo.rotation.y, particleSystem->particleInfo.rotation.z, particleSystem->particleInfo.rotation.w));
+	// Velocity
+	tmp_ps = name + "Start.Velocity";
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->particleInfo.velocity);
+	// Force
+	tmp_ps = name + "Start.Force";
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->particleInfo.force);
+	// Speed
+	tmp_ps = name + "Start.Speed";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->particleInfo.speed);
+	// Color
+	tmp_ps = name + "Start.Color";
+	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->particleInfo.color.x, particleSystem->particleInfo.color.y, particleSystem->particleInfo.color.z, particleSystem->particleInfo.color.w));
+	// Size
+	tmp_ps = name + "Start.Size";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->particleInfo.size);
+	// LightColor
+	tmp_ps = name + "Start.LightColor";
+	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->particleInfo.lightColor.x, particleSystem->particleInfo.lightColor.y, particleSystem->particleInfo.lightColor.z, particleSystem->particleInfo.lightColor.w));
+	// MaxLifeTime
+	tmp_ps = name + "Start.MaxLifeTime";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->particleInfo.maxLifeTime);
+	// changeOverLifeTime
+	tmp_ps = name + "Start.ChangeOverLifeTime";
+	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->particleInfo.changeOverLifeTime);
+
+	// --------------- Particle System End Info -------------------- //
+
+	// Color
+	tmp_ps = name + "End.Color";
+	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->endInfo.color.x, particleSystem->endInfo.color.y, particleSystem->endInfo.color.z, particleSystem->endInfo.color.w));
+	// Size
+	tmp_ps = name + "End.Size";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->endInfo.size);
+	// LightColor
+	tmp_ps = name + "End.LightColor";
+	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->endInfo.lightColor.x, particleSystem->endInfo.lightColor.y, particleSystem->endInfo.lightColor.z, particleSystem->endInfo.lightColor.w));
+	// Force
+	tmp_ps = name + "End.Force";
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->endInfo.force);
+
+	// --------------- Emitter Info -------------------- //
+	
+	// Shape
+	tmp_ps = name + "Emmitter.Shape";
+	json_object_dotset_number(object, tmp_ps.c_str(), (double)particleSystem->emmitter.GetShape());
+	// Radius
+	tmp_ps = name + "Emmitter.Radius";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetRadius());
+	// OutRadius
+	tmp_ps = name + "Emmiter.OutRadius";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetOutRadius());
+	// MaxLife
+	tmp_ps = name + "Emmiter.MaxLife";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetMaxLife());
+	// CurrentLife
+	tmp_ps = name + "Emmiter.CurrentLife";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetCurrentLife());
+	// SpawnRate
+	tmp_ps = name + "Emmiter.SpawnRate";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetSpawnRate());
+	// Delay
+	tmp_ps = name + "Emmiter.Delay";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetDelay());
+	// Loop
+	tmp_ps = name + "Emmiter.Loop";
+	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.GetLoop());
+	// Position
+	tmp_ps = name + "Emmiter.Position";
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetPosition());
+	// RelativePosition
+	tmp_ps = name + "Emmiter.RelativePosition";
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetRelativePosition());
+	// WorldPosition
+	tmp_ps = name + "Emmiter.WorldPosition";
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetWorldPosition());
+	// Rotation
+	tmp_ps = name + "Emmiter.Rotation";
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetRotation());
+	// Scale
+	tmp_ps = name + "Emmiter.Scale";
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetScale());
+	
+	
+
+	// --------------- Material Resource Info -------------------- //
+
+	if (currentResource != nullptr)
+	{
+		tmp_ps = name + "Resource Material Name";
+		json_object_dotset_string(object, tmp_ps.c_str(), currentResource->GetName());
+
+		tmp_ps = name + "Resource Material UUID";
+		json_object_dotset_number(object, tmp_ps.c_str(), currentResource->GetUID());
+
+		tmp_ps = name + "Resource Material File";
+		json_object_dotset_string(object, tmp_ps.c_str(), currentResource->GetFile());
+
+		tmp_ps = name + "Resource Material Path";
+		json_object_dotset_string(object, tmp_ps.c_str(), currentResource->GetExportedFile());
+	}
+	else
+	{
+		tmp_ps = name + "Resource Material UUID";
+		json_object_dotset_number(object, tmp_ps.c_str(), 0);
+		tmp_ps = name + "Resource Material Path";
+		json_object_dotset_string(object, tmp_ps.c_str(), "");
+	}
 }
 
 void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
