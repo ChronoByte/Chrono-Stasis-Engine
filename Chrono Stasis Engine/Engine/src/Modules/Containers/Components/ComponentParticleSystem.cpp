@@ -193,6 +193,8 @@ void ComponentParticleSystem::InspectorInfo()
 				ImGui::Text("Reference Counting: ");
 				ImGui::SameLine();
 				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences());
+				ImGui::Text("Transparency: ");
+				ImGui::SliderFloat(" ", &resMat->transparency, 0.0f, 1.0f);
 			}
 			else
 			{
@@ -230,6 +232,7 @@ void ComponentParticleSystem::InspectorInfo()
 			}
 			ImGui::TreePop();
 		}
+		
 
 		if (ImGui::Button("Restart Particle System")) particleSystem->ResetSystem();
 

@@ -49,7 +49,9 @@ void Particle::Draw()
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+		glColor4f(1.0f, 1.0f, 1.0f, owner->resMat->transparency);
 		glEnable(GL_ALPHA_TEST);
+		//glAlphaFunc(GL_GREATER, owner->resMat->transparency);
 		glBindTexture(GL_TEXTURE_2D, owner->resMat->gpu_id);
 	}
 	else
