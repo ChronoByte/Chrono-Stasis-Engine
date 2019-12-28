@@ -454,10 +454,15 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 
 	tmp_ps = name + "Type";
 	json_object_dotset_number(object, tmp_ps.c_str(), (double)type);
-	//float4 tempColor = { color.r, color.g, color.b, color.a };
 
 	tmp_ps = name + "UUID";
 	json_object_dotset_number(object, tmp_ps.c_str(), UUID);
+
+
+	// --------------- Billboard Info -------------------- //
+	tmp_ps = name + "Billboard.Type";
+	json_object_dotset_number(object, tmp_ps.c_str(), (double)particleSystem->bbType);
+
 
 	// --------------- Particle System Start Info -------------------- //
 
@@ -549,6 +554,19 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	tmp_ps = name + "Emmiter.Scale";
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetScale());
 	
+
+	// --------------- Blending Info -------------------- //
+	
+	// Source
+	tmp_ps = name + "Blending.Source";
+	json_object_dotset_number(object, tmp_ps.c_str(), (double)particleSystem->funcBlendSource);
+	// Destination
+	tmp_ps = name + "Blending.Destination";
+	json_object_dotset_number(object, tmp_ps.c_str(), (double)particleSystem->funcBlendDest);
+	// Equation
+	tmp_ps = name + "Blending.Equation";
+	json_object_dotset_number(object, tmp_ps.c_str(), (double)particleSystem->eqBlend);
+
 	
 
 	// --------------- Material Resource Info -------------------- //
