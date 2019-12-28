@@ -143,7 +143,7 @@ void ParticleEmmitter::DrawSphere(double r, int lats, int longs)
 
 		glPushMatrix();
 		glMultMatrixf((GLfloat*) & (float4x4::FromTRS(position, rotation, float3(1.f, 1.f, 1.f)).Transposed()));
-
+		glColor3f(0.f, 1.f, 1.f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	
 		glBegin(GL_QUAD_STRIP);
 		for (int j = 0; j <= longs; j++) {
@@ -158,6 +158,7 @@ void ParticleEmmitter::DrawSphere(double r, int lats, int longs)
 		}
 		glEnd();
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glColor3f(1.f, 1.f, 1.f);
 		glPopMatrix();
 	}	
 }

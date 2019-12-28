@@ -117,7 +117,8 @@ void ParticleSystem::BurstParticles()
 
 void ParticleSystem::DrawParticles()
 {
-	DrawPointsForParticles();
+	// Debugging drawing points in particles Position
+	//DrawPointsForParticles();
 
 	//for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end(); ++iter)
 	//{
