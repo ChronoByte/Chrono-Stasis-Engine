@@ -5,6 +5,7 @@
 
 #include "Particle.h"
 #include "ParticleEmmitter.h"
+#include <map>
 
 #define MAX_PARTICLES 10000
 #define MAX_PARTICLES_TO_BURST 300
@@ -47,6 +48,7 @@ public:
 private: 
 
 	std::vector<Particle*> particles; 
+	std::map<float, Particle*> sortedParticles;
 	uint totalParticles = 0u;
 public:
 	ResourceTexture* resMat = nullptr;
