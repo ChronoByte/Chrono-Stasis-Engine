@@ -63,13 +63,6 @@ bool ParticleSystem::Update(float dt)
 		particles[i]->Update(dt); 
 	}
 
-	// ------------------ FAR TO NEAR ORDER PARTICLES WITH BLEND ------------------------
-
-	for (uint i = 0; i < particles.size(); ++i)
-	{
-		float distance = App->camera->fakeCamera->GetPos().DistanceSq(particles[i]->GetPosition());
-		sortedParticles[distance] = particles[i];
-	}
 
 	return true;
 }
@@ -90,6 +83,14 @@ bool ParticleSystem::PostUpdate(float dt)
 		}
 		else
 			iter++; 
+	}
+
+	// ------------------ FAR TO NEAR ORDER PARTICLES WITH BLEND ------------------------
+
+	for (uint i = 0; i < particles.size(); ++i)
+	{
+		float distance = App->camera->fakeCamera->GetPos().DistanceSq(particles[i]->GetPosition());
+		sortedParticles[distance] = particles[i];
 	}
 
 	return true;
@@ -118,22 +119,20 @@ void ParticleSystem::DrawParticles()
 {
 	DrawPointsForParticles();
 
-	for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end(); ++iter)
-	{
-		(*iter)->Orientate(App->camera->fakeCamera); // For the moment, we use the editor camera
-		(*iter)->Draw();
-	}
+	//for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end(); ++iter)
+	//{
+	//	(*iter)->Orientate(App->camera->fakeCamera); // For the moment, we use the editor camera
+	//	(*iter)->Draw();
+	//}
 
 	//-------------------------- DRAW PARTICLES FAR TO NEAR ------------------
 
-	/*
 	for (std::map<float, Particle*>::reverse_iterator iter = sortedParticles.rbegin(); iter != sortedParticles.rend(); ++iter)
 	{
 		iter->second->Orientate(App->camera->fakeCamera);
-		iter->second->Draw();
-		
+		iter->second->Draw();	
 	}
-	*/
+	sortedParticles.clear();
 }
 
 void ParticleSystem::DrawPointsForParticles()
