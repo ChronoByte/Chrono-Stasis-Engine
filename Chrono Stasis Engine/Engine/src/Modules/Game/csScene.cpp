@@ -4,11 +4,13 @@
 #include "csScene.h"
 #include "csFBXLoader.h"
 #include "csTextureLoader.h"
+#include "Particle_System/csParticleSystem.h"
 
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "ComponentParticleSystem.h"
 #include "csViewport.h"
 
 #include "csGameObject.h"
@@ -69,8 +71,8 @@ update_status ModuleScene::PreUpdate(float dt)
 		GetSelected()->to_delete = true;
 
 
-	if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
-		activeOctree = !activeOctree;
+	/*if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
+		activeOctree = !activeOctree;*/
 	
 
 	if (toRecreateOctree)
@@ -193,7 +195,7 @@ void ModuleScene::DebugDrawScene()
 		DrawGrid();
 		DrawOriginAxis();
 	}
-	App->camera->DrawMouseRay();
+	//App->camera->DrawMouseRay();
 	DebugDrawAllGameObjects(root);
 
 	if(isOctreeActive() && drawOctree)

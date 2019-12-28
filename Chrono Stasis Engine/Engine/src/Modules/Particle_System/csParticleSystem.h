@@ -8,7 +8,7 @@
 #include <map>
 
 #define MAX_PARTICLES 10000
-#define MAX_PARTICLES_TO_BURST 300
+#define MAX_PARTICLES_TO_BURST 500
 
 class ParticleSystem
 {

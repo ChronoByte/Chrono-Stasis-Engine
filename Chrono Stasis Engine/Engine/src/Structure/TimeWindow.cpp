@@ -106,7 +106,7 @@ void TimeWindow::PlayButton()
 {
 	if (ImGui::Button("PLAY"))
 	{
-		TryToOpenGameWindow();
+		//TryToOpenGameWindow();
 		App->SetGameState(GameState::ONPLAY);
 	}
 }
@@ -115,7 +115,7 @@ void TimeWindow::StepButton()
 {
 	if (ImGui::Button("STEP"))
 	{
-		TryToOpenGameWindow();
+		//TryToOpenGameWindow();
 		App->toDoStep = true; 
 
 		// If its on stop, start the game
