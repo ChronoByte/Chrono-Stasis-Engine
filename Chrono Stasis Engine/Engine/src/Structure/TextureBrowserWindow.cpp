@@ -30,8 +30,10 @@ void TextureBrowserWindow::Draw()
 
 			if (lastNumResources != resources.size())
 			{
-				if (texResource->gpu_id == 0)
+				if (texResource->gpu_id == 0) {
+					//callback->LoadResource(texResource);
 					texResource->LoadToMemory();
+				}
 				
 			}
 
@@ -49,6 +51,10 @@ void TextureBrowserWindow::Draw()
 			ImGui::Text("Buffer ID: ");
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texResource->gpu_id);
+
+			ImGui::Text("Times Used: ");
+			ImGui::SameLine();
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texResource->CountReferences() - 1);
 
 			ImGui::Separator();
 		}

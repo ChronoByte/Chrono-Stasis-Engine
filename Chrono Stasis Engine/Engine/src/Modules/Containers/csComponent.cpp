@@ -14,6 +14,12 @@ void Component::AssignResource(UID uid)
 	
 }
 
+void Component::LoadResource(Resource* res)
+{
+	if (currentResource == nullptr)
+		currentResource = res;
+}
+
 void Component::AssignParticleResource(UID uid)
 {
 	currentResource = App->resources->GetResource(uid);
