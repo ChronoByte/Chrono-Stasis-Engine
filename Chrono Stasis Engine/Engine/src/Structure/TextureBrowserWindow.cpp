@@ -42,7 +42,7 @@ void TextureBrowserWindow::Draw()
 				callback->AssignResource(texResource->GetUID());
 				active = false;
 			}
-
+			
 			ImGui::SameLine();
 			ImGui::Text("Texture Name: ");
 			ImGui::SameLine();
@@ -55,7 +55,7 @@ void TextureBrowserWindow::Draw()
 			ImGui::Text("Times Used: ");
 			ImGui::SameLine();
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texResource->CountReferences() - 1);
-
+	
 			ImGui::Separator();
 		}
 		lastNumResources = resources.size();

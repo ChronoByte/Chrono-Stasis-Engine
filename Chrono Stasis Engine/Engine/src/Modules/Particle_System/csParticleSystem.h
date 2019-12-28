@@ -10,6 +10,12 @@
 #define MAX_PARTICLES 10000
 #define MAX_PARTICLES_TO_BURST 500
 
+enum class EquationBlendType
+{
+	FUNC_ADD,
+	FUNC_SUBTRACT,
+	FUNC_REVERSE_SUBTRACT
+};
 class ParticleSystem
 {
 
@@ -52,4 +58,5 @@ private:
 	uint totalParticles = 0u;
 public:
 	ResourceTexture* resMat = nullptr;
+	EquationBlendType eqBlend = EquationBlendType::FUNC_ADD;
 };

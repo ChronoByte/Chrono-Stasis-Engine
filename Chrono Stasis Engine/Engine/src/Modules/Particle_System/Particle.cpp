@@ -47,8 +47,17 @@ void Particle::Draw()
 
 	if (owner->resMat != nullptr)
 	{
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+		switch (owner->eqBlend)
+		{
+			case EquationBlendType::FUNC_ADD: glBlendEquation(GL_FUNC_ADD); break;
+			case EquationBlendType::FUNC_SUBTRACT: glBlendEquation(GL_FUNC_SUBTRACT); break;
+			case EquationBlendType::FUNC_REVERSE_SUBTRACT: glBlendEquation(GL_FUNC_REVERSE_SUBTRACT); break;
+		}
+		
 		//glColor4f(1.0f, 1.0f, 1.0f, owner->resMat->transparency);
 		glColor4f(particleInfo.color.x, particleInfo.color.y, particleInfo.color.z, owner->resMat->transparency);
 

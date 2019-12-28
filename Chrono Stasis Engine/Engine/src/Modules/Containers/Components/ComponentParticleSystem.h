@@ -35,5 +35,6 @@ private:
 	int shapeSelected = 0;
 	int bbTypeSelected = 0;
 	int matTypeSelected = 0;
+	int eqTypeSelected = 0;
 
 };

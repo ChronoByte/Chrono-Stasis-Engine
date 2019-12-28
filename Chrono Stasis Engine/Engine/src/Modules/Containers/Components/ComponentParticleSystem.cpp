@@ -166,40 +166,81 @@ void ComponentParticleSystem::InspectorInfo()
 			// Material
 			if (resMat != nullptr)
 			{
-				
+
 				if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0Color\0\0"))
 				{
 					switch (matTypeSelected)
 					{
-						case 0: //None
-						{
-							App->editor->textureBrowser->callback->AssignResource(0);
-							App->editor->textureBrowser->callback = nullptr;
+					case 0: //None
+					{
+						App->editor->textureBrowser->callback->AssignResource(0);
+						App->editor->textureBrowser->callback = nullptr;
 						break;
-						}
-						case 1: //Texture
-						{
-							App->editor->textureBrowser->SwitchActive();
-							App->editor->textureBrowser->callback = this;
-							break;
-						}
-						case 2: //Color
-						{
-							break;
-						}
+					}
+					case 1: //Texture
+					{
+						App->editor->textureBrowser->SwitchActive();
+						App->editor->textureBrowser->callback = this;
+						break;
+					}
+					case 2: //Color
+					{
+						break;
+					}
 
 					}
 				}
 
-				
+
 				ImGui::Spacing();
 				ImGui::Text(resMat->GetName());
-				ImGui::Image((ImTextureID)resMat->gpu_id, ImVec2(ImVec2(PREVIEW_SIZE*3, PREVIEW_SIZE*3)), { 0,1 }, { 1,0 });
+				ImGui::Image((ImTextureID)resMat->gpu_id, ImVec2(ImVec2(PREVIEW_SIZE * 3, PREVIEW_SIZE * 3)), { 0,1 }, { 1,0 });
 				ImGui::Text("Reference Counting: ");
 				ImGui::SameLine();
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences()-1);
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences() - 1);
+				ImGui::Spacing();
 				ImGui::Text("Transparency: ");
 				ImGui::SliderFloat(" ", &resMat->transparency, 0.0f, 1.0f);
+				ImGui::Spacing();
+
+				
+				ImGui::Text("Blending Color: ");
+				if (ImGui::Combo("Source", &eqTypeSelected, "ZERO\0ONE\0SRC_COLOR\0\0"))
+				{
+
+				}
+					
+
+				if (ImGui::Combo("Destination", &eqTypeSelected, "ZERO\0ONE\0SRC_COLOR\0\0"))
+				{
+				}
+					
+				ImGui::Spacing();
+
+				ImGui::Text("Blend Equation: ");
+				if (ImGui::Combo("Equation Mode", &eqTypeSelected, "ADD\0SUBTRACT\0REVERSE SUBTRACT\0\0"))
+				{
+					switch (eqTypeSelected)
+					{
+					case 0: //ADD
+					{
+						particleSystem->eqBlend = EquationBlendType::FUNC_ADD;
+						break;
+					}
+					case 1: //SUBTRACT
+					{
+						particleSystem->eqBlend = EquationBlendType::FUNC_SUBTRACT;
+						break;
+					}
+					case 2: //REVERSE SUBTRACT
+					{
+						particleSystem->eqBlend = EquationBlendType::FUNC_REVERSE_SUBTRACT;
+						break;
+					}
+
+					}
+				}
+			
 			}
 			else
 			{
