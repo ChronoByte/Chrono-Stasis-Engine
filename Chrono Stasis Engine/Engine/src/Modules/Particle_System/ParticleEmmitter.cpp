@@ -1,9 +1,14 @@
 #include "ParticleEmmitter.h"
 #include "csParticleSystem.h"
 
+#include "GL/gl.h"
 ParticleEmmitter::ParticleEmmitter() : particleSystem()
 {
 	spawnTimer.Start();
+
+	// Seed
+	entropy_getbytes((void*)seeds, sizeof(seeds));
+	pcg32_srandom_r(&rng, seeds[0], seeds[1]);
 }
 
 ParticleEmmitter::~ParticleEmmitter()
@@ -34,7 +39,7 @@ void ParticleEmmitter::DebugDrawEmmitter()
 	switch (shape)
 	{
 	case Emmitter_Shape::Sphere:
-
+		DrawSphere(radius, 10, 10);
 		break;
 
 	case Emmitter_Shape::Hemisphere:
@@ -65,8 +70,22 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 	switch (shape)
 	{
 	case Emmitter_Shape::Sphere:
-		position = GetWorldPosition();
-		velocity = float3::RandomDir(lcg, 1.0f) * speed;
+
+		switch (zone)
+		{
+		case Emmitter_Zone::Base:
+			position = GetWorldPosition();
+			velocity = float3::RandomDir(lcg, 1.0f) * speed;
+			break;
+
+		case Emmitter_Zone::Volume:
+			// Gets a random position inside the sphere
+			position = GetWorldPosition() + float3::RandomDir(lcg, 1.0f) * pcg32_boundedrand_r(&rng_bounded, (radius - 0) + 1); 
+			// Calculates the direction respect the center of the sphere
+			velocity = (position - GetWorldPosition()).Normalized() * speed;
+			break; 
+		}
+
 		break;
 
 	case Emmitter_Shape::Hemisphere:
@@ -79,8 +98,19 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 		break;
 
 	case Emmitter_Shape::Cone:
+	{
+		math::Circle baseCircle = math::Circle(GetWorldPosition(), rotation.WorldZ(), radius);
+		math::Circle outerCircle = math::Circle(GetWorldPosition() + rotation.WorldZ() * distance, rotation.WorldZ(), outRadius);
+
+		// (baseCircle.RandomPointInside(lcg) -> Gets a random point in the surface of the circle 
+		//position = (baseCircle.RandomPointInside(lcg) - GetWorldPosition()).Normalized() * pcg32_boundedrand_r(&rng_bounded, (radius - 0) + 1);
+
+		// For the moment lets emmit from the center point of the emmitter
 		position = GetWorldPosition();
 
+		float3 outerCircleRandomPoint = (outerCircle.RandomPointInside(lcg) - outerCircle.CenterPoint()).Normalized() * pcg32_boundedrand_r(&rng_bounded, (outRadius - 0) + 1);
+		velocity = (position - outerCircleRandomPoint).Normalized() * speed;
+	}
 		break;
 
 	case Emmitter_Shape::Plane:
@@ -100,6 +130,38 @@ bool ParticleEmmitter::hasToBurst() const
 	return burst.active && !burst.hasBursted && lifeTime >= burst.timeToBurst;
 }
 
+void ParticleEmmitter::DrawSphere(double r, int lats, int longs)
+{
+	for (int i = 0; i <= lats; i++) {
+		double lat0 = M_PI * (-0.5 + (double)(i - 1) / lats);
+		double z0 = sin(lat0);
+		double zr0 = cos(lat0);
+
+		double lat1 = M_PI * (-0.5 + (double)i / lats);
+		double z1 = sin(lat1);
+		double zr1 = cos(lat1);
+
+		glPushMatrix();
+		glMultMatrixf((GLfloat*) & (float4x4::FromTRS(position, rotation, float3(1.f, 1.f, 1.f)).Transposed()));
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	
+		glBegin(GL_QUAD_STRIP);
+		for (int j = 0; j <= longs; j++) {
+			double lng = 2 * M_PI * (double)(j - 1) / longs;
+			double x = cos(lng);
+			double y = sin(lng);
+
+			glNormal3f(x * zr0, y * zr0, z0);
+			glVertex3f(r * x * zr0, r * y * zr0, r * z0);
+			glNormal3f(x * zr1, y * zr1, z1);
+			glVertex3f(r * x * zr1, r * y * zr1, r * z1);
+		}
+		glEnd();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPopMatrix();
+	}	
+}
+
 void ParticleEmmitter::Reset()
 {
 	lifeTime = 0.f; 
@@ -117,6 +179,16 @@ bool ParticleEmmitter::isActive() const
 void ParticleEmmitter::SetShape(Emmitter_Shape shape)
 {
 	this->shape = shape;
+}
+
+void ParticleEmmitter::SetRadius(float radius)
+{
+	this->radius = radius;
+}
+
+void ParticleEmmitter::SetOutRadius(float radius)
+{
+	this->outRadius = radius; 
 }
 
 void ParticleEmmitter::SetMaxLife(float maxLife)
@@ -173,6 +245,16 @@ void ParticleEmmitter::SetScale(float3 scale)
 Emmitter_Shape ParticleEmmitter::GetShape() const
 {
 	return shape;
+}
+
+float ParticleEmmitter::GetRadius() const
+{
+	return radius;
+}
+
+float ParticleEmmitter::GetOutRadius() const
+{
+	return outRadius;
 }
 
 float ParticleEmmitter::GetMaxLife() const

@@ -5,6 +5,9 @@
 #include "MathGeoLib/include/Math/float3.h"
 #include "MathGeoLib/include/Math/quat.h"
 
+#include "pcg/pcg C/include/pcg_variants.h"
+#include "pcg/pcg C/extras/entropy.h"
+
 enum class Emmitter_Shape{
 
 	Sphere, 
@@ -16,6 +19,15 @@ enum class Emmitter_Shape{
 	// etc
 
 	// --- 
+	None
+};
+
+enum class Emmitter_Zone
+{
+	Base,
+	Volume,
+	Surface,
+
 	None
 };
 
@@ -49,9 +61,16 @@ public :
 	void GetInitialValues(float3& position, float3& velocity, float speed);
 	bool hasToBurst() const; 
 
+	// ------- Debug Draw --------
+
+	void DrawSphere(double r, int lats, int longs);
+
 	// ----- Modify Emmitter -----
 
 	void SetShape(Emmitter_Shape shape);
+	void SetRadius(float radius);
+	void SetOutRadius(float radius);
+
 	void SetMaxLife(float maxLife); 
 	void SetSpawnRate(float spawnRate);
 	void SetDelay(float delay);
@@ -68,6 +87,9 @@ public :
 	// ----- Get Emmitter -----
 
 	Emmitter_Shape GetShape() const;
+	float GetRadius() const;
+	float GetOutRadius() const;
+
 	float GetMaxLife() const;
 	float GetCurrentLife() const; 
 	float GetSpawnRate() const;
@@ -88,10 +110,16 @@ public:
 	//std::vector<Burst*> burstList; // Maybe for later, let's keep it simple for now
 	Burst burst; 
 
+	float distance = 20.f;
+
 private: 
 
 
 	Emmitter_Shape shape = Emmitter_Shape::Sphere; 
+	Emmitter_Zone zone = Emmitter_Zone::Base;
+
+	float radius = 5.f; 
+	float outRadius = 10.f; 
 
 	Timer spawnTimer; 
 	float currentSpawnTime = 0.f; 
@@ -108,9 +136,14 @@ private:
 	float3 position = float3::zero; 
 	float3 relativePosition = float3::zero;
 	Quat rotation = Quat::identity;
-	float3 scale = float3::zero; 
+	float3 scale = float3::zero;
 
-	// -----------
+	// -------- Random stuff ----------------
+
+	uint64_t seeds[2];
+	//Struct with state + inc
+	pcg32_random_t rng; //typedef struct 64-b
+	pcg_state_setseq_64 rng_bounded; // struct 64-b
 
 	// more stuff
 };

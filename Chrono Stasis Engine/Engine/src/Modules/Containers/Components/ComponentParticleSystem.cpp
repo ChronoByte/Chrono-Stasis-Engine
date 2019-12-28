@@ -83,6 +83,12 @@ void ComponentParticleSystem::InspectorInfo()
 			{
 				if (ImGui::Combo("Shape", &shapeSelected, "Sphere\0Hemisphere\0Cube\0Cone\0Plane\0\0")) { emmitter->SetShape((Emmitter_Shape)shapeSelected); }
 
+				float radius = emmitter->GetRadius();
+				if (ImGui::DragFloat("Radius", &radius, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetRadius(radius); }
+
+				float outRadius = emmitter->GetOutRadius();
+				if (ImGui::DragFloat("Outter Radius", &outRadius, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetOutRadius(outRadius); }
+				ImGui::DragFloat("Distance", &emmitter->distance, 0.2f, 0.0f, FLT_MAX);
 				// Radius,
 				// Size, 
 				// etc? 
@@ -121,7 +127,9 @@ void ComponentParticleSystem::InspectorInfo()
 		{
 			ImGui::DragFloat("Life Time", &particleSystem->particleInfo.maxLifeTime, 1.0f, 0.0f, FLT_MAX);
 			ImGui::DragFloat("Speed", (float*)&particleSystem->particleInfo.speed, 0.2f);
-			if(ImGui::Button("Chose Texture")) App->editor->textureBrowser->SetActive(true);
+			if (ImGui::Button("Chose Texture")) {
+				App->editor->textureBrowser->SetActive(true); App->editor->textureBrowser->callback = this;
+			}
 			// Initial State || Final State
 			if (ImGui::TreeNodeEx("Start State", ImGuiTreeNodeFlags_DefaultOpen))
 			{
