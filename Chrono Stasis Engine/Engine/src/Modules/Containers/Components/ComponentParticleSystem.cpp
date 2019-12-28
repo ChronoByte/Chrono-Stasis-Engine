@@ -128,20 +128,23 @@ void ComponentParticleSystem::InspectorInfo()
 				ImGui::ColorPicker4("Color", (float*)&particleSystem->particleInfo.color, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
 				ImGui::DragFloat("Size", (float*)&particleSystem->particleInfo.size, 0.1f, 0.0f, FLT_MAX);
 				ImGui::DragFloat3("Gravity", (float*)&particleSystem->particleInfo.force);
+				ImGui::Checkbox("Change Over Time", &particleSystem->particleInfo.changeOverLifeTime);
 
 				ImGui::TreePop();
 			}
 
-			if (ImGui::TreeNodeEx("Final State", ImGuiTreeNodeFlags_DefaultOpen))
+			if (particleSystem->particleInfo.changeOverLifeTime)
 			{
-				ImGui::ColorPicker4("Color", (float*)&particleSystem->endInfo.color,
-					ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
-				ImGui::DragFloat("Size", (float*)&particleSystem->endInfo.size, 0.1f, 0.0f, FLT_MAX);
-				ImGui::DragFloat3("Gravity", (float*)&particleSystem->endInfo.force);
+				if (ImGui::TreeNodeEx("Final State", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::ColorPicker4("Color", (float*)&particleSystem->endInfo.color,
+						ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
+					ImGui::DragFloat("Size", (float*)&particleSystem->endInfo.size, 0.1f, 0.0f, FLT_MAX);
+					ImGui::DragFloat3("Gravity", (float*)&particleSystem->endInfo.force);
 
-				ImGui::TreePop();
+					ImGui::TreePop();
+				}
 			}
-			
 
 			ImGui::TreePop();
 		}
@@ -237,6 +240,11 @@ void ComponentParticleSystem::InspectorInfo()
 		if (ImGui::Button("Restart Particle System")) particleSystem->ResetSystem();
 
 	}
+}
+
+ParticleSystem * ComponentParticleSystem::GetSystem() const
+{
+	return particleSystem;
 }
 
 void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool saveScene, uint & countResources) const

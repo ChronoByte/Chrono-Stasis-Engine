@@ -5,7 +5,7 @@
 #include "csCamera3D.h"
 #include "GL/gl.h"
 
-Particle::Particle(ParticleSystem * owner, ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo) : owner(owner), particleInfo(info), startInfo(startInfo), endInfo(endInfo)
+Particle::Particle(ParticleSystem * owner, ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo) : owner(owner), particleInfo(info), startInfo(info), endInfo(endInfo)
 {
 }
 
@@ -32,7 +32,8 @@ void Particle::Update(float dt)
 
 void Particle::PostUpdate(float dt)
 {
-	// Interpolate ?
+	if (particleInfo.changeOverLifeTime)
+		InterpolateValues(dt);
 }
 
 void Particle::Draw()
@@ -117,8 +118,26 @@ void Particle::Orientate(ComponentCamera * camera)
 	}
 }
 
+void Particle::InterpolateValues(float dt)
+{
+
+	rateToLerp = 1.f / particleInfo.maxLifeTime;
+	if (t <= 1)
+	{
+		t += rateToLerp * dt;
+		particleInfo.color = float4::Lerp(startInfo.color, endInfo.color, t);
+		particleInfo.size = Lerp(startInfo.size, endInfo.size, t);
+	}
+
+}
+
 
 float3 Particle::GetPosition() const
 {
 	return particleInfo.position;
+}
+
+float Particle::Lerp(float v0, float v1, float t)
+{
+	return (1 - t) * v0 + t * v1;
 }
