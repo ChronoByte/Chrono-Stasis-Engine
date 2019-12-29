@@ -22,7 +22,15 @@ void Component::LoadResource(Resource* res)
 
 void Component::AssignParticleResource(UID uid)
 {
+	if (currentResource != nullptr)
+		currentResource->UnloadFromMemory();
+
 	currentResource = App->resources->GetResource(uid);
+	
+
+
+	/*if (currentResource)
+		currentResource->LoadToMemory();*/
 
 	/*if(currentResource->CountReferences < 2)
 		currentResource->LoadToMemory();*/

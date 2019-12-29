@@ -192,7 +192,7 @@ void ComponentParticleSystem::InspectorInfo()
 			if (resMat != nullptr)
 			{
 
-				if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0Color\0\0"))
+				if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0\0"))
 				{
 					switch (matTypeSelected)
 					{
@@ -208,10 +208,7 @@ void ComponentParticleSystem::InspectorInfo()
 						App->editor->textureBrowser->callback = this;
 						break;
 					}
-					case 2: //Color
-					{
-						break;
-					}
+					
 
 					}
 				}
@@ -417,7 +414,7 @@ void ComponentParticleSystem::InspectorInfo()
 			else
 			{
 				
-				if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0Color\0\0"))
+				if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0\0"))
 				{
 					switch (matTypeSelected)
 					{
@@ -433,10 +430,7 @@ void ComponentParticleSystem::InspectorInfo()
 							App->editor->textureBrowser->callback = this;
 							break;
 						}
-						case 2: //Color
-						{
-							break;
-						}
+						
 
 					}
 				}
@@ -799,13 +793,15 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 		if (resMat != nullptr)
 		{
 			this->AssignResource(resUUID);
-			//resMat->LoadToMemory();
+			this->particleSystem->resMat = resMat;
+			resMat->LoadToMemory();
 		}
 		else
 		{
 			resMat = (ResourceTexture*)App->resources->CreateNewResource(Resource::R_TEXTURE, resUUID, name_file.c_str(), file.c_str(), exported_file.c_str(), true);
 			this->AssignResource(resUUID);
-			//resMat->LoadToMemory();
+			this->particleSystem->resMat = resMat;
+			resMat->LoadToMemory();
 
 
 		}
