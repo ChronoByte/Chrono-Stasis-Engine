@@ -430,6 +430,7 @@ void Application::SetGameState(GameState state)
 	if (state == gameState)
 		return; 
 
+	std::string backup = "Library/Backup/backup";
 	switch (state)
 	{
 
@@ -437,7 +438,7 @@ void Application::SetGameState(GameState state)
 		
 		LOG("Starting Game Mode");
 		// TODO Safe Scene
-		App->serialization->SaveScene(App->serialization->scene_to_serialize.c_str());
+		App->serialization->SaveScene(backup.c_str());
 		CastEvent(EventType::ON_PLAY);
 		gameTimer.Start();
 		gameState = GameState::ONPLAY;
@@ -457,8 +458,8 @@ void Application::SetGameState(GameState state)
 
 		// TODO Load Scene Back
 		App->scene->ClearScene();
-		App->serialization->LoadScene((App->serialization->scene_to_serialize + SCENES_EXTENSION).c_str());
-
+		App->serialization->LoadScene((backup + SCENES_EXTENSION).c_str());
+		App->fs->DeleteFiles((backup + SCENES_EXTENSION).c_str());
 		CastEvent(EventType::ON_STOP);
 		gameTimer.Stop();
 		gameState = GameState::ONSTOP;
