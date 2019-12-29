@@ -30,7 +30,7 @@ ComponentParticleSystem::~ComponentParticleSystem()
 
 void ComponentParticleSystem::Update(float dt)
 {
-	if (App->GetGameState() != GameState::ONSTOP)
+	if (App->GetGameState() != GameState::ONSTOP || !particleSystem->isPlaying)
 		return;
 
 	// TODO: Separate this 
@@ -45,10 +45,14 @@ void ComponentParticleSystem::Update(float dt)
 void ComponentParticleSystem::OnPlay()
 {
 	particleSystem->ResetSystem(); 
+	particleSystem->isPlaying = true; 
 }
 
 void ComponentParticleSystem::OnGameUpdate(float dt)
 {
+	if (!particleSystem->isPlaying)
+		return; 
+
 	// TODO: reset properly
 	particleSystem->PreUpdate(dt);
 	particleSystem->Update(dt);

@@ -200,6 +200,7 @@ void ParticleSystem::ResetSystem()
 
 	particles.clear();
 
+	// Update counter
 	totalParticles = 0u;
 }
 

@@ -28,7 +28,9 @@ void ParticlesWindow::Draw()
 		/*ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0.8f,0.37f,0.0f,0.7f });
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0.95f,0.5f,0.0f,0.7f });*/
 
-		if(ImGui::Button("Restart System")) { owner->ResetSystem(); }
+		if (ImGui::Button("Play")) { owner->isPlaying = true; } ImGui::SameLine();
+		if (ImGui::Button("Pause")) { owner->isPlaying = false; } ImGui::SameLine();
+		if(ImGui::Button("Restart")) { owner->ResetSystem();  owner->isPlaying = true; }
 
 		ImGui::Text("Playback Time: ");	ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.3f", owner->emmitter.GetCurrentLife());
