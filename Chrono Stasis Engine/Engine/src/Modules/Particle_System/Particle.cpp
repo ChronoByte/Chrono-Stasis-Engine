@@ -97,7 +97,7 @@ void Particle::Draw()
 		}
 		
 		
-		glColor4f(particleInfo.color.x, particleInfo.color.y, particleInfo.color.z, owner->resMat->transparency);
+		glColor4f(particleInfo.color.x, particleInfo.color.y, particleInfo.color.z, particleInfo.color.w);
 
 		glAlphaFunc(GL_GREATER, 0.1f);
 		glEnable(GL_ALPHA_TEST);
@@ -134,7 +134,7 @@ void Particle::Draw()
 	// -------------------
 
 	glEnd();
-
+	glDisable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glPopMatrix();
 	glColor4f(1.f, 1.f, 1.f, 1.f);

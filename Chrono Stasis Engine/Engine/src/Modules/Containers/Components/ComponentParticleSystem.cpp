@@ -222,7 +222,7 @@ void ComponentParticleSystem::InspectorInfo()
 				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences()-1);
 				ImGui::Spacing();
 				ImGui::Text("Transparency: ");
-				ImGui::SliderFloat(" ", &resMat->transparency, 0.0f, 1.0f);
+				ImGui::SliderFloat(" ", &particleSystem->particleInfo.color.w, 0.0f, 1.0f);
 				ImGui::Spacing();
 
 				

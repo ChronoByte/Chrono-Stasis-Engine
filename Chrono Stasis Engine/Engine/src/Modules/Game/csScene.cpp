@@ -45,11 +45,10 @@ bool ModuleScene::Start()
 
 	ClearScene();
 	App->serialization->scene_to_serialize = "Assets/Scenes/scene4";
+	//App->serialization->scene_to_serialize = "Assets/Scenes/ParticleSystemScene";
 	App->serialization->LoadScene((App->serialization->scene_to_serialize + SCENES_EXTENSION).c_str());
 
-	//App->serialization->LoadScene("Assets/Scenes/SmokeTest.scene.json");
-	App->texture->LoadTexture("Assets/Textures/standard_particle.png");
-	App->texture->LoadTexture("Assets/Textures/standard_particle_white.png");
+	////App->serialization->LoadScene("Assets/Scenes/SmokeTest.scene.json");
 
 	CleanSelected(); 
 	//CreateParticleSystem(nullptr, "Particle System");
@@ -242,7 +241,6 @@ void ModuleScene::DrawGrid()
 	glLineWidth(1.0f);
 
 	//glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
 	glBegin(GL_LINES);
 
 	float d = 200.0f;
@@ -549,6 +547,14 @@ ComponentCamera * ModuleScene::GetMainCamera() const
 	return mainCamera;
 }
 
+ComponentCamera * ModuleScene::GetMainCameraSafe() const
+{
+	if (mainCamera != nullptr)
+		return mainCamera; 
+
+	return App->camera->fakeCamera;
+}
+
 // ------------------ Octree ------------------------
 
 void ModuleScene::CreateOctree(const float & size)
@@ -705,7 +711,11 @@ void ModuleScene::CreateExplosion(GameObject * parent)
 	ComponentParticleSystem* particleSystem = (ComponentParticleSystem*)go->CreateComponent(ComponentType::C_PARTICLE_SYSTEM);
 	ParticleSystem* particle = particleSystem->GetSystem();
 
-	particle->particleInfo.size = 0.3f;
+	App->serialization->particleCallback = particleSystem;
+	App->serialization->LoadParticleSystem("Assets/Scenes/PartTest3.particle.json");
+	particleSystem->GetSystem()->ResetSystem();
+	particleSystem->GetSystem()->emmitter.SetPosition(go->GetTransform()->GetPosition());
+	/*particle->particleInfo.size = 0.3f;
 	particle->particleInfo.speed = 2.f;
 	particle->emmitter.SetShape(Emmitter_Shape::Sphere);
 	particle->emmitter.SetLoop(false);
@@ -713,7 +723,7 @@ void ModuleScene::CreateExplosion(GameObject * parent)
 	particle->emmitter.SetSpawnRate(0.f);
 	particle->emmitter.burst.active = true;
 	particle->emmitter.burst.timeToBurst = 0.5f;
-	particle->emmitter.burst.partsToInstantiate = 200;
+	particle->emmitter.burst.partsToInstantiate = 200;*/
 }
 
 
