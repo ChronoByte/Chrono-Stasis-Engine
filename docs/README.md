@@ -76,21 +76,17 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 
 ## **MAIN CORE SUB-SYSTEMS**
 
-Our game engine code is structured in modules. The main module (called csApp.cpp) manages all the other modules calling in a loop its respective awake, preupdate, update, postupdte, cleanup that they share thorugh a base class trModule. Down below a basic scheme of this structure (only some example modules are showed here):
+Our game engine code is structured in modules. The main module (*csApp.cpp*) manages all the other modules calling in a loop its respective awake, preupdate, update, postupdate, cleanup that they share thorugh a base class *csModule*. 
 
-![dibujo sin titulo](https://user-images.githubusercontent.com/25589509/50381846-84d3ac00-0691-11e9-8390-3f2fc765b614.png)
-
-On the following sections we will explain the main core sub-systems of this engine.
+On the following sections we will explain the main core sub-systems of our engine.
 
 ### 3D Renderer
 
-Our engine has a module renderer that handles all the drawing of the proram. We don't use shaders. Instead we use OpenGL Vertex Arrays with indices (except for the debug draw of the primitives which are rendered in direct mode). Everything is drawn in the post update of the module. There, the gameobjects are filtered and we only render the ones that are inside the fustrum. 
+Our engine has a module renderer that handles all the drawing of the program. We don't use shaders. Instead we use OpenGL Vertex Arrays with indices (except for the debug draw of the primitives which are rendered in direct mode). Everything is drawn in the post update of the module. There, the gameobjects are filtered and we only render the ones that are inside the fustrum. 
 
 ### Geometry loader
 
 When we detect a file in our Assets/Models/ directory we read the file with Assimp and extract all the information we need (vertices, indices, uvs, name...) in order to render the mesh on screen. Then we save the resource in our own binary format.
-
-Each time a resource mesh is generated a scene is generated in our own binary format too.
 
 ### Gameobject structure
 
@@ -100,12 +96,9 @@ Gameobjects have a tree structure so the transformations affect all the children
 
 All assets in Assets/ are saved as resources in our own binary format inside the Library directory. Doing this we only save the data we need and when we have to read the process is easier and much faster than if we had to read the original asset file such as .fbx or .png. A new resource in our own binary format is generated each time we detect a new assets in Assets/.
 
-All the assets generate a resource in our own binary format except the textures which will be saved as DDS files for speed and standard convention reasons.
-
 Our engine accepts the following assets formats:
-* Meshes: FBX and Collada (.dae).
-* Texture: png, jpg, jpeg, dds and tga.
-* Animations: Collada (.dae)
+* Meshes: FBX and OBJ.
+* Textures: png, jpg, jpeg, dds and tga.
 
 ### 3D Camera & frustum culling
 
@@ -131,13 +124,12 @@ Mouse picking is done using the Raycast method. When the left mouse button is cl
 - Collect all the gameobjects (both dynamic and static) that are inside the fustrum and intersect with the projected ray. The static object collection is accelerated with the quadtree.
 - Loop through all this gameobjects. If they have mesh we calculate all its triangles and for each of them we test collision against the raycast (in the local space of the gameobject). We do this until we've loop through all gameobjects.
 
-_NOTE:_ Collected gameobjects are sorted by distance and we constantly check for minimum distance to avoid generating unnecessary triangles and speed up the process.
 
 ### Time managment & game mode
 
 When the engine is in game mode, the scene is seen though the game camera (which has frustum culling). We also keep an internal game clock (aside from the app clock) that will only run when the game mode is activated. Its dt will be passed to all the updates instead of the real time dt from the app.
 
-User can play, pause and tick and even modify the speed of the time in game. To mange all of the time propierties we have a time manager to set the time in all levels of the engine .
+User can play, pause and tick and even modify the speed of the time in game. To manAge all of the time propierties we have a time manager to set the time in all levels of the engine .
 
 ### Resource Management
 
