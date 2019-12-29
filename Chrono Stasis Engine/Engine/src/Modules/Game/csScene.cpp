@@ -44,7 +44,9 @@ bool ModuleScene::Start()
 	//CreateCamera(nullptr, "Main Camera");
 
 	ClearScene();
-	App->serialization->LoadScene("Assets/Scenes/StreetScene.scene.json");
+	App->serialization->scene_to_serialize = "Assets/Scenes/StreetScene";
+	App->serialization->LoadScene((App->serialization->scene_to_serialize + SCENES_EXTENSION).c_str());
+
 	//App->serialization->LoadScene("Assets/Scenes/SmokeTest.scene.json");
 	App->texture->LoadTexture("Assets/Textures/standard_particle.png");
 	App->texture->LoadTexture("Assets/Textures/standard_particle_white.png");

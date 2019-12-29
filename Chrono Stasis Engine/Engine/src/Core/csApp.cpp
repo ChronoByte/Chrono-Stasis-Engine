@@ -437,7 +437,7 @@ void Application::SetGameState(GameState state)
 		
 		LOG("Starting Game Mode");
 		// TODO Safe Scene
-
+		App->serialization->SaveScene(App->serialization->scene_to_serialize.c_str());
 		CastEvent(EventType::ON_PLAY);
 		gameTimer.Start();
 		gameState = GameState::ONPLAY;
@@ -456,6 +456,8 @@ void Application::SetGameState(GameState state)
 		LOG("Exiting Game Mode");
 
 		// TODO Load Scene Back
+		App->scene->ClearScene();
+		App->serialization->LoadScene((App->serialization->scene_to_serialize + SCENES_EXTENSION).c_str());
 
 		CastEvent(EventType::ON_STOP);
 		gameTimer.Stop();

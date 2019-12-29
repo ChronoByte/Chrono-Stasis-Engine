@@ -465,6 +465,8 @@ void ComponentParticleSystem::InspectorInfo()
 
 			ImGui::TreePop();
 		}
+
+		ImGui::Spacing;
 		if (ImGui::Button("Restart Particle System")) particleSystem->ResetSystem();
 
 	}
