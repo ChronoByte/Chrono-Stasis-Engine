@@ -23,17 +23,20 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
    * [GitHub account]()
    
  * Resposabilities:  
+    * Own Format File
     * Resource Manager
-    * Quadtree & Frustum Culling
-    * Binary scene serialization
-    * GameObjects hierarchy
-    * Persistence (Json)
-    * File system
-    * Camera
-    * Gizmo UI
-    * Particle System
-
-
+    * Scene Serialization
+    * File System
+    * Refresh System (detection of dropped files)
+    * Counting Reference
+    * Asset Project Window 
+    * Unity like camera controls
+    * Folder Configuration (creation, renaming, deletion)
+    * .Meta Checking System (to detect new files and generate his own files + resources)
+    * Component Particle System
+    * Component Particle System Serialization as a template file
+    * Component Particle System Serialization within a scene file
+    * Texture Resource Browser (to configure particle material)
 
 
 <a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_sebas.JPG" align="right" height="200" width="200" ></a>
@@ -44,14 +47,22 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
    * [GitHub account]()
   
 * Resposabilities: 
-    * Time Management
+    * Time Management (Game Mode with Start / Pause / Step based on dt modifier)
     * Mouse Picking
     * Unity like camera controls
     * ImgGui editor
-    * File system
-    * Gizmo UI
-    * Camera
-    * Particle System
+    * Component Camera
+    * Frustum Culling
+    * Octree System
+    * ImGuizmo UI
+    * Bounding Box 
+    * Z-Buffer
+    * Real-time multiple views scene rendering
+    * Component Particle System
+    * Particle Emmitter
+    * Particle Burst
+    * Particle Structure
+    
     
 ***
 
