@@ -177,7 +177,24 @@ Objects look towards the camera, but user can lock one of the axis.
 </p>
 
 
-### Transparencies
+## Transparencies
+Transparencies are a very important aspect of particles, especially those that are translucent and contain changes in their alpha value.
+
+Within the editor of Particle System Component in the inspector, accessing the "renderer" section you can manipulate the transparency of the particle from a slider. You can also mix this transparency with the alpha value of the color applied to the particle
+
+The problem of seein throungh objects is that objects behind a transparent one won't draw unless is is drawn before the transparent one. In order to fix this problem we order all objects with transparencies just before draw, from far to near of the camera
+
+### No-Textured Particles
+
+<p align="center">
+<img src="https://media.giphy.com/media/ZdrwJSqrbexH7l3VTx/giphy.gif">
+</p>
+
+### Textured Particles
+
+<p align="center">
+<img src="https://media.giphy.com/media/QshRZqvpZwYcqGuPHK/giphy.gif">
+</p>
 
 ### Blending Color
 
