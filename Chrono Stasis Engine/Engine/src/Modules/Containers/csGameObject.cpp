@@ -119,7 +119,6 @@ void GameObject::OnGameUpdate(float dt)
 	if (partSystem != nullptr && logic.readyToDie && !partSystem->GetSystem()->isSystemActive())
 		to_delete = true;
 
-	LOG("Game Playing with dt: %f", dt); 
 	std::list<Component*>::const_iterator it = components.begin();
 
 	for (it; it != components.end(); ++it)
