@@ -5,9 +5,21 @@
 #include <vector>
 
 #include "csGlobals.h"
+#include "MathGeoLib/include/Math/float3.h"
 
 struct json_object_t;
 typedef struct json_object_t JSON_Object;
+
+struct Logic
+{
+	bool doLogic = false; 
+
+	float3 velocity = float3::zero; 
+	float maxLifeTime = 0.f;
+	float currentLifeTime = 0.f; 
+
+	bool invisible = false;
+};
 
 class Component; 
 class ComponentTransform; 
@@ -25,6 +37,7 @@ public:
 
 	// Logic
 	void Update(float dt); 
+	void DoLogic(float dt);
 
 	void OnPlay();
 	void OnPause(); 
@@ -77,7 +90,9 @@ private:
 	bool staticGO = false;
 	GameObject* parent = nullptr; 
 	ComponentTransform* transform = nullptr; 
+
 public:
+	Logic logic;
 
 	bool to_delete = false; 
 	std::string name; 

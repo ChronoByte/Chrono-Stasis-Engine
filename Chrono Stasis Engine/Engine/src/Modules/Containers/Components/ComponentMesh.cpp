@@ -41,6 +41,9 @@ void ComponentMesh::OnDebugDraw()
 
 void ComponentMesh::Draw()
 {
+	if (owner->logic.invisible)
+		return; 
+
 	ResourceMesh* meshRes = (ResourceMesh*)currentResource;
 
 

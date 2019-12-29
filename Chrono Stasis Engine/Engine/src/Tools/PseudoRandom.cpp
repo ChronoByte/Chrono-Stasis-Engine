@@ -19,3 +19,8 @@ UID GenerateUUID()
 {
 	return pcg32_random_r(&random);
 }
+
+int GetRandomBetween(int min, int max)
+{
+	return pcg32_boundedrand_r(&random, (max - min) + 1) + min;
+}

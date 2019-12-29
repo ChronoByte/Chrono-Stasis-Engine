@@ -45,11 +45,12 @@ bool ModuleScene::Start()
 
 	ClearScene();
 	App->serialization->LoadScene("Assets/Scenes/StreetScene.scene.json");
+	//App->serialization->LoadScene("Assets/Scenes/SmokeTest.scene.json");
 	App->texture->LoadTexture("Assets/Textures/standard_particle.png");
 	App->texture->LoadTexture("Assets/Textures/standard_particle_white.png");
 
 	CleanSelected(); 
-	CreateParticleSystem(nullptr, "Particle System");
+	//CreateParticleSystem(nullptr, "Particle System");
 
 	return true;
 }
@@ -74,6 +75,8 @@ update_status ModuleScene::PreUpdate(float dt)
 	/*if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		activeOctree = !activeOctree;*/
 	
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		CreateFireWork();
 
 	if (toRecreateOctree)
 	{
@@ -639,6 +642,76 @@ GameObject* ModuleScene::LoadGameObject(GameObject* parent, const char* name, UI
 	SetSelected(go);
 	PushToDynamic(go);
 	return go;
+}
+
+void ModuleScene::CreateFireWork()
+{
+	math::LCG lcg; 
+
+	// Create the game Object 
+	//GameObject* go = CreateGameObject(nullptr, "Firework");
+	GameObject* go = CreateObject3D(PrimitiveType::CUBE, nullptr);
+	CleanSelected();
+	go->GetTransform()->SetScale(float3(0.5f, 0.5f, 0.5f));
+
+
+	// Create the Particle System 
+
+	ComponentParticleSystem* particleSystem = (ComponentParticleSystem*)go->CreateComponent(ComponentType::C_PARTICLE_SYSTEM);
+	ParticleSystem* particle = particleSystem->GetSystem();
+
+	// Get Random values 
+	float radiusArea = 10;
+	float speed = GetRandomBetween(1, 2);
+	math::Circle targetArea = math::Circle(go->GetTransform()->GetPosition(), float3::unitY, radiusArea);
+
+	float3 skyPoint = targetArea.RandomPointInside(lcg).Normalized() * GetRandomBetween(0, radiusArea);
+	skyPoint += float3(0, 20, 0);
+
+	float3 velocity = skyPoint.Normalized() * speed;
+	float maxLifeTime = GetRandomBetween(1, 2);
+
+	LOG("Speed: %f", speed);
+	LOG("Max Life: %f", maxLifeTime);
+	LOG("Direction: %f x - %f y - %f z", velocity.x, velocity.y, velocity.z);
+	// Give values to Game Object
+
+	go->logic.doLogic = true;
+	go->logic.velocity = velocity;
+	go->logic.maxLifeTime = maxLifeTime;
+
+
+	// Give values to particle System 
+	particle->particleInfo.size = 0.3f;
+	particle->particleInfo.speed = 1.f;
+	particle->emmitter.SetRotation(velocity * -1);
+	particle->emmitter.SetShape(Emmitter_Shape::Cone);
+	particle->emmitter.SetLoop(false);
+	particle->emmitter.SetMaxLife(maxLifeTime);
+	particle->emmitter.SetSpawnRate(20.f);
+	/*particle->emmitter.burst.active = true;
+	particle->emmitter.burst.timeToBurst = maxLifeTime;
+	particle->emmitter.burst.partsToInstantiate = 200;*/
+}
+
+void ModuleScene::CreateExplosion(GameObject * parent)
+{
+	GameObject* go = CreateGameObject(nullptr, "Explosion");
+	CleanSelected();
+	go->GetTransform()->SetPosition(parent->GetTransform()->GetPosition());
+
+	ComponentParticleSystem* particleSystem = (ComponentParticleSystem*)go->CreateComponent(ComponentType::C_PARTICLE_SYSTEM);
+	ParticleSystem* particle = particleSystem->GetSystem();
+
+	particle->particleInfo.size = 0.3f;
+	particle->particleInfo.speed = 2.f;
+	particle->emmitter.SetShape(Emmitter_Shape::Sphere);
+	particle->emmitter.SetLoop(false);
+	particle->emmitter.SetMaxLife(1.f);
+	particle->emmitter.SetSpawnRate(0.f);
+	particle->emmitter.burst.active = true;
+	particle->emmitter.burst.timeToBurst = 0.5f;
+	particle->emmitter.burst.partsToInstantiate = 200;
 }
 
 

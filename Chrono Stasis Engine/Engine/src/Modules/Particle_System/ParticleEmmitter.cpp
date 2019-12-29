@@ -25,7 +25,7 @@ bool ParticleEmmitter::Update(float dt)
 
 	if (isActive() && currentSpawnTime >= spawnRate)
 	{
-		LOG("Spawning particle");
+		//LOG("Spawning particle");
 		spawnTimer.Start();
 		currentSpawnTime = 0.f;
 		return true;
@@ -80,7 +80,7 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 
 		case Emmitter_Zone::Volume:
 			// Gets a random position inside the sphere
-			position = GetWorldPosition() + float3::RandomDir(lcg, 1.0f) * pcg32_boundedrand_r(&rng_bounded, (radius - 0) + 1); 
+			position = GetWorldPosition() + float3::RandomDir(lcg, 1.0f) * GetRandomBetween(0, radius); 
 			// Calculates the direction respect the center of the sphere
 			velocity = (position - GetWorldPosition()).Normalized() * speed;
 			break; 
@@ -109,7 +109,7 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 		position = GetWorldPosition();
 
 		// Get direction respect the second circle of the cone
-		float3 circleRandomPoint = (outerCircle.RandomPointInside(lcg) - GetWorldPosition()).Normalized() * pcg32_boundedrand_r(&rng_bounded, (outRadius - 0) + 1);
+		float3 circleRandomPoint = (outerCircle.RandomPointInside(lcg) - GetWorldPosition()).Normalized() * GetRandomBetween(0, outRadius);
 		circleRandomPoint += GetWorldPosition(); // Move it to the emmitter location, otherwise its on the Origin.
 		circleRandomPoint += rotation.WorldZ() * distance; // Move the point forward
 		velocity = (circleRandomPoint - position).Normalized() * speed;  // Finally make the initial velocity vector
