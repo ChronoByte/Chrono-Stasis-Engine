@@ -26,7 +26,7 @@ public:
 	bool GetDebugMode() const; 
 private:
 
-	bool debugMode = true;
+	bool debugMode = false;
 
 public:
 
