@@ -13,9 +13,8 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 
 ## **Our Team**
 
-<p align="right">
-<img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" height="150" width="150">
-</p>Peña Hernando, Carlos responsability and GitHub account_
+
+<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="150" width="150" ></a>_López Nosequemás, Sebastián responsability and GitHub account_
 
 * Resource Manager
 * Quadtree & Frustum Culling
