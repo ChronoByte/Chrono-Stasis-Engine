@@ -180,12 +180,12 @@ Assets controls
 
 Camera
 
-* **Mouse Right + WASD:** fps-like movement and free look around
-* **Mouse Right:** Move Camera with static position
-* **Mouse Left + Alt:** Move Camera around object (Orbit)
-* **Mouse wheel:** Move Camera Zoom in and Zoom out
-* **F**: Center the Camera on an object when is selected
-* **SHIFT:** Duplicates movement speed.
+- Mouse Right + WASD: fps-like movement and free look around
+- Mouse Right: Move Camera with static position
+- Mouse Left + Alt: Move Camera around object (Orbit)
+- Mouse wheel: Move Camera Zoom in and Zoom out
+- F: Center the Camera on an object when is selected
+- HIFT: Duplicates movement speed.
 
 ~~~~~~~~~~~~~~~
 
