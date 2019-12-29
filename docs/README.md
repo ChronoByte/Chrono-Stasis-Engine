@@ -14,24 +14,24 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 ## **Team**
 
 
-<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="150" width="150" ><p>
-[GitHub account]()
-</p>
+<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="150" width="150">
 </a> 
-
-
 
 ### _Peña Hernando, Carlos_
 
-* Resource Manager
-* Quadtree & Frustum Culling
-* Binary scene serialization
-* GameObjects hierarchy
-* Persistence (Json)
-* File system
-* Camera
-* Gizmo UI
-* Particle System
+* Github Account:
+   * [GitHub account]()
+   
+ * Resposabilities:  
+    * Resource Manager
+    * Quadtree & Frustum Culling
+    * Binary scene serialization
+    * GameObjects hierarchy
+    * Persistence (Json)
+    * File system
+    * Camera
+    * Gizmo UI
+    * Particle System
 
 * [GitHub account]()
 
