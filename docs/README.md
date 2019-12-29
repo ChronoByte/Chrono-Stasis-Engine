@@ -7,10 +7,18 @@ The engine contains all the basic [sub-systems]() of a modern 3D engine and we h
 
 This project has been done by two students of CITM - UPC (Terrasa, Spain) for the subject Game Engines.
 
-> ### *Download the last version of the engine [HERE]()*
+> ### *Download the last version of the engine [HERE](https://github.com/ChronoByte/Chrono-Stasis-Engine/releases/tag/Assigment3.0)*
 
 ***
 
+## Terminology & Origin
+As his name says, Chrono Stasis comes from the greek term **Chronostasis** (*chrónos* "Time" and *stásis* "standing"), a temporal illusion in which the first impression following the introduction of a new event or task-demand to the brain can appear to be extended in time. 
+
+That is to say, is an illusion where that person perceives an instance of time as an extremely long or even infinite state of time, hence the word "standing time." Therefore, we can affirm that it is an allegory in the computational world and videogames, where for a user or player an instance of time is a millisecond of time spent playing, whereas for us it is an instance where millions of instructions, operations and calculations happen internally in the engine. 
+
+Metaphorically for us (software engineers and game developers), we live in a chronostasis loop measuring and observing the behavior and time performance in each frame at all the time until the game ends. In addition, we decide to make Chrono Stasis as compound word because it contains the acronym of our names: **C**hrono (Carlos) & **S**tasis (Sebas).
+
+***
 ## **Team**
 
 
@@ -139,11 +147,12 @@ In our resource system we have imitated the management of resources that Unity h
 
 ***
 
-## **Installation instructions**
+## Installation
 
-Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
-
-_IMPORTANT: do not modify, change or add any folder or file as you might not be able to execute the game._
+* Go to our github release page: [Click Here!](https://github.com/ChronoByte/Chrono-Stasis-Engine/releases)
+* Download the last version **.zip**
+* Extract .zip files inside a folder 
+* Execute **.exe** file
 
 ***
 
