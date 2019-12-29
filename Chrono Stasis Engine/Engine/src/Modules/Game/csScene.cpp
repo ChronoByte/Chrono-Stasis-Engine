@@ -546,6 +546,14 @@ ComponentCamera * ModuleScene::GetMainCamera() const
 	return mainCamera;
 }
 
+ComponentCamera * ModuleScene::GetMainCameraSafe() const
+{
+	if (mainCamera != nullptr)
+		return mainCamera; 
+
+	return App->camera->fakeCamera;
+}
+
 // ------------------ Octree ------------------------
 
 void ModuleScene::CreateOctree(const float & size)

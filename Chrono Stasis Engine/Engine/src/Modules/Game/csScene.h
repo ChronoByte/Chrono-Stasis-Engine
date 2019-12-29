@@ -90,6 +90,7 @@ public:
 	void SetMainCamera(ComponentCamera* camera);
 	void ClearCamera(); 
 	ComponentCamera* GetMainCamera() const; 
+	ComponentCamera* GetMainCameraSafe() const; 
 
 	// ------------ Octree ------------
 	void CreateOctree(const float& size);

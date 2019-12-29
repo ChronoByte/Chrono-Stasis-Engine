@@ -32,8 +32,6 @@ bool ParticleSystem::PreUpdate(float dt)
 		particles[i]->PreUpdate(dt);
 	}
 
-	
-
 	return true;
 }
 
@@ -85,17 +83,15 @@ bool ParticleSystem::PostUpdate(float dt)
 			iter++; 
 	}
 
-	// ------------------ FAR TO NEAR ORDER PARTICLES WITH BLEND ------------------------
+	// ------------------ ORDER PARTICLES NEAR TO FAR ------------------------
 
-	ComponentCamera* mainCamera = App->scene->GetMainCamera();
-	if (mainCamera == nullptr)
-		mainCamera = App->camera->fakeCamera;
+	std::sort(particles.begin(), particles.end(), compareParticles);
 
-	for (uint i = 0; i < particles.size(); ++i)
+	/*for (uint i = 0; i < particles.size(); ++i)
 	{
 		float distance = mainCamera->GetPos().DistanceSq(particles[i]->GetPosition());
 		sortedParticles[distance] = particles[i];
-	}
+	}*/
 
 	return true;
 }
@@ -124,24 +120,23 @@ void ParticleSystem::DrawParticles()
 	// Debugging drawing points in particles Position
 	//DrawPointsForParticles();
 
-	//for (std::vector<Particle*>::iterator iter = particles.begin(); iter != particles.end(); ++iter)
-	//{
-	//	(*iter)->Orientate(App->camera->fakeCamera); // For the moment, we use the editor camera
-	//	(*iter)->Draw();
-	//}
-
+	ComponentCamera* mainCamera = App->scene->GetMainCameraSafe();
 	//-------------------------- DRAW PARTICLES FAR TO NEAR ------------------
 
-	ComponentCamera* mainCamera = App->scene->GetMainCamera(); 
-	if (mainCamera == nullptr)
-		mainCamera = App->camera->fakeCamera;
+	for (std::vector<Particle*>::reverse_iterator iter = particles.rbegin(); iter != particles.rend(); ++iter)
+	{
+		(*iter)->Orientate(mainCamera); 
+		(*iter)->Draw();
+	}
+	//-------------------------- DRAW PARTICLES FAR TO NEAR ------------------
 
-	for (std::map<float, Particle*>::reverse_iterator iter = sortedParticles.rbegin(); iter != sortedParticles.rend(); ++iter)
+	/*for (std::map<float, Particle*>::reverse_iterator iter = sortedParticles.rbegin(); iter != sortedParticles.rend(); ++iter)
 	{
 		iter->second->Orientate(mainCamera);
 		iter->second->Draw();	
-	}
-	sortedParticles.clear();
+	}*/
+
+	//sortedParticles.clear();
 }
 
 void ParticleSystem::DrawPointsForParticles()
@@ -194,4 +189,9 @@ void ParticleSystem::ResetSystem()
 	}
 
 	particles.clear();
+}
+
+bool compareParticles(Particle * a, Particle * b)
+{
+	return a->GetPosition().DistanceSq(App->scene->GetMainCameraSafe()->GetPos()) < b->GetPosition().DistanceSq(App->scene->GetMainCameraSafe()->GetPos());
 }

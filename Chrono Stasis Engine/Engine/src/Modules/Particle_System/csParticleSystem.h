@@ -36,6 +36,8 @@ enum class FunctionBlendType
 	
 };
 
+bool compareParticles(Particle* a, Particle* b);
+
 class ParticleSystem
 {
 
@@ -73,9 +75,10 @@ public:
 
 private: 
 
+	//std::map<float, Particle*> sortedParticles;
 	std::vector<Particle*> particles; 
-	std::map<float, Particle*> sortedParticles;
 	uint totalParticles = 0u;
+
 public:
 	ResourceTexture* resMat = nullptr;
 	EquationBlendType eqBlend = EquationBlendType::FUNC_ADD;
