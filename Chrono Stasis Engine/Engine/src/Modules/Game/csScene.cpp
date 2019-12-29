@@ -76,7 +76,7 @@ update_status ModuleScene::PreUpdate(float dt)
 	/*if (App->input->GetKey(SDL_SCANCODE_O) == KEY_DOWN)
 		activeOctree = !activeOctree;*/
 	
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN && App->GetGameState() == GameState::ONPLAY)
 		CreateFireWork();
 
 	if (toRecreateOctree)
@@ -715,6 +715,7 @@ void ModuleScene::CreateExplosion(float3 position, float4 color)
 	GameObject* go = CreateGameObject(nullptr, "Explosion");
 	CleanSelected();
 	go->GetTransform()->SetPosition(position);
+	go->logic.readyToDie = true; 
 
 	ComponentParticleSystem* particleSystem = (ComponentParticleSystem*)go->CreateComponent(ComponentType::C_PARTICLE_SYSTEM);
 	ParticleSystem* particle = particleSystem->GetSystem();

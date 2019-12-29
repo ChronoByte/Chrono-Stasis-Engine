@@ -176,6 +176,11 @@ BillboardType ParticleSystem::GetBillboardType() const
 	return bbType;
 }
 
+bool ParticleSystem::isSystemActive() const
+{
+	return !particles.empty() || emmitter.isActive();
+}
+
 void ParticleSystem::ResetSystem()
 {
 	// Reset Emmitter

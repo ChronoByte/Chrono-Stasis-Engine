@@ -180,7 +180,7 @@ void ModuleCamera3D::FocusAtObject()
 	{
 		const AABB* box = &go_selected->GetTransform()->GetBoundingBox();
 
-		if (box->Size().IsZero())
+		if (!box->Size().IsFinite())	
 			return;
 
 		float3 center = box->CenterPoint();

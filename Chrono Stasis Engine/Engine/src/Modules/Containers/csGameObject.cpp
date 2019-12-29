@@ -12,6 +12,7 @@
 #include "ComponentBillboard.h"
 #include "ComponentParticleSystem.h"
 // -----------
+#include "Particle_System/csParticleSystem.h"
 
 GameObject::GameObject()
 {
@@ -81,9 +82,6 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
-	if (logic.doLogic)
-		DoLogic(dt); 
-
 	std::list<Component*>::const_iterator it = components.begin();
 
 	for (it; it != components.end(); ++it)
@@ -103,7 +101,7 @@ void GameObject::DoLogic(float dt)
 		logic.invisible = true;
 		logic.velocity = float3::zero;
 		logic.doLogic = false;
-		//App->scene->CreateExplosion(this);
+		logic.readyToDie = true; 
 		App->scene->CreateExplosion(GetTransform()->GetPosition(), logic.color);
 	}
 
@@ -113,6 +111,14 @@ void GameObject::DoLogic(float dt)
 
 void GameObject::OnGameUpdate(float dt)
 {
+	if (logic.doLogic)
+		DoLogic(dt);
+
+	ComponentParticleSystem* partSystem = (ComponentParticleSystem*)FindComponent(ComponentType::C_PARTICLE_SYSTEM);
+
+	if (partSystem != nullptr && logic.readyToDie && !partSystem->GetSystem()->isSystemActive())
+		to_delete = true;
+
 	LOG("Game Playing with dt: %f", dt); 
 	std::list<Component*>::const_iterator it = components.begin();
 
