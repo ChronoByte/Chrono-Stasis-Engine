@@ -41,12 +41,18 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Assets Project window that display all assets file (not meta data)
 * Folders management:  create / remove / rename folders
 * Resources not managed inside Assets and are dropped to engine, are copied and metadata + own format files are generated automatically
+* Particle System Implementation
+* Particle System Component
+* Particle Properties customization & Emission 
+* Particle Serialization within scene file and as template file.
 
 ## Instructions
 
 * We recommend to drop textures files before dropping fbx files if those files havent his textures embbeded internally and are imported before, its respectively textures will not be imported and will be displayed with none texture.
 
 * We recommend to not manipulate and resize docked windows. This is still a work in progress. If the "Game" window is NOT docked, do as you please.
+
+* To see the Game View you can create a camera or when Game View window panel is enabled from Windows bar menu.
     
 ## Members Task
 
@@ -62,6 +68,10 @@ Metaphorically for us (software engineers and game developers), we live in a chr
     * Assets Project Window to display Assets files
     * Creation, renaming and deletion of folders into Project Window
     * .Meta checking system to detect new files and generate his own format files + meta + resources
+    * Component Particle System
+    * Component Particle System Serialization as a template file
+    * Component Particle System Serialization within a scene file
+    * Texture Resource Browser (to configure particle material)
     
 * Sebastián López
     * GameObjects transformations from Inspector window
@@ -73,6 +83,10 @@ Metaphorically for us (software engineers and game developers), we live in a chr
     * Mouse picking functionality (optimizable with Octree)
     * Game mode that can Start / Pause / Step with a speed modifier (dt modifier).
     * ImGuizmo implementation
+    * Component Particle System
+    * Particle Emmitter
+    * Particle Burst
+    * Particle Structure
 
 
 ## Innovation 
@@ -85,6 +99,7 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * Refresh file system to new droppable files detection. When a file is dropped, that file is copied if isn't found in Assets folder and copied to Models folder. In the next refresh time, the file is added to file system internally and its own format files are generated with his uuid's and meta file respectively.
 * Adaptable docking resolution for mouse picking raycast
 * Updatable Parenting Bounding Box
+
 
 
 ## Installation
@@ -113,22 +128,53 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 * [DevIL v1.8](http://openil.sourceforge.net/) 
 * [GPU detect v1.1](https://github.com/MatthewKing/DeviceId)
 
-## Repository Link
+## Repository & Website Links
 
 * 3D Engine Engine Repository: [Chrono Stasis Engine](https://github.com/ChronoByte/Chrono-Stasis-Engine)
 * Our Organization: [ChronoByte](https://github.com/ChronoByte)
+* Our Website: [Web](https://chronobyte.github.io/Chrono-Stasis-Engine/)
 
-## Unity-Like Camera Controls
+## Controls
+
 * **Mouse Right + WASD:** fps-like movement and free look around
 * **Mouse Right:** Move Camera with static position
 * **Mouse Left + Alt:** Move Camera around object (Orbit)
 * **Mouse wheel:** Move Camera Zoom in and Zoom out
 * **F**: Center the Camera on an object when is selected
 * **SHIFT:** Duplicates movement speed.
+* **W/E/R:** Translation / Rotation / Scale
+* **Z:** Z-Buffer
+* **1:** Fireworks shooting (only in Game Mode)
 
 ## Updates & Changelog
+
+* 1.0.0
+     * Generate a stable & operative release Build for Third Assignment
+     * Fix Texture resource material bugs
+     * Fix Counting reference bugs
+     * Fix serialization bugs
+     * Fix particle system bugs
+     
+* 0.9.0
+     * Burst Particle Implementation
+     * Change Over Time properties as color
+     * Component Particle System serialization as template file
+     * Texture Browser to particle costumization
+
+* 0.8.0
+     * Particle Properites Customization
+     * Drawing of primitives as emmitter shape
+     * Particle Component Serialization within scene serializer
+
+* 0.7.0
+     * Create Particle System Component
+     * Development of Particle Emmitter
+     * Particle System Structure
+     * Billboarding development
+
 * 0.6.0
      * Generate a stable & operative release Build for Second Assignment
+
 * 0.5.5
      * Scene Serialization
      * Octree development
