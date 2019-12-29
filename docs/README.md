@@ -22,7 +22,7 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 ## **Team**
 
 
-<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="200" width="200">
+<a href="url"><img src="https://raw.githubusercontent.com/ChronoByte/Chrono-Stasis-Engine/master/docs/foto_carlos.jpg" align="right" height="200" width="200">
 </a> 
 
 ### _Peña Hernando, Carlos_
