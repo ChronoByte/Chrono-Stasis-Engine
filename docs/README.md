@@ -22,7 +22,7 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 ## **Team**
 
 
-<a href="url"><img src="https://raw.githubusercontent.com/ChronoByte/Chrono-Stasis-Engine/master/docs/foto_carlos.jpg" align="right" height="200" width="200">
+<a><img src="https://raw.githubusercontent.com/ChronoByte/Chrono-Stasis-Engine/master/docs/foto_carlos.jpg" align="right" height="200" width="200">
 </a> 
 
 ### _Peña Hernando, Carlos_
@@ -47,7 +47,7 @@ Metaphorically for us (software engineers and game developers), we live in a chr
     * Texture Resource Browser (to configure particle material)
 
 
-<a href="url"><img src="https://raw.githubusercontent.com/ChronoByte/Chrono-Stasis-Engine/master/docs/foto_sebas.JPG" align="right" height="200" width="200" ></a>
+<a><img src="https://raw.githubusercontent.com/ChronoByte/Chrono-Stasis-Engine/master/docs/foto_sebas.JPG" align="right" height="200" width="200" ></a>
 
 ### _López Tenorio, Sebastián_
 
