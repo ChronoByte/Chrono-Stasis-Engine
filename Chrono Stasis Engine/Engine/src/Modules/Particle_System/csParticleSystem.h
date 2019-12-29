@@ -60,6 +60,7 @@ public:
 	void SetBillboardType(BillboardType type);
 	BillboardType GetBillboardType() const;
 
+	bool isSystemActive() const; 
 	void ResetSystem(); 
 
 public: 

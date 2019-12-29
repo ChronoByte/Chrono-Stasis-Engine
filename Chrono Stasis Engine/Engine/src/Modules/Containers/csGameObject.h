@@ -20,6 +20,7 @@ struct Logic
 	float currentLifeTime = 0.f; 
 	float4 color = float4::zero; 
 
+	bool readyToDie = false; 
 	bool invisible = false;
 };
 

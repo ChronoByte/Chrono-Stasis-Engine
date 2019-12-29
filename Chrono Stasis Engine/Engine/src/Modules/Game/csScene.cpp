@@ -715,6 +715,7 @@ void ModuleScene::CreateExplosion(float3 position, float4 color)
 	GameObject* go = CreateGameObject(nullptr, "Explosion");
 	CleanSelected();
 	go->GetTransform()->SetPosition(position);
+	go->logic.readyToDie = true; 
 
 	ComponentParticleSystem* particleSystem = (ComponentParticleSystem*)go->CreateComponent(ComponentType::C_PARTICLE_SYSTEM);
 	ParticleSystem* particle = particleSystem->GetSystem();
