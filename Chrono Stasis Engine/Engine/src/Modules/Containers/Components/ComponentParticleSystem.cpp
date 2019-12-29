@@ -192,29 +192,24 @@ void ComponentParticleSystem::InspectorInfo()
 			
 			// Material
 		
-
-			if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0\0"))
+			// Add texture
+			if (ImGui::Button("Choose Texture"))
 			{
-				switch (matTypeSelected)
-				{
-					case 0: //None
-					{
-						App->editor->textureBrowser->callback = this;
-						App->editor->textureBrowser->callback->AssignResource(0);
-						App->editor->textureBrowser->callback = nullptr;
-						break;
-					}
-					case 1: //Texture
-					{
-						App->editor->textureBrowser->SwitchActive();
-						App->editor->textureBrowser->callback = this;
-						break;
-					}
-				}
+				App->editor->textureBrowser->SetActive(true);
+				App->editor->textureBrowser->callback = this;
 			}
 
 			if (resMat != nullptr)
 			{
+				// If there is a texture, option to remove it
+				ImGui::SameLine();
+				if (ImGui::Button("Remove texture"))
+				{
+					App->editor->textureBrowser->callback = this;
+					App->editor->textureBrowser->callback->AssignResource(0);
+					App->editor->textureBrowser->callback = nullptr;
+				}
+
 				ImGui::Spacing();
 				ImGui::Text(resMat->GetName());
 				ImGui::Image((ImTextureID)resMat->gpu_id, ImVec2(ImVec2(PREVIEW_SIZE * 3, PREVIEW_SIZE * 3)), { 0,1 }, { 1,0 });
@@ -229,7 +224,7 @@ void ComponentParticleSystem::InspectorInfo()
 			else
 			{			
 				ImGui::Spacing();
-				ImGui::Text("No Texture");
+				ImGui::TextColored(ImVec4(1.0f, 0.54f, 0.0f, 1.0f), "No Texture assigned");
 				ImGui::Spacing();
 			}
 
