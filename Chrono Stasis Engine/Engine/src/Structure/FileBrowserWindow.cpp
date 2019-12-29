@@ -13,7 +13,7 @@ void FileBrowserWindow::Draw()
 {
 	ImGui::SetNextWindowSize(ImVec2(400,500));
 	ImGui::Begin((std::string("Scene Browser:") + this->name).c_str(), &active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse);
-	static char text[120];
+	static char text[300];
 	static std::string tmp_text;
 	ImGui::BeginMenuBar();
 	if (ImGui::ArrowButton("Back", ImGuiDir_Left))
@@ -96,11 +96,12 @@ void FileBrowserWindow::Draw()
 	ImGui::PushItemWidth(ImGui::GetWindowWidth() - 90);
 	ImGui::Text("Name: ");
 	ImGui::SameLine();
-	if (ImGui::InputText("", (char*)inputText.c_str(), 120, ImGuiInputTextFlags_AutoSelectAll)) 
+	if (ImGui::InputText("", text, 300, ImGuiInputTextFlags_AutoSelectAll)) 
 	{
+		inputText = text;
 		if (type == ExtensionType::SCENE_EXTENSION) App->serialization->current_scene = inputText.c_str(); // TO SAVE AS NEW
 		else if (type == ExtensionType::PARTICLE_EXTENSION) App->serialization->particle_template = inputText.c_str(); // TO SAVE AS NEW
-		//scene += SCENES_EXTENSION;
+		memset(text, 0, 300);
 	}
 
 	ImGui::PopItemWidth();
@@ -207,6 +208,7 @@ void FileBrowserWindow::SaveScene(const char* path, const char* extension, Exten
 
 void FileBrowserWindow::LoadScene(const char* path, const char* extension, ExtensionType format)
 {
+	
 	this->name = std::string("Load");
 	this->current_path = path;
 	this->extension = extension;
