@@ -38,7 +38,7 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 
 <a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_sebas.JPG" align="right" height="200" width="200" ></a>
 
-### _López Nosequemás, Sebastián_
+### _López Tenorio, Sebastián_
 
 * Github Account:
    * [GitHub account]()
