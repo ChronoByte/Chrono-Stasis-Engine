@@ -554,7 +554,21 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	tmp_ps = name + "Emmiter.Scale";
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetScale());
 	
+	// ------------------------ Burst Info --------------------------- //
 
+	// TimeBurst
+	tmp_ps = name + "Burst.TimeBurst";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.burst.timeToBurst);
+	// PartsInstanciate
+	tmp_ps = name + "Burst.PartsInstanciate";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.burst.partsToInstantiate);
+	// hasBursted
+	tmp_ps = name + "Burst.HasBursted";
+	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.burst.hasBursted);
+	// Active
+	tmp_ps = name + "Burst.Active";
+	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.burst.active);
+	
 	// ---------------------- Blending Info -------------------------- //
 	
 	// Source
@@ -700,6 +714,23 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 	// Scale
 	tmp_ps = name + "Emmiter.Scale";
 	particleSystem->emmitter.SetScale(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
+	
+	
+	// ------------------------ Burst Info --------------------------- //
+
+	// TimeBurst
+	tmp_ps = name + "Burst.TimeBurst";
+	particleSystem->emmitter.burst.timeToBurst = json_object_dotget_number(object, tmp_ps.c_str());
+	// PartsInstanciate
+	tmp_ps = name + "Burst.PartsInstanciate";
+	particleSystem->emmitter.burst.partsToInstantiate = json_object_dotget_number(object, tmp_ps.c_str());
+	// hasBursted
+	tmp_ps = name + "Burst.HasBursted";
+	particleSystem->emmitter.burst.hasBursted = json_object_dotget_boolean(object, tmp_ps.c_str());
+	// Active
+	tmp_ps = name + "Burst.Active";
+	particleSystem->emmitter.burst.active = json_object_dotget_boolean(object, tmp_ps.c_str());
+
 
 	// ---------------------- Blending Info -------------------------- //
 	// Source
