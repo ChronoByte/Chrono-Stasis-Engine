@@ -20,7 +20,7 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 ### _Peña Hernando, Carlos_
 
 * Github Account:
-   * [GitHub account]()
+   * [GitHub account](https://github.com/CarlosUPC)
    
  * Resposabilities:  
     * Own Format File
@@ -44,10 +44,9 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 ### _López Tenorio, Sebastián_
 
 * Github Account:
-   * [GitHub account]()
+   * [GitHub account](https://github.com/Sebi-Looper)
   
 * Resposabilities: 
-    * Time Management (Game Mode with Start / Pause / Step based on dt modifier)
     * Mouse Picking
     * Unity like camera controls
     * ImgGui editor
@@ -58,6 +57,7 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
     * Bounding Box 
     * Z-Buffer
     * Real-time multiple views scene rendering
+    * Time Management (Game Mode with Start / Pause / Step based on dt modifier)
     * Component Particle System
     * Particle Emmitter
     * Particle Burst
