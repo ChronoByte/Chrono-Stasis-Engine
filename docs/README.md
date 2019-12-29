@@ -1,5 +1,5 @@
 ﻿
-## **Project overview** 
+# **Chrono Stasis Engine** 
 
 Chrono Stasis Engine is a 3D game engine developed/coded from scratch with OpenGL in C++.
 
