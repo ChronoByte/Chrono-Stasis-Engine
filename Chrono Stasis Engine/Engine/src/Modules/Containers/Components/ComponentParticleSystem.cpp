@@ -20,6 +20,12 @@ ComponentParticleSystem::~ComponentParticleSystem()
 		delete particleSystem;
 		particleSystem = nullptr; 
 	}
+
+	if (currentResource != nullptr)
+	{
+		currentResource->UnloadFromMemory();
+		currentResource = nullptr;
+	}
 }
 
 void ComponentParticleSystem::Update(float dt)
