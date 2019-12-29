@@ -73,7 +73,7 @@ public:
 	ParticleMutableInfo startInfo;
 	ParticleMutableInfo endInfo;
 
-	uint textureId = 8u; // Hardcoded for the moment
+	bool isPlaying = true; 
 
 private: 
 
