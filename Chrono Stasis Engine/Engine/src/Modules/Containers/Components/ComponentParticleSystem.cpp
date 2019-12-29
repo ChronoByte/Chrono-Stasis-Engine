@@ -521,37 +521,37 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	tmp_ps = name + "Emmitter.Radius";
 	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetRadius());
 	// OutRadius
-	tmp_ps = name + "Emmiter.OutRadius";
+	tmp_ps = name + "Emmitter.OutRadius";
 	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetOutRadius());
 	// MaxLife
-	tmp_ps = name + "Emmiter.MaxLife";
+	tmp_ps = name + "Emmitter.MaxLife";
 	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetMaxLife());
 	// CurrentLife
-	tmp_ps = name + "Emmiter.CurrentLife";
+	tmp_ps = name + "Emmitter.CurrentLife";
 	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetCurrentLife());
 	// SpawnRate
-	tmp_ps = name + "Emmiter.SpawnRate";
+	tmp_ps = name + "Emmitter.SpawnRate";
 	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetSpawnRate());
 	// Delay
-	tmp_ps = name + "Emmiter.Delay";
+	tmp_ps = name + "Emmitter.Delay";
 	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.GetDelay());
 	// Loop
-	tmp_ps = name + "Emmiter.Loop";
+	tmp_ps = name + "Emmitter.Loop";
 	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.GetLoop());
 	// Position
-	tmp_ps = name + "Emmiter.Position";
+	tmp_ps = name + "Emmitter.Position";
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetPosition());
 	// RelativePosition
-	tmp_ps = name + "Emmiter.RelativePosition";
+	tmp_ps = name + "Emmitter.RelativePosition";
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetRelativePosition());
 	// WorldPosition
-	tmp_ps = name + "Emmiter.WorldPosition";
+	tmp_ps = name + "Emmitter.WorldPosition";
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetWorldPosition());
 	// Rotation
-	tmp_ps = name + "Emmiter.Rotation";
+	tmp_ps = name + "Emmitter.Rotation";
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetRotation());
 	// Scale
-	tmp_ps = name + "Emmiter.Scale";
+	tmp_ps = name + "Emmitter.Scale";
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetScale());
 	
 	// ------------------------ Burst Info --------------------------- //
@@ -680,28 +680,28 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 	tmp_ps = name + "Emmitter.Radius";
 	particleSystem->emmitter.SetRadius(json_object_dotget_number(object, tmp_ps.c_str()));
 	// OutRadius
-	tmp_ps = name + "Emmiter.OutRadius";
+	tmp_ps = name + "Emmitter.OutRadius";
 	particleSystem->emmitter.SetOutRadius(json_object_dotget_number(object, tmp_ps.c_str()));
 	// MaxLife
-	tmp_ps = name + "Emmiter.MaxLife";
+	tmp_ps = name + "Emmitter.MaxLife";
 	particleSystem->emmitter.SetMaxLife(json_object_dotget_number(object, tmp_ps.c_str()));
 	// CurrentLife
-	tmp_ps = name + "Emmiter.CurrentLife";
+	tmp_ps = name + "Emmitter.CurrentLife";
 	particleSystem->emmitter.SetCurrentLife(json_object_dotget_number(object, tmp_ps.c_str()));
 	// SpawnRate
-	tmp_ps = name + "Emmiter.SpawnRate";
+	tmp_ps = name + "Emmitter.SpawnRate";
 	particleSystem->emmitter.SetSpawnRate(json_object_dotget_number(object, tmp_ps.c_str()));
 	// Delay
-	tmp_ps = name + "Emmiter.Delay";
+	tmp_ps = name + "Emmitter.Delay";
 	particleSystem->emmitter.SetDelay(json_object_dotget_number(object, tmp_ps.c_str()));
 	// Loop
-	tmp_ps = name + "Emmiter.Loop";
+	tmp_ps = name + "Emmitter.Loop";
 	particleSystem->emmitter.SetLoop(json_object_dotget_boolean(object, tmp_ps.c_str()));
 	// Position
-	tmp_ps = name + "Emmiter.Position";
+	tmp_ps = name + "Emmitter.Position";
 	particleSystem->emmitter.SetPosition(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
 	// RelativePosition
-	tmp_ps = name + "Emmiter.RelativePosition";
+	tmp_ps = name + "Emmitter.RelativePosition";
 	particleSystem->emmitter.SetRelativePosition(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
 
 	// WorldPosition
@@ -709,10 +709,10 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 	//particleSystem->emmitter.SetWoldPosition(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
 
 	// Rotation
-	tmp_ps = name + "Emmiter.Rotation";
+	tmp_ps = name + "Emmitter.Rotation";
 	particleSystem->emmitter.SetRotation(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
 	// Scale
-	tmp_ps = name + "Emmiter.Scale";
+	tmp_ps = name + "Emmitter.Scale";
 	particleSystem->emmitter.SetScale(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
 	
 	
