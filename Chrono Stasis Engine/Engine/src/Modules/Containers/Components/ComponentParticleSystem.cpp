@@ -84,15 +84,28 @@ void ComponentParticleSystem::InspectorInfo()
 			{
 				if (ImGui::Combo("Shape", &shapeSelected, "Sphere\0Hemisphere\0Cube\0Cone\0Plane\0\0")) { emmitter->SetShape((Emmitter_Shape)shapeSelected); }
 
-				float radius = emmitter->GetRadius();
-				if (ImGui::DragFloat("Radius", &radius, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetRadius(radius); }
+				switch (emmitter->GetShape())
+				{
+				case Emmitter_Shape::Sphere:
+				{
+					float radius = emmitter->GetRadius();
+					if (ImGui::DragFloat("Radius", &radius, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetRadius(radius); }
+				}
+					break;
 
-				float outRadius = emmitter->GetOutRadius();
-				if (ImGui::DragFloat("Outter Radius", &outRadius, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetOutRadius(outRadius); }
-				ImGui::DragFloat("Distance", &emmitter->distance, 0.2f, 0.0f, FLT_MAX);
-				// Radius,
-				// Size, 
-				// etc? 
+				case Emmitter_Shape::Cone:
+				{
+					// Not inner radius yet
+
+					float outRadius = emmitter->GetOutRadius();
+					if (ImGui::DragFloat("Outter Radius", &outRadius, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetOutRadius(outRadius); }
+
+					float distance = emmitter->GetDistance();
+					if (ImGui::DragFloat("Distance", &distance, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetDistance(distance); }
+				}
+					break; 
+
+				}
 
 				ImGui::TreePop();
 			}
