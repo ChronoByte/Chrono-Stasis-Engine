@@ -49,7 +49,7 @@ bool ParticleSystem::Update(float dt)
 			CreateParticle(particleInfo, startInfo, endInfo);
 		}
 
-		if (emmitter.hasToBurst())
+		if (emmitter.isActive() && emmitter.hasToBurst())
 			BurstParticles();
 		
 	}

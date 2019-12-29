@@ -229,7 +229,11 @@ update_status ModuleEditor::Update(float dt)
 				ImGui::EndMenu(); 
 			}
 			if (ImGui::MenuItem("Camera", "")) { App->scene->CreateCamera(nullptr, "Camera"); }
-			if (ImGui::MenuItem("Particle System", "")) { App->scene->CreateParticleSystem(nullptr, "Particle System"); }
+			if (ImGui::BeginMenu("Effects"))
+			{
+				if (ImGui::MenuItem("Particle System", "")) { App->scene->CreateParticleSystem(nullptr, "Particle System"); }
+				ImGui::EndMenu(); 
+			}
 
 
 			ImGui::EndMenu();
