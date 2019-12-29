@@ -10,3 +10,4 @@
 void InitSeedRNG();
 void InitSeedEntropy();
 UID GenerateUUID();
+int GetRandomBetween(int min, int max);

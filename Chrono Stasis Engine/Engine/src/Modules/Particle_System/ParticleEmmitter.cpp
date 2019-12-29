@@ -25,7 +25,7 @@ bool ParticleEmmitter::Update(float dt)
 
 	if (isActive() && currentSpawnTime >= spawnRate)
 	{
-		LOG("Spawning particle");
+		//LOG("Spawning particle");
 		spawnTimer.Start();
 		currentSpawnTime = 0.f;
 		return true;

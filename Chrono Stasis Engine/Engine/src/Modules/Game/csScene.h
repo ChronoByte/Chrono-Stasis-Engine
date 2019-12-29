@@ -74,6 +74,10 @@ public:
 	GameObject* CreateCamera(GameObject* parent, const char* name); 
 	GameObject* CreateParticleSystem(GameObject* parent, const char* name); 
 	GameObject* LoadGameObject(GameObject* parent, const char* name, UID uid);
+
+	void CreateFireWork(); 
+	void CreateExplosion(GameObject* parent);
+
 	// Selection
 	GameObject* GetSelected() const; 
 	void SetSelected(GameObject* go); 

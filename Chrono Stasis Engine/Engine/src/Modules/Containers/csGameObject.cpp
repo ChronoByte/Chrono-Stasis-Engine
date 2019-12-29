@@ -81,6 +81,8 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
+	if (logic.doLogic)
+		DoLogic(dt); 
 
 	std::list<Component*>::const_iterator it = components.begin();
 
@@ -89,6 +91,22 @@ void GameObject::Update(float dt)
 		if ((*it)->isActive())
 			(*it)->Update(dt); 
 	}
+
+}
+
+void GameObject::DoLogic(float dt)
+{
+	logic.currentLifeTime += dt; 
+
+	if (logic.currentLifeTime >= logic.maxLifeTime)
+	{
+		logic.invisible = true;
+		logic.velocity = float3::zero;
+		logic.doLogic = false;
+		App->scene->CreateExplosion(this);
+	}
+
+	GetTransform()->SetPosition(GetTransform()->GetPosition() + logic.velocity);
 
 }
 
