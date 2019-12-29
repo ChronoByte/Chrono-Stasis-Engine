@@ -103,7 +103,8 @@ void GameObject::DoLogic(float dt)
 		logic.invisible = true;
 		logic.velocity = float3::zero;
 		logic.doLogic = false;
-		App->scene->CreateExplosion(this);
+		//App->scene->CreateExplosion(this);
+		App->scene->CreateExplosion(GetTransform()->GetPosition(), logic.color);
 	}
 
 	GetTransform()->SetPosition(GetTransform()->GetPosition() + logic.velocity);

@@ -6,6 +6,7 @@
 
 #include "csGlobals.h"
 #include "MathGeoLib/include/Math/float3.h"
+#include "MathGeoLib/include/Math/float4.h"
 
 struct json_object_t;
 typedef struct json_object_t JSON_Object;
@@ -17,6 +18,7 @@ struct Logic
 	float3 velocity = float3::zero; 
 	float maxLifeTime = 0.f;
 	float currentLifeTime = 0.f; 
+	float4 color = float4::zero; 
 
 	bool invisible = false;
 };

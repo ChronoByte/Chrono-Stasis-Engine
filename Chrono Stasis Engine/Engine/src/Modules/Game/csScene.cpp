@@ -661,12 +661,14 @@ void ModuleScene::CreateFireWork()
 	GameObject* go = CreateObject3D(PrimitiveType::CUBE, nullptr);
 	CleanSelected();
 	go->GetTransform()->SetScale(float3(0.5f, 0.5f, 0.5f));
+	go->GetTransform()->SetRotationEuler(float3(90, 0, 0));
 
 
 	// Create the Particle System 
 
 	ComponentParticleSystem* particleSystem = (ComponentParticleSystem*)go->CreateComponent(ComponentType::C_PARTICLE_SYSTEM);
 	ParticleSystem* particle = particleSystem->GetSystem();
+
 
 	// Get Random values 
 	float radiusArea = 10;
@@ -679,27 +681,56 @@ void ModuleScene::CreateFireWork()
 	float3 velocity = skyPoint.Normalized() * speed;
 	float maxLifeTime = GetRandomBetween(1, 2);
 
+	float4 color = float4::RandomDir(lcg);
+	color.w = 1.f; 
 	LOG("Speed: %f", speed);
 	LOG("Max Life: %f", maxLifeTime);
 	LOG("Direction: %f x - %f y - %f z", velocity.x, velocity.y, velocity.z);
+
+
 	// Give values to Game Object
 
 	go->logic.doLogic = true;
 	go->logic.velocity = velocity;
 	go->logic.maxLifeTime = maxLifeTime;
-
+	go->logic.color = color;
 
 	// Give values to particle System 
-	particle->particleInfo.size = 0.3f;
-	particle->particleInfo.speed = 1.f;
-	particle->emmitter.SetRotation(velocity * -1);
-	particle->emmitter.SetShape(Emmitter_Shape::Cone);
-	particle->emmitter.SetLoop(false);
+	App->serialization->particleCallback = particleSystem;
+	App->serialization->LoadParticleSystem("Assets/Particles/FireworkTrail.particle.json");
+	particle->ResetSystem();
+	particle->particleInfo.color = color; 
+
+	particle->endInfo.color = color; 
+	particle->endInfo.color.w = 0; 
+
+	particle->emmitter.SetPosition(go->GetTransform()->GetPosition());
 	particle->emmitter.SetMaxLife(maxLifeTime);
-	particle->emmitter.SetSpawnRate(20.f);
-	/*particle->emmitter.burst.active = true;
-	particle->emmitter.burst.timeToBurst = maxLifeTime;
-	particle->emmitter.burst.partsToInstantiate = 200;*/
+	particle->emmitter.SetLoop(false);
+
+}
+
+void ModuleScene::CreateExplosion(float3 position, float4 color)
+{
+	GameObject* go = CreateGameObject(nullptr, "Explosion");
+	CleanSelected();
+	go->GetTransform()->SetPosition(position);
+
+	ComponentParticleSystem* particleSystem = (ComponentParticleSystem*)go->CreateComponent(ComponentType::C_PARTICLE_SYSTEM);
+	ParticleSystem* particle = particleSystem->GetSystem();
+
+	App->serialization->particleCallback = particleSystem;
+	App->serialization->LoadParticleSystem("Assets/Particles/ExplosionA.particle.json");
+	particleSystem->GetSystem()->ResetSystem();
+	particleSystem->GetSystem()->emmitter.SetPosition(go->GetTransform()->GetPosition());
+
+	particle->particleInfo.color = color;
+	particle->endInfo.color = color;
+	particle->endInfo.color.w = 0;
+
+	particle->emmitter.burst.partsToInstantiate = GetRandomBetween(250, 400);
+	particle->particleInfo.speed = GetRandomBetween(4, 7);
+	particle->particleInfo.maxLifeTime = GetRandomBetween(3, 6);
 }
 
 void ModuleScene::CreateExplosion(GameObject * parent)
@@ -712,18 +743,10 @@ void ModuleScene::CreateExplosion(GameObject * parent)
 	ParticleSystem* particle = particleSystem->GetSystem();
 
 	App->serialization->particleCallback = particleSystem;
-	App->serialization->LoadParticleSystem("Assets/Scenes/PartTest3.particle.json");
+	App->serialization->LoadParticleSystem("Assets/Particles/ExplosionA.particle.json");
 	particleSystem->GetSystem()->ResetSystem();
 	particleSystem->GetSystem()->emmitter.SetPosition(go->GetTransform()->GetPosition());
-	/*particle->particleInfo.size = 0.3f;
-	particle->particleInfo.speed = 2.f;
-	particle->emmitter.SetShape(Emmitter_Shape::Sphere);
-	particle->emmitter.SetLoop(false);
-	particle->emmitter.SetMaxLife(1.f);
-	particle->emmitter.SetSpawnRate(0.f);
-	particle->emmitter.burst.active = true;
-	particle->emmitter.burst.timeToBurst = 0.5f;
-	particle->emmitter.burst.partsToInstantiate = 200;*/
+
 }
 
 

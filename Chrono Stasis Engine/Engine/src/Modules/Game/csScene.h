@@ -76,6 +76,7 @@ public:
 	GameObject* LoadGameObject(GameObject* parent, const char* name, UID uid);
 
 	void CreateFireWork(); 
+	void CreateExplosion(float3 position, float4 color);
 	void CreateExplosion(GameObject* parent);
 
 	// Selection
