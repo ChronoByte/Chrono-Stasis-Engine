@@ -33,23 +33,26 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
     * Gizmo UI
     * Particle System
 
-* [GitHub account]()
+
 
 
 <a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_sebas.JPG" align="right" height="150" width="150" ></a>
 
 ### _López Nosequemás, Sebastián_
-* Time Management
-* Mouse Picking
-* Unity like camera controls
-* ImgGui editor
-* File system
-* Gizmo UI
-* Camera
-* Particle System
 
-* [GitHub account]()
-
+* Github Account:
+   * [GitHub account]()
+  
+* Resposabilities: 
+    * Time Management
+    * Mouse Picking
+    * Unity like camera controls
+    * ImgGui editor
+    * File system
+    * Gizmo UI
+    * Camera
+    * Particle System
+    
 ***
 
 ## **Main core subsystems**
