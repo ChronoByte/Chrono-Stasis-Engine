@@ -90,6 +90,9 @@ void ComponentParticleSystem::InspectorInfo()
 				{
 					float radius = emmitter->GetRadius();
 					if (ImGui::DragFloat("Radius", &radius, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetRadius(radius); }
+
+					int zoneSelected = (int)emmitter->GetZone();
+					if (ImGui::Combo("Emmission Zone", &zoneSelected, "Center\0Volume\0\0")) { emmitter->SetZone((Emmitter_Zone)zoneSelected); }
 				}
 					break;
 

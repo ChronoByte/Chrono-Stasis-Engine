@@ -241,6 +241,11 @@ void ParticleEmmitter::SetShape(Emmitter_Shape shape)
 	this->shape = shape;
 }
 
+void ParticleEmmitter::SetZone(Emmitter_Zone zone)
+{
+	this->zone = zone;
+}
+
 void ParticleEmmitter::SetRadius(float radius)
 {
 	this->radius = radius;
@@ -316,6 +321,11 @@ void ParticleEmmitter::SetScale(float3 scale)
 Emmitter_Shape ParticleEmmitter::GetShape() const
 {
 	return shape;
+}
+
+Emmitter_Zone ParticleEmmitter::GetZone() const
+{
+	return zone;
 }
 
 float ParticleEmmitter::GetRadius() const

@@ -70,6 +70,7 @@ public :
 	// ----- Modify Emmitter -----
 
 	void SetShape(Emmitter_Shape shape);
+	void SetZone(Emmitter_Zone zone);
 	void SetRadius(float radius);
 	void SetOutRadius(float radius);
 	void SetDistance(float distance); 
@@ -92,6 +93,7 @@ public :
 	// ----- Get Emmitter -----
 
 	Emmitter_Shape GetShape() const;
+	Emmitter_Zone GetZone() const;
 	float GetRadius() const;
 	float GetOutRadius() const;
 	float GetDistance() const; 
