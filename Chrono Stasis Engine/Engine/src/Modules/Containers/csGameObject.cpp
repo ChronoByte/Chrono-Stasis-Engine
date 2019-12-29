@@ -82,14 +82,6 @@ GameObject::~GameObject()
 
 void GameObject::Update(float dt)
 {
-	if (logic.doLogic)
-		DoLogic(dt);
-
-	ComponentParticleSystem* partSystem = (ComponentParticleSystem*)FindComponent(ComponentType::C_PARTICLE_SYSTEM);
-
-	if (partSystem != nullptr && logic.readyToDie && !partSystem->GetSystem()->isSystemActive())
-		to_delete = true;
-
 	std::list<Component*>::const_iterator it = components.begin();
 
 	for (it; it != components.end(); ++it)
@@ -119,6 +111,14 @@ void GameObject::DoLogic(float dt)
 
 void GameObject::OnGameUpdate(float dt)
 {
+	if (logic.doLogic)
+		DoLogic(dt);
+
+	ComponentParticleSystem* partSystem = (ComponentParticleSystem*)FindComponent(ComponentType::C_PARTICLE_SYSTEM);
+
+	if (partSystem != nullptr && logic.readyToDie && !partSystem->GetSystem()->isSystemActive())
+		to_delete = true;
+
 	LOG("Game Playing with dt: %f", dt); 
 	std::list<Component*>::const_iterator it = components.begin();
 
