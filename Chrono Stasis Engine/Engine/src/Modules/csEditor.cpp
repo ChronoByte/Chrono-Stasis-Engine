@@ -9,7 +9,8 @@
 
 #include "ComponentMesh.h"
 
-// Including windows
+// ------ Including windows------
+
 #include "src/Structure/ConfigWindow.h"
 #include "src/Structure/CollisionWindow.h"
 #include "src/Structure/AboutWindow.h"
@@ -25,6 +26,9 @@
 #include "src/Structure/ResourceBrowserWindow.h"
 #include "src/Structure/TimeWindow.h"
 #include "src/Structure/TextureBrowserWindow.h"
+#include "src/Structure/ParticlesWindow.h"
+
+// ---------------------------------
 
 ModuleEditor::ModuleEditor(bool start_enabled) : Module(start_enabled)
 {
@@ -53,6 +57,7 @@ bool ModuleEditor::Init(JSON_Object* node)
 	windows.push_back(resource_browser = new ResourceBrowserWindow(false));
 	windows.push_back(timeWindow = new TimeWindow(true));
 	windows.push_back(textureBrowser = new TextureBrowserWindow(false));
+	windows.push_back(particleWindow = new ParticlesWindow(true));
 
 	LOG("-------------- Application Init --------------");	// This is stuffed here so it logs into the console, which was not created previously
 
@@ -98,6 +103,13 @@ bool ModuleEditor::CleanUp()
 	hierarchy = nullptr; 
 	geometryWin = nullptr; 
 	sceneView = nullptr;
+	gameView = nullptr;
+	browser = nullptr;
+	project = nullptr;
+	resource_browser = nullptr;
+	timeWindow = nullptr;
+	textureBrowser = nullptr;
+	particleWindow = nullptr;
 
 	delete iconFolder;
 	iconFolder = nullptr; 

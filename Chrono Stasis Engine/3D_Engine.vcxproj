@@ -290,6 +290,7 @@
     <ClInclude Include="Engine\src\Structure\GeometryWindow.h" />
     <ClInclude Include="Engine\src\Structure\HierarchyWindow.h" />
     <ClInclude Include="Engine\src\Structure\InspectorWindow.h" />
+    <ClInclude Include="Engine\src\Structure\ParticlesWindow.h" />
     <ClInclude Include="Engine\src\Structure\ProjectWindow.h" />
     <ClInclude Include="Engine\src\Structure\RandomWindow.h" />
     <ClInclude Include="Engine\src\Structure\ResourceBrowserWindow.h" />
@@ -354,6 +355,7 @@
     <ClCompile Include="Engine\src\Structure\GeometryWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\HierarchyWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\InspectorWindow.cpp" />
+    <ClCompile Include="Engine\src\Structure\ParticlesWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ProjectWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\RandomWindow.cpp" />
     <ClCompile Include="Engine\src\Structure\ResourceBrowserWindow.cpp" />

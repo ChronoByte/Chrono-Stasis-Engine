@@ -59,6 +59,7 @@ public:
 
 	void SetBillboardType(BillboardType type);
 	BillboardType GetBillboardType() const;
+	uint GetTotalParticles() const;
 
 	bool isSystemActive() const; 
 	void ResetSystem(); 

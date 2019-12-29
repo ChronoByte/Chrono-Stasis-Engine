@@ -34,6 +34,7 @@ class ResourceBrowserWindow;
 class TimeWindow;
 class Window;
 class TextureBrowserWindow;
+class ParticlesWindow; 
 
 struct TextureInfo;
 
@@ -82,6 +83,7 @@ public:
 	ResourceBrowserWindow*	resource_browser = nullptr;
 	TimeWindow*				timeWindow = nullptr; 
 	TextureBrowserWindow*	textureBrowser = nullptr; 
+	ParticlesWindow*			particleWindow = nullptr; 
 
 	bool show_demo_window = false;
 	bool show_style_window = false;

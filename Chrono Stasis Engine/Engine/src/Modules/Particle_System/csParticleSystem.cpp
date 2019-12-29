@@ -176,6 +176,11 @@ BillboardType ParticleSystem::GetBillboardType() const
 	return bbType;
 }
 
+uint ParticleSystem::GetTotalParticles() const
+{
+	return totalParticles;
+}
+
 bool ParticleSystem::isSystemActive() const
 {
 	return !particles.empty() || emmitter.isActive();
@@ -194,6 +199,8 @@ void ParticleSystem::ResetSystem()
 	}
 
 	particles.clear();
+
+	totalParticles = 0u;
 }
 
 bool compareParticles(Particle * a, Particle * b)
