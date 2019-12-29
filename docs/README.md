@@ -190,21 +190,52 @@ There are three main known cases where the overall perfomance might decrease sig
 
 ***
 
-## **Controls**
+## **Controls & Instructions**
 
 ~~~~~~~~~~~~~~~
 Controls
 
-- Select object: Left click
+GameObjects
+ - Right Click: Select it
+ - Left Click (Hierarchy): Delete it
+ 
+Hierarchy panel:
+  - Create -> Empty Object
+  - Create -> 3D Object (cube, shpere, etc)
+  - Create -> Camera (enables Game view)
+  - Create -> Efects -> Particle System
 
 Gizmos
-
 - W/E/R: Change gizmo to Translate, Rotation and Scale
 
-Assets controls
+Scene Serialization
 
-- Load scene: Double left clic
+ - Save Scene (File bar menu): Select Scenes folder and input a name (without typing extension!) -> Save button
+ - Load Scene (File bar menu): Select Scenes folder and select a file-> Load button
+ 
+ Assets Project Window:
+ 
+ - Scenes: Select Scene folder from project window and double-click it to load a whole scene
+ - Models: Select Models folder from project window and double-click it to load a mesh
+ - Textures / Icons / Particles: They are just visual
+ 
+Particle System (Inspector):
 
+- Emmitter: Lot of emmitter customization include its shape and burst
+- Particle: Lot of particle properties customization
+- Renderer:
+   - Billboard: Choose a billboard mode -> Screen Aligned / World Aligned / Axially Aligned
+   - Texture Button: Choose a texture for the particle quad
+   - Blending: Customize blending color modes and Blend Equation options
+- Serialization:
+   - Save Particle System Button: Select Particles folder and input a name for the file (without typing extension!) -> Save button
+   - Load Particle System Button: Select Particles and select a template particle file-> Load button
+ Particle System (Scene View):
+   - Preview Panel: When a Particle System object is selected, a preview panel is displayed to manipulate its time managment (Play / Pause / Restart)
+   
+ Particle System (Game Mode):
+    - 1 Key: Fireworks shooting
+    
 Camera
 
 - Mouse Right + WASD: fps-like movement and free look around
@@ -212,7 +243,11 @@ Camera
 - Mouse Left + Alt: Move Camera around object (Orbit)
 - Mouse wheel: Move Camera Zoom in and Zoom out
 - F: Center the Camera on an object when is selected
-- HIFT: Duplicates movement speed.
+- SHIFT: Duplicates movement speed.
+
+Performance:
+
+ Z key: Z-Buffer
 
 ~~~~~~~~~~~~~~~
 
