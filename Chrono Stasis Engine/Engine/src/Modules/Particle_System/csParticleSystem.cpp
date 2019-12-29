@@ -87,9 +87,13 @@ bool ParticleSystem::PostUpdate(float dt)
 
 	// ------------------ FAR TO NEAR ORDER PARTICLES WITH BLEND ------------------------
 
+	ComponentCamera* mainCamera = App->scene->GetMainCamera();
+	if (mainCamera == nullptr)
+		mainCamera = App->camera->fakeCamera;
+
 	for (uint i = 0; i < particles.size(); ++i)
 	{
-		float distance = App->camera->fakeCamera->GetPos().DistanceSq(particles[i]->GetPosition());
+		float distance = mainCamera->GetPos().DistanceSq(particles[i]->GetPosition());
 		sortedParticles[distance] = particles[i];
 	}
 
@@ -128,9 +132,13 @@ void ParticleSystem::DrawParticles()
 
 	//-------------------------- DRAW PARTICLES FAR TO NEAR ------------------
 
+	ComponentCamera* mainCamera = App->scene->GetMainCamera(); 
+	if (mainCamera == nullptr)
+		mainCamera = App->camera->fakeCamera;
+
 	for (std::map<float, Particle*>::reverse_iterator iter = sortedParticles.rbegin(); iter != sortedParticles.rend(); ++iter)
 	{
-		iter->second->Orientate(App->camera->fakeCamera);
+		iter->second->Orientate(mainCamera);
 		iter->second->Draw();	
 	}
 	sortedParticles.clear();

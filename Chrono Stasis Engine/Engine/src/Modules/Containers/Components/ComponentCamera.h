@@ -83,5 +83,5 @@ private:
 
 	float bgColor[4] = { 0.6784f, 0.8392f, 1.f, 1.f };
 	float aspectRatio = 0.0f;
-	bool culling = true; 
+	bool culling = false; 
 };

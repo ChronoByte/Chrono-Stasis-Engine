@@ -20,8 +20,10 @@ void ComponentBillboard::Update(float dt)
 
 	// For the moment, debug with editor camera:
 
-	ComponentCamera* camera = App->camera->fakeCamera;
-	
+	ComponentCamera* camera = App->scene->GetMainCamera();
+	if (camera == nullptr)
+		camera = App->camera->fakeCamera;
+
 	ComponentTransform* transform = GetOwner()->GetTransform();
 	switch (bbType)
 	{

@@ -59,7 +59,7 @@ void ComponentParticleSystem::OnDraw()
 
 void ComponentParticleSystem::OnDebugDraw()
 {
-	if(drawEmmitter)
+	if(drawEmmitter && App->scene->GetSelected() == owner)
 		particleSystem->DrawEmmitter();
 }
 
