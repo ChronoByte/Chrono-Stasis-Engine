@@ -14,7 +14,12 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 ## **Team**
 
 
-<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="150" width="150" ></a> 
+<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="150" width="150" ><p>
+[GitHub account]()
+</p>
+</a> 
+
+
 
 ### _Peña Hernando, Carlos_
 
