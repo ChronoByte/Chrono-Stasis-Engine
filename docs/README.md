@@ -146,11 +146,36 @@ We use an adaptable Octree to speed up the drawing process and mouse picking, qu
 We have used the ImGui library for our Engine UI.
 We have been able to do all the menus, hierarchy window, buttons and texts. It has helped us with all the Engine UI options 
 
-## **HIGH-LEVEL SYSTEM: PARTICLE SYSTEM**
+# **HIGH-LEVEL SYSTEM: PARTICLE SYSTEM**
 
 We have developed a particle system for our engine, but before we started to develop the particulate system we had to add different  engine functionalities like the billboard and transparencies 
 
-### Billboarding
+## Billboarding
+
+You can add a component Billboard to any GameObject.
+Once the component is added you can choose between one of the following alignments:
+
+### Screen Aligned
+Objects follows camera rotation
+
+<p align="center">
+<img src="https://media.giphy.com/media/SsNinkZCb9dyjwKgXA/giphy.gif" width="400">
+</p>
+
+### World Aligned
+Objects look towards the camera. 
+
+<p align="center">
+<img src="https://media.giphy.com/media/H1wp7aKn9slX279Ei8/giphy.gif" width="400">
+</p>
+
+### Axially Aligned
+Objects look towards the camera, but user can lock one of the axis. 
+
+<p align="center">
+<img src="https://media.giphy.com/media/gH8142A7h5guaLSkE9/giphy.gif" width="400">
+</p>
+
 
 ### Transparencies
 
