@@ -44,8 +44,8 @@ bool ModuleScene::Start()
 	//CreateCamera(nullptr, "Main Camera");
 
 	ClearScene();
-	App->serialization->scene_to_serialize = "Assets/Scenes/scene4";
-	//App->serialization->scene_to_serialize = "Assets/Scenes/ParticleSystemScene";
+	//App->serialization->scene_to_serialize = "Assets/Scenes/scene4";
+	App->serialization->scene_to_serialize = "Assets/Scenes/ParticleSystemScene";
 	App->serialization->LoadScene((App->serialization->scene_to_serialize + SCENES_EXTENSION).c_str());
 
 	////App->serialization->LoadScene("Assets/Scenes/SmokeTest.scene.json");

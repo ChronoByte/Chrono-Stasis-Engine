@@ -150,9 +150,7 @@ void ComponentParticleSystem::InspectorInfo()
 		{
 			ImGui::DragFloat("Life Time", &particleSystem->particleInfo.maxLifeTime, 1.0f, 0.0f, FLT_MAX);
 			ImGui::DragFloat("Speed", (float*)&particleSystem->particleInfo.speed, 0.2f);
-			if (ImGui::Button("Chose Texture")) {
-				App->editor->textureBrowser->SetActive(true); App->editor->textureBrowser->callback = this;
-			}
+
 			// Initial State || Final State
 			if (ImGui::TreeNodeEx("Start State", ImGuiTreeNodeFlags_DefaultOpen))
 			{
@@ -192,18 +190,16 @@ void ComponentParticleSystem::InspectorInfo()
 				particleSystem->SetBillboardType((BillboardType)bbTypeSelected);
 			}
 			
-
-			
 			// Material
-			if (resMat != nullptr)
-			{
+		
 
-				if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0\0"))
+			if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0\0"))
+			{
+				switch (matTypeSelected)
 				{
-					switch (matTypeSelected)
-					{
 					case 0: //None
 					{
+						App->editor->textureBrowser->callback = this;
 						App->editor->textureBrowser->callback->AssignResource(0);
 						App->editor->textureBrowser->callback = nullptr;
 						break;
@@ -214,40 +210,47 @@ void ComponentParticleSystem::InspectorInfo()
 						App->editor->textureBrowser->callback = this;
 						break;
 					}
-					
-
-					}
 				}
+			}
 
-
+			if (resMat != nullptr)
+			{
 				ImGui::Spacing();
 				ImGui::Text(resMat->GetName());
 				ImGui::Image((ImTextureID)resMat->gpu_id, ImVec2(ImVec2(PREVIEW_SIZE * 3, PREVIEW_SIZE * 3)), { 0,1 }, { 1,0 });
 				ImGui::Text("Reference Counting: ");
 				ImGui::SameLine();
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences()-1);
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences() - 1);
 				ImGui::Spacing();
 				ImGui::Text("Transparency: ");
 				ImGui::SliderFloat(" ", &particleSystem->particleInfo.color.w, 0.0f, 1.0f);
 				ImGui::Spacing();
+			}
+			else
+			{			
+				ImGui::Spacing();
+				ImGui::Text("No Texture");
+				ImGui::Spacing();
+			}
 
-				
+			if (ImGui::TreeNodeEx("Blending Options"))
+			{
 				ImGui::Text("Blending Color: ");
 				if (ImGui::Combo("Source", &funcTypeSource, "ZERO\0ONE\0SRC_COLOR\0ONE_MINUS_SRC_COLOR\0DST_COLOR\0ONE_MINUS_DST_COLOR\0SRC_ALPHA\0ONE_MINUS_SRC_ALPHA\0DST_ALPHA\0ONE_MINUS_DST_ALPHA\0CONSTANT_COLOR\0ONE_MINUS_CONSTANT_COLOR\0CONSTANT_ALPHA\0ONE_MINUS_CONSTANT_ALPHA\0\0"))
 				{
 					switch (funcTypeSource)
 					{
-					case 0: 
+					case 0:
 					{
 						particleSystem->funcBlendSource = FunctionBlendType::ZERO;
 						break;
 					}
-					case 1: 
+					case 1:
 					{
 						particleSystem->funcBlendSource = FunctionBlendType::ONE;
 						break;
 					}
-					case 2: 
+					case 2:
 					{
 						particleSystem->funcBlendSource = FunctionBlendType::SRC_COLOR;
 						break;
@@ -310,7 +313,7 @@ void ComponentParticleSystem::InspectorInfo()
 
 					}
 				}
-					
+
 
 				if (ImGui::Combo("Destination", &funcTypeDest, "ZERO\0ONE\0SRC_COLOR\0ONE_MINUS_SRC_COLOR\0DST_COLOR\0ONE_MINUS_DST_COLOR\0SRC_ALPHA\0ONE_MINUS_SRC_ALPHA\0DST_ALPHA\0ONE_MINUS_DST_ALPHA\0CONSTANT_COLOR\0ONE_MINUS_CONSTANT_COLOR\0CONSTANT_ALPHA\0ONE_MINUS_CONSTANT_ALPHA\0\0"))
 				{
@@ -389,7 +392,7 @@ void ComponentParticleSystem::InspectorInfo()
 
 					}
 				}
-					
+
 				ImGui::Spacing();
 
 				ImGui::Text("Blend Equation: ");
@@ -415,39 +418,10 @@ void ComponentParticleSystem::InspectorInfo()
 
 					}
 				}
+				ImGui::TreePop();
+			}
 			
-			}
-			else
-			{
-				
-				if (ImGui::Combo("Material", &matTypeSelected, "None\0Texture\0\0"))
-				{
-					switch (matTypeSelected)
-					{
-						case 0: //None
-						{
-							App->editor->textureBrowser->callback->AssignResource(0);
-							App->editor->textureBrowser->callback = nullptr;
-							break;
-						}
-						case 1: //Texture
-						{
-							App->editor->textureBrowser->SwitchActive();
-							App->editor->textureBrowser->callback = this;
-							break;
-						}
-						
 
-					}
-				}
-				
-				ImGui::Spacing();
-				ImGui::Text("No Texture");
-				ImGui::Image((ImTextureID)2, ImVec2(ImVec2(PREVIEW_SIZE * 3, PREVIEW_SIZE * 3)), { 0,1 }, { 1,0 });
-				ImGui::Text("Reference Counting: ");
-				ImGui::SameLine();
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences());
-			}
 			ImGui::TreePop();
 		}
 		
