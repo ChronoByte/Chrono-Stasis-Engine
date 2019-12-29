@@ -496,6 +496,10 @@ void GameObject::LoadComponents(const JSON_Object* object, std::string name, uin
 			this->CreateComponent(ComponentType::C_CAMERA);
 			break;
 
+		case ComponentType::C_PARTICLE_SYSTEM:
+			this->CreateComponent(ComponentType::C_PARTICLE_SYSTEM);
+			break;
+
 		default:
 			break;
 		}

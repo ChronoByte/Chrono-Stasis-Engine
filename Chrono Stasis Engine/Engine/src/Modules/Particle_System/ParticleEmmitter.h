@@ -75,12 +75,14 @@ public :
 	void SetDistance(float distance); 
 
 	void SetMaxLife(float maxLife); 
+	void SetCurrentLife(float currentLife);
 	void SetSpawnRate(float spawnRate);
 	void SetDelay(float delay);
 	void SetLoop(bool isLoop);
 
 	void SetPosition(float3 position);
 	void SetRelativePosition(float3 position);
+	
 	void SetRotation(Quat rotation);
 	void SetRotation(float3 rotation);
 	void SetScale(float3 scale);

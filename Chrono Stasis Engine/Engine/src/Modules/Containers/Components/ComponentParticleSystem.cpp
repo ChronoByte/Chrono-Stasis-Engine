@@ -472,7 +472,7 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	json_object_dotset_number(object, tmp_ps.c_str(), UUID);
 
 
-	// --------------- Billboard Info -------------------- //
+	// ----------------------- Billboard Info ----------------------- //
 	tmp_ps = name + "Billboard.Type";
 	json_object_dotset_number(object, tmp_ps.c_str(), (double)particleSystem->bbType);
 
@@ -510,7 +510,7 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	tmp_ps = name + "Start.ChangeOverLifeTime";
 	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->particleInfo.changeOverLifeTime);
 
-	// --------------- Particle System End Info -------------------- //
+	// ----------------- Particle System End Info -------------------- //
 
 	// Color
 	tmp_ps = name + "End.Color";
@@ -525,7 +525,7 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	tmp_ps = name + "End.Force";
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->endInfo.force);
 
-	// --------------- Emitter Info -------------------- //
+	// ---------------------- Emitter Info --------------------------- //
 	
 	// Shape
 	tmp_ps = name + "Emmitter.Shape";
@@ -567,8 +567,22 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	tmp_ps = name + "Emmiter.Scale";
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->emmitter.GetScale());
 	
+	// ------------------------ Burst Info --------------------------- //
 
-	// --------------- Blending Info -------------------- //
+	// TimeBurst
+	tmp_ps = name + "Burst.TimeBurst";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.burst.timeToBurst);
+	// PartsInstanciate
+	tmp_ps = name + "Burst.PartsInstanciate";
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.burst.partsToInstantiate);
+	// hasBursted
+	tmp_ps = name + "Burst.HasBursted";
+	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.burst.hasBursted);
+	// Active
+	tmp_ps = name + "Burst.Active";
+	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.burst.active);
+	
+	// ---------------------- Blending Info -------------------------- //
 	
 	// Source
 	tmp_ps = name + "Blending.Source";
@@ -609,6 +623,168 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 
 void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 {
+	std::string tmp_ps;
 
+	// ------------------------ General Info ------------------------ //
+	tmp_ps = name + "UUID";
+	UUID = json_object_dotget_number(object, tmp_ps.c_str());
+
+
+	// ----------------------- Billboard Info ----------------------- //
+	tmp_ps = name + "Billboard.Type";
+	particleSystem->bbType = (BillboardType)(int)json_object_dotget_number(object, tmp_ps.c_str());
+
+	// --------------- Particle System Start Info -------------------- //
+	// Position
+	tmp_ps = name + "Start.Position";
+	particleSystem->particleInfo.position = App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str());
+	// Rotation
+	tmp_ps = name + "Start.Rotation";
+	float4 rotation = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
+	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+	particleSystem->particleInfo.rotation = rot;
+	// Velocity
+	tmp_ps = name + "Start.Velocity";
+	particleSystem->particleInfo.velocity = App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str());
+	// Force
+	tmp_ps = name + "Start.Force";
+	particleSystem->particleInfo.force = App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str());
+	// Speed
+	tmp_ps = name + "Start.Speed";
+	particleSystem->particleInfo.speed = json_object_dotget_number(object, tmp_ps.c_str());
+	// Color
+	tmp_ps = name + "Start.Color";
+	particleSystem->particleInfo.color = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
+	// Size
+	tmp_ps = name + "Start.Size";
+	particleSystem->particleInfo.size = json_object_dotget_number(object, tmp_ps.c_str());
+	// LightColor
+	tmp_ps = name + "Start.LightColor";
+	particleSystem->particleInfo.lightColor = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
+	// MaxLifeTime
+	tmp_ps = name + "Start.MaxLifeTime";
+	particleSystem->particleInfo.maxLifeTime = json_object_dotget_number(object, tmp_ps.c_str());
+	// changeOverLifeTime
+	tmp_ps = name + "Start.ChangeOverLifeTime";
+	particleSystem->particleInfo.changeOverLifeTime = json_object_dotget_boolean(object, tmp_ps.c_str());
+	
+	
+	// ----------------- Particle System End Info -------------------- //
+
+	// Color
+	tmp_ps = name + "End.Color";
+	particleSystem->endInfo.color = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
+	// Size
+	tmp_ps = name + "End.Size";
+	particleSystem->endInfo.size = json_object_dotget_number(object, tmp_ps.c_str());
+	// LightColor
+	tmp_ps = name + "End.LightColor";
+	particleSystem->endInfo.lightColor = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
+	// Force
+	tmp_ps = name + "End.Force";
+	particleSystem->endInfo.force = App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str());
+
+	// ---------------------- Emitter Info --------------------------- //
+
+	// Shape
+	tmp_ps = name + "Emmitter.Shape";
+	particleSystem->emmitter.SetShape((Emmitter_Shape)(int)json_object_dotget_number(object, tmp_ps.c_str()));
+	// Radius
+	tmp_ps = name + "Emmitter.Radius";
+	particleSystem->emmitter.SetRadius(json_object_dotget_number(object, tmp_ps.c_str()));
+	// OutRadius
+	tmp_ps = name + "Emmiter.OutRadius";
+	particleSystem->emmitter.SetOutRadius(json_object_dotget_number(object, tmp_ps.c_str()));
+	// MaxLife
+	tmp_ps = name + "Emmiter.MaxLife";
+	particleSystem->emmitter.SetMaxLife(json_object_dotget_number(object, tmp_ps.c_str()));
+	// CurrentLife
+	tmp_ps = name + "Emmiter.CurrentLife";
+	particleSystem->emmitter.SetCurrentLife(json_object_dotget_number(object, tmp_ps.c_str()));
+	// SpawnRate
+	tmp_ps = name + "Emmiter.SpawnRate";
+	particleSystem->emmitter.SetSpawnRate(json_object_dotget_number(object, tmp_ps.c_str()));
+	// Delay
+	tmp_ps = name + "Emmiter.Delay";
+	particleSystem->emmitter.SetDelay(json_object_dotget_number(object, tmp_ps.c_str()));
+	// Loop
+	tmp_ps = name + "Emmiter.Loop";
+	particleSystem->emmitter.SetLoop(json_object_dotget_boolean(object, tmp_ps.c_str()));
+	// Position
+	tmp_ps = name + "Emmiter.Position";
+	particleSystem->emmitter.SetPosition(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
+	// RelativePosition
+	tmp_ps = name + "Emmiter.RelativePosition";
+	particleSystem->emmitter.SetRelativePosition(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
+
+	// WorldPosition
+	//tmp_ps = name + "Emmiter.WorldPosition";
+	//particleSystem->emmitter.SetWoldPosition(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
+
+	// Rotation
+	tmp_ps = name + "Emmiter.Rotation";
+	particleSystem->emmitter.SetRotation(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
+	// Scale
+	tmp_ps = name + "Emmiter.Scale";
+	particleSystem->emmitter.SetScale(App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str()));
+	
+	
+	// ------------------------ Burst Info --------------------------- //
+
+	// TimeBurst
+	tmp_ps = name + "Burst.TimeBurst";
+	particleSystem->emmitter.burst.timeToBurst = json_object_dotget_number(object, tmp_ps.c_str());
+	// PartsInstanciate
+	tmp_ps = name + "Burst.PartsInstanciate";
+	particleSystem->emmitter.burst.partsToInstantiate = json_object_dotget_number(object, tmp_ps.c_str());
+	// hasBursted
+	tmp_ps = name + "Burst.HasBursted";
+	particleSystem->emmitter.burst.hasBursted = json_object_dotget_boolean(object, tmp_ps.c_str());
+	// Active
+	tmp_ps = name + "Burst.Active";
+	particleSystem->emmitter.burst.active = json_object_dotget_boolean(object, tmp_ps.c_str());
+
+
+	// ---------------------- Blending Info -------------------------- //
+	// Source
+	tmp_ps = name + "Blending.Source";
+	particleSystem->funcBlendSource = (FunctionBlendType)(int)json_object_dotget_number(object, tmp_ps.c_str());
+	// Destination
+	tmp_ps = name + "Blending.Destination";
+	particleSystem->funcBlendDest = (FunctionBlendType)(int)json_object_dotget_number(object, tmp_ps.c_str());
+	// Equation
+	tmp_ps = name + "Blending.Equation";
+	particleSystem->eqBlend = (EquationBlendType)(int)json_object_dotget_number(object, tmp_ps.c_str());
+
+	// ------------------- Material Resource Info -------------------- //
+	tmp_ps = name + "Resource Material UUID";
+	UID resUUID = json_object_dotget_number(object, tmp_ps.c_str());
+
+	tmp_ps = name + "Resource Material Path";
+	std::string exported_file = json_object_dotget_string(object, tmp_ps.c_str());
+
+	tmp_ps = name + "Resource Material File";
+	std::string file = json_object_dotget_string(object, tmp_ps.c_str());
+
+	tmp_ps = name + "Resource Material Name";
+	std::string name_file = json_object_dotget_string(object, tmp_ps.c_str());
+
+	if (resUUID > 0)
+	{
+		ResourceTexture* resMat = (ResourceTexture*)App->resources->GetResource(resUUID);
+		if (resMat != nullptr)
+		{
+			this->AssignResource(resUUID);
+			resMat->LoadToMemory();
+		}
+		else
+		{
+			resMat = (ResourceTexture*)App->resources->CreateNewResource(Resource::R_TEXTURE, resUUID, name_file.c_str(), file.c_str(), exported_file.c_str(), true);
+			this->AssignResource(resUUID);
+			resMat->LoadToMemory();
+
+
+		}
+	}
 }
 

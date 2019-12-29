@@ -264,6 +264,11 @@ void ParticleEmmitter::SetMaxLife(float maxLife)
 		burst.timeToBurst = maxLifeTime;
 }
 
+void ParticleEmmitter::SetCurrentLife(float currentLife)
+{
+	this->lifeTime = currentLife;
+}
+
 void ParticleEmmitter::SetSpawnRate(float spawnRate)
 {
 	this->spawnRate = 1.f / spawnRate;
@@ -288,6 +293,7 @@ void ParticleEmmitter::SetRelativePosition(float3 position)
 {
 	relativePosition = position; 
 }
+
 
 void ParticleEmmitter::SetRotation(Quat rotation)
 {
