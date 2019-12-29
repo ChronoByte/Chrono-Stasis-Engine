@@ -51,7 +51,7 @@ void ParticleEmmitter::DebugDrawEmmitter()
 		break;
 
 	case Emmitter_Shape::Cone:
-
+		DrawCone();
 		break;
 
 	case Emmitter_Shape::Plane:
@@ -100,16 +100,19 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 	case Emmitter_Shape::Cone:
 	{
 		math::Circle baseCircle = math::Circle(GetWorldPosition(), rotation.WorldZ(), radius);
-		math::Circle outerCircle = math::Circle(GetWorldPosition() + rotation.WorldZ() * distance, rotation.WorldZ(), outRadius);
-
+		math::Circle outerCircle = math::Circle(GetWorldPosition(), rotation.WorldZ(), outRadius);
 		// (baseCircle.RandomPointInside(lcg) -> Gets a random point in the surface of the circle 
 		//position = (baseCircle.RandomPointInside(lcg) - GetWorldPosition()).Normalized() * pcg32_boundedrand_r(&rng_bounded, (radius - 0) + 1);
-
+		
+		
 		// For the moment lets emmit from the center point of the emmitter
 		position = GetWorldPosition();
 
-		float3 outerCircleRandomPoint = (outerCircle.RandomPointInside(lcg) - outerCircle.CenterPoint()).Normalized() * pcg32_boundedrand_r(&rng_bounded, (outRadius - 0) + 1);
-		velocity = (position - outerCircleRandomPoint).Normalized() * speed;
+		// Get direction respect the second circle of the cone
+		float3 circleRandomPoint = (outerCircle.RandomPointInside(lcg) - GetWorldPosition()).Normalized() * pcg32_boundedrand_r(&rng_bounded, (outRadius - 0) + 1);
+		circleRandomPoint += GetWorldPosition(); // Move it to the emmitter location, otherwise its on the Origin.
+		circleRandomPoint += rotation.WorldZ() * distance; // Move the point forward
+		velocity = (circleRandomPoint - position).Normalized() * speed;  // Finally make the initial velocity vector
 	}
 		break;
 
@@ -163,6 +166,62 @@ void ParticleEmmitter::DrawSphere(double r, int lats, int longs)
 	}	
 }
 
+void ParticleEmmitter::DrawCone()
+{
+	int n = 30; 
+
+	//float innerRadius = radius; 
+	float innerRadius = 0; // For the moment, the inner circle is always radius = 0
+
+	glPushMatrix();
+	glMultMatrixf((GLfloat*) & (float4x4::FromTRS(position, rotation, float3(1.f, 1.f, 1.f)).Transposed()));
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glBegin(GL_POLYGON);
+
+	//// Cylinder Bottom
+	for (int i = 360; i >= 0; i -= (360 / n))
+	{
+		float a = i * M_PI / 180; // degrees to radians
+		glVertex3f(innerRadius * cos(a), innerRadius * sin(a), 0);	
+	}
+	glEnd();
+
+	// Cylinder Top
+	glBegin(GL_POLYGON);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	for (int i = 0; i <= 360; i += (360 / n))
+	{
+		float a = i * M_PI / 180; // degrees to radians
+		glVertex3f(outRadius * cos(a), outRadius * sin(a), distance);
+	}
+	glEnd();
+
+	// Cylinder "Cover"
+	glBegin(GL_QUAD_STRIP);
+	for (int i = 0; i < 480; i += (360 / n))
+	{
+		float a = i * M_PI / 180; // degrees to radians
+
+		glVertex3f(outRadius * cos(a), outRadius * sin(a), distance);
+		glVertex3f(innerRadius * cos(a), innerRadius * sin(a), 0.0f); 
+	}
+	glEnd();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glPopMatrix(); 
+
+	// Draw Spawn Points 
+	/*glColor3f(0.f, 1.f, 1.f);
+	glBegin(GL_POINTS);
+
+	for (int i = 0; i < debug.size(); ++i)
+		glVertex3f(debug[i].x, debug[i].y, debug[i].z);
+
+	glEnd();
+	glColor3f(1.f, 1.f, 1.f);*/
+
+}
+
 void ParticleEmmitter::Reset()
 {
 	lifeTime = 0.f; 
@@ -190,6 +249,11 @@ void ParticleEmmitter::SetRadius(float radius)
 void ParticleEmmitter::SetOutRadius(float radius)
 {
 	this->outRadius = radius; 
+}
+
+void ParticleEmmitter::SetDistance(float distance)
+{
+	this->distance = distance; 
 }
 
 void ParticleEmmitter::SetMaxLife(float maxLife)
@@ -256,6 +320,11 @@ float ParticleEmmitter::GetRadius() const
 float ParticleEmmitter::GetOutRadius() const
 {
 	return outRadius;
+}
+
+float ParticleEmmitter::GetDistance() const
+{
+	return distance;
 }
 
 float ParticleEmmitter::GetMaxLife() const

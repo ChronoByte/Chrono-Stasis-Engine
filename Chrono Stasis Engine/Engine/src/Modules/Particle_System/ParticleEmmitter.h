@@ -4,6 +4,7 @@
 
 #include "MathGeoLib/include/Math/float3.h"
 #include "MathGeoLib/include/Math/quat.h"
+#include "MathGeoLib/include/Geometry/Circle.h"
 
 #include "pcg/pcg C/include/pcg_variants.h"
 #include "pcg/pcg C/extras/entropy.h"
@@ -64,12 +65,14 @@ public :
 	// ------- Debug Draw --------
 
 	void DrawSphere(double r, int lats, int longs);
-
+	void DrawCone();
+	
 	// ----- Modify Emmitter -----
 
 	void SetShape(Emmitter_Shape shape);
 	void SetRadius(float radius);
 	void SetOutRadius(float radius);
+	void SetDistance(float distance); 
 
 	void SetMaxLife(float maxLife); 
 	void SetSpawnRate(float spawnRate);
@@ -89,6 +92,7 @@ public :
 	Emmitter_Shape GetShape() const;
 	float GetRadius() const;
 	float GetOutRadius() const;
+	float GetDistance() const; 
 
 	float GetMaxLife() const;
 	float GetCurrentLife() const; 
@@ -110,8 +114,6 @@ public:
 	//std::vector<Burst*> burstList; // Maybe for later, let's keep it simple for now
 	Burst burst; 
 
-	float distance = 20.f;
-
 private: 
 
 
@@ -120,6 +122,7 @@ private:
 
 	float radius = 5.f; 
 	float outRadius = 10.f; 
+	float distance = 20.f;
 
 	Timer spawnTimer; 
 	float currentSpawnTime = 0.f; 
