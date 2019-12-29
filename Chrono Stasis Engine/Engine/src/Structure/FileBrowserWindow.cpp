@@ -77,11 +77,13 @@ void FileBrowserWindow::Draw()
 				{
 					App->serialization->current_scene = (*unit)->name; // TO LOAD
 					inputText = App->serialization->current_scene.c_str();
+					memcpy(text, inputText.c_str(), 300);
 				}
 				else if (type == ExtensionType::PARTICLE_EXTENSION)
 				{
 					App->serialization->particle_template = (*unit)->name; // TO LOAD
 					inputText = App->serialization->particle_template.c_str();
+					memcpy(text, inputText.c_str(),300);
 				}
 
 			}
