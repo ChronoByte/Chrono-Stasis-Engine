@@ -56,7 +56,7 @@ public:
 	float2 json_array_dotget_float2_string(const JSON_Object* object, const char* name);
 	float4 json_array_dotget_float4_string(const JSON_Object* object, const char* name);
 	
-	void GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension, const char* metaExtension = nullptr);
+	void GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension, const char* metaExtension = nullptr, ExtensionType type = ExtensionType::NONE_EXTENSION);
 	bool CopyToAssets(const char* src_file_path);
 	void PushFilesRecursively(const char* folder_name);
 	int GetLastModTime(const char* path) const;

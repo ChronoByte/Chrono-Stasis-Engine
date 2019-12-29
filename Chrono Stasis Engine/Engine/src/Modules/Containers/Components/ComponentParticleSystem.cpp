@@ -451,7 +451,20 @@ void ComponentParticleSystem::InspectorInfo()
 			ImGui::TreePop();
 		}
 		
+		if (ImGui::TreeNodeEx("Save & Load", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			if (ImGui::Button("Save Particle System")) {
+				App->serialization->particleCallback = this;
+				App->editor->browser->OpenBrowser(BrowserState::SAVE_PARTICLE_SYSTEM); 
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Load Particle System")) {
+				App->serialization->particleCallback = this;
+				App->editor->browser->OpenBrowser(BrowserState::LOAD_PARTICLE_SYSTEM); 
+			}
 
+			ImGui::TreePop();
+		}
 		if (ImGui::Button("Restart Particle System")) particleSystem->ResetSystem();
 
 	}
@@ -617,8 +630,12 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	}
 	else
 	{
+		tmp_ps = name + "Resource Material Name";
+		json_object_dotset_string(object, tmp_ps.c_str(), "");
 		tmp_ps = name + "Resource Material UUID";
 		json_object_dotset_number(object, tmp_ps.c_str(), 0);
+		tmp_ps = name + "Resource Material File";
+		json_object_dotset_string(object, tmp_ps.c_str(), "");
 		tmp_ps = name + "Resource Material Path";
 		json_object_dotset_string(object, tmp_ps.c_str(), "");
 	}
@@ -774,6 +791,8 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 
 	if (resUUID > 0)
 	{
+		matTypeSelected = 1;
+		App->editor->textureBrowser->callback = this;
 		ResourceTexture* resMat = (ResourceTexture*)App->resources->GetResource(resUUID);
 		if (resMat != nullptr)
 		{
@@ -788,6 +807,13 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 
 
 		}
+	}
+	else {
+		matTypeSelected = 0;
+//		App->editor->textureBrowser->callback->AssignResource(0);
+		currentResource = nullptr;
+		//particleSystem->resMat = nullptr;
+		//App->editor->textureBrowser->callback = nullptr;
 	}
 }
 

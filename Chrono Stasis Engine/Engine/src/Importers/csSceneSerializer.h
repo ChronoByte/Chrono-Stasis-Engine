@@ -29,6 +29,8 @@ public:
 	void SaveModelChildren(JSON_Object* config_node, const GameObject& go, uint& count, uint& countResources);
 	void LoadModelChildren(GameObject& parent, GameObject& child, UID uuidParent);
 
+	void SaveParticleSystem(const char* particle_path);
+	void LoadParticleSystem(const char* particle_path);
 private:
 	//vars
 	std::string directory;
@@ -36,4 +38,7 @@ public:
 	std::string current_scene;
 	std::string scene_to_serialize;
 	std::string model_to_serialize;
+	std::string particle_to_serialize;
+	std::string particle_template;
+	Component* particleCallback = nullptr;
 };

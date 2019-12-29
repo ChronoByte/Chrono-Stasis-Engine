@@ -1,7 +1,8 @@
 #include "csApp.h"
 #include "csSceneSerializer.h"
 #include "csGameObject.h"
-
+#include "ComponentParticleSystem.h"
+#include "Particle_System/csParticleSystem.h"
 ModuleSceneSerializer::ModuleSceneSerializer(bool start_enabled)
 {
 }
@@ -454,4 +455,61 @@ void ModuleSceneSerializer::LoadModelChildren(GameObject& GOparent, GameObject& 
 			return;
 		}
 	}
+}
+
+void ModuleSceneSerializer::SaveParticleSystem(const char* particle_path)
+{
+	LOG("SAVING PARTICLE SYSTEM -----");
+
+	std::string extension = PARTICLE_SYSTEM_EXTENSION;
+	std::string particle_file = particle_path + extension;
+
+	
+	uint countResources = 0;
+
+	JSON_Value* config_file;
+	JSON_Object* config;
+	JSON_Object* config_node;
+
+	config_file = json_value_init_object();
+
+	if (config_file != nullptr)
+	{
+		config = json_value_get_object(config_file);
+
+		std::string temp = name + "ParticleSystem.";
+		particleCallback->Save(config, temp, true, countResources);
+
+		json_serialize_to_file(config_file, particle_file.c_str());
+	}
+
+	json_value_free(config_file);
+}
+
+void ModuleSceneSerializer::LoadParticleSystem(const char* particle_path)
+{
+
+	LOG("LOADING PARTICLE SYSTEM -----");
+
+	JSON_Value* config_file;
+	JSON_Object* config;
+	JSON_Object* config_node;
+
+	config_file = json_parse_file(particle_path);
+
+	if (config_file != nullptr)
+	{
+		config = json_value_get_object(config_file);
+		//config_node = json_object_get_object(config, "ParticleSystem");
+
+		std::string temp = name + "ParticleSystem.";
+		ComponentParticleSystem* particleComp = (ComponentParticleSystem*)particleCallback;
+		ParticleSystem* system = particleComp->GetSystem();
+		system->ResetSystem();
+
+		particleCallback->Load(config, temp);
+	}
+	json_value_free(config_file);
+
+
 }

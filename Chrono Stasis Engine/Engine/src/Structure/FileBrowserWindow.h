@@ -12,9 +12,17 @@ enum BrowserState
 	SAVE_SCENE,
 	SAVE_SCENE_AS,
 	LOAD_SCENE,
-	NEW_SCENE
+	NEW_SCENE,
+	SAVE_PARTICLE_SYSTEM,
+	LOAD_PARTICLE_SYSTEM
 };
 
+enum ExtensionType
+{
+	SCENE_EXTENSION,
+	PARTICLE_EXTENSION,
+	NONE_EXTENSION,
+};
 struct StorageUnit
 {
 	enum storageType
@@ -40,8 +48,8 @@ public:
 	void Draw() override;
 	void OpenBrowser(const BrowserState& state);
 
-	void SaveScene(const char* path, const char* extension);
-	void LoadScene(const char* path, const char* extension);
+	void SaveScene(const char* path, const char* extension, ExtensionType type);
+	void LoadScene(const char* path, const char* extension, ExtensionType type);
 	void NewScene();
 	void SaveSceneAs();
 
@@ -51,7 +59,7 @@ private:
 	std::string name="";
 	std::string current_path = "";
 	std::string extension = "";
-
+	ExtensionType type = ExtensionType::NONE_EXTENSION;
 	std::string scene = "";
 	std::string inputText;
 	bool serialization = false;

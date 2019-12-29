@@ -84,3 +84,4 @@ enum update_status
 #define TEXTURES_EXTENSION ".dds"
 #define SCENES_EXTENSION ".scene.json"
 #define META_EXTENSION ".meta.json"
+#define PARTICLE_SYSTEM_EXTENSION ".particle.json"

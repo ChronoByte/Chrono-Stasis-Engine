@@ -410,7 +410,7 @@ std::string ModuleFileSystem::NormalizeSlashSymbol(const char* path)
 }
 
 
-void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension, const char* metaExtension)
+void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUnit*>& storage, const char* desiredExtension, const char* metaExtension, ExtensionType type)
 {
 
 	char** scannedFiles = PHYSFS_enumerateFiles(path);
@@ -425,28 +425,59 @@ void ModuleFileSystem::GetStorageResources(const char* path, std::list<StorageUn
 		GetNameFile(currentPath.c_str(), fileName);
 		GetExtensionFile(currentPath.c_str(), fileExtension);
 		GetJSONExtensionFile(currentPath.c_str(), jsonExtension);
-		if (fileExtension.length() > 0)					
+		if (fileExtension.length() > 0)
 			fileName += fileExtension;
+
 		
 		// READ .SCENE FILES
-		if (jsonExtension != ".scene.json")
+		if (type == ExtensionType::SCENE_EXTENSION)
 		{
-			if ((".meta" + fileExtension == metaExtension) && (metaExtension != nullptr)) { continue; }
-		}
-		else 
-		{
-			StorageUnit* newResource = new StorageUnit();
-			newResource->name = fileName;
-
-			if (PHYSFS_isDirectory(currentPath.c_str()))
-				newResource->type = StorageUnit::FOLDER;
+			if (jsonExtension != ".scene.json")
+			{
+				if ((".meta" + fileExtension == metaExtension) && (metaExtension != nullptr)) { continue; }
+			}
 			else
-				newResource->type = StorageUnit::FILE;
+			{
+				StorageUnit* newResource = new StorageUnit();
+				newResource->name = fileName;
 
-			storage.push_back(newResource);
-			continue;
+				if (PHYSFS_isDirectory(currentPath.c_str()))
+					newResource->type = StorageUnit::FOLDER;
+				else
+					newResource->type = StorageUnit::FILE;
+
+				storage.push_back(newResource);
+				continue;
+			}
+
 		}
+		else if (type == ExtensionType::PARTICLE_EXTENSION)
+		{
+			// READ .PARTICLE FILES
+		 
 
+			if (jsonExtension != ".particle.json")
+			{
+				if ((".meta" + fileExtension == metaExtension) && (metaExtension != nullptr)) { continue; }
+			}
+
+			else
+			{
+				StorageUnit* newResource = new StorageUnit();
+				newResource->name = fileName;
+
+				if (PHYSFS_isDirectory(currentPath.c_str()))
+					newResource->type = StorageUnit::FOLDER;
+				else
+					newResource->type = StorageUnit::FILE;
+
+				storage.push_back(newResource);
+				continue;
+			}
+
+		}
+		
+		
 		//READ .META FILES
 		if (!PHYSFS_isDirectory(currentPath.c_str()) && (fileExtension == desiredExtension) || PHYSFS_isDirectory(currentPath.c_str()) || !PHYSFS_isDirectory(currentPath.c_str()) && desiredExtension == "all")
 		{

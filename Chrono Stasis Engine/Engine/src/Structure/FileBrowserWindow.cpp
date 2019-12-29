@@ -23,7 +23,7 @@ void FileBrowserWindow::Draw()
 		
 		current_path = current_path.substr(0, current_path.find_last_of("/")+1);
 		ClearStorage();
-		App->fs->GetStorageResources(current_path.c_str(),storage, extension.c_str(), META_EXTENSION);
+		App->fs->GetStorageResources(current_path.c_str(),storage, extension.c_str(), META_EXTENSION, type);
 	}
 	ImGui::SameLine();
 	ImGui::Text(current_path.c_str());
@@ -64,7 +64,7 @@ void FileBrowserWindow::Draw()
 			{
 				current_path += (*unit)->name + "/";
 				ClearStorage();
-				App->fs->GetStorageResources(current_path.c_str(), storage, extension.c_str(), META_EXTENSION);
+				App->fs->GetStorageResources(current_path.c_str(), storage, extension.c_str(), META_EXTENSION, type);
 				break;
 			}
 		}
@@ -73,8 +73,17 @@ void FileBrowserWindow::Draw()
 		{
 			if ((*unit)->type == StorageUnit::FILE)
 			{
-				App->serialization->current_scene = (*unit)->name; // TO LOAD
-				inputText = App->serialization->current_scene.c_str();
+				if (type == ExtensionType::SCENE_EXTENSION) 
+				{
+					App->serialization->current_scene = (*unit)->name; // TO LOAD
+					inputText = App->serialization->current_scene.c_str();
+				}
+				else if (type == ExtensionType::PARTICLE_EXTENSION)
+				{
+					App->serialization->particle_template = (*unit)->name; // TO LOAD
+					inputText = App->serialization->particle_template.c_str();
+				}
+
 			}
 		}
 
@@ -89,7 +98,8 @@ void FileBrowserWindow::Draw()
 	ImGui::SameLine();
 	if (ImGui::InputText("", (char*)inputText.c_str(), 120, ImGuiInputTextFlags_AutoSelectAll)) 
 	{
-		App->serialization->current_scene = inputText.c_str(); // TO SAVE AS NEW
+		if (type == ExtensionType::SCENE_EXTENSION) App->serialization->current_scene = inputText.c_str(); // TO SAVE AS NEW
+		else if (type == ExtensionType::PARTICLE_EXTENSION) App->serialization->particle_template = inputText.c_str(); // TO SAVE AS NEW
 		//scene += SCENES_EXTENSION;
 	}
 
@@ -109,20 +119,41 @@ void FileBrowserWindow::Draw()
 	
 	if (serialization)
 	{
-
-		if (name == "Save")
+		if (type == ExtensionType::SCENE_EXTENSION)
 		{
+
+			if (name == "Save")
+			{
 			App->serialization->scene_to_serialize = current_path + App->serialization->current_scene;
 			App->serialization->SaveScene(App->serialization->scene_to_serialize.c_str());
 			LOG("Scene &s Saved successfully", App->serialization->current_scene.c_str());
-		}
+			}
 	
-		else if (name == "Load") 
-		{
+			else if (name == "Load") 
+			{
 			App->scene->ClearScene();
 			App->serialization->scene_to_serialize = current_path + App->serialization->current_scene;
 			App->serialization->LoadScene(App->serialization->scene_to_serialize.c_str());
 			LOG("Scene %s Loaded successfully", App->serialization->current_scene.c_str());
+			}
+		}
+
+		else if (type == ExtensionType::PARTICLE_EXTENSION)
+		{
+			if (name == "Save")
+			{
+				App->serialization->particle_to_serialize = current_path + App->serialization->particle_template;
+				App->serialization->SaveParticleSystem(App->serialization->particle_to_serialize.c_str());
+				LOG("ParticleSystem &s Saved successfully", App->serialization->particle_to_serialize.c_str());
+			}
+
+			else if (name == "Load")
+			{
+				//App->scene->ClearScene();
+				App->serialization->particle_to_serialize = current_path + App->serialization->particle_template;
+				App->serialization->LoadParticleSystem(App->serialization->particle_to_serialize.c_str());
+				LOG("ParticleSystem %s Loaded successfully", App->serialization->particle_to_serialize.c_str());
+			}
 		}
 
 		serialization = false;
@@ -140,39 +171,48 @@ void FileBrowserWindow::OpenBrowser(const BrowserState& state)
 	switch (state) {
 	case BrowserState::SAVE_SCENE:
 		this->SwitchActive();
-		SaveScene(ASSETS_FOLDER, SCENES_EXTENSION);
+		SaveScene(ASSETS_FOLDER, SCENES_EXTENSION, ExtensionType::SCENE_EXTENSION);
 		break;
 	case BrowserState::SAVE_SCENE_AS:
 		SaveSceneAs(); //TODO
 		break;
 	case BrowserState::LOAD_SCENE:
 		this->SwitchActive();
-		LoadScene(ASSETS_FOLDER, SCENES_EXTENSION);
+		LoadScene(ASSETS_FOLDER, SCENES_EXTENSION, ExtensionType::SCENE_EXTENSION);
 		break;
 	case BrowserState::NEW_SCENE:
 		NewScene(); //TODO
+	case BrowserState::SAVE_PARTICLE_SYSTEM:
+		this->SwitchActive();
+		SaveScene(ASSETS_FOLDER, PARTICLE_SYSTEM_EXTENSION, ExtensionType::PARTICLE_EXTENSION);
+		break;
+	case BrowserState::LOAD_PARTICLE_SYSTEM:
+		this->SwitchActive();
+		LoadScene(ASSETS_FOLDER, PARTICLE_SYSTEM_EXTENSION, ExtensionType::PARTICLE_EXTENSION);
 		break;
 	}
 }
 
-void FileBrowserWindow::SaveScene(const char* path, const char* extension)
+void FileBrowserWindow::SaveScene(const char* path, const char* extension, ExtensionType format)
 {
 	this->name = std::string("Save");
 	this->current_path = path;
 	this->extension = extension;
 	this->inputText = "";
+	this->type = format;
 	ClearStorage();
-	App->fs->GetStorageResources(path, storage, extension, META_EXTENSION);
+	App->fs->GetStorageResources(path, storage, extension, META_EXTENSION, type);
 }
 
-void FileBrowserWindow::LoadScene(const char* path, const char* extension)
+void FileBrowserWindow::LoadScene(const char* path, const char* extension, ExtensionType format)
 {
 	this->name = std::string("Load");
 	this->current_path = path;
 	this->extension = extension;
 	this->inputText = "";
+	this->type = format;
 	ClearStorage();
-	App->fs->GetStorageResources(path, storage, extension, META_EXTENSION);
+	App->fs->GetStorageResources(path, storage, extension, META_EXTENSION, type);
 }
 
 void FileBrowserWindow::NewScene()
