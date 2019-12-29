@@ -14,7 +14,7 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 ## **Our Team**
 
 
-<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="150" width="150" ></a>_López Nosequemás, Sebastián responsability and GitHub account_
+<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="150" width="150" ></a>_Peña Hernando, Carlos_
 
 * Resource Manager
 * Quadtree & Frustum Culling
@@ -25,10 +25,11 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 * Camera
 * Gizmo UI
 * Particle System
+
 * [GitHub account]()
 
 
-<a href="url"><img src="" align="right" height="150" width="150" ></a>_López Nosequemás, Sebastián responsability and GitHub account_
+<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_sebas.JPG" align="right" height="150" width="150" ></a>_López Nosequemás, Sebastián_
 
 * Time Management
 * Mouse Picking
@@ -38,6 +39,7 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 * Gizmo UI
 * Camera
 * Particle System
+
 * [GitHub account]()
 
 ***
