@@ -182,6 +182,7 @@ void FileBrowserWindow::OpenBrowser(const BrowserState& state)
 		break;
 	case BrowserState::NEW_SCENE:
 		NewScene(); //TODO
+		break;
 	case BrowserState::SAVE_PARTICLE_SYSTEM:
 		this->SwitchActive();
 		SaveScene(ASSETS_FOLDER, PARTICLE_SYSTEM_EXTENSION, ExtensionType::PARTICLE_EXTENSION);
