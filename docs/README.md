@@ -52,7 +52,7 @@ Metaphorically for us (software engineers and game developers), we live in a chr
 ### _López Tenorio, Sebastián_
 
 * Github Account:
-   * [GitHub account](https://github.com/Sebi-Looper)
+   * [GitHub account](https://github.com/Sebi-Lopez)
   
 * Resposabilities: 
     * Mouse Picking
