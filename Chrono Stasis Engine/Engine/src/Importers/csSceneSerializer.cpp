@@ -507,6 +507,11 @@ void ModuleSceneSerializer::LoadParticleSystem(const char* particle_path)
 		ParticleSystem* system = particleComp->GetSystem();
 		system->ResetSystem();
 
+		ResourceTexture* resMat = (ResourceTexture*)particleComp->GetCurrentResource();
+
+		/*if (resMat != nullptr)
+			resMat->UnloadFromMemory();*/
+
 		particleCallback->Load(config, temp);
 	}
 	json_value_free(config_file);

@@ -54,7 +54,7 @@ void TextureBrowserWindow::Draw()
 
 			ImGui::Text("Times Used: ");
 			ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texResource->CountReferences() - 1);
+			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", texResource->CountReferences()-1);
 	
 			ImGui::Separator();
 		}

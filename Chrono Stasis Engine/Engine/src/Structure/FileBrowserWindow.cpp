@@ -150,7 +150,7 @@ void FileBrowserWindow::Draw()
 
 			else if (name == "Load")
 			{
-				//App->scene->ClearScene();
+				
 				App->serialization->particle_to_serialize = current_path + App->serialization->particle_template;
 				App->serialization->LoadParticleSystem(App->serialization->particle_to_serialize.c_str());
 				LOG("ParticleSystem %s Loaded successfully", App->serialization->particle_to_serialize.c_str());

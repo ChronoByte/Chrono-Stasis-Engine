@@ -222,7 +222,7 @@ void ComponentParticleSystem::InspectorInfo()
 				ImGui::Image((ImTextureID)resMat->gpu_id, ImVec2(ImVec2(PREVIEW_SIZE * 3, PREVIEW_SIZE * 3)), { 0,1 }, { 1,0 });
 				ImGui::Text("Reference Counting: ");
 				ImGui::SameLine();
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences() - 1);
+				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences()-1);
 				ImGui::Spacing();
 				ImGui::Text("Transparency: ");
 				ImGui::SliderFloat(" ", &resMat->transparency, 0.0f, 1.0f);
@@ -799,13 +799,13 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 		if (resMat != nullptr)
 		{
 			this->AssignResource(resUUID);
-			resMat->LoadToMemory();
+			//resMat->LoadToMemory();
 		}
 		else
 		{
 			resMat = (ResourceTexture*)App->resources->CreateNewResource(Resource::R_TEXTURE, resUUID, name_file.c_str(), file.c_str(), exported_file.c_str(), true);
 			this->AssignResource(resUUID);
-			resMat->LoadToMemory();
+			//resMat->LoadToMemory();
 
 
 		}
