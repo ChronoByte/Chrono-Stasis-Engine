@@ -14,7 +14,8 @@ This project has been done by two students of CITM - UPC (Terrasa, Spain) for th
 ## **Our Team**
 
 
-<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="150" width="150" ></a>_Peña Hernando, Carlos_
+<a href="url"><img src="https://github.com/ChronoByte/Chrono-Stasis-Engine/blob/master/docs/foto_carlos.jpg" align="right" height="150" width="150" ></a> 
+## Peña Hernando, Carlos
 
 * Resource Manager
 * Quadtree & Frustum Culling
