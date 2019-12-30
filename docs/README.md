@@ -201,7 +201,7 @@ Blending is also commonly known as the technique to implement transparency withi
 
 A colored glass window is a transparent object; the glass has a color of its own, but the resulting color contains the colors of all the objects behind the glass as well. This is also where the name blending comes from, since we blend several colors (of different objects) to a single color. Transparency thus allows us to see through objects.
 
-### Particle Properties
+## Particle Properties
 
 Particle Values:
 * **Life Time**: The time (in seconds) the particle will be alive 
@@ -211,15 +211,43 @@ Particle Values:
 * **Gravity:** The Force which the particle is affected
 * **Change over time option:** enables a final state to change 
 
-### Particle Emmission
+## Particle Emmission
 
-### Particle Color
+<p align="center">
+<img src="https://media.giphy.com/media/dZWm4aiVuDk5O3aJuQ/giphy.gif">
+</p>
 
-### Particle Burst
+<p align="center">
+<img src="https://media.giphy.com/media/JoCWPngAikIqFqyZ5g/giphy.gif">
+</p>
 
-### Particle Texture
+## Particle Shape
+
+<p align="center">
+<img src="https://media.giphy.com/media/Wmv7NXm8ZCqla81NjY/giphy.gif">
+</p>
+
+## Particle Color
+
+
+## Particle Burst
+
+<p align="center">
+<img src="https://media.giphy.com/media/QTD6QhRIUzydaukqGi/giphy.gif">
+</p>
+
+## Particle Texture
+
+<p align="center">
+<img src="https://media.giphy.com/media/jpz3dlSutRd82ujsnS/giphy.gif">
+</p>
 
 ### Particle Serialization 
+
+<p align="center">
+<img src="https://media.giphy.com/media/ZY8vizEumDvReV0Gfv/giphy.gif">
+</p>
+
 
 ## **Engine Demo**
 
