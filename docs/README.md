@@ -196,11 +196,22 @@ The problem of seein throungh objects is that objects behind a transparent one w
 <img src="https://media.giphy.com/media/QshRZqvpZwYcqGuPHK/giphy.gif">
 </p>
 
-### Blending Color
+## Blending Color
+Blending is also commonly known as the technique to implement transparency within objects. Transparency is all about objects (or parts of them) not having a solid color, but having a combination of colors from the object itself and any other object behind it with varying intensity.
+
+A colored glass window is a transparent object; the glass has a color of its own, but the resulting color contains the colors of all the objects behind the glass as well. This is also where the name blending comes from, since we blend several colors (of different objects) to a single color. Transparency thus allows us to see through objects.
 
 ### Particle Properties
 
-### Particle Shape
+Particle Values:
+* **Life Time**: The time (in seconds) the particle will be alive 
+* **Speed**: The speed at which the particles move
+* **Size:** Size of the particle
+* **Color**: The Color of the particle
+* **Gravity:** The Force which the particle is affected
+* **Change over time option:** enables a final state to change 
+
+### Particle Emmission
 
 ### Particle Color
 
