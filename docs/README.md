@@ -211,15 +211,16 @@ Particle Values:
 * **Gravity:** The Force which the particle is affected
 * **Change over time option:** enables a final state to change 
 
+<p align="center">
+<img src="https://media.giphy.com/media/JoCWPngAikIqFqyZ5g/giphy.gif">
+</p>
+
 ## Particle Emmission
 
 <p align="center">
 <img src="https://media.giphy.com/media/dZWm4aiVuDk5O3aJuQ/giphy.gif">
 </p>
 
-<p align="center">
-<img src="https://media.giphy.com/media/JoCWPngAikIqFqyZ5g/giphy.gif">
-</p>
 
 ## Particle Shape
 
