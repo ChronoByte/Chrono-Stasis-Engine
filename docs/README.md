@@ -201,6 +201,10 @@ Blending is also commonly known as the technique to implement transparency withi
 
 A colored glass window is a transparent object; the glass has a color of its own, but the resulting color contains the colors of all the objects behind the glass as well. This is also where the name blending comes from, since we blend several colors (of different objects) to a single color. Transparency thus allows us to see through objects.
 
+<p align="center">
+<img src="https://raw.githubusercontent.com/ChronoByte/Chrono-Stasis-Engine/master/docs/blending.JPG">
+</p>
+
 ## Particle Properties
 
 Particle Values:
@@ -227,9 +231,6 @@ Particle Values:
 <p align="center">
 <img src="https://media.giphy.com/media/Wmv7NXm8ZCqla81NjY/giphy.gif">
 </p>
-
-## Particle Color
-
 
 ## Particle Burst
 
