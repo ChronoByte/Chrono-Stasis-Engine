@@ -145,7 +145,7 @@ void ParticleEmmitter::DrawSphere(double r, int lats, int longs)
 		double zr1 = cos(lat1);
 
 		glPushMatrix();
-		glMultMatrixf((GLfloat*) & (float4x4::FromTRS(position, rotation, float3(1.f, 1.f, 1.f)).Transposed()));
+		glMultMatrixf((GLfloat*) & (float4x4::FromTRS(GetWorldPosition(), rotation, float3(1.f, 1.f, 1.f)).Transposed()));
 		glColor3f(0.f, 1.f, 1.f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	
 		glBegin(GL_QUAD_STRIP);
