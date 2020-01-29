@@ -42,8 +42,17 @@ void Particle::Draw()
 {
 	glColor4f(particleInfo.color.x, particleInfo.color.y, particleInfo.color.z, particleInfo.color.w);
 
+	float4x4 particleLocal = float4x4::FromTRS(particleInfo.position, particleInfo.rotation, float3(1.f, 1.f, 1.f));
+	float4x4 particleGlobal = particleLocal;
+
+	if (!particleInfo.globalTransform)
+	{
+		float4x4 parentGlobal = owner->emmitter.GetGlobalTransform();
+		particleGlobal = parentGlobal * particleLocal;
+	}
+
 	glPushMatrix();
-	glMultMatrixf((GLfloat*) & (float4x4::FromTRS(particleInfo.position, particleInfo.rotation, float3(1.f, 1.f, 1.f)).Transposed()));
+	glMultMatrixf((GLfloat*) & (particleGlobal.Transposed()));
 
 
 	// -------------------------------------------- Blending Options --------------------------------------------

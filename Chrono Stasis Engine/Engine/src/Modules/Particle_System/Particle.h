@@ -25,6 +25,8 @@ struct ParticleInfo
 	float4 lightColor = float4::zero;
 	
 	float maxLifeTime = 5.f;
+
+	bool globalTransform = true;
 	bool changeOverLifeTime = false; 
 };
 

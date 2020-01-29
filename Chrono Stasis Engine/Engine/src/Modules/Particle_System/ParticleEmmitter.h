@@ -59,7 +59,7 @@ public :
 
 	void DebugDrawEmmitter();
 	// Get an initial position and an initial velocity given the emmiter type
-	void GetInitialValues(float3& position, float3& velocity, float speed);
+	void GetInitialValues(float3& position, float3& velocity, float speed, bool localTransform);
 	bool hasToBurst() const; 
 
 	// ------- Debug Draw --------
@@ -109,6 +109,7 @@ public :
 	float3 GetWorldPosition() const; 
 	float3 GetRotation() const; 
 	float3 GetScale() const; 
+	float4x4 GetGlobalTransform() const;
 
 	// ---------------------------
 

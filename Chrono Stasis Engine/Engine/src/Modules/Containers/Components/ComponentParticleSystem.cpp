@@ -155,6 +155,10 @@ void ComponentParticleSystem::InspectorInfo()
 			ImGui::DragFloat("Life Time", &particleSystem->particleInfo.maxLifeTime, 1.0f, 0.0f, FLT_MAX);
 			ImGui::DragFloat("Speed", (float*)&particleSystem->particleInfo.speed, 0.2f);
 
+			if (ImGui::RadioButton("Global", &transformSelected, 0)) { particleSystem->particleInfo.globalTransform = true; }
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Local", &transformSelected, 1)) { particleSystem->particleInfo.globalTransform = false; }
+			
 			// Initial State || Final State
 			if (ImGui::TreeNodeEx("Start State", ImGuiTreeNodeFlags_DefaultOpen))
 			{

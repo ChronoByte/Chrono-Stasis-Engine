@@ -38,5 +38,5 @@ private:
 	int eqTypeSelected = 0;
 	int funcTypeSource = 6;
 	int funcTypeDest = 7;
-
+	int transformSelected = 0; // 0 Global - 1 Local
 };

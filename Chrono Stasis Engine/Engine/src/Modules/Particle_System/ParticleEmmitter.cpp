@@ -63,9 +63,16 @@ void ParticleEmmitter::DebugDrawEmmitter()
 	}
 }
 
-void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, float speed)
+void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, float speed,  bool globalTransform)
 {
 	math::LCG lcg; 	// Maybe here we could use some pcg ol' tricks of yours
+
+	// Set the spawn position
+	// If its not on local space (global space) instantiate it on the emitter position
+	// If its in local space, then instantiate it in pos 0,0,0
+	float3 spawnPosition = float3::zero;
+	if (globalTransform)
+		 spawnPosition = GetWorldPosition();
 
 	switch (shape)
 	{
@@ -74,15 +81,15 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 		switch (zone)
 		{
 		case Emmitter_Zone::Base:
-			position = GetWorldPosition();
+			position = spawnPosition;
 			velocity = float3::RandomDir(lcg, 1.0f) * speed;
 			break;
 
 		case Emmitter_Zone::Volume:
 			// Gets a random position inside the sphere
-			position = GetWorldPosition() + float3::RandomDir(lcg, 1.0f) * GetRandomBetween(0, radius); 
+			position = spawnPosition + float3::RandomDir(lcg, 1.0f) * GetRandomBetween(0, radius);
 			// Calculates the direction respect the center of the sphere
-			velocity = (position - GetWorldPosition()).Normalized() * speed;
+			velocity = (position - spawnPosition).Normalized() * speed;
 			break; 
 		}
 
@@ -93,39 +100,37 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 		break;
 
 	case Emmitter_Shape::Cube:
-		position = GetWorldPosition();
+		position = spawnPosition;
 
 		break;
 
 	case Emmitter_Shape::Cone:
 	{
-		math::Circle baseCircle = math::Circle(GetWorldPosition(), rotation.WorldZ(), radius);
-		math::Circle outerCircle = math::Circle(GetWorldPosition(), rotation.WorldZ(), outRadius);
+		math::Circle baseCircle = math::Circle(spawnPosition, rotation.WorldZ(), radius);
+		math::Circle outerCircle = math::Circle(spawnPosition, rotation.WorldZ(), outRadius);
 		// (baseCircle.RandomPointInside(lcg) -> Gets a random point in the surface of the circle 
 		//position = (baseCircle.RandomPointInside(lcg) - GetWorldPosition()).Normalized() * pcg32_boundedrand_r(&rng_bounded, (radius - 0) + 1);
 		
 		
 		// For the moment lets emmit from the center point of the emmitter
-		position = GetWorldPosition();
+		position = spawnPosition;
 
 		// Get direction respect the second circle of the cone
-		float3 circleRandomPoint = (outerCircle.RandomPointInside(lcg) - GetWorldPosition()).Normalized() * GetRandomBetween(0, outRadius);
-		circleRandomPoint += GetWorldPosition(); // Move it to the emmitter location, otherwise its on the Origin.
+		float3 circleRandomPoint = (outerCircle.RandomPointInside(lcg) - spawnPosition).Normalized() * GetRandomBetween(0, outRadius);
+		circleRandomPoint += spawnPosition; // Move it to the emmitter location, otherwise its on the Origin.
 		circleRandomPoint += rotation.WorldZ() * distance; // Move the point forward
 		velocity = (circleRandomPoint - position).Normalized() * speed;  // Finally make the initial velocity vector
 	}
 		break;
 
 	case Emmitter_Shape::Plane:
-		position = GetWorldPosition();
+		position = spawnPosition;
 
 		break;
 
 	default:
 		break;
-	}
-
-
+	}	
 }
 
 bool ParticleEmmitter::hasToBurst() const
@@ -391,5 +396,10 @@ float3 ParticleEmmitter::GetRotation() const
 float3 ParticleEmmitter::GetScale() const
 {
 	return scale;
+}
+
+float4x4 ParticleEmmitter::GetGlobalTransform() const
+{
+	return float4x4::FromTRS(position, rotation, float3::one);
 }
 

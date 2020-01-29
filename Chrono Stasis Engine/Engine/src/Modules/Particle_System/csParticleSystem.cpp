@@ -43,7 +43,7 @@ bool ParticleSystem::Update(float dt)
 	{
 		if (emmitter.Update(dt)) // if its time to spawn a particle
 		{
-			emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed);
+			emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed, particleInfo.globalTransform);
 			CreateParticle(particleInfo, startInfo, endInfo);
 		}
 
@@ -109,7 +109,7 @@ void ParticleSystem::BurstParticles()
 {
 	for (uint i = 0; i < emmitter.burst.partsToInstantiate; ++i)
 	{
-		emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed);
+		emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed, particleInfo.globalTransform);
 		CreateParticle(particleInfo, startInfo, endInfo);
 	}
 	emmitter.burst.hasBursted = true;
