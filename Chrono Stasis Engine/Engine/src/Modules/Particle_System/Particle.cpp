@@ -112,7 +112,8 @@ void Particle::Draw()
 		glBindTexture(GL_TEXTURE_2D, owner->resMat->gpu_id);
 	}
 	else
-		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
 	glBegin(GL_TRIANGLES);
 
 	// -------------------
@@ -142,7 +143,8 @@ void Particle::Draw()
 
 	glEnd();
 	glDisable(GL_BLEND);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	glPopMatrix();
 	glColor4f(1.f, 1.f, 1.f, 1.f);
 
