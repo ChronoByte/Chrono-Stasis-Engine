@@ -86,6 +86,7 @@ public :
 	
 	void SetRotation(Quat rotation);
 	void SetRotation(float3 rotation);
+	void SetRelativeRotation(float3 rotation);
 	void SetScale(float3 scale);
 
 	// ---------------------------
@@ -108,6 +109,8 @@ public :
 	float3 GetRelativePosition() const;
 	float3 GetWorldPosition() const; 
 	float3 GetRotation() const; 
+	float3 GetRelativeRotation() const; 
+	Quat GetWorldRotation() const; 
 	float3 GetScale() const; 
 	float4x4 GetGlobalTransform() const;
 
@@ -143,7 +146,10 @@ private:
 
 	float3 position = float3::zero; 
 	float3 relativePosition = float3::zero;
+
 	Quat rotation = Quat::identity;
+	Quat relativeRotation = Quat::identity;
+
 	float3 scale = float3::zero;
 
 	// -------- Random stuff ----------------

@@ -135,6 +135,9 @@ void ComponentParticleSystem::InspectorInfo()
 			float3 pos = particleSystem->emmitter.GetRelativePosition(); 
 			if (ImGui::DragFloat3("Position", (float*)&pos)) { emmitter->SetRelativePosition(pos); }
 
+			float3 rot = particleSystem->emmitter.GetRelativeRotation();
+			if (ImGui::DragFloat3("Rotation", (float*)&rot)) { emmitter->SetRelativeRotation(rot); }
+
 			if (ImGui::TreeNodeEx("Burst"))
 			{
 				ImGui::Checkbox("Activate Burst", &emmitter->burst.active);

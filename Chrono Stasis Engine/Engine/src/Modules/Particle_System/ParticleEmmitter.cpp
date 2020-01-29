@@ -106,8 +106,8 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 
 	case Emmitter_Shape::Cone:
 	{
-		math::Circle baseCircle = math::Circle(spawnPosition, rotation.WorldZ(), radius);
-		math::Circle outerCircle = math::Circle(spawnPosition, rotation.WorldZ(), outRadius);
+		math::Circle baseCircle = math::Circle(spawnPosition, GetWorldRotation().WorldZ(), radius);
+		math::Circle outerCircle = math::Circle(spawnPosition, GetWorldRotation().WorldZ(), outRadius);
 		// (baseCircle.RandomPointInside(lcg) -> Gets a random point in the surface of the circle 
 		//position = (baseCircle.RandomPointInside(lcg) - GetWorldPosition()).Normalized() * pcg32_boundedrand_r(&rng_bounded, (radius - 0) + 1);
 		
@@ -118,7 +118,7 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 		// Get direction respect the second circle of the cone
 		float3 circleRandomPoint = (outerCircle.RandomPointInside(lcg) - spawnPosition).Normalized() * GetRandomBetween(0, outRadius);
 		circleRandomPoint += spawnPosition; // Move it to the emmitter location, otherwise its on the Origin.
-		circleRandomPoint += rotation.WorldZ() * distance; // Move the point forward
+		circleRandomPoint += GetWorldRotation().WorldZ() * distance; // Move the point forward
 		velocity = (circleRandomPoint - position).Normalized() * speed;  // Finally make the initial velocity vector
 	}
 		break;
@@ -150,7 +150,7 @@ void ParticleEmmitter::DrawSphere(double r, int lats, int longs)
 		double zr1 = cos(lat1);
 
 		glPushMatrix();
-		glMultMatrixf((GLfloat*) & (float4x4::FromTRS(GetWorldPosition(), rotation, float3(1.f, 1.f, 1.f)).Transposed()));
+		glMultMatrixf((GLfloat*) & (float4x4::FromTRS(GetWorldPosition(), GetWorldRotation(), float3(1.f, 1.f, 1.f)).Transposed()));
 		glColor3f(0.f, 1.f, 1.f);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);	
 		glBegin(GL_QUAD_STRIP);
@@ -179,7 +179,7 @@ void ParticleEmmitter::DrawCone()
 	float innerRadius = 0; // For the moment, the inner circle is always radius = 0
 
 	glPushMatrix();
-	glMultMatrixf((GLfloat*) & (float4x4::FromTRS(position, rotation, float3(1.f, 1.f, 1.f)).Transposed()));
+	glMultMatrixf((GLfloat*) & (float4x4::FromTRS(GetWorldPosition(), GetWorldRotation(), float3(1.f, 1.f, 1.f)).Transposed()));
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	glBegin(GL_POLYGON);
@@ -315,6 +315,11 @@ void ParticleEmmitter::SetRotation(float3 rotation)
 	this->rotation = Quat::FromEulerXYZ(rotation.x * DEGTORAD, rotation.y * DEGTORAD, rotation.z * DEGTORAD);
 }
 
+void ParticleEmmitter::SetRelativeRotation(float3 rotation)
+{
+	this->relativeRotation = Quat::FromEulerXYZ(rotation.x * DEGTORAD, rotation.y * DEGTORAD, rotation.z * DEGTORAD);
+}
+
 void ParticleEmmitter::SetScale(float3 scale)
 {
 	this->scale = scale;
@@ -391,6 +396,16 @@ float3 ParticleEmmitter::GetWorldPosition() const
 float3 ParticleEmmitter::GetRotation() const
 {
 	return rotation.ToEulerXYZ() * RADTODEG;
+}
+
+float3 ParticleEmmitter::GetRelativeRotation() const
+{
+	return relativeRotation.ToEulerXYZ() * RADTODEG;
+}
+
+Quat ParticleEmmitter::GetWorldRotation() const
+{
+	return rotation * relativeRotation;
 }
 
 float3 ParticleEmmitter::GetScale() const
