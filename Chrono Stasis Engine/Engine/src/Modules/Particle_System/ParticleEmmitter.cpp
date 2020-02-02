@@ -26,16 +26,14 @@ int ParticleEmmitter::Update(float dt)
 		// How many particles should instantiate this frame
 		float particlesToSpawn = currentSpawnTime / spawnRate;
 
-		// Round low to Int -> Example 2,5(float) -> 2(int)
+		// Round low to Int -> Example 2,7(float) -> 2(int) 
 		int particlesToInstantiate = (int)particlesToSpawn;
 
-		// Calculate the time we actually took in count to instantiate these particles, and the residual time 
-		// Its calculated by substracting the time Taken In Account to the currentSapwnTime
-		float timeTakenInAccount = particlesToInstantiate * spawnRate;
-		float residualTime = currentSpawnTime - timeTakenInAccount;
-
-		// Assign the remaining time that we did not take into account
-		currentSpawnTime = residualTime;
+		// Since we are losing some info in the Rounding, we need to calculate the time we lost:
+		// Calculate the time we actually took in count to instantiate these particles, and leave the residual time in
+		// the variable so the next frame it starts from there. 
+		float timeTakenIntoAccount = particlesToInstantiate * spawnRate;
+		currentSpawnTime -= timeTakenIntoAccount;
 
 		// Return the number of particles to instantiate this frame
 		return particlesToInstantiate;
