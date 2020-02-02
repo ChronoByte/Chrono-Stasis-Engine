@@ -30,10 +30,10 @@ int ParticleEmmitter::Update(float dt)
 		int particlesToInstantiate = (int)particlesToSpawn;
 
 		// Since we are losing some info in the Rounding, we need to calculate the time we lost:
-		// Calculate the time we actually took in count to instantiate these particles, and leave the residual time in
-		// the variable so the next frame it starts from there. 
-		float timeTakenIntoAccount = particlesToInstantiate * spawnRate;
-		currentSpawnTime -= timeTakenIntoAccount;
+		// We calculate the time we did not take into account (in the example the 0.7 particle) and calculate
+		// How much time it should take to instantiate that 0.7 particle. We start from there in the next frame
+		currentSpawnTime = (particlesToSpawn - particlesToInstantiate) * spawnRate;
+
 
 		// Return the number of particles to instantiate this frame
 		return particlesToInstantiate;
