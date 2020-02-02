@@ -176,6 +176,17 @@ bool ParticleEmmitter::HasBurstsActive() const
 	return false; 
 }
 
+void ParticleEmmitter::RemoveBurst(int index)
+{
+	if (bursts.empty())
+		return; 
+
+	if (index > bursts.size() || index < 0)
+		return; 
+
+	bursts.erase(bursts.begin() + index);
+}
+
 void ParticleEmmitter::DrawSphere(double r, int lats, int longs)
 {
 	for (int i = 0; i <= lats; i++) {

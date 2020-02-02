@@ -147,7 +147,7 @@ void ComponentParticleSystem::InspectorInfo()
 					{
 						ImGui::DragFloat("Time", &emmitter->bursts[i].timeToBurst, 0.1f, 0, emmitter->GetMaxLife());
 						ImGui::DragInt("Particles", &emmitter->bursts[i].partsToInstantiate, 1.0f, 0, MAX_PARTICLES_TO_BURST);
-						ImGui::Button("Remove");
+						if(ImGui::Button("Remove")) emmitter->RemoveBurst(i);
 						ImGui::TreePop();
 
 					}

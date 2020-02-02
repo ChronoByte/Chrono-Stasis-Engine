@@ -70,6 +70,7 @@ public :
 	// -------- Bursts -----------
 
 	bool HasBurstsActive() const; 
+	void RemoveBurst(int index);
 
 	// ------- Debug Draw --------
 
