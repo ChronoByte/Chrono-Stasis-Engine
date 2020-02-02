@@ -52,7 +52,7 @@ public :
 	~ParticleEmmitter();
 	
 	// Updates emmitter lifetime and returns true if its time to spawn a particle
-	bool Update(float dt);
+	int Update(float dt);
 
 	void Reset(); 
 	bool isActive() const; 
@@ -132,7 +132,6 @@ private:
 	float outRadius = 10.f; 
 	float distance = 20.f;
 
-	Timer spawnTimer; 
 	float currentSpawnTime = 0.f; 
 	float spawnRate = 0.05f; 
 

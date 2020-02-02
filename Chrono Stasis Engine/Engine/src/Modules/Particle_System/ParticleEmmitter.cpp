@@ -4,8 +4,6 @@
 #include "GL/gl.h"
 ParticleEmmitter::ParticleEmmitter() : particleSystem()
 {
-	spawnTimer.Start();
-
 	// Seed
 	entropy_getbytes((void*)seeds, sizeof(seeds));
 	pcg32_srandom_r(&rng, seeds[0], seeds[1]);
@@ -15,7 +13,7 @@ ParticleEmmitter::~ParticleEmmitter()
 {
 }
 
-bool ParticleEmmitter::Update(float dt)
+int ParticleEmmitter::Update(float dt)
 {
 	lifeTime += dt;
 	currentSpawnTime += dt;
@@ -25,13 +23,25 @@ bool ParticleEmmitter::Update(float dt)
 
 	if (isActive() && currentSpawnTime >= spawnRate)
 	{
-		//LOG("Spawning particle");
-		spawnTimer.Start();
-		currentSpawnTime = 0.f;
-		return true;
+		// How many particles should instantiate this frame
+		float particlesToSpawn = currentSpawnTime / spawnRate;
+
+		// Round low to Int -> Example 2,5(float) -> 2(int)
+		int particlesToInstantiate = (int)particlesToSpawn;
+
+		// Calculate the time we actually took in count to instantiate these particles, and the residual time 
+		// Its calculated by substracting the time Taken In Account to the currentSapwnTime
+		float timeTakenInAccount = particlesToInstantiate * spawnRate;
+		float residualTime = currentSpawnTime - timeTakenInAccount;
+
+		// Assign the remaining time that we did not take into account
+		currentSpawnTime = residualTime;
+
+		// Return the number of particles to instantiate this frame
+		return particlesToInstantiate;
 	}
 
-	return false;
+	return 0;
 }
 
 void ParticleEmmitter::DebugDrawEmmitter()

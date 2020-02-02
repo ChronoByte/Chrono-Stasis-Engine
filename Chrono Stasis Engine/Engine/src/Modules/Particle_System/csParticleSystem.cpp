@@ -41,7 +41,10 @@ bool ParticleSystem::Update(float dt)
 
 	if (emmitter.isActive()) // If its active, update it, and check if it has to spawn
 	{
-		if (emmitter.Update(dt)) // if its time to spawn a particle
+
+		int particlesToCreate = emmitter.Update(dt);
+		
+		for(int i = 0; i < particlesToCreate; ++i) // if its time to spawn a particle
 		{
 			emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed, particleInfo.globalTransform);
 			CreateParticle(particleInfo, startInfo, endInfo);
