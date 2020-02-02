@@ -138,14 +138,19 @@ void ComponentParticleSystem::InspectorInfo()
 			float3 rot = particleSystem->emmitter.GetRelativeRotation();
 			if (ImGui::DragFloat3("Rotation", (float*)&rot)) { emmitter->SetRelativeRotation(rot); }
 
-			if (ImGui::TreeNodeEx("Burst"))
+			if (ImGui::TreeNodeEx("Bursts"))
 			{
 				for (int i = 0; i < emmitter->bursts.size(); ++i)
-				{				
-					ImGui::DragFloat("Time", &emmitter->bursts[i].timeToBurst, 0.1f, 0, emmitter->GetMaxLife());
-					ImGui::DragInt("Particles", &emmitter->bursts[i].partsToInstantiate, 1.0f, 0, MAX_PARTICLES_TO_BURST);
-					ImGui::Button("Remove");
-					ImGui::Separator();
+				{			
+					ImGuiTreeNodeFlags base_flags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth | ImGuiTreeNodeFlags_DefaultOpen;
+					if (ImGui::TreeNodeEx((void*)(intptr_t)i, base_flags, "Burst %i", i))
+					{
+						ImGui::DragFloat("Time", &emmitter->bursts[i].timeToBurst, 0.1f, 0, emmitter->GetMaxLife());
+						ImGui::DragInt("Particles", &emmitter->bursts[i].partsToInstantiate, 1.0f, 0, MAX_PARTICLES_TO_BURST);
+						ImGui::Button("Remove");
+						ImGui::TreePop();
+
+					}
 				}
 
 				if (ImGui::Button("Add Burst")) { emmitter->bursts.push_back(Burst()); }
