@@ -51,7 +51,7 @@ public:
 	bool PostUpdate(float dt);
 
 	void CreateParticle(ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo);
-	void BurstParticles();
+	void InstantiateParticles(int particles);
 	void DrawParticles();
 	void DrawPointsForParticles();
 
@@ -62,7 +62,7 @@ public:
 	uint GetTotalParticles() const;
 
 	bool isSystemActive() const; 
-	void ResetSystem(); 
+	void ResetSystem();
 
 public: 
 

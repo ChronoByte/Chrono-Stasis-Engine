@@ -13,33 +13,54 @@ ParticleEmmitter::~ParticleEmmitter()
 {
 }
 
-int ParticleEmmitter::Update(float dt)
+void ParticleEmmitter::Update(float dt)
 {
 	lifeTime += dt;
 	currentSpawnTime += dt;
 
 	if (loop && lifeTime >= maxLifeTime)
 		Reset();
+}
 
-	if (isActive() && currentSpawnTime >= spawnRate)
+int ParticleEmmitter::GetParticlesToInstantiate()
+{
+	if (spawnRate <= 0)
+		return 0;
+
+	// How many particles should instantiate this frame
+	float particlesToSpawn = currentSpawnTime / spawnRate;
+
+	// Round low to Int -> Example 2,7(float) -> 2(int) 
+	int particlesToInstantiate = (int)particlesToSpawn;
+
+	// Since we are losing some info in the Rounding, we need to calculate the time we lost:
+	// We calculate the time we did not take into account (in the example the 0.7 particle) and calculate
+	// How much time it should take to instantiate that 0.7 particle. We start from there in the next frame
+	currentSpawnTime = (particlesToSpawn - particlesToInstantiate) * spawnRate;
+
+
+	// Return the number of particles to instantiate this frame
+	return particlesToInstantiate;
+}
+
+int ParticleEmmitter::GetParticlesToBurst()
+{
+	int particlesToInstantiate = 0;
+
+	for (int i = 0; i < bursts.size(); ++i)
 	{
-		// How many particles should instantiate this frame
-		float particlesToSpawn = currentSpawnTime / spawnRate;
+		if (bursts[i].hasBursted)
+			continue; 
 
-		// Round low to Int -> Example 2,7(float) -> 2(int) 
-		int particlesToInstantiate = (int)particlesToSpawn;
+		if (lifeTime >= bursts[i].timeToBurst)
+		{
+			bursts[i].hasBursted = true; 
+			particlesToInstantiate += bursts[i].partsToInstantiate;
+		}
 
-		// Since we are losing some info in the Rounding, we need to calculate the time we lost:
-		// We calculate the time we did not take into account (in the example the 0.7 particle) and calculate
-		// How much time it should take to instantiate that 0.7 particle. We start from there in the next frame
-		currentSpawnTime = (particlesToSpawn - particlesToInstantiate) * spawnRate;
-
-
-		// Return the number of particles to instantiate this frame
-		return particlesToInstantiate;
 	}
 
-	return 0;
+	return particlesToInstantiate;
 }
 
 void ParticleEmmitter::DebugDrawEmmitter()
@@ -141,9 +162,18 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 	}	
 }
 
-bool ParticleEmmitter::hasToBurst() const
+bool ParticleEmmitter::HasBurstsActive() const
 {
-	return burst.active && !burst.hasBursted && lifeTime >= burst.timeToBurst;
+	if (bursts.empty())
+		return false; 
+
+	for (int i = 0; i < bursts.size(); ++i)
+	{
+		if(!bursts[i].hasBursted)
+			return true; 
+	}
+
+	return false; 
 }
 
 void ParticleEmmitter::DrawSphere(double r, int lats, int longs)
@@ -238,7 +268,15 @@ void ParticleEmmitter::DrawCone()
 void ParticleEmmitter::Reset()
 {
 	lifeTime = 0.f; 
-	burst.hasBursted = false; 
+	ResetBursts();
+}
+
+void ParticleEmmitter::ResetBursts()
+{
+	for (int i = 0; i < bursts.size(); ++i)
+	{
+		bursts[i].hasBursted = false;
+	}
 }
 
 bool ParticleEmmitter::isActive() const
@@ -278,8 +316,11 @@ void ParticleEmmitter::SetMaxLife(float maxLife)
 {
 	this->maxLifeTime = maxLife;
 
-	if (burst.timeToBurst > maxLifeTime)
-		burst.timeToBurst = maxLifeTime;
+	for (int i = 0; i < bursts.size(); ++i)
+	{
+		if (bursts[i].timeToBurst > maxLifeTime)
+			bursts[i].timeToBurst = maxLifeTime;
+	}	
 }
 
 void ParticleEmmitter::SetCurrentLife(float currentLife)

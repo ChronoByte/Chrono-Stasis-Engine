@@ -729,7 +729,8 @@ void ModuleScene::CreateExplosion(float3 position, float4 color)
 	particle->endInfo.color = color;
 	particle->endInfo.color.w = 0;
 
-	particle->emmitter.burst.partsToInstantiate = GetRandomBetween(250, 400);
+	//TODO fix this
+	//particle->emmitter.burst.partsToInstantiate = GetRandomBetween(250, 400);
 	particle->particleInfo.speed = GetRandomBetween(4, 7);
 	particle->particleInfo.maxLifeTime = GetRandomBetween(3, 6);
 }

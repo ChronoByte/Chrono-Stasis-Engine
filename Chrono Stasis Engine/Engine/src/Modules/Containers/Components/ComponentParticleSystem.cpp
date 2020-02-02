@@ -130,7 +130,7 @@ void ComponentParticleSystem::InspectorInfo()
 			if (ImGui::Checkbox("Looping", &loop)) { emmitter->SetLoop(loop); }			
 
 			float spawnRate = emmitter->GetSpawnRate();
-			if (ImGui::DragFloat("Spawn Rate", &spawnRate, 0.2f, 0.0f, FLT_MAX)) { emmitter->SetSpawnRate(spawnRate); }
+			if (ImGui::DragFloat("Spawn Rate", &spawnRate, 0.2f, 0.01f, FLT_MAX)) { emmitter->SetSpawnRate(spawnRate); }
 
 			float3 pos = particleSystem->emmitter.GetRelativePosition(); 
 			if (ImGui::DragFloat3("Position", (float*)&pos)) { emmitter->SetRelativePosition(pos); }
@@ -140,9 +140,15 @@ void ComponentParticleSystem::InspectorInfo()
 
 			if (ImGui::TreeNodeEx("Burst"))
 			{
-				ImGui::Checkbox("Activate Burst", &emmitter->burst.active);
-				ImGui::DragFloat("Time", &emmitter->burst.timeToBurst, 0.1f, 0, emmitter->GetMaxLife());
-				ImGui::DragInt("Particles", &emmitter->burst.partsToInstantiate, 1.0f, 0, MAX_PARTICLES_TO_BURST);
+				for (int i = 0; i < emmitter->bursts.size(); ++i)
+				{				
+					ImGui::DragFloat("Time", &emmitter->bursts[i].timeToBurst, 0.1f, 0, emmitter->GetMaxLife());
+					ImGui::DragInt("Particles", &emmitter->bursts[i].partsToInstantiate, 1.0f, 0, MAX_PARTICLES_TO_BURST);
+					ImGui::Button("Remove");
+					ImGui::Separator();
+				}
+
+				if (ImGui::Button("Add Burst")) { emmitter->bursts.push_back(Burst()); }
 
 				ImGui::TreePop();
 			}
@@ -397,18 +403,18 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	
 	// ------------------------ Burst Info --------------------------- //
 
-	// TimeBurst
-	tmp_ps = name + "Burst.TimeBurst";
-	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.burst.timeToBurst);
-	// PartsInstanciate
-	tmp_ps = name + "Burst.PartsInstanciate";
-	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.burst.partsToInstantiate);
-	// hasBursted
-	tmp_ps = name + "Burst.HasBursted";
-	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.burst.hasBursted);
-	// Active
-	tmp_ps = name + "Burst.Active";
-	json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.burst.active);
+	//// TimeBurst
+	//tmp_ps = name + "Burst.TimeBurst";
+	//json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.burst.timeToBurst);
+	//// PartsInstanciate
+	//tmp_ps = name + "Burst.PartsInstanciate";
+	//json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->emmitter.burst.partsToInstantiate);
+	//// hasBursted
+	//tmp_ps = name + "Burst.HasBursted";
+	//json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.burst.hasBursted);
+	//// Active
+	//tmp_ps = name + "Burst.Active";
+	//json_object_dotset_boolean(object, tmp_ps.c_str(), particleSystem->emmitter.burst.active);
 	
 	// ---------------------- Blending Info -------------------------- //
 	
@@ -563,18 +569,18 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 	
 	// ------------------------ Burst Info --------------------------- //
 
-	// TimeBurst
-	tmp_ps = name + "Burst.TimeBurst";
-	particleSystem->emmitter.burst.timeToBurst = json_object_dotget_number(object, tmp_ps.c_str());
-	// PartsInstanciate
-	tmp_ps = name + "Burst.PartsInstanciate";
-	particleSystem->emmitter.burst.partsToInstantiate = json_object_dotget_number(object, tmp_ps.c_str());
-	// hasBursted
-	tmp_ps = name + "Burst.HasBursted";
-	particleSystem->emmitter.burst.hasBursted = json_object_dotget_boolean(object, tmp_ps.c_str());
-	// Active
-	tmp_ps = name + "Burst.Active";
-	particleSystem->emmitter.burst.active = json_object_dotget_boolean(object, tmp_ps.c_str());
+	//// TimeBurst
+	//tmp_ps = name + "Burst.TimeBurst";
+	//particleSystem->emmitter.burst.timeToBurst = json_object_dotget_number(object, tmp_ps.c_str());
+	//// PartsInstanciate
+	//tmp_ps = name + "Burst.PartsInstanciate";
+	//particleSystem->emmitter.burst.partsToInstantiate = json_object_dotget_number(object, tmp_ps.c_str());
+	//// hasBursted
+	//tmp_ps = name + "Burst.HasBursted";
+	//particleSystem->emmitter.burst.hasBursted = json_object_dotget_boolean(object, tmp_ps.c_str());
+	//// Active
+	//tmp_ps = name + "Burst.Active";
+	//particleSystem->emmitter.burst.active = json_object_dotget_boolean(object, tmp_ps.c_str());
 
 
 	// ---------------------- Blending Info -------------------------- //

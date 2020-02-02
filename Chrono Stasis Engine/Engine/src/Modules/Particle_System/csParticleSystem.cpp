@@ -41,18 +41,17 @@ bool ParticleSystem::Update(float dt)
 
 	if (emmitter.isActive()) // If its active, update it, and check if it has to spawn
 	{
+		emmitter.Update(dt);
 
-		int particlesToCreate = emmitter.Update(dt);
-		
-		for(int i = 0; i < particlesToCreate; ++i) // if its time to spawn a particle
+		int particlesToCreate = emmitter.GetParticlesToInstantiate();
+		InstantiateParticles(particlesToCreate);
+
+		if (emmitter.HasBurstsActive())
 		{
-			emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed, particleInfo.globalTransform);
-			CreateParticle(particleInfo, startInfo, endInfo);
-		}
+			int particlesToBurst = emmitter.GetParticlesToBurst();
+			InstantiateParticles(particlesToBurst);
+		}	
 
-		if (emmitter.isActive() && emmitter.hasToBurst())
-			BurstParticles();
-		
 	}
 
 	// ------------------------------------------
@@ -108,14 +107,13 @@ void ParticleSystem::CreateParticle(ParticleInfo info, ParticleMutableInfo start
 	totalParticles++;
 }
 
-void ParticleSystem::BurstParticles()
+void ParticleSystem::InstantiateParticles(int particles)
 {
-	for (uint i = 0; i < emmitter.burst.partsToInstantiate; ++i)
+	for (uint i = 0; i < particles; ++i)
 	{
 		emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed, particleInfo.globalTransform);
 		CreateParticle(particleInfo, startInfo, endInfo);
 	}
-	emmitter.burst.hasBursted = true;
 }
 
 void ParticleSystem::DrawParticles()

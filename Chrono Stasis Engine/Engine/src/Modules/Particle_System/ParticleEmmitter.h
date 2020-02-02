@@ -34,10 +34,10 @@ enum class Emmitter_Zone
 
 struct Burst
 {
+	Burst() {}
 	float timeToBurst = 0.f; 
 	int partsToInstantiate = 60; 
 	bool hasBursted = false;
-	bool active = false; 
 
 	void Reset() { hasBursted = false; }
 };
@@ -51,16 +51,25 @@ public :
 	ParticleEmmitter();
 	~ParticleEmmitter();
 	
-	// Updates emmitter lifetime and returns true if its time to spawn a particle
-	int Update(float dt);
+	// Updates emmitter lifetime 
+	void Update(float dt);
 
-	void Reset(); 
+	// Returns how many particles should be instantiated this frame
+	int GetParticlesToInstantiate();
+	int GetParticlesToBurst();
+
+	void Reset();
+	void ResetBursts(); 
+
 	bool isActive() const; 
 
 	void DebugDrawEmmitter();
 	// Get an initial position and an initial velocity given the emmiter type
 	void GetInitialValues(float3& position, float3& velocity, float speed, bool localTransform);
-	bool hasToBurst() const; 
+	
+	// -------- Bursts -----------
+
+	bool HasBurstsActive() const; 
 
 	// ------- Debug Draw --------
 
@@ -119,8 +128,7 @@ public :
 public: 
 
 	ParticleSystem* particleSystem = nullptr; 
-	//std::vector<Burst*> burstList; // Maybe for later, let's keep it simple for now
-	Burst burst; 
+	std::vector<Burst> bursts;
 
 private: 
 
