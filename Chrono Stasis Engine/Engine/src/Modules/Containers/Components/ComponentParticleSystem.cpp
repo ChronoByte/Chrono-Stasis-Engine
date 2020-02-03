@@ -577,6 +577,9 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 	
 	
 	// ------------------------ Burst Info --------------------------- //
+	
+	// Clean Burst List 
+	particleSystem->emmitter.bursts.clear(); 
 
 	// Burst List size
 	tmp_ps = name + "Bursts.Size";
