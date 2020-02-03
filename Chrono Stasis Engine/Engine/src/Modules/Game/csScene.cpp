@@ -721,7 +721,7 @@ void ModuleScene::CreateExplosion(float3 position, float4 color)
 	ParticleSystem* particle = particleSystem->GetSystem();
 
 	App->serialization->particleCallback = particleSystem;
-	App->serialization->LoadParticleSystem("Assets/Particles/ExplosionA.particle.json");
+	App->serialization->LoadParticleSystem("Assets/Particles/ExplosionB.particle.json");
 	particleSystem->GetSystem()->ResetSystem();
 	particleSystem->GetSystem()->emmitter.SetPosition(go->GetTransform()->GetPosition());
 
@@ -730,7 +730,7 @@ void ModuleScene::CreateExplosion(float3 position, float4 color)
 	particle->endInfo.color.w = 0;
 
 	//TODO fix this
-	//particle->emmitter.burst.partsToInstantiate = GetRandomBetween(250, 400);
+	particle->emmitter.bursts[0].partsToInstantiate = GetRandomBetween(250, 400);
 	particle->particleInfo.speed = GetRandomBetween(4, 7);
 	particle->particleInfo.maxLifeTime = GetRandomBetween(3, 6);
 }
