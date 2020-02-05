@@ -50,7 +50,7 @@ public:
 	bool Update(float dt);
 	bool PostUpdate(float dt);
 
-	void CreateParticle(ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo);
+	void CreateParticle(ParticleInfo info);
 	void InstantiateParticles(int particles);
 	void DrawParticles();
 	void DrawPointsForParticles();
@@ -70,8 +70,6 @@ public:
 	BillboardType bbType = BillboardType::SCREEN;
 
 	ParticleInfo particleInfo;
-	ParticleMutableInfo startInfo;
-	ParticleMutableInfo endInfo;
 
 	bool isPlaying = true; 
 

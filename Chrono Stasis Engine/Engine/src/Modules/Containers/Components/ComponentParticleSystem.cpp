@@ -176,9 +176,9 @@ void ComponentParticleSystem::InspectorInfo()
 			// Initial State || Final State
 			if (ImGui::TreeNodeEx("Start State", ImGuiTreeNodeFlags_DefaultOpen))
 			{
-				ImGui::ColorPicker4("Color", (float*)&particleSystem->particleInfo.color, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
-				ImGui::DragFloat("Size", (float*)&particleSystem->particleInfo.size, 0.1f, 0.0f, FLT_MAX);
-				ImGui::DragFloat3("Gravity", (float*)&particleSystem->particleInfo.force);
+				ImGui::ColorPicker4("Color", (float*)&particleSystem->particleInfo.initColor, ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
+				ImGui::DragFloat("Size", (float*)&particleSystem->particleInfo.initSize, 0.1f, 0.0f, FLT_MAX);
+				ImGui::DragFloat3("Gravity", (float*)&particleSystem->particleInfo.initForce);
 				ImGui::Checkbox("Change Over Time", &particleSystem->particleInfo.changeOverLifeTime);
 
 				ImGui::TreePop();
@@ -188,13 +188,13 @@ void ComponentParticleSystem::InspectorInfo()
 			{
 				if (ImGui::TreeNodeEx("Final State", ImGuiTreeNodeFlags_DefaultOpen))
 				{
-					ImGui::ColorPicker4("Color", (float*)&particleSystem->endInfo.color,
+					ImGui::ColorPicker4("Color", (float*)&particleSystem->particleInfo.finalColor,
 						ImGuiColorEditFlags_AlphaBar | ImGuiColorEditFlags_RGB | ImGuiColorEditFlags_AlphaPreview);
-					ImGui::DragFloat("Size", (float*)&particleSystem->endInfo.size, 0.1f, 0.0f, FLT_MAX);
-					ImGui::DragFloat3("Gravity", (float*)&particleSystem->endInfo.force);
+					ImGui::DragFloat("Size", (float*)&particleSystem->particleInfo.finalSize, 0.1f, 0.0f, FLT_MAX);
+					ImGui::DragFloat3("Gravity", (float*)&particleSystem->particleInfo.finalForce);
 					ImVec2 size = ImGui::GetItemRectSize();
-					if (ImGui::Button("Equalize Values", size))	
-						particleSystem->endInfo = particleSystem->particleInfo;
+					if (ImGui::Button("Equalize Values", size))
+						particleSystem->particleInfo.EqualizeFinalValues(); 
 					ImGui::TreePop();
 				}
 			}
@@ -240,7 +240,7 @@ void ComponentParticleSystem::InspectorInfo()
 				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i", (resMat == nullptr) ? 0 : resMat->CountReferences() - 1);
 				ImGui::Spacing();
 				ImGui::Text("Transparency: ");
-				ImGui::SliderFloat(" ", &particleSystem->particleInfo.color.w, 0.0f, 1.0f);
+				ImGui::SliderFloat(" ", &particleSystem->particleInfo.initColor.w, 0.0f, 1.0f);
 				ImGui::Spacing();
 			}
 			else
@@ -329,19 +329,19 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->particleInfo.velocity);
 	// Force
 	tmp_ps = name + "Start.Force";
-	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->particleInfo.force);
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->particleInfo.initForce);
 	// Speed
 	tmp_ps = name + "Start.Speed";
 	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->particleInfo.speed);
 	// Color
 	tmp_ps = name + "Start.Color";
-	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->particleInfo.color.x, particleSystem->particleInfo.color.y, particleSystem->particleInfo.color.z, particleSystem->particleInfo.color.w));
+	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->particleInfo.initColor.x, particleSystem->particleInfo.initColor.y, particleSystem->particleInfo.initColor.z, particleSystem->particleInfo.initColor.w));
 	// Size
 	tmp_ps = name + "Start.Size";
-	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->particleInfo.size);
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->particleInfo.initSize);
 	// LightColor
 	tmp_ps = name + "Start.LightColor";
-	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->particleInfo.lightColor.x, particleSystem->particleInfo.lightColor.y, particleSystem->particleInfo.lightColor.z, particleSystem->particleInfo.lightColor.w));
+	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->particleInfo.initLightColor.x, particleSystem->particleInfo.initLightColor.y, particleSystem->particleInfo.initLightColor.z, particleSystem->particleInfo.initLightColor.w));
 	// MaxLifeTime
 	tmp_ps = name + "Start.MaxLifeTime";
 	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->particleInfo.maxLifeTime);
@@ -353,16 +353,16 @@ void ComponentParticleSystem::Save(JSON_Object * object, std::string name, bool 
 
 	// Color
 	tmp_ps = name + "End.Color";
-	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->endInfo.color.x, particleSystem->endInfo.color.y, particleSystem->endInfo.color.z, particleSystem->endInfo.color.w));
+	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->particleInfo.finalColor.x, particleSystem->particleInfo.finalColor.y, particleSystem->particleInfo.finalColor.z, particleSystem->particleInfo.finalColor.w));
 	// Size
 	tmp_ps = name + "End.Size";
-	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->endInfo.size);
+	json_object_dotset_number(object, tmp_ps.c_str(), particleSystem->particleInfo.finalSize);
 	// LightColor
 	tmp_ps = name + "End.LightColor";
-	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->endInfo.lightColor.x, particleSystem->endInfo.lightColor.y, particleSystem->endInfo.lightColor.z, particleSystem->endInfo.lightColor.w));
+	App->fs->json_array_dotset_float4(object, tmp_ps.c_str(), float4(particleSystem->particleInfo.finalLightColor.x, particleSystem->particleInfo.finalLightColor.y, particleSystem->particleInfo.finalLightColor.z, particleSystem->particleInfo.finalLightColor.w));
 	// Force
 	tmp_ps = name + "End.Force";
-	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->endInfo.force);
+	App->fs->json_array_dotset_float3(object, tmp_ps.c_str(), particleSystem->particleInfo.finalForce);
 
 	// ---------------------- Emitter Info --------------------------- //
 	
@@ -495,19 +495,19 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 	particleSystem->particleInfo.velocity = App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str());
 	// Force
 	tmp_ps = name + "Start.Force";
-	particleSystem->particleInfo.force = App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str());
+	particleSystem->particleInfo.initForce = App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str());
 	// Speed
 	tmp_ps = name + "Start.Speed";
 	particleSystem->particleInfo.speed = json_object_dotget_number(object, tmp_ps.c_str());
 	// Color
 	tmp_ps = name + "Start.Color";
-	particleSystem->particleInfo.color = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
+	particleSystem->particleInfo.initColor = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
 	// Size
 	tmp_ps = name + "Start.Size";
-	particleSystem->particleInfo.size = json_object_dotget_number(object, tmp_ps.c_str());
+	particleSystem->particleInfo.initSize = json_object_dotget_number(object, tmp_ps.c_str());
 	// LightColor
 	tmp_ps = name + "Start.LightColor";
-	particleSystem->particleInfo.lightColor = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
+	particleSystem->particleInfo.initLightColor = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
 	// MaxLifeTime
 	tmp_ps = name + "Start.MaxLifeTime";
 	particleSystem->particleInfo.maxLifeTime = json_object_dotget_number(object, tmp_ps.c_str());
@@ -520,16 +520,16 @@ void ComponentParticleSystem::Load(const JSON_Object * object, std::string name)
 
 	// Color
 	tmp_ps = name + "End.Color";
-	particleSystem->endInfo.color = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
+	particleSystem->particleInfo.finalColor = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
 	// Size
 	tmp_ps = name + "End.Size";
-	particleSystem->endInfo.size = json_object_dotget_number(object, tmp_ps.c_str());
+	particleSystem->particleInfo.finalSize = json_object_dotget_number(object, tmp_ps.c_str());
 	// LightColor
 	tmp_ps = name + "End.LightColor";
-	particleSystem->endInfo.lightColor = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
+	particleSystem->particleInfo.finalLightColor = App->fs->json_array_dotget_float4_string(object, tmp_ps.c_str());
 	// Force
 	tmp_ps = name + "End.Force";
-	particleSystem->endInfo.force = App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str());
+	particleSystem->particleInfo.finalForce = App->fs->json_array_dotget_float3_string(object, tmp_ps.c_str());
 
 	// ---------------------- Emitter Info --------------------------- //
 

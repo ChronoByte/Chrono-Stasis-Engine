@@ -699,10 +699,10 @@ void ModuleScene::CreateFireWork()
 	App->serialization->particleCallback = particleSystem;
 	App->serialization->LoadParticleSystem("Assets/Particles/FireworkTrail.particle.json");
 	particle->ResetSystem();
-	particle->particleInfo.color = color; 
+	particle->particleInfo.initColor = color; 
 
-	particle->endInfo.color = color; 
-	particle->endInfo.color.w = 0; 
+	particle->particleInfo.finalColor = color;
+	particle->particleInfo.finalColor.w = 0.f; 
 
 	particle->emmitter.SetPosition(go->GetTransform()->GetPosition());
 	particle->emmitter.SetMaxLife(maxLifeTime);
@@ -725,9 +725,9 @@ void ModuleScene::CreateExplosion(float3 position, float4 color)
 	particleSystem->GetSystem()->ResetSystem();
 	particleSystem->GetSystem()->emmitter.SetPosition(go->GetTransform()->GetPosition());
 
-	particle->particleInfo.color = color;
-	particle->endInfo.color = color;
-	particle->endInfo.color.w = 0;
+	particle->particleInfo.initColor = color;
+	particle->particleInfo.finalColor = color;
+	particle->particleInfo.finalColor.w = 0.f;
 
 	//TODO fix this
 	particle->emmitter.bursts[0].partsToInstantiate = GetRandomBetween(250, 400);

@@ -5,10 +5,20 @@
 #include "csCamera3D.h"
 #include "GL/gl.h"
 
-Particle::Particle(ParticleSystem * owner, ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo) : owner(owner), particleInfo(info), startInfo(info), endInfo(endInfo)
+Particle::Particle(ParticleSystem * owner, ParticleInfo info) : owner(owner), particleInfo(info)
 {
 	owner->sourceFactor = GL_SRC_ALPHA;
 	owner->destinationFactor = GL_ONE_MINUS_SRC_ALPHA;
+
+	if (!particleInfo.changeOverLifeTime)
+		particleInfo.EqualizeFinalValues();
+
+	currentSize = particleInfo.initSize;
+	currentForce = particleInfo.initForce; 
+	currentColor = particleInfo.initColor;
+	currentLightColor = particleInfo.initLightColor;
+
+	rateToLerp = 1.f / particleInfo.maxLifeTime;
 }
 
 Particle::~Particle()
@@ -26,7 +36,7 @@ void Particle::PreUpdate(float dt)
 void Particle::Update(float dt)
 {
 	// Apply forces
-	particleInfo.velocity += particleInfo.force * dt;
+	particleInfo.velocity += currentForce * dt;
 
 	// Move
 	particleInfo.position += particleInfo.velocity * dt;
@@ -40,7 +50,7 @@ void Particle::PostUpdate(float dt)
 
 void Particle::Draw()
 {
-	glColor4f(particleInfo.color.x, particleInfo.color.y, particleInfo.color.z, particleInfo.color.w);
+	glColor4f(currentColor.x, currentColor.y, currentColor.z, currentColor.w);
 
 	float4x4 particleLocal = float4x4::FromTRS(particleInfo.position, particleInfo.rotation, float3(1.f, 1.f, 1.f));
 	float4x4 particleGlobal = particleLocal;
@@ -119,25 +129,25 @@ void Particle::Draw()
 	// -------------------
 
 	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(-0.5f * particleInfo.size, -0.5f * particleInfo.size, 0.f);
+	glVertex3f(-0.5f * currentSize, -0.5f * currentSize, 0.f);
 
 	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(0.5f * particleInfo.size, 0.5f * particleInfo.size, 0.f);
+	glVertex3f(0.5f * currentSize, 0.5f * currentSize, 0.f);
 
 	glTexCoord2f(0.0f, 1.0f);
-	glVertex3f(-0.5f * particleInfo.size, 0.5f * particleInfo.size, 0.f);
+	glVertex3f(-0.5f * currentSize, 0.5f * currentSize, 0.f);
 
 
 	// -------------------
 
 	glTexCoord2f(0.0f, 0.0f);
-	glVertex3f(-0.5f * particleInfo.size, -0.5f * particleInfo.size, 0.f);
+	glVertex3f(-0.5f * currentSize, -0.5f * currentSize, 0.f);
 
 	glTexCoord2f(1.0f, 0.0f);
-	glVertex3f(0.5f * particleInfo.size, -0.5f * particleInfo.size, 0.f);
+	glVertex3f(0.5f * currentSize, -0.5f * currentSize, 0.f);
 
 	glTexCoord2f(1.0f, 1.0f);
-	glVertex3f(0.5f * particleInfo.size, 0.5f * particleInfo.size, 0.f);
+	glVertex3f(0.5f * currentSize, 0.5f * currentSize, 0.f);
 
 	// -------------------
 
@@ -178,16 +188,13 @@ void Particle::Orientate(ComponentCamera * camera)
 
 void Particle::InterpolateValues(float dt)
 {
-
-	rateToLerp = 1.f / particleInfo.maxLifeTime;
-	if (t <= 1)
+	if (percentage <= 1)
 	{
-		t += rateToLerp * dt;
-		particleInfo.color = float4::Lerp(startInfo.color, endInfo.color, t);
-		particleInfo.size = Lerp(startInfo.size, endInfo.size, t);
-		particleInfo.force = float3::Lerp(startInfo.force, endInfo.force, t);
+		percentage += rateToLerp * dt;
+		currentColor = float4::Lerp(particleInfo.initColor, particleInfo.finalColor, percentage);
+		currentSize = Lerp(particleInfo.initSize, particleInfo.finalSize, percentage);
+		currentForce = float3::Lerp(particleInfo.initForce, particleInfo.finalForce, percentage);
 	}
-
 }
 
 

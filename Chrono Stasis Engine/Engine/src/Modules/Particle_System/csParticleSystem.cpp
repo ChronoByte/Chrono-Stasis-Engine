@@ -98,12 +98,12 @@ bool ParticleSystem::PostUpdate(float dt)
 	return true;
 }
 
-void ParticleSystem::CreateParticle(ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo)
+void ParticleSystem::CreateParticle(ParticleInfo info)
 {
 	if (totalParticles > MAX_PARTICLES)
 		return; 
 
-	particles.push_back(new Particle(this, info, startInfo, endInfo));
+	particles.push_back(new Particle(this, info));
 	totalParticles++;
 }
 
@@ -112,7 +112,7 @@ void ParticleSystem::InstantiateParticles(int particles)
 	for (uint i = 0; i < particles; ++i)
 	{
 		emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed, particleInfo.globalTransform);
-		CreateParticle(particleInfo, startInfo, endInfo);
+		CreateParticle(particleInfo);
 	}
 }
 
@@ -122,22 +122,15 @@ void ParticleSystem::DrawParticles()
 	//DrawPointsForParticles();
 
 	ComponentCamera* mainCamera = App->scene->GetMainCameraSafe();
-	//-------------------------- DRAW PARTICLES FAR TO NEAR ------------------
+
+	//-------------------------- Order Particles From Far to Near ------------------
 
 	for (std::vector<Particle*>::reverse_iterator iter = particles.rbegin(); iter != particles.rend(); ++iter)
 	{
 		(*iter)->Orientate(mainCamera); 
 		(*iter)->Draw();
 	}
-	//-------------------------- DRAW PARTICLES FAR TO NEAR ------------------
 
-	/*for (std::map<float, Particle*>::reverse_iterator iter = sortedParticles.rbegin(); iter != sortedParticles.rend(); ++iter)
-	{
-		iter->second->Orientate(mainCamera);
-		iter->second->Draw();	
-	}*/
-
-	//sortedParticles.clear();
 }
 
 void ParticleSystem::DrawPointsForParticles()
