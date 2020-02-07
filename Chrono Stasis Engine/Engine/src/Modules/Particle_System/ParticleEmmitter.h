@@ -15,7 +15,6 @@ enum class Emmitter_Shape{
 	Hemisphere,
 	Cube, 
 	Cone, 
-	Plane,
 
 	// etc
 

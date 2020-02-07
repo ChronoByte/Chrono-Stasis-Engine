@@ -71,7 +71,6 @@ void ParticleEmmitter::DebugDrawEmmitter()
 	case Emmitter_Shape::Hemisphere: break;
 	case Emmitter_Shape::Cube: DrawCube(cubeSize.x, cubeSize.y, cubeSize.z); break;
 	case Emmitter_Shape::Cone: DrawCone(); break;
-	case Emmitter_Shape::Plane: break;
 	default: break;
 	}
 }
@@ -150,11 +149,6 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 		circleRandomPoint += GetWorldRotation().WorldZ() * distance; // Move the point forward
 		velocity = (circleRandomPoint - position).Normalized() * speed;  // Finally make the initial velocity vector
 	}
-		break;
-
-	case Emmitter_Shape::Plane:
-		position = emmitterCenterPosition;
-
 		break;
 
 	default:

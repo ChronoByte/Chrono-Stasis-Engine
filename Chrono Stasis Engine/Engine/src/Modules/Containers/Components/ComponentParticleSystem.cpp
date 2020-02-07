@@ -92,7 +92,7 @@ void ComponentParticleSystem::InspectorInfo()
 
 			if (ImGui::TreeNode("Shape Options"))
 			{
-				if (ImGui::Combo("Shape", &shapeSelected, "Sphere\0Hemisphere\0Cube\0Cone\0Plane\0\0")) { emmitter->SetShape((Emmitter_Shape)shapeSelected); }
+				if (ImGui::Combo("Shape", &shapeSelected, "Sphere\0Hemisphere\0Cube\0Cone\0\0")) { emmitter->SetShape((Emmitter_Shape)shapeSelected); }
 
 				switch (emmitter->GetShape())
 				{
