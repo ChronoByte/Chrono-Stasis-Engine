@@ -114,7 +114,10 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 
 	case Emmitter_Shape::Cube:
 		position = spawnPosition;
-
+		position.x += GetRandomBetween(-cubeSize.x * 0.5f, cubeSize.x  * 0.5f);
+		position.y += GetRandomBetween(-cubeSize.y * 0.5f, cubeSize.y * 0.5f);
+		position.z += GetRandomBetween(-cubeSize.z * 0.5f, cubeSize.z * 0.5f);
+		velocity = GetWorldRotation().WorldZ() * speed;
 		break;
 
 	case Emmitter_Shape::Cone:
