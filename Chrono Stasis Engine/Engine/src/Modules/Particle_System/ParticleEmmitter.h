@@ -75,6 +75,7 @@ public :
 	// ------- Debug Draw --------
 
 	void DrawSphere(double r, int lats, int longs);
+	void DrawCube(float length, float height, float width);
 	void DrawCone();
 	
 	// ----- Modify Emmitter -----
@@ -108,6 +109,7 @@ public :
 	float GetRadius() const;
 	float GetOutRadius() const;
 	float GetDistance() const; 
+	float* GetCubeSize() const;
 
 	float GetMaxLife() const;
 	float GetCurrentLife() const; 
@@ -137,9 +139,13 @@ private:
 	Emmitter_Shape shape = Emmitter_Shape::Sphere; 
 	Emmitter_Zone zone = Emmitter_Zone::Base;
 
+	// Sphere, Cone, Hemisphere
 	float radius = 5.f; 
 	float outRadius = 10.f; 
 	float distance = 20.f;
+
+	// Cube
+	float3 cubeSize = float3(10.f, 5.f, 10.f); 
 
 	float currentSpawnTime = 0.f; 
 	float spawnRate = 0.05f; 

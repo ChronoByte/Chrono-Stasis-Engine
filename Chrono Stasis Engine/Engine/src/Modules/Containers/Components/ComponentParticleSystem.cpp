@@ -118,6 +118,10 @@ void ComponentParticleSystem::InspectorInfo()
 				}
 					break; 
 
+				case Emmitter_Shape::Cube:
+					ImGui::DragFloat3("Cube Size", emmitter->GetCubeSize(), 1.0f, 0.0f, FLOAT_INF);
+					break;
+
 				}
 
 				ImGui::TreePop();

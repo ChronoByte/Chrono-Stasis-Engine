@@ -67,28 +67,12 @@ void ParticleEmmitter::DebugDrawEmmitter()
 {
 	switch (shape)
 	{
-	case Emmitter_Shape::Sphere:
-		DrawSphere(radius, 10, 10);
-		break;
-
-	case Emmitter_Shape::Hemisphere:
-
-		break;
-
-	case Emmitter_Shape::Cube:
-
-		break;
-
-	case Emmitter_Shape::Cone:
-		DrawCone();
-		break;
-
-	case Emmitter_Shape::Plane:
-
-		break;
-
-	default:
-		break;
+	case Emmitter_Shape::Sphere: DrawSphere(radius, 10, 10); break;
+	case Emmitter_Shape::Hemisphere: break;
+	case Emmitter_Shape::Cube: DrawCube(cubeSize.x, cubeSize.y, cubeSize.z); break;
+	case Emmitter_Shape::Cone: DrawCone(); break;
+	case Emmitter_Shape::Plane: break;
+	default: break;
 	}
 }
 
@@ -218,6 +202,57 @@ void ParticleEmmitter::DrawSphere(double r, int lats, int longs)
 		glColor3f(1.f, 1.f, 1.f);
 		glPopMatrix();
 	}	
+}
+
+void ParticleEmmitter::DrawCube(float length, float height, float width)
+{
+	length *= 0.5f;
+	height *= 0.5f;
+	width *= 0.5f;
+
+	glPushMatrix();
+	glMultMatrixf((GLfloat*) & (float4x4::FromTRS(GetWorldPosition(), GetWorldRotation(), float3(1.f, 1.f, 1.f)).Transposed()));
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+	glBegin(GL_QUADS);
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(-length, -height, width);
+	glVertex3f(length, -height, width);
+	glVertex3f(length, height, width);
+	glVertex3f(-length, height, width);
+
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(length, -height, -width);
+	glVertex3f(-length, -height, -width);
+	glVertex3f(-length, height, -width);
+	glVertex3f(length, height, -width);
+
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(length, -height, width);
+	glVertex3f(length, -height, -width);
+	glVertex3f(length, height, -width);
+	glVertex3f(length, height, width);
+
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glVertex3f(-length, -height, -width);
+	glVertex3f(-length, -height, width);
+	glVertex3f(-length, height, width);
+	glVertex3f(-length, height, -width);
+
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(-length, height, width);
+	glVertex3f(length, height, width);
+	glVertex3f(length, height, -width);
+	glVertex3f(-length, height, -width);
+
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glVertex3f(-length, -height, -width);
+	glVertex3f(length, -height, -width);
+	glVertex3f(length, -height, width);
+	glVertex3f(-length, -height, width);
+	glEnd();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glPopMatrix();
 }
 
 void ParticleEmmitter::DrawCone()
@@ -411,6 +446,11 @@ float ParticleEmmitter::GetOutRadius() const
 float ParticleEmmitter::GetDistance() const
 {
 	return distance;
+}
+
+float * ParticleEmmitter::GetCubeSize() const
+{
+	return (float*)&cubeSize;
 }
 
 float ParticleEmmitter::GetMaxLife() const
