@@ -83,9 +83,9 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 	// Set the spawn position
 	// If its not on local space (global space) instantiate it on the emitter position
 	// If its in local space, then instantiate it in pos 0,0,0
-	float3 spawnPosition = float3::zero;
+	float3 emmitterCenterPosition = float3::zero;
 	if (globalTransform)
-		 spawnPosition = GetWorldPosition();
+		 emmitterCenterPosition = GetWorldPosition();
 
 	switch (shape)
 	{
@@ -94,15 +94,15 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 		switch (zone)
 		{
 		case Emmitter_Zone::Base:
-			position = spawnPosition;
+			position = emmitterCenterPosition;
 			velocity = float3::RandomDir(lcg, 1.0f) * speed;
 			break;
 
 		case Emmitter_Zone::Volume:
 			// Gets a random position inside the sphere
-			position = spawnPosition + float3::RandomDir(lcg, 1.0f) * GetRandomBetween(0, radius);
+			position = emmitterCenterPosition + float3::RandomDir(lcg, 1.0f) * GetRandomBetween(0, radius);
 			// Calculates the direction respect the center of the sphere
-			velocity = (position - spawnPosition).Normalized() * speed;
+			velocity = (position - emmitterCenterPosition).Normalized() * speed;
 			break; 
 		}
 
@@ -113,34 +113,47 @@ void ParticleEmmitter::GetInitialValues(float3 & position, float3 & velocity, fl
 		break;
 
 	case Emmitter_Shape::Cube:
-		position = spawnPosition;
+	{
+		// Get a random position inside the cube (cube centered in emmitter pos), without any rotation
+		position = emmitterCenterPosition;
 		position.x += GetRandomBetween(-cubeSize.x * 0.5f, cubeSize.x  * 0.5f);
 		position.y += GetRandomBetween(-cubeSize.y * 0.5f, cubeSize.y * 0.5f);
 		position.z += GetRandomBetween(-cubeSize.z * 0.5f, cubeSize.z * 0.5f);
+
+		// Get the vector between the position of the emmitter and the random position gotten
+		float3 relativeRandomPosition = (position - emmitterCenterPosition);
+
+		// Apply the rotation of the emmitter to that vector 
+		relativeRandomPosition = relativeRandomPosition * GetWorldRotation().ToFloat3x3().Transposed();
+
+		// Add that vector to the emmitter position 
+		position = emmitterCenterPosition + relativeRandomPosition;
+
 		velocity = GetWorldRotation().WorldZ() * speed;
+	}
 		break;
 
 	case Emmitter_Shape::Cone:
 	{
-		math::Circle baseCircle = math::Circle(spawnPosition, GetWorldRotation().WorldZ(), radius);
-		math::Circle outerCircle = math::Circle(spawnPosition, GetWorldRotation().WorldZ(), outRadius);
+		math::Circle baseCircle = math::Circle(emmitterCenterPosition, GetWorldRotation().WorldZ(), radius);
+		math::Circle outerCircle = math::Circle(emmitterCenterPosition, GetWorldRotation().WorldZ(), outRadius);
 		// (baseCircle.RandomPointInside(lcg) -> Gets a random point in the surface of the circle 
 		//position = (baseCircle.RandomPointInside(lcg) - GetWorldPosition()).Normalized() * pcg32_boundedrand_r(&rng_bounded, (radius - 0) + 1);
 		
 		
 		// For the moment lets emmit from the center point of the emmitter
-		position = spawnPosition;
+		position = emmitterCenterPosition;
 
 		// Get direction respect the second circle of the cone
-		float3 circleRandomPoint = (outerCircle.RandomPointInside(lcg) - spawnPosition).Normalized() * GetRandomBetween(0, outRadius);
-		circleRandomPoint += spawnPosition; // Move it to the emmitter location, otherwise its on the Origin.
+		float3 circleRandomPoint = (outerCircle.RandomPointInside(lcg) - emmitterCenterPosition).Normalized() * GetRandomBetween(0, outRadius);
+		circleRandomPoint += emmitterCenterPosition; // Move it to the emmitter location, otherwise its on the Origin.
 		circleRandomPoint += GetWorldRotation().WorldZ() * distance; // Move the point forward
 		velocity = (circleRandomPoint - position).Normalized() * speed;  // Finally make the initial velocity vector
 	}
 		break;
 
 	case Emmitter_Shape::Plane:
-		position = spawnPosition;
+		position = emmitterCenterPosition;
 
 		break;
 
