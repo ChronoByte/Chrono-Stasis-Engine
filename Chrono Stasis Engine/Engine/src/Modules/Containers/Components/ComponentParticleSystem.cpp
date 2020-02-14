@@ -223,8 +223,12 @@ void ComponentParticleSystem::InspectorInfo()
 			{
 				App->editor->textureBrowser->SetActive(true);
 				App->editor->textureBrowser->callback = this;
+				enableAnim = false;
+		
 			}
 
+			
+			
 			if (resMat != nullptr)
 			{
 				// If there is a texture, option to remove it
@@ -234,6 +238,7 @@ void ComponentParticleSystem::InspectorInfo()
 					App->editor->textureBrowser->callback = this;
 					App->editor->textureBrowser->callback->AssignResource(0);
 					App->editor->textureBrowser->callback = nullptr;
+					
 				}
 
 				ImGui::Spacing();
@@ -246,6 +251,18 @@ void ComponentParticleSystem::InspectorInfo()
 				ImGui::Text("Transparency: ");
 				ImGui::SliderFloat(" ", &particleSystem->particleInfo.color.w, 0.0f, 1.0f);
 				ImGui::Spacing();
+
+
+				// Add Spritesheet texture
+				ImGui::Checkbox("Animated Texture", &enableAnim);
+				
+				if (enableAnim)
+				{
+					ImGui::SliderFloat("Animation Speed", &animSpeed, 0.0f, 5.0);
+					ImGui::SliderInt("Rows", &texRows, 1, 10);
+					ImGui::SliderInt("Columns", &texColumns, 1, 10);
+				}
+				
 			}
 			else
 			{			

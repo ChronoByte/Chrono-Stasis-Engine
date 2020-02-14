@@ -39,4 +39,10 @@ private:
 	int funcTypeSource = 6;
 	int funcTypeDest = 7;
 	int transformSelected = 0; // 0 Global - 1 Local
+
+	// Animated Texture 
+	bool enableAnim = false;
+	float animSpeed = 0.1f;
+	int texRows = 1;
+	int texColumns = 1;
 };
