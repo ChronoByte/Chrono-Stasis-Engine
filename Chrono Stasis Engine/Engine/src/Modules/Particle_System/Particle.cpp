@@ -5,7 +5,7 @@
 #include "csCamera3D.h"
 #include "GL/gl.h"
 
-Particle::Particle(ParticleSystem * owner, ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo) : owner(owner), particleInfo(info), startInfo(info), endInfo(endInfo)
+Particle::Particle(ParticleSystem * owner, ParticleInfo info, ParticleMutableInfo endInfo) : owner(owner), particleInfo(info), startInfo(info), endInfo(endInfo)
 {
 	owner->sourceFactor = GL_SRC_ALPHA;
 	owner->destinationFactor = GL_ONE_MINUS_SRC_ALPHA;

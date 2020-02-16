@@ -98,12 +98,12 @@ bool ParticleSystem::PostUpdate(float dt)
 	return true;
 }
 
-void ParticleSystem::CreateParticle(ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo)
+void ParticleSystem::CreateParticle(ParticleInfo info, ParticleMutableInfo endInfo)
 {
 	if (totalParticles > MAX_PARTICLES)
 		return; 
 
-	particles.push_back(new Particle(this, info, startInfo, endInfo));
+	particles.push_back(new Particle(this, info, endInfo));
 	totalParticles++;
 }
 
@@ -112,7 +112,7 @@ void ParticleSystem::InstantiateParticles(int particles)
 	for (uint i = 0; i < particles; ++i)
 	{
 		emmitter.GetInitialValues(particleInfo.position, particleInfo.velocity, particleInfo.speed, particleInfo.globalTransform);
-		CreateParticle(particleInfo, startInfo, endInfo);
+		CreateParticle(particleInfo, endInfo);
 	}
 }
 

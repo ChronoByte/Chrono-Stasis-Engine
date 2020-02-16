@@ -52,7 +52,7 @@ class Particle
 
 public: 
 
-	Particle(ParticleSystem* owner, ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo);
+	Particle(ParticleSystem* owner, ParticleInfo info, ParticleMutableInfo endInfo);
 	~Particle();
 
 	void PreUpdate(float dt);

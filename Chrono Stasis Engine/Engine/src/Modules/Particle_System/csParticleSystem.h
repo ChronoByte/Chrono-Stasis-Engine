@@ -50,7 +50,7 @@ public:
 	bool Update(float dt);
 	bool PostUpdate(float dt);
 
-	void CreateParticle(ParticleInfo info, ParticleMutableInfo startInfo, ParticleMutableInfo endInfo);
+	void CreateParticle(ParticleInfo info, ParticleMutableInfo endInfo);
 	void InstantiateParticles(int particles);
 	void DrawParticles();
 	void DrawPointsForParticles();
